@@ -5,6 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
   'ionic',
+  'gaddum.player',
+  'groups' ,
   'momentjs', // ADDED used for dates
   'eventsjs'  // ADDED our events module
 ])
@@ -28,8 +30,9 @@ angular.module('starter', [
         StatusBar.styleDefault();
       }
       // ADDED START
-      $state.go("events_list");
+      console.log("I'M OFF!");
+      $state.go("groupslist");
       // ADDED END
 
     });
-  })
+  });

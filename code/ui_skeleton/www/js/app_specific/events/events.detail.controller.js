@@ -23,7 +23,7 @@
                 postcode : "no location"
             }
          });
-        
+
 
         vm.done = function(){
             $state.go('events_list');
