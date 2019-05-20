@@ -6,6 +6,7 @@
 angular.module('starter', [
   'ionic',
   'gaddum.player',
+  'gaddum.playermenu',
   'groups' ,
   'momentjs', // ADDED used for dates
   'eventsjs'  // ADDED our events module

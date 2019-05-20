@@ -11,13 +11,22 @@
   function gaddumStreamingService(
     $http
   ) {
-    var service = {};
+    var service = {
+      state: {
+        ready: false,
+        playing: false
+      },
+      song: {
+        title: "",
+        artist: ""
+      }
+    };
 
     service.init = function init() {
-      stream.ready = true;
-      stream.playing = false;
+      service.ready = true;
+      service.playing = false;
     };
-    
+
     service.init();
 
     return service;

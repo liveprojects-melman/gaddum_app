@@ -40,11 +40,13 @@
   <script src="js/modules/groups/groups.list.controller.js"></script>
   <script src="js/modules/persistent/gaddum.player/gaddum.player.module.js"></script>
   <script src="js/modules/persistent/gaddum.streaming/gaddum.streaming.service.js" ></script>
+  <script src="js/modules/persistent/gaddum.playermenu/gaddum.playermenu.module.js"></script>
 
   <!-- lodash, for stuff that angular left out. -->
+  <script src="lib/external/js/jquery/jquery.min.js"></script>
   <script src="lib/external/js/moment.min.js"></script>
   <script src="js/wrappers/format/moment.service.js"></script>
-
+  <script src="lib/external/js/angular-marquee/marquee.js"></script>
 
   <script src="js/app_specific/events/events.module.js"></script>
   <script src="js/app_specific/events/events.service.js"></script>
@@ -73,8 +75,9 @@
 
     </ion-view>
 
-    <ion-footer-bar class="bar bar-footer">
+    <ion-footer-bar class="bar bar-footer" style="height:8em;">
       <gaddum.player></gaddum.player>
+      <gaddum.playermenu></gaddum.playermenu>
     </ion-footer-bar>
 
   </body>

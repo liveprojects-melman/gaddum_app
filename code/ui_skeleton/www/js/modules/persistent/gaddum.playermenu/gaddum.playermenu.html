@@ -1,0 +1,41 @@
+<style>
+ #gaddum-player-menu {
+   background-color:lime;
+   display: block;
+   position: fixed;
+   left:8px;
+   right:8px;
+   clear:both;
+   bottom:2px;
+ }
+ #gaddum-player-menu>ul.flexbox {
+	 display: -webkit-flex;
+	 display: flex;
+	 -webkit-flex-flow: row nowrap;
+	 flex-flow: row nowrap;
+	 -webkit-justify-content: center;
+	 justify-content:center;
+   background-color:orange;
+ }
+
+ #gaddum-player-menu>ul>li.flex-item {
+	 -webkit-flex: 1 0 auto;
+	 flex: 1 0 auto;
+   background-color:red;
+   width:20px;height:20px;
+ }
+
+ #gaddum-player-menu>ul>li.flex-item>i.icon {
+   width:20px;
+   height:20px;
+   background-color:yellow;
+ }
+
+</style>
+<div id="gaddum-player-menu">
+  <ul id="gaddum-player-menu-items" class="flexbox" >
+    <li class="flex-item item"><i name="ion-share" class="icon ion-share" >share</i></li>
+    <li class="flex-item item"><i name="ion-navicon-round" class="icon ion-navicon-round" >menu</i></li>
+    <li class="flex-item item"><i name="ion-plus-round" class="icon ion-plus-round" >add</i></li>
+  </ul>
+</div>
