@@ -5,13 +5,26 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
   'ionic',
+//  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
-  'groups' ,
+  'main_ui',
+  'groups',
+  'messages',
   'momentjs', // ADDED used for dates
   'eventsjs'  // ADDED our events module
 ])
-
+/*  .directive('stopEvent', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attr) {
+        if(attr && attr.stopEvent)
+          element.bind(attr.stopEvent, function (e) {
+            e.stopPropagation();
+          });
+      }
+    };
+  })*/
   .run(function ($ionicPlatform, $state, $rootScope) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
@@ -32,7 +45,7 @@ angular.module('starter', [
       }
       // ADDED START
       console.log("I'M OFF!");
-      $state.go("groupslist");
+//      $state.go("home");
       // ADDED END
 
     });

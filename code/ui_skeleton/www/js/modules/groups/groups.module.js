@@ -4,15 +4,16 @@
   angular
     .module('groups', [
       'ui.router',
-      'ngAnimate'
+      'ngAnimate',
+      'ion-slide-box-tabs'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('groupslist', {
+        .state('groupsList', {
           cache: false,
-          url: '/groups',
-          templateUrl: '/js/modules/groups/groups.list.html',
-          controller: 'groupsListCtrl as vm'
+          url: '/main/groups',
+          //templateUrl: '/js/modules/groups/groups.list.html',
+          //controller: 'groupsListController as vm'
         });
     });
 })();

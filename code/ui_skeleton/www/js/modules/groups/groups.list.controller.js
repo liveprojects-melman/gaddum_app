@@ -3,19 +3,25 @@
 
   angular
     .module('groups')
-    .controller('groupsListCtrl', groupsListCtrl);
+    .controller('groupsListController', groupsListController);
 
-  groupsListCtrl.inject = [
+  groupsListController.$inject = [
     '$state',
-    '$stateParams'
+    '$stateParams',
+    '$ionicSlideBoxDelegate',
+    'groupsService',
   ];
 
-  function groupsListCtrl(
+  function groupsListController(
     $state,
-    $stateParams
+    $stateParams,
+    $ionicSlideBoxDelegate,
+    groupsService
   ) {
     var vm = angular.extend(this, {
 
     });
+
+    vm.groupsList = groupsService.groupsList;
   }
 })();

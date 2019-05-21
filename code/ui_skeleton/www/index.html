@@ -9,15 +9,16 @@
   <link rel="manifest" href="manifest.json">
 
   <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
+       <script>
+       if ('serviceWorker' in navigator) {
+       navigator.serviceWorker.register('service-worker.js')
+       .then(() => console.log('service worker installed'))
+       .catch(err => console.log('Error', err));
+       }
+       </script>-->
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -35,9 +36,15 @@
 
   <!-- ADDED START -->
 
+  <script src="js/modules/main_ui/main_ui.module.js"></script>
+  <script src="js/modules/main_ui/main_ui.controller.js"></script>
+
   <script src="js/modules/groups/groups.module.js"></script>
   <script src="js/modules/groups/groups.service.js"></script>
   <script src="js/modules/groups/groups.list.controller.js"></script>
+  <script src="js/modules/messages/messages.module.js"></script>
+  <script src="js/modules/messages/messages.service.js"></script>
+  <script src="js/modules/messages/messages.list.controller.js"></script>
   <script src="js/modules/persistent/gaddum.player/gaddum.player.module.js"></script>
   <script src="js/modules/persistent/gaddum.streaming/gaddum.streaming.service.js" ></script>
   <script src="js/modules/persistent/gaddum.playermenu/gaddum.playermenu.module.js"></script>
@@ -47,6 +54,7 @@
   <script src="lib/external/js/moment.min.js"></script>
   <script src="js/wrappers/format/moment.service.js"></script>
   <script src="lib/external/js/angular-marquee/marquee.js"></script>
+  <script src="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.js"></script>
 
   <script src="js/app_specific/events/events.module.js"></script>
   <script src="js/app_specific/events/events.service.js"></script>
@@ -65,15 +73,25 @@
     </ion-header-bar>
 
     <ion-nav-view>nav</ion-nav-view>
-    <ion-view>
-      <ion-content>
-        <div>
-          content
-        </div>
 
-      </ion-content>
-
-    </ion-view>
+    <ion-content id="main_wrapper" >
+      <ion-slide-box-tabs class="main_uiSliders_ui" on-slide-changed="$emit('slideChanged')" show-pager="true"  ng-controller="main_uiController">
+        <ion-slide-box active-slide="main_uiState" ng-init="lockSlide();">
+          <ion-slide slide-tab-label="Groups">
+            <div class="box">Groups</div>
+            <div ng-include="'js/modules/groups/groups.list.html'"></div>
+          </ion-slide>
+          <ion-slide slide-tab-label="Messages">
+            <div class="box">Messages</div>
+            <div ng-include="'js/modules/messages/messages.list.html'"></div>
+          </ion-slide>
+          <ion-slide slide-tab-label="Playlists">
+            <div class="box">Playlists</div>
+            <div ng-include="'js/modules/messages/playlists.list.html'"></div>
+          </ion-slide>
+        </ion-slide-box>
+      </ion-slide-box-tabs>
+    </ion-content>
 
     <ion-footer-bar class="bar bar-footer" style="height:8em;">
       <gaddum.player></gaddum.player>

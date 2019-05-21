@@ -1,5 +1,22 @@
-<ion-view>
+<div ng-controller="groupsListController as glc">
+  THIS IS GROUPS
+  <div id="groupsSearch">
 
-    <div>hello</div>
-
-</ion-view>
+  </div>
+  <div id="groupsList">
+    <ion-list class="list" stop-event="dragstart">
+      <ion-item ng-repeat="group in glc.groupsList" class="item item-avatar" can-swipe="true" class="item-remove-animate item item-complex">
+        <img src="">
+        <h2 >{{group.name}}</h2>
+        <ion-option-button class="item-minus-circled button-info button-assertive">
+          remove
+        </ion-option-button>
+        <ion-option-button class="button-info">
+          share
+        </ion-option-button>
+        <ion-option-button class="item- button-info">
+          edit
+        </ion-option-button>
+      </ion-item>
+  </ion-list>
+</div>
