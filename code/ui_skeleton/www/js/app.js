@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
   'ionic',
+  'ngTouch',
 //  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
@@ -14,17 +15,6 @@ angular.module('starter', [
   'momentjs', // ADDED used for dates
   'eventsjs'  // ADDED our events module
 ])
-/*  .directive('stopEvent', function () {
-    return {
-      restrict: 'A',
-      link: function (scope, element, attr) {
-        if(attr && attr.stopEvent)
-          element.bind(attr.stopEvent, function (e) {
-            e.stopPropagation();
-          });
-      }
-    };
-  })*/
   .run(function ($ionicPlatform, $state, $rootScope) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
