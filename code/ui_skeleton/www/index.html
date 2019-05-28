@@ -43,9 +43,35 @@
   <script src="js/modules/groups/groups.module.js"></script>
   <script src="js/modules/groups/groups.service.js"></script>
   <script src="js/modules/groups/groups.list.controller.js"></script>
+
+  <script src="js/modules/profile/profile.module.js"></script>
+  <script src="js/modules/profile/profile.service.js"></script>
+  <script src="js/modules/profile/profile.controller.js"></script>
+
+  <script src="js/modules/friends/friends.module.js"></script>
+  <script src="js/modules/friends/friends.service.js"></script>
+  <script src="js/modules/friends/friends.list.controller.js"></script>
+
   <script src="js/modules/messages/messages.module.js"></script>
   <script src="js/modules/messages/messages.service.js"></script>
   <script src="js/modules/messages/messages.list.controller.js"></script>
+
+  <script src="js/modules/playlists/playlists.module.js"></script>
+  <script src="js/modules/playlists/playlists.service.js"></script>
+  <script src="js/modules/playlists/playlists.list.controller.js"></script>
+
+  <script src="js/modules/gifts/gifts.module.js"></script>
+  <script src="js/modules/gifts/gifts.service.js"></script>
+  <script src="js/modules/gifts/gifts.list.controller.js"></script>
+
+  <script src="js/modules/browse/browse.module.js"></script>
+  <script src="js/modules/browse/browse.service.js"></script>
+  <script src="js/modules/browse/browse.list.controller.js"></script>
+
+  <script src="js/modules/mood/mood.module.js"></script>
+  <script src="js/modules/mood/mood.service.js"></script>
+  <script src="js/modules/mood/mood.controller.js"></script>
+
   <script src="js/modules/persistent/gaddum.player/gaddum.player.module.js"></script>
   <script src="js/modules/persistent/gaddum.streaming/gaddum.streaming.service.js" ></script>
   <script src="js/modules/persistent/gaddum.playermenu/gaddum.playermenu.module.js"></script>
@@ -77,20 +103,51 @@
     <ion-view>
       <ion-content id="main_wrapper" ng-controller="main_uiController">
 
-        <ion-slide-box active-slide="main_uiState" on-slide-changed="$emit('slideChanged')">
+        <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
+
+          <ion-slide slide-tab-label="Profile">
+            <div class="box">Profile
+              <div ng-include="'js/modules/profile/profile.html'"></div>
+            </div>
+          </ion-slide>
+
+          <ion-slide slide-tab-label="Friends">
+            <div class="box">Friends
+              <div ng-include="'js/modules/friends/friends.list.html'"></div>
+            </div>
+          </ion-slide>
+
           <ion-slide slide-tab-label="Groups">
             <div class="box">Groups
               <div ng-include="'js/modules/groups/groups.list.html'"></div>
             </div>
           </ion-slide>
+
           <ion-slide slide-tab-label="Messages">
             <div class="box">Messages</div>
             <div ng-include="'js/modules/messages/messages.list.html'"></div>
           </ion-slide>
+
           <ion-slide slide-tab-label="Playlists">
             <div class="box">Playlists</div>
-            <div ng-include="'js/modules/messages/playlists.list.html'"></div>
+            <div ng-include="'js/modules/playlists/playlists.list.html'"></div>
           </ion-slide>
+
+          <ion-slide slide-tab-label="Gifts">
+            <div class="box">Gifts</div>
+            <div ng-include="'js/modules/gifts/gifts.list.html'"></div>
+          </ion-slide>
+
+          <ion-slide slide-tab-label="Browse">
+            <div class="box">Browse</div>
+            <div ng-include="'js/modules/browse/browse.list.html'"></div>
+          </ion-slide>
+
+          <ion-slide slide-tab-label="Mood">
+            <div class="box">Mood</div>
+            <div ng-include="'js/modules/mood/mood.html'"></div>
+          </ion-slide>
+
         </ion-slide-box>
 
       </ion-content>

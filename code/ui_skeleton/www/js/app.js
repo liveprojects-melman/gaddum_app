@@ -10,8 +10,14 @@ angular.module('starter', [
   'gaddum.player',
   'gaddum.playermenu',
   'main_ui',
+  'profile',
   'groups',
+  'friends',
   'messages',
+  'playlists',
+  'gifts',
+  'browse',
+  'mood',
   'momentjs', // ADDED used for dates
   'eventsjs'  // ADDED our events module
 ])

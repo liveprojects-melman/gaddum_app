@@ -2,15 +2,16 @@
   'use strict';
 
   angular
-    .module('groups', [
+    .module('playlists', [
       'ui.router',
       'ngAnimate',
+      'ion-slide-box-tabs'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('groupsList', {
+        .state('playlistsList', {
           cache: false,
-          url: '/main/groups'
+          url: '/main/playlists'
         });
     });
 })();

@@ -1,20 +1,22 @@
 (function(){
-  'user strict';
+  'use strict';
 
   angular
-    .module('messages')
-    .controller('messagesListController', messagesListController);
+    .module('playlists')
+    .controller('playlistsListController', playlistsListController);
 
-  messagesListController.$inject = [
+  playlistsListController.$inject = [
     '$state',
     '$stateParams',
-    'messagesService'
+    '$ionicSlideBoxDelegate',
+    'playlistsService',
   ];
 
-  function messagesListController(
+  function playlistsListController(
     $state,
     $stateParams,
-    messagesService
+    $ionicSlideBoxDelegate,
+    playlistsService
   ) {
     var vm = angular.extend(this, {
 
@@ -29,7 +31,6 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
-    vm.messagesList = messagesService.messagesList;
+    vm.groupsList = playlistsService.playlistsList;
   }
-
 })();

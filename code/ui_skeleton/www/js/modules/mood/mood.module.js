@@ -2,15 +2,15 @@
   'use strict';
 
   angular
-    .module('groups', [
+    .module('mood', [
       'ui.router',
-      'ngAnimate',
+      'ngAnimate'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('groupsList', {
+        .state('mood', {
           cache: false,
-          url: '/main/groups'
+          url: '/main/mood'
         });
     });
 })();
