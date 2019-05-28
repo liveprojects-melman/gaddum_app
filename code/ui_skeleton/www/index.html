@@ -105,45 +105,45 @@
 
         <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
 
-          <ion-slide slide-tab-label="Profile">
+          <ion-slide slide-tab-label="Profile" data-state="profile">
             <div class="box">Profile
               <div ng-include="'js/modules/profile/profile.html'"></div>
             </div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Friends">
+          <ion-slide slide-tab-label="Friends" data-state="friends">
             <div class="box">Friends
               <div ng-include="'js/modules/friends/friends.list.html'"></div>
             </div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Groups">
+          <ion-slide slide-tab-label="Groups" data-state="groups">
             <div class="box">Groups
               <div ng-include="'js/modules/groups/groups.list.html'"></div>
             </div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Messages">
+          <ion-slide slide-tab-label="Messages" data-state="messages">
             <div class="box">Messages</div>
             <div ng-include="'js/modules/messages/messages.list.html'"></div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Playlists">
+          <ion-slide slide-tab-label="Playlists" data-state="playlists">
             <div class="box">Playlists</div>
             <div ng-include="'js/modules/playlists/playlists.list.html'"></div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Gifts">
+          <ion-slide slide-tab-label="Gifts" data-state="gifts">
             <div class="box">Gifts</div>
             <div ng-include="'js/modules/gifts/gifts.list.html'"></div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Browse">
+          <ion-slide slide-tab-label="Browse" data-state="browse">
             <div class="box">Browse</div>
             <div ng-include="'js/modules/browse/browse.list.html'"></div>
           </ion-slide>
 
-          <ion-slide slide-tab-label="Mood">
+          <ion-slide slide-tab-label="Mood" data-state="mood">
             <div class="box">Mood</div>
             <div ng-include="'js/modules/mood/mood.html'"></div>
           </ion-slide>
@@ -153,7 +153,7 @@
       </ion-content>
     </ion-view>
 
-    <ion-footer-bar class="bar bar-footer" style="height:8em;">
+    <ion-footer-bar class="bar bar-footer" style="height:auto">
       <gaddum.player></gaddum.player>
       <gaddum.playermenu></gaddum.playermenu>
     </ion-footer-bar>

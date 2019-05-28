@@ -17,11 +17,17 @@ angular.module('starter', [
   'playlists',
   'gifts',
   'browse',
-  'mood',
-  'momentjs', // ADDED used for dates
-  'eventsjs'  // ADDED our events module
+  'mood'
+//  'momentjs', // ADDED used for dates
+//  'eventsjs'  // ADDED our events module
 ])
-  .run(function ($ionicPlatform, $state, $rootScope) {
+  .run(function ($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate) {
+    $rootScope.$on('slideChanged', function(a) {
+      console.log("slideChanged - ",a);
+      console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
+      var stateToGoTo = /*"/" +*/ $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
+      $state.transitionTo( stateToGoTo  ,{},{notify:false});
+    });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
     });
@@ -40,7 +46,6 @@ angular.module('starter', [
         StatusBar.styleDefault();
       }
       // ADDED START
-      console.log("I'M OFF!");
 //      $state.go("home");
       // ADDED END
 

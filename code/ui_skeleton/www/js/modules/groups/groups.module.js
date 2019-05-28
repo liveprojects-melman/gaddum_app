@@ -8,9 +8,13 @@
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
+        .state('groups', {
+          url: '/main/groups',
+          virtual: true,
+        })
         .state('groupsList', {
           cache: false,
-          url: '/main/groups'
+          url: '/main/groups/list'
         });
     });
 })();
