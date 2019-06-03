@@ -9,6 +9,7 @@ angular.module('starter', [
 //  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
+  'emotionReader',
   'main_ui',
   'profile',
   'groups',
