@@ -9,9 +9,10 @@
 
   function emotionReaderService() {
 
-    var nncPath = 'lib/external/js/jeeliz/jeelizFaceTransferNNC.json';
+    var nncPath = 'lib/external/js/jeeliz/';
 
     var service = {};
+
     service.EMOTIONS = {
       "0": {
         name:"HAPPY",
@@ -33,17 +34,20 @@
     var jft = JEEFACETRANSFERAPI;
 
     service.initialise = function initialise(w,h,videoSettings) {
-      if( emotionReaderService.isReady === false ) {
-        jft.set_size(w,h);
+      console.log("initialising!", service.isReady);
+      if( service.isReady === false ) {
+        jft.set_size( w,h );
         jft.set_audio( false );
-        jft.onWebcamAsk = emotionReaderService._onWebcamAskCallback(e);
-        jft.onWebcamGet = emotionReaderService._onWebcamGet(e);
-        jft.onContextLost = emotionReaderService._onContentLost(e);
+        jft.onWebcamAsk = service._onWebcamAskCallback;
+        jft.onWebcamGet = service._onWebcamGet;
+        jft.onContextLost = service._onContentLost;
 
         angular.merge( videoSettings, {
-          NNCPath: nncPath,
+          NNCpath: nncPath,
           callbackReady: service._callbackReady,
         });
+
+        console.log("starting jft with these video params",videoSettings);
 
         jft.init( videoSettings );
       }
