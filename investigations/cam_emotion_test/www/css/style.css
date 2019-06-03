@@ -9,3 +9,13 @@ div.box {
   display:block;
   background-color:silver;
 }
+
+.greenBackground{
+  background-color: green;
+}
+.redBackground{
+  background-color: red;
+}
+.blueBackground{
+  background-color: blue;
+}

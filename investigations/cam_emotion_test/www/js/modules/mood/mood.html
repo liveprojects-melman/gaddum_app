@@ -1,6 +1,21 @@
 <div ng-controller="moodController as mc">
   THIS IS mood
   <div id="mood">
-    <emotion-reader-feedback></emotion-reader-feedback>
+    <!-- <emotion-reader-feedback></emotion-reader-feedback> -->
+    <div id="mood">
+      <div class="row">
+      <div class="col greenBackground"> <emotion-reader-feedback></emotion-reader-feedback> 
+      </div>
+      </div>
+      <div class="row">
+      <div class="col blueBackground">
+      <emotion-reader-result-feedback></emotion-reader-result-feedback>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col redBackground">
+      <emotion-reader-camera-state></emotion-reader-camera-state>
+      </div>
+    </div>
   </div>
 </div>
