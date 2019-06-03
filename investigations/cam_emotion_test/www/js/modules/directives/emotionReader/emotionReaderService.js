@@ -65,15 +65,17 @@
 
     service._callbackReady = function _callbackReady(e) {
       console.log("emotionReaderService - callbackReady - ",e);
-      if( e === false ) {
+      if( ( e === false ) || ( e === undefined) ) {
+        console.log("WE ARE OFF");
         service.isReady = true;
-        jft.on_detect = service.onDetect;
+        jft.on_detect(service.onDetect);
       } else {
         console.log("emotionReaderService._callbackReady - error starting, ",e);
       }
     };
 
     service.onDetect = function onDetect(detected) {
+      console.log("detected = ",detected);
       service.face.detected = detected;
     };
 
