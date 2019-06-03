@@ -23,8 +23,8 @@
       }
     };
     service.face = {
-      detected: false;
-    }
+      detected: false
+    };
 
     service.isReady = false;
     service.isRunning = false;

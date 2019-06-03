@@ -95,8 +95,8 @@
 <!-- DIRECTIVES AND USEFUL THINGS FOR JEELIZ -->
 
   <script src="lib/external/js/jeeliz/jeelizFaceTransfer.js"></script>
-  <script src="js/modules/directives/emotionReader/emotionReadererService.js" ></script>
-  <script src="js/modules/directives/emotionReader/emotionReadererDirectives.js" ></script>
+  <script src="js/modules/directives/emotionReader/emotionReaderService.js" ></script>
+  <script src="js/modules/directives/emotionReader/emotionReaderDirectives.js" ></script>
 <!-- END OF JEELIZ SPECIFICS -->
 
   </head>
@@ -111,7 +111,7 @@
     <ion-view>
       <ion-content id="main_wrapper" ng-controller="main_uiController">
 
-        <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
+        <!-- <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
 
           <ion-slide slide-tab-label="Profile" data-state="profile">
             <div class="box">Profile
@@ -149,7 +149,7 @@
           <ion-slide slide-tab-label="Browse" data-state="browse">
             <div class="box">Browse</div>
             <div ng-include="'js/modules/browse/browse.list.html'"></div>
-          </ion-slide>
+          </ion-slide> -->
 
           <ion-slide slide-tab-label="Mood" data-state="mood">
             <div class="box">Mood</div>
