@@ -4,7 +4,8 @@
   angular.module('main_ui', [
     'ui.router',
     'ngAnimate',
-    'ionic'//,
+    'ionic',
+    'emotionReader' //,
 //    'ion-slide-box-tabs'
   ])
     .config(function( $stateProvider, $urlRouterProvider) {

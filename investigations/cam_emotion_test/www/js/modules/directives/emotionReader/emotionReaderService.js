@@ -9,7 +9,7 @@
 
   function emotionReaderService() {
 
-    const nncPath = 'lib/external/js/jeeliz/jeelizFaceTransferNNC.json';
+    var nncPath = 'lib/external/js/jeeliz/jeelizFaceTransferNNC.json';
 
     var service = {};
     service.EMOTIONS = {

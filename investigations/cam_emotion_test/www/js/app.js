@@ -6,7 +6,6 @@
 angular.module('starter', [
   'ionic',
   'ngTouch',
-//  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
   'emotionReader',

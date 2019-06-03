@@ -9,7 +9,7 @@
     '$state',
     '$stateParams',
     '$ionicSlideBoxDelegate',
-    'moodService',
+    'moodService'
   ];
 
   function moodController(

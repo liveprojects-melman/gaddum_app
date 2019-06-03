@@ -2,54 +2,54 @@
   'use strict';
 
   angular
-    .module('emotionReader', [])
+    .module('emotionReader')
     .directive('emotionReaderFeedback', emotionReaderFeedback)
-    .directive('emotionReaderCameraMarker', emotionReaderCameraMarker)
+    .directive('emotionReaderCameraState', emotionReaderCameraState)
     .directive('emotionReaderResultFeedback', emotionReaderResultMenu);
 
-  function emotionReaderFeedback(emotionReaderService) {
+  emotionReaderFeedback.$inject = [ 'emotionReaderService' ];
+
+  function emotionReaderFeedback( emotionReaderService ) {
+    console.log("ERS=",emotionReaderService);
     return{
-      restrict: 'A',
-      scope: true,
-      compile: function(tElement, tAttrs) {
-        if(tElement.children().length === 0) {
-          tElement.append('<canvas id="emotionReaderFeedback"></div>');
+      restrict: 'E',
+      scope: {},
+      link: //function(scope, tElement, tAttrs) {
+        //if(tElement.children().length === 0) {
+        //  tElement.append('<canvas id="emotionReaderFeedback"></div>');
+        //}
+        //return {
+      /*  post:*/ function(scope, element, attrs) {
+
+        element.append('<canvas id="emotionReaderFeedback"></div>');
+
+        const elementHandle = 'emotionReaderFeedback';
+        var $element = $(element);
+        var $canvas = $element.find('canvas#'+elementHandle);
+
+        var canvasWidth = parseInt( $canvas.width() );
+        var canvasHeight = parseInt( $canvas.height() );
+
+        if( emotionReaderService.isReady === false ) {
+          emotionReaderService.initialise( canvasWidth, canvasHeight,
+                                           {
+                                             canvasId: elementHandle,
+                                             videoSettings: {
+                                               // not overriding defaults
+                                             }
+                                           });
         }
-        return {
-          post: function(scope, element, attrs) {
-            const elementHandle = 'emotionReaderFeedback';
-            var $element = $(element);
-            var $canvas = $element.find('canvas#'+elementHandle);
 
-            var canvasWidth = parseInt( $canvas.width() );
-            var canvasHeight = parseInt( $canvas.height() );
-
-            var callbackReady = function callbackReady(e) {
-              console.log("emotionReaderFeedback - callbackReady - ",e);
-            };
-
-            if( emotionReaderService.isReady === false ) {
-              emotionReaderService.initialise( canvashWidth, canvasHeight,
-                                               {
-                                                 canvasId: elementHandle,
-                                                 NNCPath: '',
-                                                 callbackReady: callbackReady,
-                                                 videoSettings: {
-                                                   // not overriding defaults
-                                                 }
-                                               });
-            }
-
-            scope.$watch( function(x) {
-              // start();
-            });
-          }
-        };
+        scope.$watch( function(x) {
+          // start();
+        });
+//          }
+//        };
       }
     };
   }
 
-  function emotionReaderCameraMarker() {
+  function emotionReaderCameraState() {
     return{
       restrict: 'A',
       scope: true,
