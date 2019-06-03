@@ -7,7 +7,7 @@
     .directive('emotionReaderCameraMarker', emotionReaderCameraMarker)
     .directive('emotionReaderResultFeedback', emotionReaderResultMenu);
 
-  function emotionReaderFeedback() {
+  function emotionReaderFeedback(emotionReaderService) {
     return{
       restrict: 'A',
       scope: true,
@@ -16,8 +16,29 @@
           tElement.append('<canvas id="emotionReaderFeedback"></div>');
         }
         return {
-          post: function(scope, element, attrd) {
+          post: function(scope, element, attrs) {
+            const elementHandle = 'emotionReaderFeedback';
             var $element = $(element);
+            var $canvas = $element.find('canvas#'+elementHandle);
+
+            var canvasWidth = parseInt( $canvas.width() );
+            var canvasHeight = parseInt( $canvas.height() );
+
+            var callbackReady = function callbackReady(e) {
+              console.log("emotionReaderFeedback - callbackReady - ",e);
+            };
+
+            if( emotionReaderService.isReady === false ) {
+              emotionReaderService.initialise( canvashWidth, canvasHeight,
+                                               {
+                                                 canvasId: elementHandle,
+                                                 NNCPath: '',
+                                                 callbackReady: callbackReady,
+                                                 videoSettings: {
+                                                   // not overriding defaults
+                                                 }
+                                               });
+            }
 
             scope.$watch( function(x) {
               // start();
