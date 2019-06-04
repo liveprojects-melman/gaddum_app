@@ -1,14 +1,7 @@
- <div>
- <span class="oneoenoeone" ng-model="scope">
- <h2> run {{running}} detec2= {{detected.detected}}</h2>
- <h2 ng-show=detected.detected>👀</h2>
- </span>
-
-<div id="moodCameraState" ng-model="scope">
-  <span ng-show="running">📷</span>
-  <span ng-show="running===true && detected.detected!=true">📸</span>
-  <span ng-show="running===true && detected.detected===true">👍</span>
-
-</div>
-
+<div>
+  <div id="moodCameraState" ng-model="scope">
+    <span ng-show="running.isRunning===false">📷</span>
+    <span ng-show="running.isRunning===true && face.detected!=true">📸</span>
+    <span ng-show="running.isRunning===true && face.detected===true">👍</span>
+  </div>
 </div>

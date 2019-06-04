@@ -4,7 +4,7 @@
   angular
     .module('mood')
     .controller('moodController', moodController);
-     
+
   moodController.$inject = [
     '$state',
     '$stateParams',
@@ -26,9 +26,10 @@
     var mc = angular.extend(this, {
 
       face: emotionReaderService.face,
-      //test=false
+
+      recognisedEmojiExpression: moodService.EMOTIONS[
+        emotionReaderService.recognisedState
+      ].emoji
     });
-
-
   }
 })();

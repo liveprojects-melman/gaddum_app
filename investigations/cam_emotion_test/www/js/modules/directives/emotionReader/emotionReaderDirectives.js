@@ -45,26 +45,19 @@
   emotionReaderCameraState.$inject = [ 'moodService','emotionReaderService' ];
 
   function emotionReaderCameraState(moodService,emotionReaderService) {
-    console.log("go");
-    console.log("faceD",emotionReaderService.face.detected);
-    console.log("running",moodService);
-    var dd=false;
-
     return{
       restrict: 'E',
       scope: { },
       replace: true,
       templateUrl: 'js/modules/directives/emotionReader/partials/emotionReaderCameraState.html',
       link: function(scope, element, attrs) {
-        //scope.running = moodService.isRunning;//wrong service?
-        scope.running = emotionReaderService.isReady;//wrong service?
-        //scope.running=true;
-        /* scope.detected = emotionReaderService.face.detected; */
-        scope.detected=emotionReaderService.face;
-        /* scope.detected=dd; */
-        scope.test=true;
-        //console.log("aaaaa\"ss\"aaaaaa")
+        scope.running = emotionReaderService;
+        scope.face = emotionReaderService.face;
 
+
+        var x = setInterval(
+          function(){console.log("running, face = ",scope.running,scope.face);},
+          1000 );
       }
 
 

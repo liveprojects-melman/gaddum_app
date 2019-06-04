@@ -24,6 +24,8 @@
     service.recognitionInterval = undefined;
     service.recognitionIntervalMS = 1000; // MS between recognition attempts
 
+    service.recognisedState = "-";
+
     var jft = JEEFACETRANSFERAPI;
 
     service.initialise = function initialise(w,h,videoSettings) {
@@ -49,21 +51,26 @@
     service.setSleep = function setSleep(newState) {
       jft.switch_sleep(Boolean(newState));
       service.isRunning = Boolean(newState);
+      $rootScope.$apply('true===false');
     };
 
     service._onWebcamAskCallback = function _onWebcamAskCallback(e) {
       console.log("onWebcamAskCallback - ",e);
+      $rootScope.$apply('true');
     };
     service._onWebcamGetCallback = function _onWebcamGetCallback(e) {
       console.log("onWebcamGetCallback - ",e);
+      $rootScope.$apply('true');
     };
     service._onContextLostCallback = function _onContentLostCallback(e) {
       console.log("onContentLostCallback - ",e);
+      $rootScope.$apply('true');
     };
 
     service._callbackReady = function _callbackReady(e) {
       console.log("emotionReaderService - callbackReady - ",e);
       service.isReady = true;
+      service.isRunning = true;
       if( ( e === false ) || ( e === undefined) ) {
         console.log("WE ARE OFF");
         service.isRunning = true;
@@ -71,6 +78,7 @@
       } else {
         console.log("emotionReaderService._callbackReady - error starting, ",e);
       }
+      $rootScope.$apply('true===false');
     };
 
     service.startRecogniserInterval = function startRecogniserInterval() {
@@ -86,6 +94,7 @@
     };
 
     service.doRecognition = function doRecognition() {
+      return;
       console.log( "get_nMorphs: ",jft.get_nMorphs() );
       console.log( "get_morphTargetInfluencesStabilized: ", jft.get_morphTargetInfluencesStabilized() );
     };
