@@ -52,13 +52,23 @@
     };
   }
 
-  function emotionReaderResultMenu() {
+  emotionReaderFeedback.$inject = [ 'moodService' ];
+
+  function emotionReaderResultMenu(moodService) {
     return{
       restrict: 'E',
-      scope: {},
+      replace: true,
+      scope: {
+        emotionChosen: '=',
+        currentEmotion: '='
+      },
       templateUrl: 'js/modules/directives/emotionReader/partials/emotionReaderResultMenu.html',
       link: function(scope, element, attrs) {
-        
+        scope.emotions = moodService.EMOTIONS;
+        if(moodService.emotionChosen===true) {
+          scope.emotionChosen = moodService.emotionChosen;
+          scope.currentEmotion = moodService.currentEmotion;
+        }
       }
     };
   }

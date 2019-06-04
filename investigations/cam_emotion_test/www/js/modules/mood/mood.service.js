@@ -13,6 +13,8 @@
     $http
   ) {
     var service={
+      emotionChosen: false,
+      currentEmotion: undefined,
       EMOTIONS:{
         "0": {
           name:"Physical",
