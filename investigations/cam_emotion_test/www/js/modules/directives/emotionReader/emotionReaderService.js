@@ -5,9 +5,9 @@
     .module('emotionReader', [])
     .factory('emotionReaderService', emotionReaderService);
 
-  emotionReaderService.$inject = ['$rootScope'];
+  emotionReaderService.$inject = ['$rootScope', '$interval' ];
 
-  function emotionReaderService($rootScope) {
+  function emotionReaderService( $rootScope, $interval ) {
 
     var nncPath = 'lib/external/js/jeeliz/';
 
@@ -20,6 +20,9 @@
     service.isReady = false;
     service.isRunning = false;
     service.isSleeping = false;
+
+    service.recognitionInterval = undefined;
+    service.recognitionIntervalMS = 1000; // MS between recognition attempts
 
     var jft = JEEFACETRANSFERAPI;
 
@@ -43,6 +46,11 @@
       }
     };
 
+    service.setSleep = function setSleep(newState) {
+      jft.switch_sleep(Boolean(newState));
+      service.isRunning = Boolean(newState);
+    };
+
     service._onWebcamAskCallback = function _onWebcamAskCallback(e) {
       console.log("onWebcamAskCallback - ",e);
     };
@@ -55,19 +63,44 @@
 
     service._callbackReady = function _callbackReady(e) {
       console.log("emotionReaderService - callbackReady - ",e);
+      service.isReady = true;
       if( ( e === false ) || ( e === undefined) ) {
         console.log("WE ARE OFF");
-        service.isReady = true;
+        service.isRunning = true;
         jft.on_detect(service.onDetect);
       } else {
         console.log("emotionReaderService._callbackReady - error starting, ",e);
       }
     };
 
+    service.startRecogniserInterval = function startRecogniserInterval() {
+      if( angular.isDefined( service.recognitionInterval ) ) {
+        service.stopRecogniserInterval();
+      }
+      service.recognitionInterval = $interval( service.doRecognition, service.recognitionIntervalMS );
+    };
+
+    service.stopRecogniserInterval = function stopRecogniserInterval() {
+      $interval.cancel( service.recognitionInterval );
+      service.recognitionInterval = undefined;
+    };
+
+    service.doRecognition = function doRecognition() {
+      console.log( "get_nMorphs: ",jft.get_nMorphs() );
+      console.log( "get_morphTargetInfluencesStabilized: ", jft.get_morphTargetInfluencesStabilized() );
+    };
+
     service.onDetect = function onDetect(detected) {
       var olddetected = service.face.detected;
       service.face.detected = detected;
       $rootScope.$apply('detected===olddetected');
+
+      if(detected===true) {
+        service.startRecogniserInterval();
+//        jft.get_morphUpdateCallback
+      } else {
+        service.stopRecogniserInterval();
+      }
     };
 
     return service;
