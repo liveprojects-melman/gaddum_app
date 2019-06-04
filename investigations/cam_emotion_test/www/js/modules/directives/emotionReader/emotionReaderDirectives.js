@@ -10,16 +10,10 @@
   emotionReaderFeedback.$inject = [ 'emotionReaderService' ];
 
   function emotionReaderFeedback( emotionReaderService ) {
-    console.log("ERS=",emotionReaderService);
     return{
       restrict: 'E',
       scope: {},
-      link: //function(scope, tElement, tAttrs) {
-        //if(tElement.children().length === 0) {
-        //  tElement.append('<canvas id="emotionReaderFeedback"></div>');
-        //}
-        //return {
-      /*  post:*/ function(scope, element, attrs) {
+      link: function(scope, element, attrs) {
 
         element.append('<canvas id="emotionReaderFeedback"></div>');
 
@@ -41,17 +35,15 @@
         }
 
         scope.$watch( function(x) {
-          // start();
+
         });
-//          }
-//        };
       }
     };
   }
 
   function emotionReaderCameraState() {
     return{
-      restrict: 'A',
+      restrict: 'E',
       scope: true,
       compile: function(tElement, tAttrs) {
 
@@ -62,11 +54,11 @@
 
   function emotionReaderResultMenu() {
     return{
-      restrict: 'A',
-      scope: true,
-      compile: function(tElement, tAttrs) {
-
-
+      restrict: 'E',
+      scope: {},
+      templateUrl: 'js/modules/directives/emotionReader/partials/emotionReaderResultMenu.html',
+      link: function(scope, element, attrs) {
+        
       }
     };
   }
