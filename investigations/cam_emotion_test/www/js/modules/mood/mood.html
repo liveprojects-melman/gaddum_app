@@ -3,9 +3,18 @@
   <div id="mood">
     <!-- <emotion-reader-feedback></emotion-reader-feedback> -->
     <div id="mood">
+      <div>{{mc.face}} {{mc.face.detected}}</div>
+      <div ng-show="mc.test">{{mc.test}} </div>
+      <div ng-show="mc.test===false">{{mc.test}} </div>
       <div class="row">
-      <div class="col greenBackground"> <emotion-reader-feedback></emotion-reader-feedback> 
-      </div>
+        <div class="col greenBackground" ng-show="mc.face.detected===false"> 
+          <emotion-reader-feedback></emotion-reader-feedback>
+          <p>{{mc.face}}</p>
+          <p>{{mc.face.detected}}</p>
+        </div> 
+        <div class="col greenBackground" ng-show="mc.face.detected"> 
+          <p>ICU</p>
+        </div>
       </div>
       <div class="row">
       <div class="col blueBackground">
@@ -19,3 +28,5 @@
     </div>
   </div>
 </div>
+<div ng-show="mc.test">{{mc.test}} </div>
+<div ng-show="mc.test===false">{{mc.test}} </div>

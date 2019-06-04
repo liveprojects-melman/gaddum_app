@@ -77,6 +77,7 @@
     service.onDetect = function onDetect(detected) {
       console.log("detected = ",detected);
       service.face.detected = detected;
+    
     };
 
     return service;

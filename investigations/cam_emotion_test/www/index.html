@@ -109,7 +109,7 @@
 
     <ion-nav-view>nav</ion-nav-view>
     <ion-view>
-      <ion-content id="main_wrapper" ng-controller="main_uiController">
+      <ion-content id="main_wrapper" x-ng-controller="main_uiController">
 
         <!-- <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
 
@@ -151,20 +151,20 @@
             <div ng-include="'js/modules/browse/browse.list.html'"></div>
           </ion-slide> -->
 
-          <ion-slide slide-tab-label="Mood" data-state="mood">
+          <!-- <ion-slide slide-tab-label="Mood" data-state="mood"> -->
             <div class="box">Mood</div>
             <div ng-include="'js/modules/mood/mood.html'"></div>
-          </ion-slide>
+          <!-- </ion-slide> -->
 
-        </ion-slide-box>
+        <!-- </ion-slide-box> -->
 
       </ion-content>
     </ion-view>
 
-    <ion-footer-bar class="bar bar-footer" style="height:auto">
+<!--     <ion-footer-bar class="bar bar-footer" style="height:auto">
       <gaddum.player></gaddum.player>
       <gaddum.playermenu></gaddum.playermenu>
-    </ion-footer-bar>
+    </ion-footer-bar> -->
 
   </body>
 
