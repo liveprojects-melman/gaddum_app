@@ -52,7 +52,7 @@
     };
   }
 
-  emotionReaderFeedback.$inject = [ 'moodService' ];
+  emotionReaderResultMenu.$inject = [ 'moodService' ];
 
   function emotionReaderResultMenu(moodService) {
     return{
@@ -69,6 +69,7 @@
           scope.emotionChosen = moodService.emotionChosen;
           scope.currentEmotion = moodService.currentEmotion;
         }
+        console.log("MEENU HELLO", scope);
       }
     };
   }

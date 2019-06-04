@@ -16,29 +16,40 @@
       emotionChosen: false,
       currentEmotion: undefined,
       EMOTIONS:{
+        "-": {
+          name:"none",
+          emoji: "🌀",
+          value: undefined
+        },
         "0": {
           name:"Physical",
-          emoji: "⚡️"
+          emoji: "⚡️",
+          value: 0
         },
         "1": {
           name: "Tired",
-          emoji:"😴"
+          emoji:"😴",
+          value: 1
         },
         "2": {
           name: "Angry",
-          emoji:"😡"
+          emoji:"😡",
+          value: 2
         },
         "3": {
           name: "Peaceful",
-          emoji:"✌️"
+          emoji:"✌️",
+          value: 3,
         },
         "4": {
           name: "Focused",
-          emoji:"😤"
+          emoji:"😤",
+          value: 4
         },
         "5": {
           name: "Bored",
-          emoji:"🤤"
+          emoji:"🤤",
+          value: 5
         },
         "6": {
           name: "Happy",
@@ -53,7 +64,7 @@
           emoji:"🤪"
         },
         "9": {
-          name: "restful",
+          name: "Restful",
           emoji:"🛌"
         }
       }
