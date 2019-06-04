@@ -4,20 +4,20 @@
     <!-- <emotion-reader-feedback></emotion-reader-feedback> -->
     <div id="mood">
       <div class="row">
-        <div class="col greenBackground" ng-show="mc.face.detected===false"> 
-          <emotion-reader-feedback></emotion-reader-feedback>
+        <div class="col greenBackground centreAlign" ng-show="mc.face.detected===false"> 
+          <emotion-reader-feedback ></emotion-reader-feedback>
         </div> 
-        <div class="col greenBackground" ng-show="mc.face.detected"> 
+        <div class="col greenBackground centreAlign" ng-show="mc.face.detected"> 
           <p class="recognisedEmojiExpression">{{mc.recognisedEmojiExpression}}</p>
         </div>
       </div>
       <div class="row">
-      <div class="col blueBackground">
+      <div class="col blueBackground centreAlign">
       <emotion-reader-result-feedback></emotion-reader-result-feedback>
       </div>
       </div>
       <div class="row">
-      <div class="col redBackground">
+      <div class="col redBackground centreAlign">
       <emotion-reader-camera-state></emotion-reader-camera-state>
       </div>
     </div>
