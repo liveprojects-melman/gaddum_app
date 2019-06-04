@@ -41,14 +41,22 @@
     };
   }
 
-  function emotionReaderCameraState() {
+  emotionReaderCameraState.$inject = [ 'moodService' ];
+
+  function emotionReaderCameraState(moodService) {
     return{
       restrict: 'E',
-      scope: true,
-      compile: function(tElement, tAttrs) {
-
-
+      scope: {
+        running: "=",
+        detected: "="
+      },
+      replace: true,
+      templateUrl: 'js/modules/directives/emotionReader/partials/emotionReaderCameraState.html',
+      link: function(scope, element, attrs) {
+        scope.running = moodService.isRunning;
+        scope.detected = service.face.detected;
       }
+
     };
   }
 
