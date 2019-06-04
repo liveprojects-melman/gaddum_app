@@ -53,11 +53,6 @@
       link: function(scope, element, attrs) {
         scope.running = emotionReaderService;
         scope.face = emotionReaderService.face;
-
-
-        var x = setInterval(
-          function(){console.log("running, face = ",scope.running,scope.face);},
-          1000 );
       }
 
 
@@ -82,7 +77,6 @@
           scope.emotionChosen = moodService.emotionChosen;
           scope.currentEmotion = moodService.currentEmotion;
         }
-        console.log("MEENU HELLO", scope);
       }
     };
   }
