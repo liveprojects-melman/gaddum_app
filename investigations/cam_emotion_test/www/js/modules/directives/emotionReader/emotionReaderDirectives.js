@@ -8,6 +8,7 @@
     .directive('emotionReaderResultFeedback', emotionReaderResultMenu);
 
   emotionReaderFeedback.$inject = [ 'emotionReaderService' ];
+  
 
   function emotionReaderFeedback( emotionReaderService ) {
     return{
@@ -41,23 +42,35 @@
     };
   }
 
-  emotionReaderCameraState.$inject = [ 'moodService' ];
-
-  function emotionReaderCameraState(moodService) {
+  emotionReaderCameraState.$inject = [ 'moodService','emotionReaderService' ];
+  
+  function emotionReaderCameraState(moodService,emotionReaderService) {
+    console.log("go");
+    console.log("faceD",emotionReaderService.face.detected);
+    console.log("running",moodService);
+    var dd=false;
     return{
       restrict: 'E',
       scope: {
-        running: "=",
-        detected: "="
+        /* running: "=", */
+        /* detected: "", */
       },
       replace: true,
       templateUrl: 'js/modules/directives/emotionReader/partials/emotionReaderCameraState.html',
       link: function(scope, element, attrs) {
-        scope.running = moodService.isRunning;
-        scope.detected = service.face.detected;
+        //scope.running = moodService.isRunning;//wrong service?
+        scope.running = emotionReaderService.isReady;//wrong service?
+        //scope.running=true;
+        /* scope.detected = emotionReaderService.face.detected; */
+        scope.detected=emotionReaderService.face;
+        /* scope.detected=dd; */
+        scope.test=true;
+        //console.log("aaaaa\"ss\"aaaaaa")
       }
+      
 
     };
+    console.log("ss",scope);
   }
 
   emotionReaderResultMenu.$inject = [ 'moodService' ];

@@ -26,7 +26,7 @@
     var mc = angular.extend(this, {
 
       face: emotionReaderService.face,
-
+      //test=false
     });
 
 

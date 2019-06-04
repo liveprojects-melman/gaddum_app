@@ -53,19 +53,23 @@
         },
         "6": {
           name: "Happy",
-          emoji:"😁"
+          emoji:"😁",
+          value: 6
         },
         "7": {
           name: "Sad",
-          emoji:"☹️"
+          emoji:"☹️",
+          value: 7
         },
         "8": {
           name: "Crazy",
-          emoji:"🤪"
+          emoji:"🤪",
+          value: 8
         },
         "9": {
           name: "Restful",
-          emoji:"🛌"
+          emoji:"🛌",
+          value: 9
         }
       }
     };
