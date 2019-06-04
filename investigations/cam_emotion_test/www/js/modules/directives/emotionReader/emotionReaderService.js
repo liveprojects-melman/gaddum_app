@@ -5,9 +5,9 @@
     .module('emotionReader', [])
     .factory('emotionReaderService', emotionReaderService);
 
-  emotionReaderService.$inject = [];
+  emotionReaderService.$inject = ['$rootScope'];
 
-  function emotionReaderService() {
+  function emotionReaderService($rootScope) {
 
     var nncPath = 'lib/external/js/jeeliz/';
 
@@ -75,9 +75,9 @@
     };
 
     service.onDetect = function onDetect(detected) {
-      console.log("detected = ",detected);
+      var olddetected = service.face.detected;
       service.face.detected = detected;
-    
+      $rootScope.$apply('detected===olddetected');
     };
 
     return service;
