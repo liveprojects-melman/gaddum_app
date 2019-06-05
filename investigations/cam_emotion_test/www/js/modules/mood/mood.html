@@ -3,14 +3,16 @@
   <div id="mood">
     <!-- <emotion-reader-feedback></emotion-reader-feedback> -->
     <div id="mood">
-      <div class="row">
+      <div class="row canvasContainer">
         <div class="col greenBackground centreAlign" ng-show="mc.face.detected===false"> 
           <emotion-reader-feedback ></emotion-reader-feedback>
         </div> 
         <div class="col greenBackground centreAlign" ng-show="mc.face.detected"> 
           <p class="recognisedEmojiExpression">{{mc.recognisedEmojiExpression}}</p>
         </div>
+        <!-- <div class="spacer"></div> --> 
       </div>
+      <div class="spacer"></div>
       <div class="row">
       <div class="col blueBackground centreAlign">
       <emotion-reader-result-feedback></emotion-reader-result-feedback>
