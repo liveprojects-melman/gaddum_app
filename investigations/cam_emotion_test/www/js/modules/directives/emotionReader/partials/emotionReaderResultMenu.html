@@ -1,4 +1,6 @@
-<select  ng-model="scope" ng-change="" id="moodMenu" class="moodSelector">
-  <option ng-repeat="(k,v) in emotions" ng-selected="{{ v.value === emotionChosen }}" selected=""  
+<div>
+  <select  ng-model="scope" ng-change="" id="moodMenu" class="moodSelector">
+    <option ng-repeat="(k,v) in emotions" ng-selected="{{ v.value === emotionChosen }}" selected=""
     value="{{ v.k }}">{{ v.name }}</option>
-</select>
+  </select>
+<div>

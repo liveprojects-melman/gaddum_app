@@ -20,6 +20,7 @@
     service.isReady = false;
     service.isRunning = false;
     service.isSleeping = false;
+    service.cameraError = false;
 
     service.recognitionInterval = undefined;
     service.recognitionIntervalMS = 1000; // MS between recognition attempts
@@ -68,15 +69,15 @@
     };
 
     service._callbackReady = function _callbackReady(e) {
-      console.log("emotionReaderService - callbackReady - ",e);
       service.isReady = true;
       service.isRunning = true;
       if( ( e === false ) || ( e === undefined) ) {
-        console.log("WE ARE OFF");
         service.isRunning = true;
         jft.on_detect(service.onDetect);
       } else {
         console.log("emotionReaderService._callbackReady - error starting, ",e);
+        service.isRunning = service.isReady = false;
+        service.cameraError = true;
       }
       $rootScope.$apply('true===false');
     };

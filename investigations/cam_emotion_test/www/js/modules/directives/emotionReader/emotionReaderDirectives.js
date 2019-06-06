@@ -53,11 +53,11 @@
       link: function(scope, element, attrs) {
         scope.running = emotionReaderService;
         scope.face = emotionReaderService.face;
+        if(scope.cameraError===true) {
+          alert("camera error");
+        }
       }
-
-
     };
-    console.log("ss",scope);
   }
 
   emotionReaderResultMenu.$inject = [ 'moodService' ];
