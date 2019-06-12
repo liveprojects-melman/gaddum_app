@@ -2,7 +2,9 @@
     "name": "little_list",
     "version": "0.0.1",
     "description": "An Ionic project",
-    "devDependencies": {},
+    "devDependencies": {
+        "@ionic/v1-toolkit": "1.0.22"
+    },
     "dependencies": {
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-splashscreen": "^4.0.3",
