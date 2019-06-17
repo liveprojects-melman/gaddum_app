@@ -35,6 +35,8 @@
                                            });
         }
 
+        console.log("ATTRS:",attrs);
+
         scope.$watch( function(x) {
 
         });

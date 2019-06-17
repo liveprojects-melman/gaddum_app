@@ -21,7 +21,7 @@ angular.module('starter', [
 //  'momentjs', // ADDED used for dates
 //  'eventsjs'  // ADDED our events module
 ])
-  .run(function ($ionicPlatform, $state,$timeout , $rootScope, $ionicSlideBoxDelegate) {
+  .run(['$ionicPlatform','$state','$timeout','$rootScope','$ionicSlideBoxDelegate',function ($ionicPlatform, $state,$timeout , $rootScope, $ionicSlideBoxDelegate) {
     $rootScope.$on('slideChanged', function(a) {
       console.log("slideChanged - ",a);
       console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
@@ -40,7 +40,7 @@ angular.module('starter', [
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
     });
-    $ionicPlatform.ready(function () {
+    $ionicPlatform.ready(function ($state) {
       if (window.cordova && window.cordova.plugins.Keyboard) {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -55,8 +55,8 @@ angular.module('starter', [
         StatusBar.styleDefault();
       }
       // ADDED START
-      $state.go("groups");
+      $state.go("mood");
       // ADDED END
 
     });
-  });
+  }]);

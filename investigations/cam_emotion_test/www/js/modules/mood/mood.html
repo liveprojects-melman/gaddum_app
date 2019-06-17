@@ -2,7 +2,7 @@
   <!-- face video or emoji -->
   <div class="face centreAlign row animate">
     <div ng-show="mc.face.detected===false"> 
-      <emotion-reader-feedback ></emotion-reader-feedback>
+      <emotion-reader-feedback autostart="true"></emotion-reader-feedback>
     </div> 
     <div ng-show="mc.face.detected animate">
       <p class="recognisedEmojiExpression">{{mc.recognisedEmojiExpression}}</p>
