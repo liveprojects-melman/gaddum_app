@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('playlists')
+    .module('gaddum.playlists')
     .controller('playlistsListController', playlistsListController);
 
   playlistsListController.$inject = [

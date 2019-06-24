@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('groups')
+    .module('gaddum.groups')
     .controller('groupsListController', groupsListController);
 
   groupsListController.$inject = [

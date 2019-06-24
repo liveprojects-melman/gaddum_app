@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('profile', [
+  angular.module('gaddum.profile', [
     'ui.router',
     'ngAnimate'
   ])

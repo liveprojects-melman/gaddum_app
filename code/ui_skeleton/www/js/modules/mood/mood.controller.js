@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('mood')
+    .module('gaddum.mood')
     .controller('moodController', moodController);
 
   moodController.$inject = [

@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('playlists', [
+    .module('gaddum.playlists', [
       'ui.router',
-      'ngAnimate',
-      'ion-slide-box-tabs'
+      'ngAnimate'/*,
+      'ion-slide-box-tabs'*/
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider

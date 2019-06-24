@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('profile', [])
+    .module('gaddum.profile', [])
     .factory('profileService', profileService)
   ;
 

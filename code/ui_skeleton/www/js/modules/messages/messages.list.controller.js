@@ -2,7 +2,7 @@
   'user strict';
 
   angular
-    .module('messages')
+    .module('gaddum.messages')
     .controller('messagesListController', messagesListController);
 
   messagesListController.$inject = [

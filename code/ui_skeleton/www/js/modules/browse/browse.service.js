@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('browse', [])
+    .module('gaddum.browse', [])
     .factory('browseService', browseService)
   ;
 

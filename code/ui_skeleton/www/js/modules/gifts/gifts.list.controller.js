@@ -2,7 +2,7 @@
   'user strict';
 
   angular
-    .module('gifts')
+    .module('gaddum.gifts')
     .controller('giftsListController', giftsListController);
 
   giftsListController.$inject = [

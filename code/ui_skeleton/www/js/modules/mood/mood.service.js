@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('mood', [])
+    .module('gaddum.mood', [])
     .factory('moodService', moodService)
   ;
 

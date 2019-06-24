@@ -3,21 +3,21 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', [
+angular.module('gaddum', [
   'ionic',
   'ngTouch',
 //  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
-  'main_ui',
-  'profile',
-  'groups',
-  'friends',
-  'messages',
-  'playlists',
-  'gifts',
-  'browse',
-  'mood'
+  'gaddum.main_ui',
+  'gaddum.profile',
+  'gaddum.groups',
+  'gaddum.friends',
+  'gaddum.messages',
+  'gaddum.playlists',
+  'gaddum.gifts',
+  'gaddum.browse',
+  'gaddum.mood'
 //  'momentjs', // ADDED used for dates
 //  'eventsjs'  // ADDED our events module
 ])
@@ -25,11 +25,14 @@ angular.module('starter', [
     $rootScope.$on('slideChanged', function(a) {
       console.log("slideChanged - ",a);
       console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
-      var stateToGoTo = /*"/" +*/ $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
+      var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
       $state.transitionTo( stateToGoTo  ,{},{notify:false});
     });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
+    });
+    $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
+      console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', err, toState, toParams);
     });
     $ionicPlatform.ready(function () {
       if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -46,7 +49,7 @@ angular.module('starter', [
         StatusBar.styleDefault();
       }
       // ADDED START
-//      $state.go("home");
+      $state.go("gaddum.groups");
       // ADDED END
 
     });

@@ -2,7 +2,7 @@
   'user strict';
 
   angular
-    .module('profile')
+    .module('gaddum.profile')
     .controller('profileController', profileController);
 
   profileController.$inject = [

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('friends')
+    .module('gaddum.friends')
     .controller('friendsListController', friendsListController);
 
   friendsListController.$inject = [

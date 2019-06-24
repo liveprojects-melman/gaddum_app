@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('friends', [
+    .module('gaddum.friends', [
       'ui.router',
       'ngAnimate',
       'ion-slide-box-tabs'

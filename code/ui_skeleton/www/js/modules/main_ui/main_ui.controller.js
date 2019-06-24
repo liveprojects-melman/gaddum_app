@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('main_ui')
+    .module('gaddum.main_ui')
     .controller('main_uiController', main_uiController);
 
   main_uiController.$inject = [

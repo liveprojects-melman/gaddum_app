@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('main_ui', [
+  angular.module('gaddum.main_ui', [
     'ui.router',
     'ngAnimate',
     'ionic'//,
@@ -9,10 +9,14 @@
   ])
     .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('home', {
-          cache:true,
+        .state('gaddum', {
+          abstract:true,
           url: '/'
-        })
+        });
+//        .state('home', {
+//          cache:true,
+//          url: '/'
+//        });
 /*        .state('groupsList', {
           cache:true,
           url: '/main/groups'

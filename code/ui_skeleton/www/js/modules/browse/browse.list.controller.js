@@ -2,7 +2,7 @@
   'user strict';
 
   angular
-    .module('browse')
+    .module('gaddum.browse')
     .controller('browseListController', browseListController);
 
   browseListController.$inject = [

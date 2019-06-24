@@ -2,19 +2,23 @@
   'use strict';
 
   angular
-    .module('groups', [
+    .module('gaddum.groups', [
       'ui.router',
       'ngAnimate',
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('groups', {
-          url: '/main/groups',
-          virtual: true,
+        .state('gaddum.groups', {
+          url: '/groups',
+          cache: false
+          //virtual: true,
+          //template:"<div>CONTROLLER TEST</div>"
         })
-        .state('groupsList', {
+        .state('gaddum.groups.groupsList', {
           cache: false,
-          url: '/main/groups/list'
+          url: '/groups/list',
+          controller: "groupsListController",
+          controllerAs: "glc"
         });
     });
 })();

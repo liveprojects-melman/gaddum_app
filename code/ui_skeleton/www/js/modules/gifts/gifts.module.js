@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('gifts', [
+    .module('gaddum.gifts', [
       'ui.router',
       'ngAnimate'
     ])
