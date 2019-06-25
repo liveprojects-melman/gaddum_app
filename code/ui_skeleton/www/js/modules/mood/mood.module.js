@@ -8,9 +8,16 @@
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('mood', {
+        .state('gaddum.mood', {
           cache: false,
-          url: '/main/mood'
+          url: '/mood',
+          views: {
+            'mood@gaddum' : {
+              templateUrl: 'js/modules/mood/mood.html',
+              controller: "moodController",
+              controllerAs: "mc"
+            }
+          }
         });
     });
 })();

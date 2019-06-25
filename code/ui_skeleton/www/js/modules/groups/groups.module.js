@@ -4,21 +4,26 @@
   angular
     .module('gaddum.groups', [
       'ui.router',
-      'ngAnimate',
+      'ngAnimate'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.groups', {
           url: '/groups',
-          cache: false
-          //virtual: true,
-          //template:"<div>CONTROLLER TEST</div>"
+          redirectTo: 'gaddum.groups.groupsList',
+          cache: false,
+          virtual: true
         })
         .state('gaddum.groups.groupsList', {
           cache: false,
           url: '/groups/list',
-          controller: "groupsListController",
-          controllerAs: "glc"
+          views: {
+            'groups@gaddum': {
+              templateUrl:'js/modules/groups/groups.list.html',
+              controller: "groupsListController",
+              controllerAs: "glc"
+            }
+          }
         });
     });
 })();

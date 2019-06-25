@@ -26,7 +26,8 @@ angular.module('gaddum', [
       console.log("slideChanged - ",a);
       console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
-      $state.transitionTo( stateToGoTo  ,{},{notify:false});
+      console.log("-- going to state: ", stateToGoTo);
+      $state.transitionTo( stateToGoTo  ,{},{notify:false}); // notify seems to overwrite the views
     });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
@@ -49,7 +50,7 @@ angular.module('gaddum', [
         StatusBar.styleDefault();
       }
       // ADDED START
-      $state.go("gaddum.groups");
+      $state.go("gaddum");
       // ADDED END
 
     });

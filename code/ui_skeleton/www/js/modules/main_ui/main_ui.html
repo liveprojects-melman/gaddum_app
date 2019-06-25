@@ -1,0 +1,53 @@
+<ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
+  <ion-slide slide-tab-label="Profile" data-state="profile">
+      <div class="box">Profile</div>
+      <div ui-view="profile">
+        
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Friends" data-state="friends">
+      <div class="box">Friends</div>
+      <div ui-view="friends">
+
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Groups" data-state="groups">
+      <div class="box">Groups</div>
+      <div ui-view="groups">
+        <!-- <ion-view ui-view="groups" XXX-ng-controller="groupsListController as glc" xxx-on-scroll="glc.rejectScroll()">-->
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Messages" data-state="messages">
+      <div class="box">Messages</div>
+      <div ui-view="messages">
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Playlists" data-state="playlists">
+      <div class="box">Playlists</div>
+      <div ui-view="playlists">
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Gifts" data-state="gifts">
+      <div class="box">Gifts</div>
+      <div ui-view="gifts">
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Browse" data-state="browse">
+      <div class="box">Browse</div>
+      <div uiview="browse">
+      </div>
+    </ion-slide>
+
+    <ion-slide slide-tab-label="Mood" data-state="mood">
+      <div class="box">Mood</div>
+      <div uiview="mood">
+      </div>
+    </ion-slide>
+
+  </ion-slide-box>

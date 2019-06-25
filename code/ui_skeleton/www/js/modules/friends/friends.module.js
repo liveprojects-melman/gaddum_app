@@ -4,14 +4,26 @@
   angular
     .module('gaddum.friends', [
       'ui.router',
-      'ngAnimate',
-      'ion-slide-box-tabs'
+      'ngAnimate'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('friendsList', {
+        .state('gaddum.friends', {
           cache: false,
-          url: '/main/friends'
+          url: '/friends',
+          redirectTo: 'gaddum.friends.friendsList',
+          virtual: true
+        })
+        .state('gaddum.friends.friendsList', {
+          cache: false,
+          url: '/friends/list',
+          views: {
+            'friends@gaddum': {
+              templateUrl: 'js/modules/friends/friends.list.html',
+              controller: "friendsListController",
+              controllerAs: "flc"
+            }
+          }
         });
     });
 })();

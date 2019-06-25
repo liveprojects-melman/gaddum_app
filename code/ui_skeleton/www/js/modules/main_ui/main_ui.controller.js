@@ -1,5 +1,5 @@
 (function(){
-  'use strict;'
+  'use strict';
 
   angular
     .module('gaddum.main_ui')
@@ -10,12 +10,11 @@
   ];
 
   function main_uiController(
-    $scope,
+    $scope
   ) {
     var vm = angular.extend(this, {
 
     });
-
   }
 
 })();

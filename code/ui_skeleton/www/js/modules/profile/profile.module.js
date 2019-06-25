@@ -7,9 +7,16 @@
   ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('profile', {
+        .state('gaddum.profile', {
+          url: '/profile',
           cache:false,
-          url: '/main/profile'
+          views: {
+            'profile@gaddum': {
+              templateUrl: 'js/modules/profile/profile.html',
+              controller: "profileController",
+              controllerAs: "pc"
+            }
+          }
         });
     });
 })();

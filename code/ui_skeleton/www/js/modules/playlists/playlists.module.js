@@ -4,14 +4,26 @@
   angular
     .module('gaddum.playlists', [
       'ui.router',
-      'ngAnimate'/*,
-      'ion-slide-box-tabs'*/
+      'ngAnimate'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('playlistsList', {
+        .state('gaddum.playlists', {
+          url: '/playlists',
           cache: false,
-          url: '/main/playlists'
+          redirectTo: 'gaddum.playlists.playlistsList',
+          virtual: true
+        })
+        .state('gaddum.playlists.playlistsList', {
+          cache: false,
+          url: '/playlists/list',
+          views: {
+            'playlists@gaddum': {
+              templateUrl: 'js/modules/playlists/playlists.list.html',
+              controller: "playlistsListController",
+              controllerAs: "pllc"
+            }
+          }
         });
     });
 })();

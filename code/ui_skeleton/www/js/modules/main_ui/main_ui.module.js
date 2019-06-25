@@ -10,8 +10,14 @@
     .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum', {
-          abstract:true,
-          url: '/'
+          url: '/',
+          //views: {
+          //  'content@': {
+              templateUrl: 'js/modules/main_ui/main_ui.html',
+              controller: 'main_uiController',
+              controllerAs: 'mlc'
+          //  }
+          //}
         });
 //        .state('home', {
 //          cache:true,
