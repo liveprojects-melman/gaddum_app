@@ -9,13 +9,13 @@
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.friends', {
-          cache: false,
+          cache: true,
           url: '/friends',
           redirectTo: 'gaddum.friends.friendsList',
           virtual: true
         })
         .state('gaddum.friends.friendsList', {
-          cache: false,
+          cache: true,
           url: '/friends/list',
           views: {
             'friends@gaddum': {

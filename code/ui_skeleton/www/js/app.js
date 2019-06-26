@@ -31,6 +31,19 @@ angular.module('gaddum', [
     });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
+      // update the slider delegate - is there a matching slide name?
+      var baseStateName = toState.name.split(".")[1];
+      console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
+      var sliderState = false;
+      $($("#main_wrapper").find("ion-slide")).each(function(i){
+        if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
+          // these *is* a matching slide for this state change
+          $ionicSlideBoxDelegate.slide(i);
+          console.log("^^^ found - sliding to slide number "+String(i)+", "+baseStateName);
+          event.preventDefault();
+          return true;
+        }
+      });
     });
     $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
       console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', err, toState, toParams);
@@ -50,7 +63,7 @@ angular.module('gaddum', [
         StatusBar.styleDefault();
       }
       // ADDED START
-      $state.go("gaddum");
+//      $state.go("gaddum.mood");
       // ADDED END
 
     });

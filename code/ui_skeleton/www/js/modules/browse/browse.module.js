@@ -11,8 +11,8 @@
         .state('gaddum.browse', {
           url: '/browse',
           redirectTo: 'gaddum.browse.list',
-          cache: false,
-          virtual: true
+//          cache: false,
+//          virtual: true
         })
         .state('gaddum.browse.list', {
           cache: false,

@@ -11,11 +11,10 @@
         .state('gaddum.groups', {
           url: '/groups',
           redirectTo: 'gaddum.groups.groupsList',
-          cache: false,
           virtual: true
         })
         .state('gaddum.groups.groupsList', {
-          cache: false,
+          cache: true,
           url: '/groups/list',
           views: {
             'groups@gaddum': {
