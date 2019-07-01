@@ -9,9 +9,9 @@
       $stateProvider
         .state('gaddum.profile', {
           url: '^/profile',
-          cache:false,
+          cache:true,
           views: {
-            'profile': {
+            'profile@gaddum': {
               templateUrl: 'js/modules/profile/profile.html',
               controller: "profileController",
               controllerAs: "pc"

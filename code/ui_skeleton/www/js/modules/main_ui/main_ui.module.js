@@ -11,11 +11,18 @@
       $stateProvider
         .state('gaddum', {
           url: '/',
+          virtual: true,
+//          abstract: true,
           views: {
-            'content': {
+            'gaddum': {
               templateUrl: 'js/modules/main_ui/main_ui.html',
               controller: 'main_uiController',
               controllerAs: 'mlc'
+            },
+            'profile@gaddum': {
+              templateUrl: 'js/modules/profile/profile.html',
+              controller: "profileController",
+              controllerAs: "pc"
             }
           }
         });
