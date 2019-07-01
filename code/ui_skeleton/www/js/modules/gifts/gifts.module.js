@@ -10,15 +10,15 @@
       $stateProvider
         .state('gaddum.gifts', {
           url:"^/gifts",
-          cache: false,
+          cache: true,
           redirectTo: 'gaddum.gifts.giftsList',
-          virtual: true
+//          virtual: true
         })
         .state('gaddum.gifts.giftsList', {
           cache: false,
           url: '^/gifts/list',
           views: {
-            'gifts': {
+            'gifts@gaddum': {
               templateUrl: 'js/modules/gifts/gifts.list.html',
               controller: "giftsListController",
               controllerAs: "gilc"

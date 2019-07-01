@@ -9,17 +9,17 @@
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.messages', {
-          url: '/messages',
-          cache: false,
-          redirectTo: 'gaddum.messages.messagesList',
-          virtual: true
+          url: '^/messages',
+          cache: true,
+          //          virtual: true,
+          redirectTo: 'gaddum.messages.messageList'
         })
-        .state('gaddum.messages.messagesList', {
+        .state('gaddum.messages.messageList', {
           cache: false,
-          url: '/messages/list',
+          url: '^/messages/list',
           views: {
             'messages@gaddum': {
-              tetmplateUrl: 'js/modules/messages/messages.list.html',
+              templateUrl: 'js/modules/messages/messages.list.html',
               controller: "messagesListController",
               controllerAs: "mlc"
             }

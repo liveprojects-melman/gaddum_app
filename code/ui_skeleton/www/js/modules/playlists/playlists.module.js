@@ -9,14 +9,14 @@
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.playlists', {
-          url: '/playlists',
-          cache: false,
+          url: '^/playlists',
+          cache: true,
           redirectTo: 'gaddum.playlists.playlistsList',
-          virtual: true
+//          virtual: true
         })
         .state('gaddum.playlists.playlistsList', {
           cache: false,
-          url: '/list',
+          url: '^/playlists/playlistsList',
           views: {
             'playlists@gaddum': {
               templateUrl: 'js/modules/playlists/playlists.list.html',

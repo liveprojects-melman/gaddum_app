@@ -4,21 +4,21 @@
   angular
     .module('gaddum.friends', [
       'ui.router',
-      'ngAnimate'
+      'ngAnimate',
     ])
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.friends', {
-          cache: true,
+//          cache: false,
           url: '^/friends',
-          redirectTo: 'gaddum.friends.friendsList',
-          virtual: true
+          redirectTo: 'friendsList',
+//          virtual: false
         })
         .state('gaddum.friends.friendsList', {
           cache: false,
           url: '^/friends/list',
           views: {
-            'friends': {
+            'friends@gaddum': {
               templateUrl: 'js/modules/friends/friends.list.html',
               controller: "friendsListController",
               controllerAs: "flc"
@@ -26,4 +26,6 @@
           }
         });
     });
+
+
 })();

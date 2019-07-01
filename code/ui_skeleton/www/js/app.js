@@ -39,13 +39,21 @@ angular.module('gaddum', [
             console.log(" -- found it, "+String(i));
             // these *is* a matching slide for this state change
             $ionicSlideBoxDelegate.slide(i);
-            console.log("^^^ found - sliding to slide number "+String(i)+", "+baseStateName);
-            //event.preventDefault();
-            return true;
+            //return true;
+            console.log("FORCING $STATE.GO");
+            $state.go("gaddum."+baseStateName,{},{reload:true,notify:false});
           }
         });
       }
 //      return false;
+    });
+
+    $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
+      console.log("*** viewContentLoading: ", event, viewConfig);
+    });
+
+    $rootScope.$on('$viewContentLoaded', function (event) {
+      console.log("*** viewContentLoaded: ", event);
     });
 
     $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
