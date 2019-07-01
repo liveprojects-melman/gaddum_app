@@ -10,15 +10,15 @@
       $stateProvider
         .state('gaddum.friends', {
           cache: true,
-          url: '/friends',
+          url: '^/friends',
           redirectTo: 'gaddum.friends.friendsList',
           virtual: true
         })
         .state('gaddum.friends.friendsList', {
-          cache: true,
-          url: '/friends/list',
+          cache: false,
+          url: '^/friends/list',
           views: {
-            'friends@gaddum': {
+            'friends': {
               templateUrl: 'js/modules/friends/friends.list.html',
               controller: "friendsListController",
               controllerAs: "flc"

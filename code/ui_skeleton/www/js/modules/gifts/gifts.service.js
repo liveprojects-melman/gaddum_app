@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('gaddum.gifts', [])
+    .module('gaddum.gifts')
     .factory('giftsService', giftsService)
   ;
 

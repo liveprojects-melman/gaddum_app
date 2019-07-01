@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('gaddum.playlists', [])
+    .module('gaddum.playlists')
     .factory('playlistsService', playlistsService)
   ;
 

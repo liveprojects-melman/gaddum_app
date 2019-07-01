@@ -11,13 +11,13 @@
       $stateProvider
         .state('gaddum', {
           url: '/',
-          //views: {
-          //  'content@': {
+          views: {
+            'content': {
               templateUrl: 'js/modules/main_ui/main_ui.html',
               controller: 'main_uiController',
               controllerAs: 'mlc'
-          //  }
-          //}
+            }
+          }
         });
 //        .state('home', {
 //          cache:true,

@@ -16,7 +16,7 @@
         })
         .state('gaddum.playlists.playlistsList', {
           cache: false,
-          url: '/playlists/list',
+          url: '/list',
           views: {
             'playlists@gaddum': {
               templateUrl: 'js/modules/playlists/playlists.list.html',

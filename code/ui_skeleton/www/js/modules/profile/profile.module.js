@@ -8,10 +8,10 @@
     .config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum.profile', {
-          url: '/profile',
+          url: '^/profile',
           cache:false,
           views: {
-            'profile@gaddum': {
+            'profile': {
               templateUrl: 'js/modules/profile/profile.html',
               controller: "profileController",
               controllerAs: "pc"

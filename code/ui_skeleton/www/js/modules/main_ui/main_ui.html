@@ -1,9 +1,12 @@
+<h5>main menu in menu_ui.html</h5>
 <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')">
   
   <ion-slide slide-tab-label="Profile" data-state="profile">
-    <div class="box">Profile</div>
-    <div ui-view name="profile">
-      profile_main_ui
+    <div class="box">
+      <div>Profile</div>
+      <div ui-view name="profile">
+        <i>profile_main_ui</i>
+      </div>
     </div>
   </ion-slide>
   
@@ -11,7 +14,7 @@
     <div class="box">
       <div>Friends</div>
       <div ui-view name="friends">
-        friends_main_ui
+        <i>friends_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -19,9 +22,8 @@
   <ion-slide slide-tab-label="Groups" data-state="groups">
     <div class="box">
       <div>Groups</div>
-      <div ui-view="groups">
-        <!-- <ion-view ui-view="groups" XXX-ng-controller="groupsListController as glc" xxx-on-scroll="glc.rejectScroll()">-->
-        groups_main_ui
+      <div ui-view name="groups">
+        <i>groups_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -29,8 +31,8 @@
   <ion-slide slide-tab-label="Messages" data-state="messages">
     <div class="box">
       <div>Messages</div>
-      <div ui-view="messages">
-        messages_main_ui
+      <div ui-view name="messages">
+        <i>messages_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -38,8 +40,8 @@
   <ion-slide slide-tab-label="Playlists" data-state="playlists">
     <div class="box">
       <div>Playlists</div>
-      <div ui-view="playlists">
-        playlists_main_ui
+      <div ui-view name="playlists">
+        <i>playlists_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -47,8 +49,8 @@
   <ion-slide slide-tab-label="Gifts" data-state="gifts">
     <div class="box">
       <div>Gifts</div>
-      <div ui-view="gifts">
-        gifts_main_ui
+      <div ui-view name="gifts">
+        <i>gifts_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -56,8 +58,8 @@
   <ion-slide slide-tab-label="Browse" data-state="browse">
     <div class="box">
       <div>Browse</div>
-      <div uiview="browse">
-        browse_main_ui
+      <div ui-view name="browse">
+        <i>browse_main_ui</i>
       </div>
     </div>
   </ion-slide>
@@ -65,8 +67,8 @@
   <ion-slide slide-tab-label="Mood" data-state="mood">
     <div class="box">
       <div>Mood</div>
-      <div uiview="mood">
-        modd_main_ui
+      <div ui-view name="mood">
+        <i>mood_main_ui</i>
       </div>
     </div>
   </ion-slide>

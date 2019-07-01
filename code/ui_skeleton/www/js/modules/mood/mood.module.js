@@ -10,7 +10,7 @@
       $stateProvider
         .state('gaddum.mood', {
           cache: false,
-          url: '/mood',
+          url: '^/mood',
           views: {
             'mood@gaddum' : {
               templateUrl: 'js/modules/mood/mood.html',

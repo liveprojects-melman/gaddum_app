@@ -9,16 +9,16 @@
     .config(function($stateProvider,$urlRouterProvider) {
       $stateProvider
         .state('gaddum.gifts', {
-          url:"/gifts",
+          url:"^/gifts",
           cache: false,
           redirectTo: 'gaddum.gifts.giftsList',
           virtual: true
         })
         .state('gaddum.gifts.giftsList', {
           cache: false,
-          url: '/gifts/list',
+          url: '^/gifts/list',
           views: {
-            'gifts@gaddum': {
+            'gifts': {
               templateUrl: 'js/modules/gifts/gifts.list.html',
               controller: "giftsListController",
               controllerAs: "gilc"

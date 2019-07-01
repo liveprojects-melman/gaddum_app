@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('gaddum.messages', [])
+    .module('gaddum.messages')
     .factory('messagesService', messagesService)
   ;
 

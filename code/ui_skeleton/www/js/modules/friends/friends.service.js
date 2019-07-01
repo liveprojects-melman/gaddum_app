@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('gaddum.friends', [])
+    .module('gaddum.friends')
     .factory('friendsService', friendsService)
   ;
 

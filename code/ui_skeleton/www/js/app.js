@@ -6,7 +6,6 @@
 angular.module('gaddum', [
   'ionic',
   'ngTouch',
-//  'ion-slide-box-tabs',
   'gaddum.player',
   'gaddum.playermenu',
   'gaddum.main_ui',
@@ -18,8 +17,6 @@ angular.module('gaddum', [
   'gaddum.gifts',
   'gaddum.browse',
   'gaddum.mood'
-//  'momentjs', // ADDED used for dates
-//  'eventsjs'  // ADDED our events module
 ])
   .run(function ($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate) {
     $rootScope.$on('slideChanged', function(a) {
@@ -27,24 +24,30 @@ angular.module('gaddum', [
       console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
       console.log("-- going to state: ", stateToGoTo);
-      $state.transitionTo( stateToGoTo  ,{},{notify:false}); // notify seems to overwrite the views
+      $state.transitionTo( stateToGoTo  ,{},{notify:true}); // notify seems to overwrite the views
     });
+
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
       // update the slider delegate - is there a matching slide name?
       var baseStateName = toState.name.split(".")[1];
-      console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
-      var sliderState = false;
-      $($("#main_wrapper").find("ion-slide")).each(function(i){
-        if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
-          // these *is* a matching slide for this state change
-          $ionicSlideBoxDelegate.slide(i);
-          console.log("^^^ found - sliding to slide number "+String(i)+", "+baseStateName);
-          event.preventDefault();
-          return true;
-        }
-      });
+      if(angular.isDefined(baseStateName)===true) {
+        console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
+        var sliderState = false;
+        $($("#main_wrapper").find("ion-slide")).each(function(i){
+          if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
+            console.log(" -- found it, "+String(i));
+            // these *is* a matching slide for this state change
+            $ionicSlideBoxDelegate.slide(i);
+            console.log("^^^ found - sliding to slide number "+String(i)+", "+baseStateName);
+            //event.preventDefault();
+            return true;
+          }
+        });
+      }
+//      return false;
     });
+
     $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
       console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', err, toState, toParams);
     });
@@ -62,8 +65,8 @@ angular.module('gaddum', [
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
-      // ADDED START
-//      $state.go("gaddum.mood");
+      // ADDED START0
+      $state.go("gaddum");//.then(function(){$state.go("playlists")});
       // ADDED END
 
     });
