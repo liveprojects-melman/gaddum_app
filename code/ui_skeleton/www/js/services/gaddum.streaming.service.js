@@ -1,5 +1,5 @@
 (function(){
-  'use strict;'
+  'use strict';
 
   angular
     .module('gaddum.streaming', [])
@@ -17,8 +17,8 @@
         playing: false
       },
       song: {
-        "songTitle": "TESTING",
-        "artistName": "Does It Work?"
+        title: "THIS IS A TITLE",
+        artist: "THIS IS AN ARTIST"
       }
     };
 

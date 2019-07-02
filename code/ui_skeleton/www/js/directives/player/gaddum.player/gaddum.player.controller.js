@@ -16,10 +16,12 @@
     $state,
     $scope
   ) {
-    this.state = gaddumStreamingService.state;
-    this.marquee = {
-      "songtitle": gaddumStreamingService.song.songTitle,
-      "artistname": gaddumStreamingService.song.artistName
+    var gpc = { };
+    gpc.state = gaddumStreamingService.state;
+    gpc.marquee = {
+      "songtitle": gaddumStreamingService.song.title,
+      "artistname": gaddumStreamingService.song.artist
     };
-  };
+    return gpc;
+  }
 })();

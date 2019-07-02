@@ -6,9 +6,9 @@
 angular.module('gaddum', [
   'ionic',
   'ngTouch',
-  'gaddum.streaming',
   'gaddum.player',
   'gaddum.playermenu',
+  'gaddum.streaming',
   'gaddum.main_ui',
   'gaddum.profile',
   'gaddum.groups',
