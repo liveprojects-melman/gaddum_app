@@ -3,7 +3,7 @@
 
   angular
     .module('gaddum.streaming', [])
-    .factory('gaddum.streaming.service', gaddumStreamingService);
+    .factory('gaddumStreamingService', gaddumStreamingService);
 
   gaddumStreamingService.$inject = [
     '$http'
@@ -17,8 +17,8 @@
         playing: false
       },
       song: {
-        title: "",
-        artist: ""
+        "songTitle": "TESTING",
+        "artistName": "Does It Work?"
       }
     };
 
