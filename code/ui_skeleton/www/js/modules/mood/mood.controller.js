@@ -10,17 +10,21 @@
     '$stateParams',
     '$ionicSlideBoxDelegate',
     'moodService',
+    'gaddumMoodServiceMasterSwitchService'
   ];
 
   function moodController(
     $state,
     $stateParams,
     $ionicSlideBoxDelegate,
-    moodService
+    moodService,
+    gaddumMoodServiceMasterSwitchService
   ) {
-    var vm = angular.extend(this, {
+    var mc = angular.extend(this, {
 
     });
+    mc.moodState = gaddumMoodServiceMasterSwitchService.state;
+
 
   }
 })();

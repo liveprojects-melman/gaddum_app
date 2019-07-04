@@ -17,31 +17,32 @@ angular.module('gaddum', [
   'gaddum.playlists',
   'gaddum.gifts',
   'gaddum.browse',
-  'gaddum.mood'
+  'gaddum.mood',
+//  'gaddum.mood.switch'
 ])
   .run(function ($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate) {
     $rootScope.$on('slideChanged', function(a) {
-      console.log("slideChanged - ",a);
-      console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
+//      console.log("slideChanged - ",a);
+//      console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
-      console.log("-- going to state: ", stateToGoTo);
+//      console.log("-- going to state: ", stateToGoTo);
       $state.transitionTo( stateToGoTo  ,{},{notify:true}); // notify seems to overwrite the views
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
+//      console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
       // update the slider delegate - is there a matching slide name?
       var baseStateName = toState.name.split(".")[1];
       if(angular.isDefined(baseStateName)===true) {
-        console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
+//        console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
         var sliderState = false;
         $($("#main_wrapper").find("ion-slide")).each(function(i){
           if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
-            console.log(" -- found it, "+String(i));
+//            console.log(" -- found it, "+String(i));
             // these *is* a matching slide for this state change
             $ionicSlideBoxDelegate.slide(i);
             //return true;
-            console.log("FORCING $STATE.GO");
+//            console.log("FORCING $STATE.GO");
             $state.go("gaddum."+baseStateName,{},{reload:true,notify:false});
           }
         });
@@ -50,11 +51,11 @@ angular.module('gaddum', [
     });
 
     $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
-      console.log("*** viewContentLoading: ", event, viewConfig);
+//      console.log("*** viewContentLoading: ", event, viewConfig);
     });
 
     $rootScope.$on('$viewContentLoaded', function (event) {
-      console.log("*** viewContentLoaded: ", event);
+//      console.log("*** viewContentLoaded: ", event);
     });
 
     $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
@@ -75,7 +76,7 @@ angular.module('gaddum', [
         StatusBar.styleDefault();
       }
       // ADDED START0
-      $state.go("gaddum");//.then(function(){$state.go("playlists")});
+      $state.go("gaddum");
       // ADDED END
 
     });

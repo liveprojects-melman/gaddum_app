@@ -6,7 +6,7 @@
       'ui.router',
       'ngAnimate'
     ])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider  ) {
       $stateProvider
         .state('gaddum.mood', {
           cache: false,
@@ -17,7 +17,16 @@
               controller: "moodController",
               controllerAs: "mc"
             }
+          },
+          onEnter: function(gaddumMoodServiceMasterSwitchService){
+            console.log("TURN ON!");
+            gaddumMoodServiceMasterSwitchService.turnOn();
+          },
+          onExit: function(gaddumMoodServiceMasterSwitchService){
+            console.log("TURN OFF!")
+            gaddumMoodServiceMasterSwitchService.turnOff();
           }
+
         });
     });
 })();
