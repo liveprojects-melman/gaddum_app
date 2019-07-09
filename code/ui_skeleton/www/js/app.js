@@ -23,7 +23,7 @@ angular.module('gaddum', [
   'gaddum.settings',
   'gaddum.permissions'
 ])
-  .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window) {
+  .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService) {
     $rootScope.$on('slideChanged', function(a) {
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
       $state.transitionTo( stateToGoTo  ,{},{notify:true}); // notify seems to overwrite the views
