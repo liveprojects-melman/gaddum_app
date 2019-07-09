@@ -127,6 +127,8 @@
 
         var getAllPermissions = function(index, promise) {
             if(permissionsMap[index] == "camera") {
+                console.log(service.permissions, permissionsMap,device, index);
+                console.log("service: " ,service);
                 permissions[ service.permissions[ permissionsMap[index] ][device.platform].check](
                     function(result) {
                         console.log("perm..Srvc: "+ permissionsMap[index] + ":"+ result);
