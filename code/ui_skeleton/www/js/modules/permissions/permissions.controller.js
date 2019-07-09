@@ -8,14 +8,14 @@
     control.$inject = [
         '$state',
         '$scope',
-        'permissionsSrvc',
+        'permissionsService',
         '$ionicPlatform'
         ];
 
     function control(
         $state,
         $scope,
-        permissionsSrvc,
+        permissionsService,
         $ionicPlatform
     ) {
         var vm = angular.extend(this, {
@@ -29,7 +29,7 @@
           $scope.$on('$destroy', vm.hardwareBackButton);
 
           vm.goMain = function() {
-            $state.go('gaddum');
+            $state.go('gaddum.main_ui');
           };
 
          vm.permissions = false;
@@ -42,7 +42,7 @@
         });
 
          vm.getPermissions = function() {
-          permissionsSrvc.returnPermissionStates().then(function(response){
+          permissionsService.returnPermissionStates().then(function(response){
               if(response.hasAllRequiredPermissions){
                 vm.goMain();
               } else {
@@ -53,7 +53,7 @@
          };
 
           vm.requestPermission = function(permissionType){
-            permissionsSrvc.requestPermission(permissionType).then(vm.getPermissions);
+            permissionsService.requestPermission(permissionType).then(vm.getPermissions);
           };
 
           document.addEventListener("deviceready", function() {
