@@ -17,53 +17,40 @@ angular.module('gaddum', [
   'gaddum.playlists',
   'gaddum.gifts',
   'gaddum.browse',
+
   'gaddum.mood',
   //  'gaddum.mood.switch'
-  'gaddum.settings'
+  'gaddum.settings',
+  'gaddum.permissions'
 ])
-  .run(function ($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate) {
+  .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window) {
     $rootScope.$on('slideChanged', function(a) {
-//      console.log("slideChanged - ",a);
-//      console.log("  slide now ",$ionicSlideBoxDelegate.currentIndex());
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
-//      console.log("-- going to state: ", stateToGoTo);
       $state.transitionTo( stateToGoTo  ,{},{notify:true}); // notify seems to overwrite the views
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-//      console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
       // update the slider delegate - is there a matching slide name?
       var baseStateName = toState.name.split(".")[1];
       if(angular.isDefined(baseStateName)===true) {
-//        console.log("LOOKING FOR A SLIDE CALLED "+baseStateName);
         var sliderState = false;
         $($("#main_wrapper").find("ion-slide")).each(function(i){
           if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
-//            console.log(" -- found it, "+String(i));
             // these *is* a matching slide for this state change
             $ionicSlideBoxDelegate.slide(i);
-            //return true;
-//            console.log("FORCING $STATE.GO");
             $state.go("gaddum."+baseStateName,{},{reload:true,notify:false});
           }
         });
       }
-//      return false;
-    });
-
-    $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
-//      console.log("*** viewContentLoading: ", event, viewConfig);
-    });
-
-    $rootScope.$on('$viewContentLoaded', function (event) {
-//      console.log("*** viewContentLoaded: ", event);
     });
 
     $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
       console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', err, toState, toParams);
     });
-    $ionicPlatform.ready(function () {
-      if (window.cordova && window.cordova.plugins.Keyboard) {
+
+    $ionicPlatform.ready(function(){
+      //['$state','$statusBar','$window',function ($state,$statusBar,$window) {
+      if ($window.cordova && $window.cordova.plugins.Keyboard) {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -73,12 +60,25 @@ angular.module('gaddum', [
         // a much nicer keyboard experience.
         cordova.plugins.Keyboard.disableScroll(true);
       }
-      if (window.StatusBar) {
+      if ($window.StatusBar) {
         StatusBar.styleDefault();
       }
-      // ADDED START0
-      $state.go("gaddum");
-      // ADDED END
-
-    });
-  });
+      // permissions checking and actual startup
+      const startState = 'gaddum';
+      if(window.hasOwnProperty('device')===false) {
+        $state.go(startState);
+      } else {
+        if(window.device.platform !== 'Browser'){
+          permissionsService.returnPermissions().then(function (response) {
+            if (response.hasAllRequiredPermissions) {
+              $state.go(startState);
+            } /*else {
+              $state.go('startup');
+            }*/
+          });
+        } // unlikely to end up here but at least a default
+        $state.go(startState);
+      }
+//      $state.go("gaddum");
+    }/*]*/);
+  }]);

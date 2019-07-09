@@ -1,4 +1,3 @@
-console.log("PERMISSIONS SERVICE");
 /**
  * Service to handle Camera, Location and FileStorage permission checks and requests.
  * * using the plugin: cordova.plugins.diagnostic
@@ -8,17 +7,18 @@ console.log("PERMISSIONS SERVICE");
     'use strict';
 
     angular
-        .module('app.permissions')
+        .module('gaddum.permissions')
         .factory('permissionsService', permissionsService);
 
-  permissionsService.$inject = [
+    permissionsService.$inject = [
         '$q',
         '$ionicPlatform'
     ];
-  function permissionsService(
+    function permissionsService(
         $q,
         $ionicPlatform
     ) {
+        console.log("permissions service saying hello");
         var service = {
             permissions : {
                 "hasAllRequiredPermissions": true,
@@ -81,12 +81,10 @@ console.log("PERMISSIONS SERVICE");
         };
 
         var permissions = undefined; //set to permissions plugin
-      $ionicPlatform.ready(function() {
-        try{
-          permissions = cordova.plugins.diagnostic;
-        } catch (error) {
-          permissions = undefined;
-        }
+        $ionicPlatform.ready(function() {
+            if(window.hasOwnProperty('cordova')===true) {
+                permissions = cordova.plugins.diagnostic;
+            }
             console.log("permissions plugin assigned - in permissionSrvc")
         });
 
@@ -101,29 +99,30 @@ console.log("PERMISSIONS SERVICE");
                 "GRANTED": "authorized",
                 "DENIED_ALWAYS": "denied"
             }
-        };
+        }
 
         service.returnPermissions = function() {
             var waitForAllPermissions = $q.defer()
             var hasPermissions = {};
+            console.log("ad");
 
-          if(permissions === undefined) {
             service.permissions.hasAllRequiredPermissions = true;
-            waitForAllPermissions.resolve();
-          }
-          service.permissions.hasAllRequiredPermissions = true;
-          getAllPermissions(0, waitForAllPermissions);
+            getAllPermissions(0, waitForAllPermissions);
 
-          return waitForAllPermissions.promise
+            return waitForAllPermissions.promise
         };
         service.returnPermissionStates = function() {
-          var waitForAllPermissions = $q.defer()
-          var hasPermissions = {};
+            var waitForAllPermissions = $q.defer()
+            var hasPermissions = {};
 
-          service.permissions.hasAllRequiredPermissions = true;
-          getAllPermissionStates(0, waitForAllPermissions);
+            if(window.hasOwnProperty('cordova')===false) {
+                waitForAllPermissions.resolve({hasAllRequiredPermissions: true});
+            } else {
+                service.permissions.hasAllRequiredPermissions = true;
+                getAllPermissionStates(0, waitForAllPermissions);
+            }
 
-          return waitForAllPermissions.promise
+            return waitForAllPermissions.promise
         };
 
         var getAllPermissions = function(index, promise) {
