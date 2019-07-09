@@ -3,6 +3,10 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
+
+var startState = 'gaddum';
+var getPermissionsState = 'gaddum.permissions';
+
 angular.module('gaddum', [
   'ionic',
   'ngTouch',
@@ -64,17 +68,16 @@ angular.module('gaddum', [
         StatusBar.styleDefault();
       }
       // permissions checking and actual startup
-      const startState = 'gaddum';
       if(window.hasOwnProperty('device')===false) {
         $state.go(startState);
       } else {
         if(window.device.platform !== 'Browser'){
           permissionsService.returnPermissions().then(function (response) {
             if (response.hasAllRequiredPermissions) {
-              $state.go(startState);
-            } /*else {
-              $state.go('startup');
-            }*/
+              $state.go( startState);
+            } else {
+              $state.go( getPermissionsState );
+            }
           });
         } // unlikely to end up here but at least a default
         $state.go(startState);

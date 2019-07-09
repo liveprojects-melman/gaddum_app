@@ -29,7 +29,7 @@
           $scope.$on('$destroy', vm.hardwareBackButton);
 
           vm.goMain = function() {
-            $state.go('main');
+            $state.go('gaddum');
           };
 
          vm.permissions = false;
