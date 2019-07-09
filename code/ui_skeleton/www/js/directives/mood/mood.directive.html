@@ -1,0 +1,37 @@
+<div class="moodElementsDiv">
+  <div ng-hide =false id="moodCameraState" ng-model="scope" style="text-align: center">
+    <span ng-show="vm.cameraError===true">❌</span>
+    <span ng-show="vm.cameraError!=true  && vm.isRunning===false">📷</span>
+    <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected!=true">📸</span>
+    <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected===true">👍</span>
+  </div>
+
+  <div ng-hide =true style="text-align: center">
+    <canvas id="canvas"  style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
+  </div>
+
+  <div class="moodEmoji">
+    {{vm.moodDisplay.emoji}}
+  </div>
+  <div ng-hide=!vm.detecting class="moodSpinnerDiv">
+    <ion-spinner class="moodSpinner" paused="true" name="circles" ></ion-spinner>
+  </div>
+  <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" />
+  <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" />
+  <select data-ng-options="e.name for e in vm.allEmotions" data-ng-model="vm.selectedMoodId" ng-change="vm.onItemSelected()" class="moodSelect" ></select>
+</div>
+
+<div ng-hide="vm.helpTips" class="fade">
+  <div class="makePlaylistPositionDiv help-bubble moodUpArrow"
+  style="margin-top:-9rem; margin-left:-5%;" 
+  ng-click="vm.removeHelpTips()">
+    <p class="triangle-border">Did we get it right? Tap this arrow to play, or use the menu above to just choose a mood.</p>
+    <!--<span class="bubble2-after"></span>-->
+  </div>
+  <div class="tryAgainPositionDiv help-bubble " 
+  style="margin-top:16rem; right: 20%; margin-right:-5%;"
+  ng-click="vm.removeHelpTips()">
+    <p class="triangle-border top">Tap this arrow, and we'll use the selfie camera to guess your mood from your expression.</p>
+    <!--<span class="bubble2-after"></span>-->
+  </div>
+</div>

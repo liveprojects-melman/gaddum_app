@@ -3,6 +3,7 @@
 
   angular
     .module('gaddum.mood', [
+      'ionic',
       'ui.router',
       'ngAnimate'
     ])
