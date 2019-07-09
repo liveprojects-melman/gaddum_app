@@ -47,7 +47,7 @@
                 vm.goMain();
               } else {
                 vm.permissions = response;
-                console.log(vm.permissions)
+                console.log(vm.permissions);
               }
           });
          };

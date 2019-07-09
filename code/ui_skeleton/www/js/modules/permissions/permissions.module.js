@@ -14,14 +14,9 @@
         .state( getPermissionsState, {
           url: '^/please',
           templateUrl: 'js/modules/permissions/please.html',
-	      //controller: 'permissionsDirectiveController',
-		  //controllerAs: 'mlc'
-		  controller: function($scope){
-			  // thanks!
-			  console.log('please controller is up');
-		  }
+	  		  controller: function($scope){
+
+		      }
         });
     });
-
- 	console.log("permissions module started");
 })();

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 
 var startState = 'gaddum';
-var getPermissionsState = 'gaddum.permissions';
+var getPermissionsState = 'permissions';
 
 angular.module('gaddum', [
   'ionic',
@@ -35,6 +35,8 @@ angular.module('gaddum', [
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       // update the slider delegate - is there a matching slide name?
+      console.log("stateChangeStart", toState);
+
       var baseStateName = toState.name.split(".")[1];
       if(angular.isDefined(baseStateName)===true) {
         var sliderState = false;
@@ -74,16 +76,13 @@ angular.module('gaddum', [
         if(window.device.platform !== 'Browser'){
           permissionsService.returnPermissions().then(function (response) {
             if (response.hasAllRequiredPermissions) {
-              console.log("has all permissions");
               $state.go( startState);
             } else {
-              console.log("doesnt have all permissions go to ", getPermissionsState);
               $state.go( getPermissionsState );
             }
           });
         } // unlikely to end up here but at least a default
-        
       }
-//      $state.go("gaddum");
+      //$state.go(getPermissionsState);
     }/*]*/);
   }]);

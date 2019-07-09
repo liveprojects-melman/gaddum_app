@@ -34,5 +34,5 @@
           cache:true,
           url: '/main/groups'
         });*/
-    });
+    })
 })();
