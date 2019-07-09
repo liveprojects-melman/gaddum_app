@@ -21,7 +21,7 @@
     });
 
     vm.test=function test() {
-      alert("test!");
+      $state.go(getPermissionsState);
     };
 
 

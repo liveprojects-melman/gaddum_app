@@ -1,6 +1,8 @@
 (function() {
 	'use strict';
 
+	console.log("getPermissionsState is "+getPermissionsState);
+
 	angular
 		.module('gaddum.permissions', [
 			'ionic',
@@ -10,10 +12,14 @@
     .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
         .state( getPermissionsState, {
-          url: '/please',
+          url: '^/please',
           templateUrl: 'js/modules/permissions/please.html',
-//          controller: 'main_uiController',
-//          controllerAs: 'mlc'
+	      //controller: 'permissionsDirectiveController',
+		  //controllerAs: 'mlc'
+		  controller: function($scope){
+			  // thanks!
+			  console.log('please controller is up');
+		  }
         });
     });
 

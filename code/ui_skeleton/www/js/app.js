@@ -74,13 +74,15 @@ angular.module('gaddum', [
         if(window.device.platform !== 'Browser'){
           permissionsService.returnPermissions().then(function (response) {
             if (response.hasAllRequiredPermissions) {
+              console.log("has all permissions");
               $state.go( startState);
             } else {
+              console.log("doesnt have all permissions go to ", getPermissionsState);
               $state.go( getPermissionsState );
             }
           });
         } // unlikely to end up here but at least a default
-        $state.go(startState);
+        
       }
 //      $state.go("gaddum");
     }/*]*/);

@@ -9,7 +9,7 @@
             scope:{
             },
             templateUrl: "js/modules/permissions/permissions.html",
-            controller: 'eventsDirectivePermissionsController',
+            controller: 'permissionsDirectiveController',
             controllerAs: 'vm',
             bindToController: true
 

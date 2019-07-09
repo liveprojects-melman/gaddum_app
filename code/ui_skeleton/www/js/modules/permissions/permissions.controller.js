@@ -3,7 +3,7 @@
 
     angular
         .module('gaddum.permissions')
-        .controller('eventsDirectivePermissionsController', control);
+        .controller('permissionsDirectiveController', control);
 
     control.$inject = [
         '$state',
