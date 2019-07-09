@@ -29,7 +29,7 @@
           $scope.$on('$destroy', vm.hardwareBackButton);
 
           vm.goMain = function() {
-            $state.go('gaddum.main_ui');
+            $state.go( startState );
           };
 
          vm.permissions = false;
@@ -47,7 +47,6 @@
                 vm.goMain();
               } else {
                 vm.permissions = response;
-                console.log(vm.permissions);
               }
           });
          };
