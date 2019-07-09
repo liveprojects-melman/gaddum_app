@@ -18,7 +18,8 @@ angular.module('gaddum', [
   'gaddum.gifts',
   'gaddum.browse',
   'gaddum.mood',
-//  'gaddum.mood.switch'
+  //  'gaddum.mood.switch'
+  'gaddum.settings'
 ])
   .run(function ($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate) {
     $rootScope.$on('slideChanged', function(a) {
