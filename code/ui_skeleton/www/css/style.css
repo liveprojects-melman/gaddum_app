@@ -3,13 +3,23 @@ ion-slide-box {
   background-color:red;
   width:100%;
 }
+ion-slide {
+  background-color:aqua;
+  height:100%;
+}
 div.box {
   width: 100%;
   height:100%;
+
   display:block;
   background-color:silver;
 }
+div#main_wrapper, div.slider {
+  /* bottom:0; */
+  height:100%;
+}
 
+}
 
 
 button.button-icon.round-overlay-button.bottom {
