@@ -1,15 +1,13 @@
 (function() {
 	'use strict';
 
-	console.log("getPermissionsState is "+getPermissionsState);
-
 	angular
 		.module('gaddum.permissions', [
 			'ionic',
       'ui.router',
       'ngAnimate',
-		])
-    .config(function( $stateProvider, $urlRouterProvider) {
+		]);
+/*    .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
         .state( getPermissionsState, {
           url: '^/please',
@@ -18,5 +16,5 @@
 
 		      }
         });
-    });
+    });*/
 })();

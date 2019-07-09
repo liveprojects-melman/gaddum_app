@@ -5,7 +5,6 @@
 // the 2nd parameter is an array of 'requires'
 
 var startState = 'gaddum';
-var getPermissionsState = 'permissions';
 
 angular.module('gaddum', [
   'ionic',
@@ -70,6 +69,7 @@ angular.module('gaddum', [
         StatusBar.styleDefault();
       }
       // permissions checking and actual startup
+/*
       if(window.hasOwnProperty('device')===false) {
         $state.go(startState);
       } else {
@@ -83,6 +83,8 @@ angular.module('gaddum', [
           });
         } // unlikely to end up here but at least a default
       }
+*/
+//      $state.go( startState );
       //$state.go(getPermissionsState);
     }/*]*/);
   }]);
