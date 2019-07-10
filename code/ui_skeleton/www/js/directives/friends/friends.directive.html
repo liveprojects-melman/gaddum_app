@@ -1,0 +1,106 @@
+<ion-view style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)">
+  <ion-header-bar align-title="center" class="bar-clear">
+    <h1 class="title">Friends</h1>
+  </ion-header-bar>
+  <ion-content>
+    <div>
+      <!-- make an ion header and put this in it 
+
+<button class="button button-icon icon ion-chevron-left light" ng-click="vm.goMain();"></button>
+-->
+
+      <div>
+        <!-- <button id="addFriendsBtn"class =fr ng-click=vm.addFriend(vm.sharedProfile)>add friends</button> -->
+        <!-- <input type="text" ng-value="searchInput" name="searchTextInput" id="searchBox" ng-model="searchText"> -->
+
+
+
+
+        <ion-modal-controller></ion-modal-controller>
+        <div class="item item-button-right">
+          <input type="text" ng-value="searchInput" name="searchTextInput" id="searchBox" ng-model="searchText">
+          <button class="button button-assertive search" ng-click="vm.search()" id="searchButton">
+            <i class="icon ion-search"></i>
+          </button>
+        </div>
+
+
+
+
+
+
+
+        <!-- <ion-item>
+<ion-input type="text" ng-value="searchInput" name="searchTextInput" id="searchBox" ng-model="searchText"></ion-input>
+<button   class="search " ng-click="vm.search()" id="searchButton">Searcher</button>
+</ion-item> -->
+
+
+
+
+
+
+        <!-- <button class="search" ng-click="vm.search()" id="searchButton">Searcher</button> -->
+
+      </div>
+      <ion-content id="friendsListscroll">
+        <ion-list can-swipe="true" id="friendsList">
+          <!-- <ion-reorder-group id="reorder" > -->
+          <!-- <ion-reorder ng-repeat="friend in vm.dummyFriendArray" class="item-thumbnail-left"> -->
+          <ion-item ng-repeat="friend in vm.friends" ng-class-odd="'item-thumbnail-left listodd'" ng-class-even="'listeven item-thumbnail-left'"
+            can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)"
+            ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)">
+
+
+
+            <!-- <img ng-src="https://i.pravatar.cc/300?u={{friend.profile.profile_id}}"> -->
+            <!-- <img ng-src="https://placegoat.com/200/200?a={{friend.profile_id}}"> -->
+            <!-- <img ng-src='@Url.Action("vm.getDummyImage","friendsController",new (profile={{friend.profile_id}}))'> -->
+
+            <canvas class="profileCanvas" id={{friend.profile.profile_id}} ng-init="vm.createProfileGraphic(friend.profile.profile_id)"
+              height=80 width=80></canvas>
+            <p class="overflow ellipsis profileName">{{friend.profile.avatar_name}}</p>
+            
+
+            <!-- <ion-reorder class="ion-navicon" slot="end">
+        </ion-reorder> -->
+            <ion-option-button class="button-assertive" ng-click="vm.deleteCheck($index)">
+                <img src="css/remove.png"/>
+                <div class="removeTextInButton">remove</div>
+              
+            </ion-option-button>
+            <ion-option-button class="button-energised shareFriends" ng-click="vm.toggleReorder()">
+                <img src="css/share.png" />
+                <div class="shareTextInButton">share</div>
+              
+            </ion-option-button>
+            <ion-option-button class="button-info addToGroup" ng-click="vm.getDummyImage(99)">
+              
+              <div class="addTo">add to</div>
+            
+              <img src="css/add_to_group.png"/>
+
+              <div class="groupTextInButton">group</div>
+              <!-- </ion-option-button>
+      <ion-delete-button class="ion-minus-circled">
+      </ion-delete-button> -->
+
+
+          </ion-item>
+          <!-- </ion-reorder> -->
+          <!-- </ion-reorder-group> -->
+        </ion-list>
+      </ion-content>
+
+
+
+
+    </div>
+
+
+
+
+    </div>
+
+  </ion-content>
+</ion-view>

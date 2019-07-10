@@ -19,7 +19,7 @@ div#main_wrapper, div.slider {
   height:100%;
 }
 
-}
+
 
 
 button.button-icon.round-overlay-button.bottom {
@@ -417,3 +417,112 @@ ion-side-menu-content/*.menu-content.pane*/ {
       top: 1%;
       right: 10%;
   }
+  .scrollable{
+    overflow: scroll;
+    height: 35%;
+    position: absolute;
+    top: 55%;/* h=60 t=30 */
+}
+.listodd{
+    background-color: #6244fc !important;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+}
+.listodd>.item-content{
+    background-color: #6244fc !important;
+}
+.listeven>.item-content{
+    background-color: #646aca !important;
+}
+.listeven{
+    background-color: #646aca;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+}
+#searchBox{
+    width: 100%;
+    height: 100%;
+}
+#friendsListscroll{
+    position: absolute;
+    top: 3.5em;
+    /* height: 90%;
+    width:90%;
+    left:5%;
+    border-radius: 3em; */
+    
+}
+#friendsListscoll .item{
+    border: solid black;
+}
+.modalBody{
+    position: absolute;
+    top: 20%;
+}
+.modalHeader{
+    height: 20%;
+}
+.profileCanvas{
+    position: absolute;
+    left:10px;
+}
+.profileName{
+    position: relative;
+    margin-top:25px;
+    padding:10px;
+    font-size: 2em !important;
+    color:black !important;
+}
+.overflow {
+    width: 120%;
+    height: 100%;
+    
+  
+  
+  
+  /**
+   * Required properties to achieve text-overflow
+   */
+      white-space: nowrap;
+    overflow: hidden;
+}
+.ellipsis { text-overflow: ellipsis; }
+img{
+    height: 30%;
+    
+}
+.addTo{
+    position: absolute;
+    top: -5%;
+    left: 15%;
+    color:black;
+}
+.groupTextInButton{
+    position: absolute;
+    bottom: -5%;
+    left: 15%;
+    color:black;
+}
+.shareTextInButton{
+    position: absolute;
+    bottom: -5%;
+    left: 10%;
+    color:black;
+}
+.removeTextInButton{
+    position: absolute;
+    bottom: -5%;
+    left: 5%;
+    color:black;
+}
+.addToGroup{
+    border-right: solid black  !important;
+    width: 35%;
+    background-color: green;
+}
+.shareFriends{
+    border-right: solid black  !important;
+    background-color: blue;
+}

@@ -31,6 +31,6 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
-    vm.friendsList = friendsService.friendsList;
+    // vm.friendsList = friendsService.friendsList;
   }
 })();
