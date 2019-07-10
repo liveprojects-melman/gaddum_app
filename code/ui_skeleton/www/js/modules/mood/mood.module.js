@@ -10,7 +10,7 @@
     .config(function($stateProvider, $urlRouterProvider  ) {
       $stateProvider
         .state('gaddum.mood', {
-          cache: false,
+          cache: true,
           url: '^/mood',
           views: {
             'mood@gaddum' : {

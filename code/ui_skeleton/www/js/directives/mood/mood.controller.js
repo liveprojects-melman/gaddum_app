@@ -30,7 +30,7 @@
       faceDetected: false,
       moodDisplay: {},
       detecting: true,
-      helpTips:null  //this shows/hides the speech boxes 
+      helpTips: null  //this shows/hides the speech boxes 
     });
 
     var _interval_ms = 100;
@@ -151,6 +151,7 @@
     function update() {
       doUpdate().then(function () {
         if (enabled) {
+
           update();
         }
       });
@@ -190,22 +191,29 @@
 
 
     function init() {
-      console.log("first: ",vm.firstTime);
-      if(vm.firstTime === true){
+      console.log("first: ", vm.firstTime);
+      console.log("moodidDict: ", moodIdDict);
+      if (vm.firstTime === true) {
         vm.helpTips = false;
       }
-      else{
+      else {
         vm.helpTips = true;
       }
       defaultDisplay();
       vm.allEmotions = moodService.getSupportedMoodIds();
-      beginInitialiseCapture(function () {
+      if (emotionReaderService.isRunning === false) {
+        beginInitialiseCapture(function () {
+          asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
+        });
+      }
+      else{
+        
         asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
-      });
+      }
 
     }
 
-    function removeHelpTips(){
+    function removeHelpTips() {
       vm.helpTips = true;
     }
 

@@ -6,8 +6,8 @@
         return {
           restrict: 'E',
           scope:{
-            firstTime: '=',
-            enable: '=',
+            firstTime: '@',
+            enable: '@',
           },
           templateUrl: "js/directives/mood/mood.directive.html",
           controller: 'moodDirectiveController',
