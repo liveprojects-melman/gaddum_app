@@ -20,7 +20,6 @@ angular.module('gaddum', [
   'gaddum.playlists',
   'gaddum.gifts',
   'gaddum.browse',
-
   'gaddum.mood',
   //  'gaddum.mood.switch'
   'gaddum.settings',

@@ -18,9 +18,35 @@ div#main_wrapper, div.slider {
   /* bottom:0; */
   height:100%;
 }
+ion-modal 
+    .modal-wrapper {
+        height: 70%;
+        width: 60%;
+    }
+
+.selectListModal{
+    
+}
 
 
-
+.modal {
+    top: 20%;
+    right: 20%;
+    bottom: 20%;
+    left: 20%;
+    min-height: 240px;
+    width: 60%;
+    border-radius: 1em;
+    border:solid black 0.3em; 
+}
+/* .selectMoodModal{
+    height: 50%;
+    width:25%;
+    top:40.8%;
+    left:35%;
+    border:solid black 0.3em;
+    border-radius: 0em;
+} */
 
 button.button-icon.round-overlay-button.bottom {
     position: absolute;
@@ -224,28 +250,72 @@ ion-side-menu-content/*.menu-content.pane*/ {
     width: 200px;
     height: 200px;
 }
+.moodCamera{
+    position: absolute;
+    top:44%;
+    left:47%;
+}
 .moodUpArrow{
     position: absolute;
-    right: 20%;
+    right: 15%;
     top: 15%;
 }
 .moodDownArrow{
     position: absolute;
-    left: 20%;
-    top: 40%;
+    left: 15%;
+    top: 42%;
 }
 .moodElementsDiv{
     height:90%;
 }
 .moodSelect{
     position: absolute;
-    border-radius:40em;
+    border-radius:0.7em;
     border-bottom: #444;
-    border:.25em solid black;
-    right: 40%;
-    top: 35%;
-    width: 25%;
-    height: 4%;
+    border:.2em solid black;
+    right: 28%;
+    top: 34%;
+    min-width: 45%;
+    height: 8%;
+    min-height: 8%;
+    font-size: 1.3em;
+    background-color: white;
+    vertical-align: baseline;
+    
+    
+    
+}
+.slide-in-down {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+  
+  .slide-in-down.ng-enter,
+  .slide-in-down > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+    transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+  }
+  
+  .slide-in-down.ng-enter-active,
+  .slide-in-down > .ng-enter-active {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  
+  .slide-in-down.ng-leave,
+  .slide-in-down > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
+  }
+.selectSpan{
+    display: block;
+    float:left;
+    padding: 6%;
+    padding-right: 3%;
+}
+.littleSelectArrow{
+    height: 100%;
+    float:right;
 }
 
 .moodSpinnerDiv{
@@ -489,9 +559,16 @@ ion-side-menu-content/*.menu-content.pane*/ {
     overflow: hidden;
 }
 .ellipsis { text-overflow: ellipsis; }
-img{
+.addToGroup img{
     height: 30%;
     
+}
+.shareFriends img{
+    height: 30%;
+    
+}
+.removeFriends img{
+    height: 30%;
 }
 .addTo{
     position: absolute;

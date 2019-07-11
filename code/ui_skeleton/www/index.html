@@ -17,6 +17,7 @@
        }
        </script>-->
 
+
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <link href="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
@@ -25,14 +26,23 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
   <script src="lib/external/js/ngTouch/ngTouch.js"></script>
+
 
   <!-- cordova script (this will be a 404 during development) -->
   <script src="cordova.js"></script>
 
   <!-- your app's js -->
+
+  <!-- Angular Material requires Angular.js Libraries -->
+
+
+
+  <!-- Angular Material Library -->
+
   <script src="js/app.js"></script>
 
   <!-- ADDED START -->
@@ -90,13 +100,13 @@
   <script src="js/directives/mood/emotionReader.directives.js"></script>
 
   <script src="js/directives/player/gaddum.player/gaddum.player.module.js"></script>
-  <script src="js/directives/player/gaddum.player/gaddum.player.controller.js" ></script>
+  <script src="js/directives/player/gaddum.player/gaddum.player.controller.js"></script>
 
   <script src="js/directives/player/gaddum.playermenu/gaddum.playermenu.module.js"></script>
   <script src="js/directives/player/gaddum.playermenu/gaddum.playermenu.controller.js"></script>
 
   <script src="js/services/gaddum.mood.service.master.switch.service.js"></script>
-  <script src="js/services/gaddum.streaming.service.js" ></script>
+  <script src="js/services/gaddum.streaming.service.js"></script>
   <script src="js/services/gaddum.settings.userSettings.service.js"></script>
 
   <!-- DIRECTIVES AND USEFUL THINGS FOR JEELIZ -->
@@ -117,30 +127,31 @@
   <script src="js/app_specific/events/events.update.controller.js"></script>
   <script src="js/app_specific/events/events.detail.controller.js"></script>
 
+
   <!-- ADDED END -->
 
-  </head>
+</head>
 
-  <body ng-app="gaddum" ng-animate-children="true">
-    <permissions_directive></permissions_directive>
+<body ng-app="gaddum" ng-animate-children="true">
+  <permissions_directive></permissions_directive>
 
-    <ion-header-bar id="header" class="header bar" align-title="center">
-      <h1 class="title">gaddum</h1>
-    </ion-header-bar>
+  <ion-header-bar id="header" class="header bar" align-title="center">
+    <h1 class="title">gaddum</h1>
+  </ion-header-bar>
 
-    <ion-nav-view>nav</ion-nav-view>
+  <ion-nav-view>nav</ion-nav-view>
 
-    <ion-content>
-      <div ui-view name="gaddum" id="main_wrapper">
-      </div>
-    </ion-content>
-  </body>
+  <ion-content>
+    <div ui-view name="gaddum" id="main_wrapper">
+    </div>
+  </ion-content>
+</body>
 
-    <ion-footer-bar class="bar bar-footer" style="height:auto">
-      <gaddum.player></gaddum.player>
-      <gaddum.playermenu></gaddum.playermenu>
-    </ion-footer-bar>
+<ion-footer-bar class="bar bar-footer" style="height:auto">
+  <gaddum.player></gaddum.player>
+  <gaddum.playermenu></gaddum.playermenu>
+</ion-footer-bar>
 
-  </body>
+</body>
 
 </html>

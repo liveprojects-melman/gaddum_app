@@ -12,7 +12,9 @@
     '$timeout',
     '$q',
     'emotionReaderService',
-    'moodService'
+    'moodService',
+    '$ionicModal',
+    '$scope'
   ];
 
   function moodDirectiveController(
@@ -20,7 +22,9 @@
     $timeout,
     $q,
     emotionReaderService,
-    moodService
+    moodService,
+    $ionicModal,
+    $scope
   ) {
     var vm = angular.extend(this, {
       allEmotions: null,
@@ -194,10 +198,10 @@
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
       if (vm.firstTime === true) {
-        vm.helpTips = false;
+        vm.helpTips = true;
       }
       else {
-        vm.helpTips = true;
+        vm.helpTips = false;
       }
       defaultDisplay();
       vm.allEmotions = moodService.getSupportedMoodIds();
@@ -222,6 +226,11 @@
       sleep();
       setMoodId(vm.selectedMoodId.id);
     }
+    function onItemSelect(id) {
+      sleep();
+      setMoodId(id);
+      $scope.modal.hide();
+    }
 
     function setSelectedItem(moodId) {
       vm.allEmotions.forEach(
@@ -241,12 +250,50 @@
       emotionReaderService.setSleep(false);
       vm.detecting = true;
     }
+    function selectModal(){
+      sleep();
+      $ionicModal.fromTemplateUrl('js/directives/mood/select.modal.html', {
+        scope: $scope,
+        animation: 'slide-in-down'
+        
+      }).then(function (modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+      });
 
+      // $mdDialog.show({
+      //   controller: DialogController,
+      //   templateUrl: 'js/directives/mood/select.modal.html',
+      //   parent: angular.element(document.body['ion-content']),
+        
+      //   clickOutsideToClose:true
+      // })
+      // .then(function(answer) {
+      //   $scope.status = 'You said the information was "' + answer + '".';
+      // }, function() {
+      //   $scope.status = 'You cancelled the dialog.';
+      // });
+    }
+    vm.onItemSelect = onItemSelect;
+    vm.selectModal = selectModal;
     vm.wake = wake;
     vm.sleep = sleep;
     vm.onItemSelected = onItemSelected;
     vm.removeHelpTips = removeHelpTips;
 
     init();
+    // function DialogController($scope, $mdDialog) {
+    //   $scope.hide = function() {
+    //     $mdDialog.hide();
+    //   };
+  
+    //   // $scope.cancel = function() {
+    //   //   $mdDialog.cancel();
+    //   // };
+  
+    //   // $scope.answer = function(answer) {
+    //   //   $mdDialog.hide(answer);
+    //   // };
+    // }
   }
 })();

@@ -1,6 +1,6 @@
 <ion-view style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)">
 <div class="moodElementsDiv">
-  <div ng-hide =false id="moodCameraState" ng-model="scope" style="text-align: center">
+  <div ng-hide =false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
     <span ng-show="vm.cameraError===true">❌</span>
     <span ng-show="vm.cameraError!=true  && vm.isRunning===false">📷</span>
     <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected!=true">📸</span>
@@ -19,7 +19,7 @@
   </div>
   <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" />
   <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" />
-  <select data-ng-options="e.name for e in vm.allEmotions" data-ng-model="vm.selectedMoodId" ng-change="vm.onItemSelected()" class="moodSelect" ></select>
+  <button ng-click="vm.selectModal()" class="moodSelect" ><span class="selectSpan">{{vm.selectedMoodId.id}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
 </div>
 
 <div ng-hide="vm.helpTips" class="fade">
