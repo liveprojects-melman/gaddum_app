@@ -9,6 +9,7 @@ var startState = 'gaddum.profile';
 angular.module('gaddum', [
   'ionic',
   'ngTouch',
+  'utilitiesjs',
   'gaddum.player',
   'gaddum.playermenu',
   'gaddum.streaming',

@@ -23,8 +23,11 @@
   <link href="css/style.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+       <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+  <script src="lib/external/js/lodash.min.js"></script>
+  <script src="lib/external/js/moment.min.js"></script>
 
 
   <!-- ionic/angularjs js -->
@@ -32,10 +35,13 @@
   <script src="lib/external/js/ngTouch/ngTouch.js"></script>
 
 
+
   <!-- cordova script (this will be a 404 during development) -->
   <script src="cordova.js"></script>
 
   <!-- your app's js -->
+
+
 
   <!-- Angular Material requires Angular.js Libraries -->
 
@@ -108,6 +114,23 @@
   <script src="js/services/gaddum.mood.service.master.switch.service.js"></script>
   <script src="js/services/gaddum.streaming.service.js"></script>
   <script src="js/services/gaddum.settings.userSettings.service.js"></script>
+
+  <script src="js/services/data_api/data_api.module.js"></script>
+  <script src="js/services/data_api/data_api.service.js"></script>
+
+  <script src="js/services/db/db.module.js"></script>
+  <script src="js/services/db/db.service.js"></script>
+  <script src="js/services/db/first_time.service.js"></script>
+  <script src="js/services/db/mapping.service.js"></script>
+
+  <script src="js/services/utilities/utilities.module.js"></script>
+  <script src="js/services/utilities/connection.service.js"></script>
+  <script src="js/services/utilities/dialogs.service.js"></script>
+  <script src="js/services/utilities/lodash.service.js"></script>
+  <script src="js/services/utilities/storage.service.js"></script>
+  <script src="js/services/utilities/utilities.service.js"></script>
+
+
 
   <!-- DIRECTIVES AND USEFUL THINGS FOR JEELIZ -->
   <script src="lib/external/js/jeeliz/jeelizFaceTransfer.js"></script>
