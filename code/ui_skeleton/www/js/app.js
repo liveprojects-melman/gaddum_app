@@ -9,6 +9,7 @@ var startState = 'gaddum.profile';
 angular.module('gaddum', [
   'ionic',
   'momentjs',
+  'app.startup',
   'ngTouch',
   'utilitiesjs',
   'dataapijs',
@@ -29,7 +30,7 @@ angular.module('gaddum', [
   'gaddum.settings',
   'gaddum.permissions'
 ])
-  .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService) {
+  .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService','startupSrvc', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService,startupSrvc) {
     $rootScope.$on('slideChanged', function(a) {
       var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
       $state.transitionTo( stateToGoTo  ,{},{notify:true}); // notify seems to overwrite the views
@@ -87,7 +88,12 @@ angular.module('gaddum', [
         } // unlikely to end up here but at least a default
       }
 */
-      $state.go( startState );
+      console.log("invoking asyncInitialise...");
+      startupSrvc.asyncInitialise().then(function(){
+        console.log("asyncInitialise completed, starting...");
+        $state.go( startState );
+      });
+      
       //$state.go(getPermissionsState);
     }/*]*/);
   }]);
