@@ -10,6 +10,8 @@ angular.module('gaddum', [
   'ionic',
   'ngTouch',
   'utilitiesjs',
+  'dataapijs',
+  'app.db',
   'gaddum.player',
   'gaddum.playermenu',
   'gaddum.streaming',
