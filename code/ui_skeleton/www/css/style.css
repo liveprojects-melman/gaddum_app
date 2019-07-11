@@ -362,7 +362,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     position: relative;
     padding: .1rem .25rem;
     margin: 1em 0 3em;
-    border: .2rem solid #666;
+    border: .2rem solid #000;
     color: #333;
     background: #fff;
     -webkit-border-radius: .5rem;
@@ -376,7 +376,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 2rem;
     border-width: 1.2rem .6rem 0;
     border-style: solid;
-    border-color: #666 transparent;
+    border-color: #000 transparent;
     display: block;
     width: 0;
 }
@@ -465,7 +465,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 30px;
     top: 100px;
     border: 25px solid;
-    border-color: #666 transparent transparent #666;
+    border-color: #000 transparent transparent #000;
   }
   .bubble2-after {
     content: ' ';
