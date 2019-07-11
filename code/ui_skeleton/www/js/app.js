@@ -88,11 +88,15 @@ angular.module('gaddum', [
         } // unlikely to end up here but at least a default
       }
 */
-      console.log("invoking asyncInitialise...");
-      startupSrvc.asyncInitialise().then(function(){
-        console.log("asyncInitialise completed, starting...");
+      if($window.cordova) {
+        console.log("invoking asyncInitialise...");
+        startupSrvc.asyncInitialise().then(function(){
+          console.log("asyncInitialise completed, starting...");
+          $state.go( startState );
+        });
+      } else {
         $state.go( startState );
-      });
+      }
       
       //$state.go(getPermissionsState);
     }/*]*/);
