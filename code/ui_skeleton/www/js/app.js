@@ -8,6 +8,7 @@ var startState = 'gaddum.profile';
 
 angular.module('gaddum', [
   'ionic',
+  'momentjs',
   'ngTouch',
   'utilitiesjs',
   'dataapijs',

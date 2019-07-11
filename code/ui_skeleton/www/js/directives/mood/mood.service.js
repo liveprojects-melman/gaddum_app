@@ -7,11 +7,11 @@
     ;
 
   moodService.$inject = [
-    'dataApiSrvc',
+    'dataApiService',
     '$q'
   ];
   function moodService(
-    dataApiSrvc,
+    dataApiService,
     $q
   ) {
 
@@ -25,7 +25,7 @@
       var deferred = $q.defer();
 
 
-      dataApiSrvc.asyncGetSupportedMoodIds().then(
+      dataApiService.asyncGetSupportedMoodIds().then(
         function (arrayIds) {
           g_arraySupportedMoodIds = arrayIds;
 
@@ -48,7 +48,7 @@
       var deferred = $q.defer();
 
 
-      dataApiSrvc.asyncGetMoodDetectionParameters(moodId, dictResult).then(
+      dataApiService.asyncGetMoodDetectionParameters(moodId, dictResult).then(
         function (dictParameters) {
           //console.log("adding parameters to: " + moodId);
           dictResult[moodId] = dictParameters;
@@ -208,7 +208,7 @@
 
 
     function asyncMoodIdToResources(id){
-      return dataApiSrvc.asyncMoodIdToResources(id);
+      return dataApiService.asyncMoodIdToResources(id);
     }
 
     var service = {
