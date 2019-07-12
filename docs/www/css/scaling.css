@@ -1,0 +1,289 @@
+@media only screen and (min-width: 480px) { 
+  
+code,
+kbd,
+pre,
+samp { 
+  font-size: 2em;  /*
+  font-size: 1em;
+  font-family: monospace, serif; */ 
+}
+
+body,
+.ionic-body { 
+  font-size: 28px !important;
+  line-height: 40px !important;    
+}
+
+h1, .h1 { 
+  font-size: 72px !important;
+  /*
+font-size: 36px !important; */ }
+
+h2, .h2 { 
+  font-size: 60px !important;
+  /*
+font-size: 30px !important; */ }
+
+h3, .h3 { 
+  font-size: 48px !important;
+  /*
+font-size: 24px !important; */ }
+
+h4, .h4 { 
+  font-size: 36px !important;
+  /*
+font-size: 18px !important; */ }
+
+h5, .h5 { 
+  font-size: 28px
+  /*
+font-size: 14px !important; */ }
+
+h6, .h6 { 
+  font-size: 24px
+  /*
+font-size: 12px !important; */ }
+
+h1 small, .h1 small { 
+  font-size: 48px !important;
+  /*
+font-size: 24px !important; */ }
+
+h2 small, .h2 small { 
+  font-size: 36px !important;
+  /*
+font-size: 18px !important; */ }
+
+h3 small, .h3 small,
+h4 small, .h4 small { 
+  font-size: 28px !important;
+  /*
+font-size: 14px !important; */ }
+
+.bar.item-input-inset .item-input-wrapper { 
+  margin-top: 2px !important;
+  /*
+margin-top: -1px !important; */ }
+.bar.item-input-inset .item-input-wrapper input { 
+    padding-left: 16px !important;
+    height: 56px !important;
+    /*
+  padding-left: 8px !important;
+  width: 94%;
+  height: 28px !important;
+  background: transparent; */ }
+.bar .title { 
+margin: 0 20px !important;
+min-width: 60px !important;
+height: 86px !important;
+text-align: center;
+text-overflow: ellipsis;
+white-space: nowrap;
+font-size: 34px !important;
+font-weight: 1000;
+line-height: 66px !important;
+  /*
+display: block;
+position: absolute;
+top: 0;
+right: 0;
+left: 0;
+z-index: 0;
+overflow: hidden;
+margin: 0 10px !important;
+min-width: 30px !important;
+height: 43px !important;
+text-align: center;
+text-overflow: ellipsis;
+white-space: nowrap;
+font-size: 17px !important;
+font-weight: 500;
+line-height: 44px !important; */ }
+.bar .button, .bar button { 
+padding: 0 16px !important;
+min-height: 62px !important;
+font-weight: 800;
+font-size: 26px !important;
+line-height: 54px !important;
+/*
+z-index: 1;
+padding: 0 8px !important;
+min-width: initial;
+min-height: 31px !important;
+font-weight: 400;
+font-size: 13px !important;
+line-height: 32px !important; */ }
+.bar .button.button-icon:before,
+.bar .button .icon:before, .bar .button.icon:before, .bar .button.icon-left:before, .bar .button.icon-right:before, .bar button.button-icon:before,
+.bar button .icon:before, .bar button.icon:before, .bar button.icon-left:before, .bar button.icon-right:before { 
+  padding-right: 4px !important;
+  padding-left: 4px !important;
+  font-size: 40px !important;
+  line-height: 64px !important;
+  /*
+  padding-right: 2px !important;
+  padding-left: 2px !important;
+  font-size: 20px !important;
+  line-height: 32px !important; */ }
+.bar .button.button-icon, .bar button.button-icon { 
+    font-size: 34px !important;
+    /*
+  font-size: 17px !important; */ }
+
+.bar .button.button-clear, .bar button.button-clear { 
+  padding-right: 4px !important;
+  padding-left: 4px !important;
+  font-weight: 600;
+  font-size: 34px !important;
+  /*
+  padding-right: 2px !important;
+  padding-left: 2px !important;
+  font-weight: 300;
+  font-size: 17px !important; */ }
+
+.bar .button.back-button, .bar button.back-button {
+  margin-right: 10px !important;
+  padding: 0;
+  white-space: nowrap;
+  font-weight: 800;
+   /*
+  display: block;
+  margin-right: 5px !important;
+  padding: 0;
+  white-space: nowrap;
+  font-weight: 400; */ }
+.bar .button-bar > .button,
+.bar .buttons > .button { 
+min-height: 62px !important;
+line-height: 64px !important;
+/*
+min-height: 31px !important;
+line-height: 32px !important; */ }
+.bar .button-bar + .button,
+.bar .button + .button-bar {
+margin-left: 10px !important;
+   /*
+margin-left: 5px !important; */ }
+.bar .buttons-left span { 
+  margin-right: 10px !important;
+  /*
+margin-right: 5px !important;
+display: inherit; */ }
+.bar .buttons-right span { 
+  margin-left: 10px !important;
+  /*
+margin-left: 5px !important;
+display: inherit; */ }
+.bar .title + .button:last-child,
+.bar > .button + .button:last-child,
+.bar > .button.pull-right,
+.bar .buttons.pull-right,
+.bar .title + .buttons { 
+  top: 10px !important;
+right: 10px !important;
+bottom: 10px !important;
+/*
+position: absolute;
+top: 5px !important;
+right: 5px !important;
+bottom: 5px !important; */ }
+
+.platform-android .bar .back-button .icon:before { 
+  font-size: 48px !important;
+  /*
+font-size: 24px !important; */ }
+
+.platform-android .bar .title { 
+  font-size: 38px !important;
+line-height: 88px !important;
+/*
+font-size: 19px !important;
+line-height: 44px !important; */ }
+
+.bar-light .button.button-clear { 
+  font-size: 34px !important;
+    /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #444;
+  font-size: 17px !important; */ }
+
+.bar-stable .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #444;
+  font-size: 17px !important; */ }
+
+.bar-positive .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-calm .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-assertive .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-balanced .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-energized .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-royal .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+.bar-dark .button.button-clear { 
+    font-size: 34px !important;
+  /*
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #fff;
+  font-size: 17px !important; */ }
+
+  .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+    margin-top: 0px !important;
+  }
+  
+}

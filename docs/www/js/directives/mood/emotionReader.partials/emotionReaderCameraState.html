@@ -1,0 +1,6 @@
+<div id="moodCameraState" ng-model="scope">
+  <span ng-show="running.cameraError===true">❌</span>
+  <span ng-show="running.cameraError!=true  && running.isRunning===false">📷</span>
+  <span ng-show="running.cameraError!=true  && running.isRunning===true && face.detected!=true">📸</span>
+  <span ng-show="running.cameraError!=true  && running.isRunning===true && face.detected===true">👍</span>
+</div>
