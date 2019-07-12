@@ -34,6 +34,7 @@
       faceDetected: false,
       moodDisplay: {},
       detecting: true,
+      selectbutton: false,
       helpTips: null  //this shows/hides the speech boxes 
     });
 
@@ -209,10 +210,12 @@
         beginInitialiseCapture(function () {
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
         });
+        vm.selectbutton = true;
       }
       else{
         
         asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
+        vm.selectbutton = true;
       }
 
     }
