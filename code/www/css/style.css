@@ -24,8 +24,14 @@ ion-modal
         width: 60%;
     }
 
-.selectListModal{
-    
+.menuModal{
+    top:44px !important;
+    left:70% !important;
+    width: 27% !important;
+    height:100% !important;
+    min-height:10px !important;
+    max-height:7.8em !important;
+    border:solid black 0.1em !important;
 }
 
 
@@ -284,6 +290,20 @@ ion-side-menu-content/*.menu-content.pane*/ {
     
     
     
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 0.25s;
 }
 .slide-in-down {
     -webkit-transform: translateY(-100%);
