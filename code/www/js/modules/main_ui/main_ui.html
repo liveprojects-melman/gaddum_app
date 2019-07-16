@@ -4,36 +4,25 @@
 
   <ion-slide ion-slide-tab-label="Profile" data-state="profile" >
     <div class="box" >
-      <div>
-        <div class="bar bar-subheader"><h2 class="title">profile</h2>
-          <i class="button icon-right ion-chevron-right" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
-        </div>
-
+      <gaddum.main_ui.header name="Profile"></gaddum.main_ui.header>
       <div ui-view="profile" >
         <i>profile_main_ui</i>
-      </div>
       </div>
     </div>
   </ion-slide>
 
   <ion-slide ion-slide-tab-label="Friends" data-state="friends.friendsList">
     <div class="box">
-      <div>
-        <div class="bar bar-subheader">
-          <i class="button icon-right ion-chevron-left" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
-          <h2 class="title">friends</h2>
-          <i class="button icon-right ion-chevron-right" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
-        </div>
-
+      <gaddum.main_ui.header name="Friends"></gaddum.main_ui.header>
       <div ui-view="friends">
         <i>friends_main_ui</i>
-      </div>
       </div>
     </div>
   </ion-slide>
 
   <ion-slide ion-slide-tab-label="Groups" data-state="groups.groupsList">
     <div class="box">
+      <gaddum.main_ui.header name="Groups"></gaddum.main_ui.header>
       <div ui-view="groups">
         <i>groups_main_ui</i>
       </div>
@@ -42,6 +31,7 @@
 
   <ion-slide ion-slide-tab-label="Messages" data-state="messages.messageList">
     <div class="box">
+      <gaddum.main_ui.header name="Messages"></gaddum.main_ui.header>
       <div ui-view="messages">
         <i>messages_main_ui</i>
       </div>
@@ -50,6 +40,7 @@
 
   <ion-slide ion-slide-tab-label="Playlists" data-state="playlists.playlistsList">
     <div class="box">
+      <gaddum.main_ui.header name="Playlists"></gaddum.main_ui.header>
       <div ui-view="playlists">
         <i>playlists_main_ui</i>
       </div>
@@ -58,6 +49,7 @@
 
   <ion-slide ion-slide-tab-label="Gifts" data-state="gifts.giftsList">
     <div class="box">
+      <gaddum.main_ui.header name="Gifts"></gaddum.main_ui.header>
       <div ui-view="gifts">
         <i>gifts_main_ui</i>
       </div>
@@ -66,6 +58,7 @@
 
   <ion-slide ion-slide-tab-label="Browse" data-state="browse.list">
     <div class="box">
+      <gaddum.main_ui.header name="Browse"></gaddum.main_ui.header>
       <div ui-view="browse">
         <i>browse_main_ui</i>
       </div>
@@ -74,6 +67,7 @@
 
   <ion-slide ion-slide-tab-label="Mood" data-state="mood">
     <div class="box">
+      <gaddum.main_ui.header name="Mood"></gaddum.main_ui.header>
       <div ui-view="mood">
         <i>mood_main_ui</i>
       </div>
@@ -81,5 +75,5 @@
   </ion-slide>
 
 </ion-slide-box>
-</xion-content>
+</ion-content>
 </ion-view>
