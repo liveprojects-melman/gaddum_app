@@ -55,6 +55,7 @@
 
   <script src="js/modules/main_ui/main_ui.module.js"></script>
   <script src="js/modules/main_ui/main_ui.controller.js"></script>
+  <script src="js/modules/main_ui/main_ui.header.directive.js" ></script>
 
   <script src="js/modules/groups/groups.module.js"></script>
   <script src="js/modules/groups/groups.service.js"></script>
@@ -156,12 +157,12 @@
 <body ng-app="gaddum" ng-animate-children="true">
   <permissions_directive></permissions_directive>
 
-    <div  class="bar bar-header" align-title="center">
-      <h1 class="title">
-        gaddum
-      </h1>
+  <div  class="bar bar-header" align-title="center">
+    <h1 class="title">
+      gaddum
+    </h1>
     <main_menu_directive class="main_menuButton" ></main_menu_directive>
-
+  </div>
 
   <ion-nav-view></ion-nav-view>
 

@@ -39,7 +39,6 @@ angular.module('gaddum', [
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       // update the slider delegate - is there a matching slide name?
  //     console.log("stateChangeStart", toState);
-
       var baseStateName = toState.name.split(".")[1];
       if(angular.isDefined(baseStateName)===true) {
         var sliderState = false;
