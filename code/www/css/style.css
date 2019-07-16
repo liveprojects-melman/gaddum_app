@@ -4,7 +4,7 @@
 div.bar.bar-subheader {
   position: static !important;
   margin:0 !important;
-  background-color:silver;
+  background-color: #cb0009;
 }
 .bar-subheader {
   height:42px;
@@ -43,6 +43,9 @@ ion-slide:nth-child(2n) {
 .slidingTabs ul {
     background-color: #387ef5;
     height: 48px;
+}
+.bar-subheader{
+    background-color: #cb0009;
 }
 
 .slidingTabs ul li {
@@ -116,7 +119,7 @@ div.box {
   height:100%;
 
   display:block;
-  background-color:silver;
+  background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)
 }
 div#main_wrapper, div.slider {
   /* bottom:0; */
@@ -643,7 +646,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 #friendsListscroll{
     position: absolute;
-    top: 3.5em;
+    top: 6.5em;
     /* height: 90%;
     width:90%;
     left:5%;
