@@ -1,9 +1,8 @@
-<div>
-<div class="bar bar-subheader"><h2 class="title">profile</h2></div>
   THIS IS playlists(list)
   <div id="playlistsSearch">
 
   </div>
+
   <div id="playlistsList">
     <ion-list class="list" >
       <ion-item ng-repeat="playlist in pllc.playlistsList" class="item item-avatar" can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="pllc.preventSlideBox($event)" ng-touchend="pllc.allowSlideBox($event)" ng-mousedown="pllc.preventSlideBox($event)" ng-mouseup="pllc.allowSlideBox($event)">
@@ -20,6 +19,6 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
-    <div><h1>the end</h1></div>
-
   </div>
+  <div><h1>the end</h1></div>
+
