@@ -14,7 +14,8 @@
     'emotionReaderService',
     'moodService',
     '$ionicModal',
-    '$scope'
+    '$scope',
+    'moodSelectModal'
   ];
 
   function moodDirectiveController(
@@ -24,7 +25,8 @@
     emotionReaderService,
     moodService,
     $ionicModal,
-    $scope
+    $scope,
+    moodSelectModal
   ) {
     var vm = angular.extend(this, {
       allEmotions: null,
@@ -232,7 +234,6 @@
     function onItemSelect(id) {
       sleep();
       setMoodId(id);
-      $scope.modal.hide();
     }
 
     function setSelectedItem(moodId) {
@@ -255,27 +256,14 @@
     }
     function selectModal(){
       sleep();
-      $ionicModal.fromTemplateUrl('js/directives/mood/select.modal.html', {
-        scope: $scope,
-        animation: 'slide-in-down'
-        
-      }).then(function (modal) {
-        $scope.modal = modal;
-        $scope.modal.show();
-      });
-
-      // $mdDialog.show({
-      //   controller: DialogController,
-      //   templateUrl: 'js/directives/mood/select.modal.html',
-      //   parent: angular.element(document.body['ion-content']),
-        
-      //   clickOutsideToClose:true
-      // })
-      // .then(function(answer) {
-      //   $scope.status = 'You said the information was "' + answer + '".';
-      // }, function() {
-      //   $scope.status = 'You cancelled the dialog.';
-      // });
+      
+      moodSelectModal.open(vm.allEmotions,fnCallbackOk,fnCallbackCancel);
+    }
+    function fnCallbackOk(emotion){
+      onItemSelect(emotion);
+    }
+    function fnCallbackCancel(){
+      console.log("modal canceled");
     }
     vm.onItemSelect = onItemSelect;
     vm.selectModal = selectModal;

@@ -10,7 +10,7 @@
     '$stateParams',
     '$ionicSlideBoxDelegate',
     '$timeout',
-
+    'mainMenuModal',
     
     
     '$ionicModal',
@@ -24,7 +24,7 @@
     $stateParams,
     $ionicSlideBoxDelegate,
     $timeout,
-
+    mainMenuModal,
 
     
    
@@ -36,27 +36,20 @@
     var vm = angular.extend(this, {
       
     });
-
-    function mainMenuModal(){
+    vm.params = null;
+    function mainMenuModalOpen(){
+      mainMenuModal.open(vm.params,fnCallbackOk,fnCallbackCancel)
       
-      $ionicModal.fromTemplateUrl('js/directives/main_menu/main_menu.modal.html', {
-        scope: $scope,
-        animation: 'fadeIn',
-        class:"mainMenuModal"
-        
-      }).then(function (modal) {
-        $scope.modal = modal;
-        $scope.modal.show();
-      });
     }
-    function goToAbout(){
-      console.log("it would go to about now")
+    function fnCallbackOk(){
+      console.log("modal ok");
     }
-    function goToSettings(){
-      console.log("it would go to settings now")
+    function fnCallbackCancel(){
+      console.log("modal cancel");
     }
-    vm.goToAbout = goToAbout;
-    vm.goToSettings = goToSettings;
-    vm.mainMenuModal = mainMenuModal;
+
+    
+   
+    vm.mainMenuModalOpen = mainMenuModalOpen;
   }
 })();
