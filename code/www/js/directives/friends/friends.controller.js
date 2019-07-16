@@ -84,7 +84,7 @@
             event.preventDefault();
             document.getElementById("searchButton").click();
           }
-        })
+        });
 
     vm.createProfileGraphic = function (id) {
 
@@ -94,17 +94,16 @@
       var nx = Math.floor(canvas.width / scale);
       var ny = Math.floor(canvas.height / scale);
       var bin;
-      console.log(id);
-      console.log(vm.friends);
+      //console.log(id);
+      //console.log(vm.friends);
       for (var i = 0; i < vm.friends.length; i++) {
         if (vm.friends[i].profile.profile_id == id) {
           for (var j = 0; j < vm.friends[i].profile.avatar_graphic.length; j++) {
             bin = vm.friends[i].profile.avatar_graphic[j].toString(2);
             for (let x = bin.length; x < 8; x++) {
               bin= "0"+bin;
-              
             }
-            console.log(bin);
+            //console.log(bin);
             for (var k = 0; k < bin.length; k++) {
               if (bin[k] == "1") {
                 rect(k, j, nx, ny, '#000000', ctx);
@@ -169,25 +168,8 @@
       console.log(search);
       //clears vm.friends to prevent the canvas bug
       vm.friends=[];
-      /* setTimeout(function(){ vm.friends = friendsSrvc.searchFriends(search); }, 1000); */
-      /* setTimeout(function(){ vm.friends = friendsSrvc.searchFriends(search); $state.go('friends');}, 1000); */
-
-
-      /* setTimeout(function(){vm.friends = friendsSrvc.searchFriends(search); document.getElementById('addFriendsBtn').click(); }, 1); */
-
-      /* setTimeout(function(){vm.friends = friendsSrvc.searchFriends(search); $scope.$apply();}, 1); */
-      
-      //vm.friends = friendsSrvc.searchFriends(search);
-
-      //this is the line that stops the canvases from breaking
       setTimeout(function(){ vm.friends = friendsService.searchFriends(search); $scope.$apply(); }, 0);
-      
-
-
-
-      /* $state.go('friends'); */
-      /* vm.friends = friendsSrvc.searchFriends(search); */
-    }
+    };
 
     vm.loadModal = function () {
       $ionicModal.fromTemplateUrl('js/directives/friends/friendsDeleteModal.html', {
@@ -198,7 +180,7 @@
         $scope.modal.show();
         flag = false;
       });
-    }
+    };
 
     vm.addFriendsModal = function () {
       $ionicModal.fromTemplateUrl('js/directives/friends/friendsAddModal.html', {
@@ -209,15 +191,13 @@
         $scope.modal.show();
         flag = false;
       });
-    }
+    };
     vm.modalpage=1;
     vm.addFreindsModalNext= function(){
-      console.log("miss_____________________________________________ modal ="+vm.modalpage);
-      
+      //console.log("miss_____________________________________________ modal ="+vm.modalpage);
       vm.modalpage++;
       vm.addFriendsModalUpdater();
-      
-    }
+    };
     vm.addFriendsModalUpdater=function(){
       if (vm.modalpage==1) {
         document.getElementById("addFriendsModalPrevButton").disabled=true;
@@ -246,13 +226,13 @@
         vm.showFinishbutton=true;
         console.log(vm.showFinishbutton);
       }
-    }
+    };
     vm.showFinishbutton=false;
 
     vm.addFreindsModalPrev=function(){
       vm.modalpage--;
       vm.addFriendsModalUpdater();
-    }
+    };
 
     vm.addFriendsModalClose=function(){
       vm.modalpage=1;
@@ -261,62 +241,48 @@
       .then(function() {
         $scope.modal = null;
       });
-    }
+    };
 
     vm.addNewFriend= function(){
       friendsService.addNewFriend(vm.sharedProfile);
-      
+
       vm.modalpage++;
       console.log(vm.modalpage);
-      
+
       vm.friends=[];
-      console.log("HIT________________________________________");
+      //console.log("HIT________________________________________");
       //this is the line that stops the canvases from breaking VV
       setTimeout(function(){ vm.friends = friendsService.getAllFriends(); $scope.$apply(); }, 0);
-      console.log("2!");
-      console.log("added"+ vm.sharedProfile.profile);
-      console.log("3!");
+      //console.log("2!");
+      //console.log("added"+ vm.sharedProfile.profile);
+      //console.log("3!");
       vm.addFriendsModalUpdater();
-
-
-
-
-
-    }
-
-    
-
-
- 
+    };
 
     vm.deleteCheck=function(index){
       indexToDelete=index;
       confirmDelete=null;
       vm.loadModal();
-      
-    }
+    };
 
     vm.delete = function (index) {
       //index++;
-      console.log(vm.friends);
+      //console.log(vm.friends);
       friendsService.deleteFriends(index);
-      console.log(vm.friends);
-      console.log("beginning refresh");
+      //console.log(vm.friends);
+      //console.log("beginning refresh");
 
-      console.log(vm.friends);
+      //console.log(vm.friends);
 
-      console.log("opening confim modal");
-      
+      //console.log("opening confim modal");
+
       /* vm.loadModal() */
       /* .then(function(result){ */
      /* console.log("result= "+result); */ 
 
-      
-      
-
       vm.friends = friendsService.getAllFriends();
       /* $scope.friendsDummy=tempfriends; */
-      console.log(vm.friends);
+      //console.log(vm.friends);
       /* $scope.tempFriends=tempFriends; */
 
       /* friendsDummy.splice(1,1); */
@@ -328,83 +294,62 @@
       // var friendsList=document.getElementById('friendsList');
       // friendsList.closeOpened();
 
-    }
+    };
 
     vm.confirmDelete=function(){
       confirmDelete=true;
-      console.log("deleting = "+confirmDelete +" at "+ indexToDelete);
+      //console.log("deleting = "+confirmDelete +" at "+ indexToDelete);
       $scope.modal.hide();
       vm.delete(indexToDelete);
-    }
+    };
     vm.cancellDelete=function(){
       confirmDelete = false
-      console.log("deleting = "+confirmDelete);
+      //console.log("deleting = "+confirmDelete);
       /* alert("delete Cancelled"); */
       $scope.modal.hide();
       var fl=document.getElementById('friendsList');
-      
-    }
-
-
-
-
-
-
+    };
 
     vm.goMain = function () {
-      console.log("back (cancel) pressed - changing state to 'main'");
+      //console.log("back (cancel) pressed - changing state to 'main'");
       $state.go('main');
-    }
+    };
     vm.resetFlag = function () {
       flag = false;
-    }
+    };
 
     $scope.modal2 = $ionicModal.fromTemplate('<div class="modal"><header class="bar bar-header bar-positive"> <h1 class="title">I\'m A Modal</h1><div class="button button-clear" ng-click="modal2.hide();vm.resetFlag()"><span class="icon ion-close"></span></div></header><content has-header="true" padding="true"><p>This is a modal👀😀</p></content></div>', {
       scope: $scope,
       animation: 'slide-in-up'
     });
 
-   
-
-
     //removed (temp?)
     vm.getDummyImage = function (profile) {
       var imgurl;
       $.getJSON("https://randomuser.me/api/?inc=picture&&z=" + profile, function (data) {
-        console.log(data);
+        //console.log(data);
         imgurl = data.results[0].picture.thumbnail;
         console.log(imgurl);
         return imgurl;
-      })
+      });
       return imgurl;
-    }
+    };
     //removed (temp?)
     vm.test = { "results": [{ "picture": { "large": "https://randomuser.me/api/portraits/men/13.jpg", "medium": "https://randomuser.me/api/portraits/med/men/13.jpg", "thumbnail": "https://randomuser.me/api/portraits/thumb/men/13.jpg" } }], "info": { "seed": "35271a2963272a00", "results": 1, "page": 1, "version": "1.2" } }
 
     //removed (temp?)
     vm.toggleReorder = function () {
-      console.log("reorder toggled");
+      //console.log("reorder toggled");
       const reorderGroup = document.getElementById('reorder');
       reorderGroup.disabled = !reorderGroup.disabled;
-      console.log(reorderGroup);
-      console.log("disabled=" + reorderGroup.disabled);
+      //console.log(reorderGroup);
+      //console.log("disabled=" + reorderGroup.disabled);
       reorderGroup.addEventListener('ionItemReorder', ({ detail }) => {
         detail.complete(true);
       });
-    }
-
-   
-
-
-
-
+    };
     //friends list the ng-repeat can hook into here
     //swipe menu for friends
-
-
-
-
-
     /* $scope.modal=$ionicModal.fromTemplate('<div><h1>MODAL</h1></div>',{
       scope:$scope,
       animation: 'slide-in-up'
@@ -415,7 +360,5 @@
     } */
 
     init();
-
-
   }
 })();

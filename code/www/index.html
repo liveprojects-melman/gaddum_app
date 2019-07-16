@@ -149,13 +149,6 @@
   <script src="lib/external/js/angular-marquee/marquee.js"></script>
   <script src="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.js"></script>
 
-  <script src="js/app_specific/events/events.module.js"></script>
-  <script src="js/app_specific/events/events.service.js"></script>
-  <script src="js/app_specific/events/events.list.controller.js"></script>
-  <script src="js/app_specific/events/events.update.controller.js"></script>
-  <script src="js/app_specific/events/events.detail.controller.js"></script>
-
-
   <!-- ADDED END -->
 
 </head>
@@ -163,16 +156,18 @@
 <body ng-app="gaddum" ng-animate-children="true">
   <permissions_directive></permissions_directive>
 
-  <ion-header-bar id="header" class="header bar" align-title="center">
-    <h1 class="title">gaddum</h1>
+    <div  class="bar bar-header" align-title="center">
+      <h1 class="title">
+        gaddum
+      </h1>
     <main_menu_directive class="main_menuButton" ></main_menu_directive>
-  </ion-header-bar>
 
-  <ion-nav-view>nav</ion-nav-view>
 
-  <ion-content>
-    <div ui-view name="gaddum" id="main_wrapper">
-    </div>
+  <ion-nav-view></ion-nav-view>
+
+  <ion-content xhas-header="true" xhas-subheader="true" class="has-header xhas-subheader " scroll="false">
+    <ion-view ui-view name="gaddum" id="main_wrapper" scroll="false">
+    </ion-view>
   </ion-content>
 </body>
 

@@ -1,75 +1,85 @@
-<ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')" show-pager="false">
-  
-  <ion-slide slide-tab-label="Profile" data-state="profile">
-    <div class="box">
-      <div>Profile</div>
-      <div ui-view="profile">
+<ion-view scroll="false">
+<ion-content scroll="false">
+<ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')" slide-tabs-scrollable="false" show-pager="false" ion-slide-tabs >
+
+  <ion-slide ion-slide-tab-label="Profile" data-state="profile" >
+    <div class="box" >
+      <div>
+        <div class="bar bar-subheader"><h2 class="title">profile</h2>
+          <i class="button icon-right ion-chevron-right" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
+        </div>
+
+      <div ui-view="profile" >
         <i>profile_main_ui</i>
+      </div>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Friends" data-state="friends.friendsList">
+
+  <ion-slide ion-slide-tab-label="Friends" data-state="friends.friendsList">
     <div class="box">
-      <div>Friends</div>
+      <div>
+        <div class="bar bar-subheader">
+          <i class="button icon-right ion-chevron-left" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
+          <h2 class="title">friends</h2>
+          <i class="button icon-right ion-chevron-right" style="width:auto; height:.5rem !important;text-size:.4rem;"></i>
+        </div>
+
       <div ui-view="friends">
         <i>friends_main_ui</i>
       </div>
+      </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Groups" data-state="groups.groupsList">
+
+  <ion-slide ion-slide-tab-label="Groups" data-state="groups.groupsList">
     <div class="box">
-      <div>Groups</div>
       <div ui-view="groups">
         <i>groups_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Messages" data-state="messages.messageList">
+
+  <ion-slide ion-slide-tab-label="Messages" data-state="messages.messageList">
     <div class="box">
-      <div>Messages</div>
       <div ui-view="messages">
         <i>messages_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Playlists" data-state="playlists.playlistsList">
+
+  <ion-slide ion-slide-tab-label="Playlists" data-state="playlists.playlistsList">
     <div class="box">
-      <div>Playlists</div>
       <div ui-view="playlists">
         <i>playlists_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Gifts" data-state="gifts.giftsList">
+
+  <ion-slide ion-slide-tab-label="Gifts" data-state="gifts.giftsList">
     <div class="box">
-      <div>Gifts</div>
       <div ui-view="gifts">
         <i>gifts_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Browse" data-state="browse.list">
+
+  <ion-slide ion-slide-tab-label="Browse" data-state="browse.list">
     <div class="box">
-      <div>Browse</div>
       <div ui-view="browse">
         <i>browse_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
-  <ion-slide slide-tab-label="Mood" data-state="mood">
+
+  <ion-slide ion-slide-tab-label="Mood" data-state="mood">
     <div class="box">
-      <div>Mood</div>
       <div ui-view="mood">
         <i>mood_main_ui</i>
       </div>
     </div>
   </ion-slide>
-  
+
 </ion-slide-box>
+</xion-content>
+</ion-view>

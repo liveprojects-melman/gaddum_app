@@ -47,6 +47,11 @@ angular.module('gaddum', [
           if( $($("#main_wrapper").find("ion-slide")[i]).data("state") === baseStateName ) {
             // these *is* a matching slide for this state change
             $ionicSlideBoxDelegate.slide(i);
+            $rootScope.currentSlide=i;
+            $rootScope.totalSlides=$('#main_wrapper').find("ion-slide").length;
+
+            console.log("on slide "+$rootScope.currentSlide+" of "+$rootScope.totalSlides);
+
             $state.go("gaddum."+baseStateName,{},{reload:true,notify:false});
           }
         });

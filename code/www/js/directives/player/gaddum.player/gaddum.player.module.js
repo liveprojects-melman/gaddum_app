@@ -1,7 +1,8 @@
 (function(){
   'use strict';
 
-  angular.module('gaddum.player', [ "angular-marquee" ] )
+  angular
+    .module('gaddum.player', [ "angular-marquee" ] )
     .directive('gaddum.player',function(){
 
       return{
