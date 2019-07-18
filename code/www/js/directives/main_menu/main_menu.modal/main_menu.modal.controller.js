@@ -8,13 +8,16 @@
     mainMenuModalController.$inject = [
       'mainMenuModal',
       '$scope',
-      'AboutModal'
+      'AboutModal',
+      'SettingsModal'
   ];
   
   function mainMenuModalController(
     mainMenuModal,
     $scope,
-    AboutModal
+    AboutModal,
+    SettingsModal
+
   ) {
     var mc = angular.extend(this, {
       
@@ -31,7 +34,9 @@
       mainMenuModal.close();
     }
     function goToSettings(){
-      console.log("it would go to settings now");
+      var params= null;
+      SettingsModal.open(params,fnCallbackOk,fnCallbackCancel);
+      mainMenuModal.close();
     }
     function fnCallbackOk(){
       console.log("modal ok");

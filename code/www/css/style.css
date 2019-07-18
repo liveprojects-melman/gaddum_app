@@ -161,7 +161,7 @@ ion-modal
     left:5%;
     height: 87.5%;
     top:7%;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20))
+    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
 }
 .modalTitle{
     font-size: 3rem;
@@ -426,6 +426,20 @@ ion-side-menu-content/*.menu-content.pane*/ {
 
 .fadeIn {
   animation-name: fadeIn;
+  animation-duration: 0.25s;
+}
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeout {
+  animation-name: fadeout;
   animation-duration: 0.25s;
 }
 .slide-in-down {
@@ -753,8 +767,47 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .projectPersonnel{
     position:relative;
 }
+.hasHeader{
+    position:absolute;
+    top:80px;
+    width:100%;
+    
+    
+}
 .hasHeaderExtra{
     position:absolute;
     top:80px;
     left:3%;
 }
+.checkboxSettings{
+    width:100%;
+    
+}
+.checkboxItem{
+    border-width:0;
+    padding:0;
+    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+}
+.checkbox{
+    width:100%;
+    border-width:0px;
+    background-color:rgba(0,0,0,0) !important;/*  this makes the background clear for the check boxes in settings*/
+    color:black;
+    
+    
+    
+}
+
+.item-checkbox-right .checkbox input,
+.item-checkbox-right .checkbox-icon {
+  float: right;
+  margin-right:10px;
+  border:0.05em solid black;
+  border-radius:2em;
+}
+.item-checkbox.item-checkbox-right {
+  /*the default item padding*/
+  
+  padding:10px;
+}
+
