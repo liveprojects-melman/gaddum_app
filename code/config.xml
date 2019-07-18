@@ -88,4 +88,5 @@
     <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
     <plugin name="cordova-plugin-appversion" spec="^1.0.0" />
     <engine name="android" spec="^6.3.0" />
+    <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.1.0" />
 </widget>

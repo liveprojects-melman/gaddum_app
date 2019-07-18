@@ -56,10 +56,10 @@
     };
 
     service.init = function init() {
-//      service.ready = true;
-//      service.playing = false;
+      service.ready = true;
+      service.playing = false;
     };
-/*
+
     service.init();
 
     return service;

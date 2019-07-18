@@ -49,8 +49,6 @@ angular.module('gaddum', [
             $rootScope.currentSlide=i;
             $rootScope.totalSlides=$('#main_wrapper').find("ion-slide").length;
 
-            console.log("on slide "+$rootScope.currentSlide+" of "+$rootScope.totalSlides);
-
             $state.go("gaddum."+baseStateName,{},{reload:true,notify:false});
           }
         });
