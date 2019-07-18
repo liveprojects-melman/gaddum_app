@@ -59,7 +59,8 @@
       "cordova-sqlite-storage": {},
       "uk.co.workingedge.cordova.plugin.sqliteporter": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-appversion": {}
+      "cordova-plugin-appversion": {},
+      "cordova-spotify-oauth": {}
     },
     "platforms": [
       "android"

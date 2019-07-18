@@ -89,4 +89,5 @@
     <plugin name="cordova-plugin-appversion" spec="^1.0.0" />
     <engine name="android" spec="^6.3.0" />
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.1.0" />
+    <plugin name="cordova-spotify-oauth" spec="^0.1.11" />
 </widget>

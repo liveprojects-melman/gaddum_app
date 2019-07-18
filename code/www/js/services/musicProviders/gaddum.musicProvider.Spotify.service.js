@@ -1,4 +1,5 @@
 // we are using https://github.com/Festify/cordova-spotify-oauth
+// IMPORTANT: SET PROPERTIES IN oath-token-api/.env 
 (function(){
   'use strict';
 
@@ -34,7 +35,9 @@
 
     service.signIn = function signIn() {
       cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
-        .then(function spotifyAuthSuccess({}))
+        .then(function spotifyAuthSuccess(accessToken, expiresAt){
+          console.log("gaddum.musicProvider.Spotify.service.js:signIn success, ", accessToken, expiresAt);
+        })
     }
 
     return service;
