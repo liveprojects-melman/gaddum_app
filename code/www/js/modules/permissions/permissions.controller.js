@@ -49,10 +49,11 @@
 
         permissionsService.returnPermissionStates().then(function(response){
           if(response.hasAllRequiredPermissions){
-            //                vm.goMain();
+            console.log("has all permissions");
             vm.visible = false;
           } else {
             vm.visible=true;
+            console.log("hasnt all permissions",vm.visible);
             vm.permissions = response;
           }
         });

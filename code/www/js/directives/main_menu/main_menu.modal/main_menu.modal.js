@@ -56,6 +56,7 @@
         function close() {
             if(modalSave){
                 modalSave.remove();
+                $scope.fnCallbackCancel();
             }
         }
         function closeAndRemove(modalInstance) {

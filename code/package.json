@@ -13,6 +13,7 @@
         "cordova-custom-config": "^5.1.0",
         "cordova-ios": "4.5.5",
         "cordova-plugin-app-version": "^0.1.9",
+        "cordova-plugin-appversion": "^1.0.0",
         "cordova-plugin-compat": "^1.2.0",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.7",
@@ -56,7 +57,8 @@
             "es6-promise-plugin": {},
             "cordova-sqlite-storage": {},
             "uk.co.workingedge.cordova.plugin.sqliteporter": {},
-            "cordova-plugin-network-information": {}
+            "cordova-plugin-network-information": {},
+            "cordova-plugin-appversion": {}
         },
         "platforms": [
             "android"
