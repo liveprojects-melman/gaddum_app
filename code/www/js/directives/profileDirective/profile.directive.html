@@ -1,0 +1,45 @@
+<ion-view style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)" can-swipe-back="false">
+  <h1 id="nameHeader">{{vm.name}}</h1>
+  <div id="genreScroll" ng-hide="vm.scrollGenre===false">
+    <p class="genres" id="genresText">
+      <span>
+        {{vm.userGenres}}
+      </span>
+    </p>
+    <p class="genres genres2">
+      <span>
+        {{vm.userGenres}}
+      </span>
+    </p>
+  </div>
+  <div id="genreStatic" ng-hide="vm.scrollGenre">
+      <p >
+          <span>
+            {{vm.userGenres}}
+          </span>
+        </p>
+  </div>
+
+
+  <canvas class="profileImageCanvas" id={{vm.userProfile.profile_id}}
+    ng-init="vm.createProfileGraphic(vm.userProfile.profile.profile_id)" height=80 width=80
+    ></canvas>
+  <div class="qrdiv">
+    <qrcode version=15 data={{vm.encodedProfile}} size=200%></qrcode>
+  </div>
+  
+
+
+
+<ion-footer-bar align-title="left" class="bar-assertive">
+  <div class="buttons">
+    <button class="button" ng-click="vm.profileEdit()">Edit</button>
+  </div>
+  <h1 class="title">Profile</h1>
+  <!-- <h1>{{vm.userGenres}}</h1> -->
+  <!-- <div class="buttons">
+    <button class="button" ng-click="doSomething()">Right Button</button>
+  </div> -->
+</ion-footer-bar>
+
+</ion-view>
