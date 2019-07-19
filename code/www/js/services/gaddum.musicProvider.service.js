@@ -4,7 +4,7 @@
 
   angular
     .module('gaddum.streaming', [])
-    .factory('gaddum.musicProvider.service', gaddumMusicProviderService);
+    .factory('gaddumMusicProviderService', gaddumMusicProviderService);
 
   gaddumMusicProviderService.$inject = [
     '$http',
@@ -33,6 +33,7 @@
         service.musicProvider.signIn();
       },
       isLoggedIn: function isLoggedIn(){
+        console.log("check if the user is logged in");
       },
       logout: function logout(){
 
