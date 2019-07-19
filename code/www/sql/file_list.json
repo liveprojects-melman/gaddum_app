@@ -21,5 +21,44 @@
         "default_parameters": {
             "mood_id": "physical"
         }
+    },
+    {
+        "name": "get_user_settings()",
+        "function": "get_user_settings",
+        "path": "www/sql/get_user_settings.sql",
+        "default_parameters": {
+        }
+    },
+    {
+        "name": "get_supported_input_types()",
+        "function": "get_supported_input_types",
+        "path": "www/sql/get_supported_input_types.sql",
+        "default_parameters": {
+        }
+    },
+    {
+        "name": "get_settings()",
+        "function": "get_settings",
+        "path": "www/sql/get_settings.sql",
+        "default_parameters": {
+        }
+    },
+    {
+        "name": "get_setting()",
+        "function": "get_setting",
+        "path": "www/sql/get_setting.sql",
+        "default_parameters": {
+            "id": "profile_id"
+        }
+    },
+    {
+        "name": "update_setting()",
+        "function": "update_setting",
+        "path": "www/sql/update_setting.sql",
+        "default_parameters": {
+            "id": "profile_id",
+            "value": "8dcb7907-01ed-41f4-b3e9-644990a3a83a"
+        }
     }
+
 ]

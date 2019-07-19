@@ -25,7 +25,7 @@
 
         var FILE_LIST_DB_LOCATION = "www/data/file_list.json";
         var FILE_LIST_MAPPING_LOCATION = "www/sql/file_list.json";
-        var DEFAULT_FILE_SPEC = 1;
+        var DEFAULT_FILE_SPEC = 0;
 
 
         function initialiseDb(fnSuccess, fnFail) {

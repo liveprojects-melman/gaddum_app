@@ -1,0 +1,1 @@
+SELECT * FROM settings WHERE id = 'replacement_parameter_id';
