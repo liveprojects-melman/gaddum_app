@@ -20,7 +20,7 @@
         firstTimeSrvc,
         dbService,
         mappingService,
-        moodSrvc
+        moodService
     ) {
 
         var FILE_LIST_DB_LOCATION = "www/data/file_list.json";
@@ -117,7 +117,7 @@
 
 
         function asyncInitialiseMood(){
-            return moodSrvc.asyncInitialise();
+            return moodService.asyncInitialise();
         }
 
 

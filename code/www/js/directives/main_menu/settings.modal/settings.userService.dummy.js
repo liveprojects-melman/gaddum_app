@@ -14,8 +14,8 @@
   ) {
 
       var dict = {
-          collection_play_history:false,
-          collection_location_history:false,
+          collection_play_history:null,
+          collection_location_history:null,
           collection_mood_history:false,
           sharing_play_history:false,
           sharing_location_history:false,
@@ -26,13 +26,13 @@
       
       function getSupportedSettings(){
           var arrayOfSettings=[];
-          arrayOfSettings[0] = settingIdentifier.build("collection_play_history","Collect Play History","boolean");
-          arrayOfSettings[1] = settingIdentifier.build("collection_location_history","Collect Location History","boolean");
-          arrayOfSettings[2] = settingIdentifier.build("collection_mood_history","Collect Mood History","boolean");
-          arrayOfSettings[3] = settingIdentifier.build("sharing_play_history","Share Play History","boolean");
-          arrayOfSettings[4] = settingIdentifier.build("sharing_location_history","Share Location History","boolean");
-          arrayOfSettings[5] = settingIdentifier.build("sharing_mood_history","Share Mood History","boolean");
-          arrayOfSettings[6] = settingIdentifier.build("first_time_help","First Time Help","boolean");
+          arrayOfSettings[0] = settingIdentifier.build("collection_play_history","Collect Play History","boolean",false);
+          arrayOfSettings[1] = settingIdentifier.build("collection_location_history","Collect Location History","boolean",false);
+          arrayOfSettings[2] = settingIdentifier.build("collection_mood_history","Collect Mood History","boolean",false);
+          arrayOfSettings[3] = settingIdentifier.build("sharing_play_history","Share Play History","boolean",false);
+          arrayOfSettings[4] = settingIdentifier.build("sharing_location_history","Share Location History","boolean",false);
+          arrayOfSettings[5] = settingIdentifier.build("sharing_mood_history","Share Mood History","boolean",false);
+          arrayOfSettings[6] = settingIdentifier.build("first_time_help","First Time Help","boolean",false);
           return arrayOfSettings;
           
       }
@@ -42,10 +42,14 @@
       function get(id){
           return dict[id];
       }
+      function getDefault(id){
+        return false;
+      }
     var service = {
         getSupportedSettings:getSupportedSettings,
         set:set,
-        get:get
+        get:get,
+        getDefault:getDefault
         
     };
 
