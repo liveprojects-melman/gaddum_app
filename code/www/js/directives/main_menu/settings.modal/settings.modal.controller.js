@@ -35,8 +35,13 @@
       var count = 0;
       sc.settings.forEach(function(element) {
         sc.settingItem[count] = settingsUserService.get(element.id);
+        if(sc.settingItem[count]===null){
+          settingsUserService.set(element.id,element.defaultValue);
+          sc.settingItem[count] = settingsUserService.get(element.id);
+        }
         count = count+1;
       });
+      console.log(sc.settingItem);
     }
     init();
     sc.changed = changed;
