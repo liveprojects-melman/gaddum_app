@@ -36,7 +36,7 @@
       sc.settings.forEach(function(element) {
         sc.settingItem[count] = settingsUserService.get(element.id);
         if(sc.settingItem[count]===null){
-          settingsUserService.set(element.id,element.defaultValue);
+          settingsUserService.set(element.id,element.default_value);
           sc.settingItem[count] = settingsUserService.get(element.id);
         }
         count = count+1;
