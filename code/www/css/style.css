@@ -769,7 +769,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .hasHeader{
     position:absolute;
-    top:80px;
+    top:44px;
     width:100%;
     
     
@@ -812,7 +812,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .button{
     border-color: transparent;
-    background-color: purple;
+    background-color: #cc0000;
     color: white;
     position: relative;
     display: inline-block;
@@ -928,4 +928,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .genreCheckboxes{
     border-width: 0px;
 }
-  
+/* .hasfooter{
+    height: 10% !important;
+} */
+.profileFooter{
+    position: absolute;
+    bottom: 43px;
+}

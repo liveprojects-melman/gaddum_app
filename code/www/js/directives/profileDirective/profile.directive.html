@@ -1,4 +1,4 @@
-<ion-view style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)" can-swipe-back="false">
+<ion-view class="hasHeader hasFooter" style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)" can-swipe-back="false">
   <h1 id="nameHeader">{{vm.name}}</h1>
   <div id="genreScroll" ng-hide="vm.scrollGenre===false">
     <p class="genres" id="genresText">
@@ -31,7 +31,7 @@
 
 
 
-<ion-footer-bar align-title="left" class="bar-assertive">
+<ion-footer-bar align-title="left" class="bar-assertive profileFooter">
   <div class="buttons">
     <button class="button" ng-click="vm.profileEdit()">Edit</button>
   </div>

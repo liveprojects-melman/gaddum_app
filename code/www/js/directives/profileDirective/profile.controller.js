@@ -124,19 +124,25 @@
               //console.log("Genre small");
               vm.scrollGenre=false;
           } */
-        //   var genreFont= document.getElementById("genreStatic").style.font;
-        //   var genreText=profileService.getUserGenres().join(", ");
-        //   var genreStatic=document.getElementById("genreStatic").offsetWidth;
-        //   var maxNoScrollWidth=document.body.clientWidth-(document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
-        //   console.log(textWidth(genreText, genreFont)+">"+maxNoScrollWidth+"then scroll");
+
+          if (document.getElementById("genreStatic")) {
 
 
 
-        //   if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
-        //     vm.scrollGenre=true;
-        // }else{
-        //     vm.scrollGenre=false;
-        // }
+              var genreFont = document.getElementById("genreStatic").style.font;
+              var genreText = profileService.getUserGenres().join(", ");
+              var genreStatic = document.getElementById("genreStatic").offsetWidth;
+              var maxNoScrollWidth = document.body.clientWidth - (document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
+              /* console.log(textWidth(genreText, genreFont) + ">" + maxNoScrollWidth + "then scroll"); */
+
+
+
+              if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
+                  vm.scrollGenre = true;
+              } else {
+                  vm.scrollGenre = false;
+              }
+          }
       };
 
       function textWidth(text, fontProp) {
