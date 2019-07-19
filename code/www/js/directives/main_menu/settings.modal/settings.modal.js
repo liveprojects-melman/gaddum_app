@@ -19,7 +19,7 @@
             
         });
         var modalSave = null;
-        var parmeter = null;
+        var parameter = null;
 
         var myModal = {
             open: open,
@@ -31,7 +31,7 @@
         function open(params, fnCallbackOk, fnCallbackCancel) {
             var service = this;
 
-            parmeter = params;
+            parameter = params;
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
@@ -49,7 +49,7 @@
             
         }
         function getParams(){
-            return parmeter;
+            return parameter;
 
             
         }

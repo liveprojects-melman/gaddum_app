@@ -137,15 +137,150 @@
         }
 
 
+        function getUserSettings(fnSuccess, fnFail) {
+
+            mappingService.query("get_user_settings", {},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+                        fnSuccess(rows);
+                    } else {
+                        fnFail("no supported user settings!");
+                    }
+                }
+                , fnFail);
+        }
+
+
+
+        function asyncGetUserSettings(){
+            var d = $q.defer();
+            getUserSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+
+        function getAllSettings(){
+            mappingService.query("get_settings", {},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+                        fnSuccess(rows);
+                    } else {
+                        fnFail("no supported settings!");
+                    }
+                }
+                , fnFail);
+        }
+
+        function asyncGetAllSettings(){
+            var d = $q.defer();
+            getAllSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+        function getSetting(id, fnSuccess, fnFail) {
+
+            mappingService.query("get_setting", {id : id},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length == 1) {
+                        fnSuccess(rows[0]);
+                    } else {
+                        fnFail("setting not found!");
+                    }
+                }
+                , fnFail);
+        }
+
+        function asyncGetSetting(id){
+            var d = $q.defer();
+            getSetting(id, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+        function setSetting(id, value, fnSuccess, fnFail) {
+
+            mappingService.query("set_setting", {id : id, value: value},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length == 1) {
+                        fnSuccess(rows[0]);
+                    } else {
+                        fnFail("setting not found!");
+                    }
+                }
+                , fnFail);
+        }
+
+
+        function asyncSetSetting(id, value){
+            var d = $q.defer();
+            setSetting(id, value, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+        function getSupportedInputTypes(fnSuccess, fnFail) {
+
+            mappingService.query("get_supported_input_types", {},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+                        fnSuccess(rows);
+                    } else {
+                        fnFail("no supported input types!");
+                    }
+                }
+                , fnFail);
+        }
+
+
+
+        function asyncGetSupportedInputTypes(){
+            var d = $q.defer();
+            getSupportedInputTypes(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+
+        function getNumUnsetUserSettings(fnSuccess) {
+
+            mappingService.query("get_num_unset_user_settings", {},
+                function (result) {
+
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+                        fnSuccess(rows[0]);
+                    } else {
+                        fnSuccess(0);
+                    }
+                }
+                , function(error){
+                    console.log("warning: getNumUnsetUserSettings threw error: " + JSON.stringify(error) );
+                    fnSuccess(0);
+                });
+        }
+
+
+
+        function asyncGetNumUnsetUserSettings(){
+            var d = $q.defer();
+            getNumUnsetUserSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
 
 
 
        var service = {
-
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
-            asyncMoodIdToResources: asyncMoodIdToResources
-
+            asyncMoodIdToResources: asyncMoodIdToResources,
+            asyncGetSupportedInputTypes: asyncGetSupportedInputTypes,
+            asyncGetUserSettings: asyncGetUserSettings,
+            asyncGetAllSettings: asyncGetAllSettings,
+            asyncSetSetting : asyncSetSetting,
+            asyncGetSetting : asyncGetSetting,
+            asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings
         };
 
 

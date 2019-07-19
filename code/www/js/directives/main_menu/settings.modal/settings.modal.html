@@ -11,7 +11,7 @@
       <ion-item class="checkboxItem item-checkbox-right" ng-repeat=" settings in sc.settings " >
         
         
-        <ion-checkbox ng-model="sc.settingItem[$index]" ng-change="sc.changed(settings,$index)" class="checkbox item-checkbox-right">{{settings.friendly_name}}</ion-checkbox>
+        <ion-checkbox ng-model="sc.settingItems[$index]" ng-change="sc.changed(settings,$index)" class="checkbox item-checkbox-right">{{settings.friendly_name}}</ion-checkbox>
       
       </ion-item>
       </ion-list>

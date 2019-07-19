@@ -59,6 +59,13 @@
             "id": "profile_id",
             "value": "8dcb7907-01ed-41f4-b3e9-644990a3a83a"
         }
+    },
+    {
+        "name": "get_num_unset_user_settings()",
+        "function": "get_num_unset_user_settings",
+        "path": "www/sql/get_num_unset_user_settings.sql",
+        "default_parameters": {
+        }
     }
 
 ]

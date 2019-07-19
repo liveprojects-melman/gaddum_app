@@ -1,10 +1,10 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Fri Jul 19 10:54:17 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Jul 19 18:46:34 2019
 --
 -- Text encoding used: UTF-8
 --
-PRAGMA foreign_keys = off;
-BEGIN TRANSACTION;
+-- PRAGMA foreign_keys = off;
+-- BEGIN TRANSACTION;
 
 -- Table: connections
 DROP TABLE IF EXISTS connections;
@@ -561,6 +561,17 @@ INSERT INTO settings (
                          'false'
                      );
 
+INSERT INTO settings (
+                         id,
+                         value,
+                         default_value
+                     )
+                     VALUES (
+                         'first_time_help',
+                         NULL,
+                         'true'
+                     );
+
 
 -- Table: supported_face_criteria
 DROP TABLE IF EXISTS supported_face_criteria;
@@ -904,83 +915,109 @@ INSERT INTO supported_face_criteria (
 DROP TABLE IF EXISTS user_settings;
 
 CREATE TABLE user_settings (
-    id            TEXT NOT NULL
-                       PRIMARY KEY
-                       REFERENCES settings (id) ON DELETE SET DEFAULT
-                                                ON UPDATE SET DEFAULT
-                                                MATCH SIMPLE,
-    friendly_name TEXT,
-    type          TEXT REFERENCES supported_input_types (name) ON DELETE SET DEFAULT
-                                                               ON UPDATE SET DEFAULT
-                                                               MATCH SIMPLE
-                       NOT NULL
-                       DEFAULT text
+    id                   TEXT NOT NULL
+                              PRIMARY KEY
+                              REFERENCES settings (id) ON DELETE SET DEFAULT
+                                                       ON UPDATE SET DEFAULT
+                                                       MATCH SIMPLE,
+    friendly_name        TEXT,
+    type                 TEXT REFERENCES supported_input_types (name) ON DELETE SET DEFAULT
+                                                                      ON UPDATE SET DEFAULT
+                                                                      MATCH SIMPLE
+                              NOT NULL
+                              DEFAULT text,
+    friendly_description TEXT
 );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'collection_play_history',
-                              'Collect and store the tracks you play, and when you play them. On the device only.',
-                              'boolean'
+                              'Collect play history',
+                              'boolean',
+                              'Collect and store the tracks you play, and when you play them. On the device only.'
                           );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'collection_location_history',
-                              'When collecting and storing the tracks you play, add where you played them. Stored on device only.',
-                              'boolean'
+                              'Collect location history',
+                              'boolean',
+                              'When collecting and storing the tracks you play, add where you played them. Stored on device only.'
                           );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'collection_mood_history',
-                              'When collecting and storing the tracks you play, add the mood you were in when you played them. Stored on device only.',
-                              'boolean'
+                              'Collect mood history',
+                              'boolean',
+                              'When collecting and storing the tracks you play, add the mood you were in when you played them. Stored on device only.'
                           );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'sharing_play_history',
-                              'When sharing a track, also share when you have played it.',
-                              'boolean'
+                              'Share play history',
+                              'boolean',
+                              'When sharing a track, also share when you have played it.'
                           );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'sharing_location_history',
-                              'When sharing a track, also share where you have played it.',
-                              'boolean'
+                              'Share location history',
+                              'boolean',
+                              'When sharing a track, also share where you have played it.'
                           );
 
 INSERT INTO user_settings (
                               id,
                               friendly_name,
-                              type
+                              type,
+                              friendly_description
                           )
                           VALUES (
                               'sharing_mood_history',
-                              'When sharing a track, also share the mood you were in when you played it, and if you played all the track.',
-                              'boolean'
+                              'Share mood history',
+                              'boolean',
+                              'When sharing a track, also share the mood you were in when you played it, and if you played all the track.'
+                          );
+
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              type,
+                              friendly_description
+                          )
+                          VALUES (
+                              'first_time_help',
+                              'First time help',
+                              'boolean',
+                              'Switch this on again, if you want to be reminded of how things work.'
                           );
 
 
@@ -1448,5 +1485,5 @@ CREATE TABLE gifted_playlists (
 );
 
 
-COMMIT TRANSACTION;
-PRAGMA foreign_keys = on;
+-- COMMIT TRANSACTION;
+-- PRAGMA foreign_keys = on;
