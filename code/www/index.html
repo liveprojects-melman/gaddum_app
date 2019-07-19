@@ -92,6 +92,11 @@
   <script src="js/modules/mood/mood.controller.js"></script>
 
   <!-- directives -->
+  <!-- DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
+  <script src="js/directives/musicProviderLogin/musicProviderLogin.directive.js"></script>
+  <script src="js/directives/musicProviderLogin/musicProviderLogin.controller.js"></script>
+<!-- END DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
+
   <script src="js/modules/permissions/permissions.module.js"></script>
   <script src="js/modules/permissions/permissions.service.js"></script>
   <script src="js/modules/permissions/permissions.directive.js"></script>
@@ -137,6 +142,7 @@
   <script src="js/services/gaddum.streaming.service.js"></script>
   <script src="js/services/gaddum.settings.userSettings.service.js"></script>
 
+
   <script src="js/services/data_api/data_api.module.js"></script>
   <script src="js/services/data_api/data_api.service.js"></script>
 
@@ -172,7 +178,7 @@
 
 <body ng-app="gaddum" ng-animate-children="true">
   <permissions_directive></permissions_directive>
-
+  <music_provider_login_directive></music_provider_login_directive>
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum
