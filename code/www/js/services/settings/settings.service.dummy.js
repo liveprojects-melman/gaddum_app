@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('gaddum_settings')
+    .module('gaddum.settings')
     .factory('allSettingsService', allSettingsService)
     ;
 

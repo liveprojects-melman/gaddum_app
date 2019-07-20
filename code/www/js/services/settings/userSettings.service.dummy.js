@@ -1,8 +1,7 @@
 (function () {
   'use strict';
-  console.log("here");  
   angular
-    .module('dataapijs')
+    .module('gaddum.settings')
     .factory('userSettingsService', userSettingsService);
 
   userSettingsService.$inject = [
@@ -16,6 +15,10 @@
     $timeout,
     $q
   ) {
+
+    console.log("here");  
+  
+
       var dict = {
           collection_play_history:{
             
@@ -84,6 +87,7 @@
             function(key){
               var setting = dict[key];
               result.push(settingIdentifier.build(
+                key,
                 setting.friendly_name,
                 setting.friendly_description,
                 setting.type,

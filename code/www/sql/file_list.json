@@ -52,9 +52,9 @@
         }
     },
     {
-        "name": "update_setting()",
-        "function": "update_setting",
-        "path": "www/sql/update_setting.sql",
+        "name": "set_setting()",
+        "function": "set_setting",
+        "path": "www/sql/set_setting.sql",
         "default_parameters": {
             "id": "profile_id",
             "value": "8dcb7907-01ed-41f4-b3e9-644990a3a83a"
