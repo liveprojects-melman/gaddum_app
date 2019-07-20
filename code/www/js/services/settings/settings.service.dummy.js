@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('gaddum_settings')
+    .module('gaddum.settings')
     .factory('allSettingsService', allSettingsService)
     ;
 
@@ -36,7 +36,7 @@
         function (key) {
           var setting = dict[key];
           arrayOfSettings.push(settingIdentifier.buildMinimal(
-            setting.id
+            setting.id, 'boolean'
           ));
         }
       );

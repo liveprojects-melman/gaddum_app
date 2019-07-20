@@ -8,6 +8,7 @@
   settingsModalController.$inject = [
     'SettingsModal',
     '$scope',
+    '$q',
     'userSettingsService',
     'settingIdentifier'
 
@@ -25,8 +26,8 @@
     });
 
 
-    function changed(setting, index) {
-      userSettingsService.set(setting.id, sc.settingItem[index]);
+    function changed(id,value,type) {
+      userSettingsService.asyncSet(id, value, type);
     }
 
 
@@ -43,26 +44,41 @@
           function (value) {
             if (value == null) {
               element.value = element.default_value;
-              userSettingsService.asyncSet(element.id.default_value);
+              userSettingsService.asyncSet(element.id,element.type, element.default_value);
             } else {
               element.value = value;
             }
           }
         ));
-
-        $q.all(promiseArray).then(
-          function (results) {
-            deferred.resolve(sc.settings);
-          }
-        );
       }
       );
+
+      $q.all(promises).then(
+        function (results) {
+          deferred.resolve(sc.settings);
+        }
+      );
+
       return deferred.promise;
     }
 
     $scope.SettingsModal = SettingsModal;
     function init() {
-      userSettingsService.asyncGetSupportedSettings().then(updateSettings);
+      userSettingsService.asyncGetSupportedSettings().then(
+        function(settings){
+          asyncUpdateSettings(settings).then(
+            function(){
+              console.log("settings: updated");
+            },
+            function(error){
+              console.log("settings: error: " + error.message);
+            }
+          );
+        },
+        function(error){
+          console.log("error colecting settings")
+        }
+      );
 
     }
     init();

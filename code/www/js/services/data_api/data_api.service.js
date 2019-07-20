@@ -86,37 +86,37 @@
         }
 
 
-        function getMoodDetectionParameters(mood_id, fnSuccess, fnFail){
-            mappingService.query("get_mood_detection_parameters", {mood_id : mood_id},
-            function (response) {
-                var result = {};   
-                var rows = mappingService.getResponses(response.rows);
+        function getMoodDetectionParameters(mood_id, fnSuccess, fnFail) {
+            mappingService.query("get_mood_detection_parameters", { mood_id: mood_id },
+                function (response) {
+                    var result = {};
+                    var rows = mappingService.getResponses(response.rows);
 
-                // returns us a row from the database which we will assume contains at least the columns:
-                // mood
-                // criteria
-                // anything else we will just pass stright through to the client, as parameters.
+                    // returns us a row from the database which we will assume contains at least the columns:
+                    // mood
+                    // criteria
+                    // anything else we will just pass stright through to the client, as parameters.
 
-                if (rows.length > 0) {
-                    // we have parameters associated with the mood
-                                  
+                    if (rows.length > 0) {
+                        // we have parameters associated with the mood
 
-                    rows.forEach(function(row){
-                        result[row.criteria] = row; // put all the row data into an attribute for the parameter. client gets everything.
-                    });
 
-                } else {
-                    console.log("WARN: no parameters for the mood. It won't be detected. id: " + mood_id);
+                        rows.forEach(function (row) {
+                            result[row.criteria] = row; // put all the row data into an attribute for the parameter. client gets everything.
+                        });
+
+                    } else {
+                        console.log("WARN: no parameters for the mood. It won't be detected. id: " + mood_id);
+                    }
+                    fnSuccess(result);
                 }
-                fnSuccess(result);
-            }
-            , fnFail);
-        } 
+                , fnFail);
+        }
 
 
         function moodIdToResources(id, fnSuccess, fnFail) {
 
-            mappingService.query("mood_id_to_resources", {mood_id : id},
+            mappingService.query("mood_id_to_resources", { mood_id: id },
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
                     if (rows.length == 1) {
@@ -153,14 +153,14 @@
 
 
 
-        function asyncGetUserSettings(){
+        function asyncGetUserSettings() {
             var d = $q.defer();
             getUserSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
         }
 
 
-        function getAllSettings(){
+        function getAllSettings() {
             mappingService.query("get_settings", {},
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
@@ -173,7 +173,7 @@
                 , fnFail);
         }
 
-        function asyncGetAllSettings(){
+        function asyncGetAllSettings() {
             var d = $q.defer();
             getAllSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
@@ -181,11 +181,25 @@
 
         function getSetting(id, fnSuccess, fnFail) {
 
-            mappingService.query("get_setting", {id : id},
+            mappingService.query("get_setting", { id: id },
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
                     if (rows.length == 1) {
-                        fnSuccess(rows[0]);
+
+                        var candidate = rows[0];
+                        var value = candidate.value; // default is 'string'
+                        if(candidate.value_type === 'integer'){
+                            value = parseInt(candidate.value);
+                        }else if(candidate.value_type == 'boolean'){
+                            if(candidate.value == 'true'){
+                                value = true;
+                            }else{
+                                value = false;
+                            }
+                        }
+
+
+                        fnSuccess(value);
                     } else {
                         fnFail("setting not found!");
                     }
@@ -193,30 +207,31 @@
                 , fnFail);
         }
 
-        function asyncGetSetting(id){
+        function asyncGetSetting(id) {
             var d = $q.defer();
-            getSetting(id, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            getSetting(id,
+                function (res) {
+                    d.resolve(res);
+                },
+                function (err) {
+                    d.reject(err);
+                });
             return d.promise;
         }
 
-        function setSetting(id, value, fnSuccess, fnFail) {
+        function setSetting(id, value, type, fnSuccess, fnFail) {
 
-            mappingService.query("set_setting", {id : id, value: value},
+            mappingService.query("set_setting", { id: id, value: value, value_type:type },
                 function (result) {
-                    var rows = mappingService.getResponses(result.rows);
-                    if (rows.length == 1) {
-                        fnSuccess(rows[0]);
-                    } else {
-                        fnFail("setting not found!");
-                    }
+                    fnSuccess(value);
                 }
                 , fnFail);
         }
 
 
-        function asyncSetSetting(id, value){
+        function asyncSetSetting(id, value, type) {
             var d = $q.defer();
-            setSetting(id, value, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            setSetting(id, value, type,  function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
         }
 
@@ -236,7 +251,7 @@
 
 
 
-        function asyncGetSupportedInputTypes(){
+        function asyncGetSupportedInputTypes() {
             var d = $q.defer();
             getSupportedInputTypes(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
@@ -255,15 +270,15 @@
                         fnSuccess(0);
                     }
                 }
-                , function(error){
-                    console.log("warning: getNumUnsetUserSettings threw error: " + JSON.stringify(error) );
+                , function (error) {
+                    console.log("warning: getNumUnsetUserSettings threw error: " + JSON.stringify(error));
                     fnSuccess(0);
                 });
         }
 
 
 
-        function asyncGetNumUnsetUserSettings(){
+        function asyncGetNumUnsetUserSettings() {
             var d = $q.defer();
             getNumUnsetUserSettings(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
@@ -271,15 +286,15 @@
 
 
 
-       var service = {
+        var service = {
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,
             asyncGetSupportedInputTypes: asyncGetSupportedInputTypes,
             asyncGetUserSettings: asyncGetUserSettings,
             asyncGetAllSettings: asyncGetAllSettings,
-            asyncSetSetting : asyncSetSetting,
-            asyncGetSetting : asyncGetSetting,
+            asyncSetSetting: asyncSetSetting,
+            asyncGetSetting: asyncGetSetting,
             asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings
         };
 

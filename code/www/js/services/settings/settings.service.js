@@ -2,38 +2,32 @@
   'use strict;'
     
   angular
-    .module('gaddum_settings')
+    .module('gaddum.settings')
     .factory('allSettingsService', allSettingsService)
     ;
 
   allSettingsService.$inject = [
-    dataApi
+    'dataApiService'
   ];
 
   function allSettingsService(
-    
+    dataApiService
   ) {
 
     function asyncGetSupportedSettings(){
-      return dataApi.getAllSettings();
+      return dataApiService.asyncGetAllSettings();
     }
-
-    function asyncGetSupportedInputTypes(){
-      return dataApi.asyncGetSupportedSettings();
-    }
-
 
     function asyncGet(id){
-      return dataApi.asyncGetSetting(id);
+      return dataApiService.asyncGetSetting(id);
     }
 
-    function asyncSet(id, value){
-      return dataApi.asyncSetSetting(id,value);
+    function asyncSet(id, value, value_type){
+      return dataApiService.asyncSetSetting(id, value, value_type);
     }
 
     var service = {
         asyncGetSupportedSettings:asyncGetSupportedSettings,
-        asyncGetSupportedInputTypes: asyncGetSupportedInputTypes,
         asyncGet: asyncGet,
         asyncSet: asyncSet
     };

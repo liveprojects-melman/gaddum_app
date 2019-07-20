@@ -1,8 +1,7 @@
 (function () {
   'use strict';
-  console.log("here");  
   angular
-    .module('dataapijs')
+    .module('gaddum.settings')
     .factory('userSettingsService', userSettingsService);
 
   userSettingsService.$inject = [
@@ -16,12 +15,16 @@
     $timeout,
     $q
   ) {
+
+    console.log("here");  
+  
+
       var dict = {
           collection_play_history:{
             
             friendly_name: "Collect play history",
             friendly_description :"Collect and store the tracks you play, and when you play them. On the device only.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
 
@@ -30,7 +33,7 @@
             
             friendly_name: "Collect location history",
             friendly_description: "When collecting and storing the tracks you play, add where you played them. Stored on device only.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           },
@@ -38,7 +41,7 @@
             
             friendly_name: "Collect mood history",
             friendly_description : "When collecting and storing the tracks you play, add the mood you were in when you played them. Stored on device only.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           },
@@ -46,7 +49,7 @@
             
             friendly_name: "Share play history",
             friendly_description: "When sharing a track, also share when you have played it.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           },
@@ -54,7 +57,7 @@
             
             friendly_name: "Sharing location history",
             friendly_description:"When sharing a track, also share where you have played it.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           },
@@ -62,7 +65,7 @@
             
             friendly_name: "Sharing mood history",
             friendly_description: "When sharing a track, also share the mood you were in when you played it, and if you played all the track.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           },
@@ -70,7 +73,7 @@
             
             friendly_name: "First time help",
             friendly_description: "Switch this on again, if you want to be reminded of how things work.",
-            type: "boolean",
+            value_type: "boolean",
             value: null,
             default_value: "false"
           }
@@ -84,9 +87,10 @@
             function(key){
               var setting = dict[key];
               result.push(settingIdentifier.build(
+                key,
                 setting.friendly_name,
                 setting.friendly_description,
-                setting.type,
+                setting.value_type,
                 setting.default_value
               ));
             }

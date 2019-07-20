@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="1" id="io.ionic.starter" ios-CFBundleVersion="1" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
-    <description>An awesome Ionic/Cordova app.</description>
+<widget android-versionCode="1" id="uk.ac.mmu.digitallabs.gaddum.moodmusic" ios-CFBundleVersion="1" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Gaddum Mood Music</name>
+    <description>Music makes it better.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
     <access origin="*" />
@@ -87,7 +87,7 @@
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
     <plugin name="cordova-plugin-appversion" spec="^1.0.0" />
-    <engine name="android" spec="^6.3.0" />
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.1.0" />
     <plugin name="cordova-spotify-oauth" spec="^0.1.11" />
+    <engine name="android" spec="~6.4.0" />
 </widget>

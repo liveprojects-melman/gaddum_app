@@ -27,12 +27,11 @@ angular.module('gaddum', [
   'gaddum.browse',
   'gaddum.mood',
   //  'gaddum.mood.switch'
-  'gaddum.settings',
-  'gaddum.permissions',
-  'gaddum.models',
   'gaddum.musicProviderLogin',
   'modalsProfile',
-  'gaddum.profileDirective'
+  'gaddum.profileDirective',
+  'gaddum.settings',
+  'gaddum.permissions'
 ])
   .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService','startupSrvc', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService,startupSrvc) {
     $rootScope.$on('slideChanged', function(a) {
