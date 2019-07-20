@@ -52,12 +52,13 @@
         }
     },
     {
-        "name": "set_setting()",
+        "name": "set_setting(id, value, value_type)",
         "function": "set_setting",
         "path": "www/sql/set_setting.sql",
         "default_parameters": {
             "id": "profile_id",
-            "value": "8dcb7907-01ed-41f4-b3e9-644990a3a83a"
+            "value": "8dcb7907-01ed-41f4-b3e9-644990a3a83a",
+            "value_type" : "string"
         }
     },
     {

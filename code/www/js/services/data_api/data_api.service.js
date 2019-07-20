@@ -187,10 +187,10 @@
                     if (rows.length == 1) {
 
                         var candidate = rows[0];
-                        var value = candidate.value;
-                        if(candidate.type === 'integer'){
+                        var value = candidate.value; // default is 'string'
+                        if(candidate.value_type === 'integer'){
                             value = parseInt(candidate.value);
-                        }else if(candidate.type == 'boolean'){
+                        }else if(candidate.value_type == 'boolean'){
                             if(candidate.value == 'true'){
                                 value = true;
                             }else{
@@ -221,7 +221,7 @@
 
         function setSetting(id, value, type, fnSuccess, fnFail) {
 
-            mappingService.query("set_setting", { id: id, value: value, type:type },
+            mappingService.query("set_setting", { id: id, value: value, value_type:type },
                 function (result) {
                     fnSuccess(value);
                 }

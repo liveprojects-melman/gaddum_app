@@ -7,10 +7,10 @@ INSERT INTO
     settings (
     id,
     [value],
-    [type]
+    value_type
     )
 SELECT   
     "replacement_parameter_id",
     "replacement_parameter_value",
-    "replacement_parameter_type"
+    "replacement_parameter_value_type"
 WHERE (Select Changes() = 0);

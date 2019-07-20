@@ -66,7 +66,17 @@
     function init() {
       userSettingsService.asyncGetSupportedSettings().then(
         function(settings){
-          asyncUpdateSettings(settings);
+          asyncUpdateSettings(settings).then(
+            function(){
+              console.log("settings: updated");
+            },
+            function(error){
+              console.log("settings: error: " + error.message);
+            }
+          );
+        },
+        function(error){
+          console.log("error colecting settings")
         }
       );
 
