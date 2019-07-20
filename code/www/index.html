@@ -91,7 +91,23 @@
   <!-- <script src="js/modules/mood/mood.service.js"></script> -->
   <script src="js/modules/mood/mood.controller.js"></script>
 
-  <!-- directivesgaddum.settings.userSettings.service.js -->
+  <!-- directives -->
+  <!-- DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
+  <script src="js/directives/musicProviderLogin/musicProviderLogin.directive.js"></script>
+  <script src="js/directives/musicProviderLogin/musicProviderLogin.controller.js"></script>
+<!-- END DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
+
+  <script src="lib/qrcode-generator/qrcode.js"></script>
+  <script src="lib/qrcode-generator/qrcode_UTF8.js"></script>
+  <script src="lib/angular-qrcode/angular-qrcode.js"></script>
+
+  <script src="js/directives/profileDirective/profile.directive.js"></script>
+  <script src="js/directives/profileDirective/profile.controller.js"></script>
+  <script src="js/directives/profileDirective/profile.service.js"></script>
+  <script src="js/directives/profileDirective/modals/modals_module.js"></script>
+  <script src="js/directives/profileDirective/modals/profileEditModalController.js"></script>
+  
+
   <script src="js/modules/permissions/permissions.module.js"></script>
   <script src="js/modules/permissions/permissions.service.js"></script>
   <script src="js/modules/permissions/permissions.directive.js"></script>
@@ -107,10 +123,11 @@
   <script src="js/directives/main_menu/about.modal/about.service.js"></script>
   <!-- <script src="js/directives/main_menu/about.modal/about.service.dummy.js"></script> -->
 
-  
   <script src="js/directives/main_menu/settings.modal/settings.modal.js"></script>
   <script src="js/directives/main_menu/settings.modal/settings.modal.controller.js"></script>
-  
+  <!-- <script src="js/directives/main_menu/settings.modal/settings.userService.js"></script> -->
+  <script src="js/directives/main_menu/settings.modal/settings.userService.dummy.js"></script>
+  <script src="js/services/models/settingIdentifier.js"></script>
 
   <script src="js/directives/friends/friends.directive.js"></script>
   <script src="js/directives/friends/friends.controller.js"></script>
@@ -134,6 +151,7 @@
 
   <script src="js/services/gaddum.mood.service.master.switch.service.js"></script>
   <script src="js/services/gaddum.streaming.service.js"></script>
+  <script src="js/services/gaddum.settings.userSettings.service.js"></script>
 
 
   <script src="js/services/data_api/data_api.module.js"></script>
@@ -151,18 +169,9 @@
   <script src="js/services/utilities/storage.service.js"></script>
   <script src="js/services/utilities/utilities.service.js"></script>
 
-
-
-  <!-- settings -->
-  <script src="js/services/settings/settings.module.js"></script>
-  <script src="js/services/settings/userSettings.service.dummy.js"></script>
-  <!-- <script src="js/services/settings/userSettings.service.js"></script> -->
-
-  <script src="js/services/settings/settings.service.dummy.js"></script>
-  <!-- <script src="js/services/utilities/allSettings.service.js"></script> -->
-  
-  <script src="js/services/settings/settingIdentifier.js"></script>
-
+  <!-- MUSIC PROVIDER -->
+  <!-- <script src="js/services/gaddum.musicProvider.service.js"></script> -->
+<!-- END MUSIC PROVIDER -->
   <!-- DIRECTIVES AND USEFUL THINGS FOR JEELIZ -->
   <script src="lib/external/js/jeeliz/jeelizFaceTransfer.js"></script>
   <!-- END OF JEELIZ SPECIFICS -->
@@ -181,7 +190,7 @@
 
 <body ng-app="gaddum" ng-animate-children="true">
   <permissions_directive></permissions_directive>
-
+  <music_provider_login_directive></music_provider_login_directive>
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum
