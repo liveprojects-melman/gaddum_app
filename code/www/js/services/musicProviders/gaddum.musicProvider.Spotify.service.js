@@ -54,7 +54,11 @@
         $q.all(promises).then(
           function (results) {
             deferred.resolve(AUTH_CONFIG);
+          },
+          function(error){
+            deferred.reject(error);
           }
+
         );
 
       return deferred.promise;
@@ -62,17 +66,17 @@
 
     };
 
-    function login() {
+    function asyncLogin() {
       cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
         .then(function spotifyAuthSuccess(accessToken, expiresAt) {
-          console.log("gaddum.musicProvider.Spotify.service.js:signIn success, ", accessToken, expiresAt);
+          console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", accessToken, expiresAt);
         })
     }
 
 
     var service = {
       asyncInit: asyncInit,
-      login: login
+      asyncLogin: asyncLogin
     };
 
     return service;

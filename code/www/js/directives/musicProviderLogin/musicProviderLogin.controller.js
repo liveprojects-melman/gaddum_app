@@ -17,10 +17,17 @@
       });
       vm.visible = true;
       function login(){
-        vm.visible = false;
+        
         gaddumMusicProviderService.asyncSetSupportedServiceProvider("gaddumMusicProviderSpotifyService").then(
           function(){
-            gaddumMusicProviderService.asyncLogin();
+            gaddumMusicProviderService.asyncLogin().then(
+              function(result){
+                vm.visible = false;
+              },
+              function(error){
+                vm.visible = true;
+              }
+            )
           }
         );
       }
