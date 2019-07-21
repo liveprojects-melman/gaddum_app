@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Sat Jul 20 17:42:47 2019
+-- File generated with SQLiteStudio v3.0.7 on Sun Jul 21 21:12:42 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -565,6 +565,39 @@ INSERT INTO settings (
                      VALUES (
                          'auth_spotify_token_refresh_url',
                          'https://gaddumauth.herokuapp.com:443/spotify/refresh',
+                         'string'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'auth_spotify_access_token',
+                         NULL,
+                         'string'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'auth_spotify_expires_at',
+                         NULL,
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'auth_spotify_encrypted_refresh_token',
+                         NULL,
                          'string'
                      );
 

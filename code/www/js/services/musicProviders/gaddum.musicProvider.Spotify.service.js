@@ -20,6 +20,7 @@
       encryptionSecret: "",
       redirectUrl: "",
       scopes: ["streaming"],
+      //scopes: ["streaming", "playlist-read-private", "user-read-email", "user-read-private"], // enable as needed
       tokenExchangeUrl: "",
       tokenRefreshUrl: ""
     }
@@ -66,17 +67,70 @@
 
     };
 
+
+    function asyncIsLoggedIn(){
+
+      var deferred = $q.defer();
+      var promises = [];
+      promises.push(allSettingsService.asyncGet('auth_spotify_access_token'));
+      promises.push(allSettingsService.asyncGet('auth_spotify_expires_at'));
+      
+      $q.all(promises).then(
+        function(arrayResult){
+
+          var accessToken = arrayResult[0]; // order important
+          var expiresAt = arrayResult[1];
+          var currentTimeJavaEpoch_s = Date.now() / 1000;
+
+          var expired = currentTimeJavaEpoch_s >= expiresAt;
+          
+          if(accessToken && !expired){
+            deferred.resolve();
+          }else{
+            deferred.reject();
+          }
+
+
+          
+        }
+      )
+
+      return deferred.promise;
+
+
+    }
+
+
+    function aSyncAuthSuccess(response) {
+      console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", response);
+
+      var deferred = $q.defer();
+      var promises = [];
+      promises.push(allSettingsService.asyncSet('auth_spotify_access_token', response.accessToken, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at', response.expiresAt, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token', response.encryptedRefreshToken, 'string'));
+      
+      $q.all(promises).then(
+        function(result){
+          deferred.resolve();
+        }
+      )
+
+      return deferred.promise;
+    }
+
+
+
     function asyncLogin() {
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
-        .then(function spotifyAuthSuccess(accessToken, expiresAt) {
-          console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", accessToken, expiresAt);
-        })
+        .then(aSyncAuthSuccess);
     }
 
 
     var service = {
       asyncInit: asyncInit,
-      asyncLogin: asyncLogin
+      asyncLogin: asyncLogin,
+      asyncIsLoggedIn: asyncIsLoggedIn 
     };
 
     return service;

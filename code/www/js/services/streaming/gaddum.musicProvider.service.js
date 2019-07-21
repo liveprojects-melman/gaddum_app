@@ -40,8 +40,8 @@
       asyncLogin: function asyncLogin() {
         return service.musicProvider.asyncLogin();
       },
-      isLoggedIn: function isLoggedIn() {
-        console.log("check if the user is logged in");
+      asyncIsLoggedIn: function asyncIsLoggedIn() {
+        return service.musicProvider.asyncIsLoggedIn();
       },
       logout: function logout() {
 
