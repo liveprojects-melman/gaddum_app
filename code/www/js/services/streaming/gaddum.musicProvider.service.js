@@ -1,47 +1,57 @@
 // as per https://trello.com/c/tWfwgXbh/7-musicproviderservice
-(function(){
+(function () {
   'use strict';
 
   angular
-    .module('gaddum.streaming', [])
+    .module('gaddum.streaming')
     .factory('gaddumMusicProviderService', gaddumMusicProviderService);
 
   gaddumMusicProviderService.$inject = [
     '$http',
-    '$injector',
+    '$injector'
   ];
+  console.log("HERE 1.2");
   function gaddumMusicProviderService(
     $http,
     $injector
   ) {
+
+    console.log("HERE 1.3");
+
     var service = {
       musicProvider: undefined,
       musicProviders: ["gaddumMusicProviderSpotifyService"],
       getSupportedServiceProviders: function getSupportedServiceProviders() {
-        return( service.musicProviders );
+        return (service.musicProviders);
       },
-      setSupportedServiceProvider: function setSupportedServiceProvider( musicProviderName ){
-        // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
-        for(var i in service.musicProviders ) {
-          if( service.musicProviders.hasOwnProperty( i ) ) {
-            service.musicProvider = $injector.get( musicProviderName );
-            service.musicProvider.init();
+      asyncSetSupportedServiceProvider: function setSupportedServiceProvider(musicProviderName) {
+
+        if (service.musicProviders && service.musicProviders.length > 0) {
+
+          // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
+          for (var i in service.musicProviders) {
+            if (service.musicProviders.hasOwnProperty(i)) {
+              service.musicProvider = $injector.get(musicProviderName);
+              return service.musicProvider.asyncInit();
+            }
           }
+        } else {
+          throw (new Error("no music providers!"));
         }
       },
-      login: function signIn(){
-        service.musicProvider.signIn();
+      asyncLogin: function asyncLogin() {
+        service.musicProvider.asyncLogin();
       },
-      isLoggedIn: function isLoggedIn(){
+      isLoggedIn: function isLoggedIn() {
         console.log("check if the user is logged in");
       },
-      logout: function logout(){
+      logout: function logout() {
 
       },
-      seekTracks: function seekTracks(x){
+      seekTracks: function seekTracks(x) {
         // callbacks
       },
-      setTracks: function setTracks(x){
+      setTracks: function setTracks(x) {
         // callbacks
       },
       importAllPlaylists: function importAllPlaylists(x) {

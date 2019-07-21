@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('gaddum.streaming', [])
+    .module('gaddum.streaming')
     .factory('gaddumStreamingService', gaddumStreamingService);
 
   gaddumStreamingService.$inject = [

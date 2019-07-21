@@ -110,6 +110,7 @@
 
 
         function asyncInitialiseDb() {
+            console.log("initialising DB...");
             var d = $q.defer();
             initialiseDb(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
