@@ -10,13 +10,11 @@
     '$http',
     '$injector'
   ];
-  console.log("HERE 1.2");
+
   function gaddumMusicProviderService(
     $http,
     $injector
   ) {
-
-    console.log("HERE 1.3");
 
     var service = {
       musicProvider: undefined,
@@ -40,7 +38,7 @@
         }
       },
       asyncLogin: function asyncLogin() {
-        service.musicProvider.asyncLogin();
+        return service.musicProvider.asyncLogin();
       },
       isLoggedIn: function isLoggedIn() {
         console.log("check if the user is logged in");

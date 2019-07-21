@@ -67,7 +67,7 @@
     };
 
     function asyncLogin() {
-      cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
+      return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
         .then(function spotifyAuthSuccess(accessToken, expiresAt) {
           console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", accessToken, expiresAt);
         })
