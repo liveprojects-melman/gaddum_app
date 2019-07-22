@@ -10,13 +10,11 @@
     '$stateParams',
     '$ionicSlideBoxDelegate',
     '$timeout',
-
     
     'friendsService',
     '$ionicModal',
-    '$scope',
+    '$scope'
     /* 'friend_connectionSrvc' */
-
   ];
 
   function friendsController(
@@ -24,15 +22,12 @@
     $stateParams,
     $ionicSlideBoxDelegate,
     $timeout,
-
-
-    
+   
     friendsService,
     $ionicModal,
     /* friend_connectionSrvc, */
-
-    $scope,
-  ) {
+    $scope
+    ) {
     var vm = angular.extend(this, {
       friends: null,
       test: document.createElement("p")

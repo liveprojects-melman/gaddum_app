@@ -11,12 +11,9 @@
     '$ionicSlideBoxDelegate',
     '$timeout',
     'mainMenuModal',
-    
-    
     '$ionicModal',
-    '$scope',
+    '$scope'
     /* 'friend_connectionSrvc' */
-
   ];
 
   function mainMenuController(
@@ -25,21 +22,15 @@
     $ionicSlideBoxDelegate,
     $timeout,
     mainMenuModal,
-
-    
-   
     $ionicModal,
-    
-
-    $scope,
+    $scope
   ) {
     var vm = angular.extend(this, {
-      
+
     });
     vm.params = null;
     function mainMenuModalOpen(){
-      mainMenuModal.open(vm.params,fnCallbackOk,fnCallbackCancel)
-      
+      mainMenuModal.open(vm.params,fnCallbackOk,fnCallbackCancel);
     }
     function fnCallbackOk(){
       console.log("modal ok");
@@ -48,8 +39,6 @@
       console.log("modal cancel");
     }
 
-    
-   
     vm.mainMenuModalOpen = mainMenuModalOpen;
   }
 })();
