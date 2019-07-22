@@ -12,6 +12,9 @@
         .state('gaddum.mood', {
           cache: true,
           url: '^/mood',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'mood@gaddum' : {
               templateUrl: 'js/modules/mood/mood.html',

@@ -16,6 +16,9 @@
         .state('gaddum.groups.groupsList', {
           cache: true,
           url: '^/groups/list',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'groups@gaddum': {
               templateUrl:'js/modules/groups/groups.list.html',

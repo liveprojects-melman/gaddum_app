@@ -17,6 +17,9 @@
         .state('gaddum.browse.list', {
           cache: false,
           url: '^/browse/list',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'browse@gaddum': {
               templateUrl:'js/modules/browse/browse.list.html',
