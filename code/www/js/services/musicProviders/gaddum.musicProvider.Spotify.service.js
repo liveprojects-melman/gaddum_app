@@ -101,6 +101,25 @@
     }
 
 
+    function asyncLogout(){
+
+      var deferred = $q.defer();
+      var promises = [];
+      promises.push(allSettingsService.asyncSet('auth_spotify_access_token',null, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at',null, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token',null, 'string'));
+
+      
+      $q.all(promises).then(
+        function(arrayResult){
+            deferred.resolve();
+        }
+      )
+
+      return deferred.promise;
+    }
+
+
     function aSyncAuthSuccess(response) {
       console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", response);
 
@@ -130,7 +149,8 @@
     var service = {
       asyncInit: asyncInit,
       asyncLogin: asyncLogin,
-      asyncIsLoggedIn: asyncIsLoggedIn 
+      asyncIsLoggedIn: asyncIsLoggedIn,
+      asyncLogout: asyncLogout
     };
 
     return service;

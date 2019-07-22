@@ -62,6 +62,15 @@
         }
     },
     {
+        "name": "clear_setting(id, value_type)",
+        "function": "clear_setting",
+        "path": "www/sql/clear_setting.sql",
+        "default_parameters": {
+            "id": "profile_id",
+            "value_type" : "string"
+        }
+    },
+    {
         "name": "get_num_unset_user_settings()",
         "function": "get_num_unset_user_settings",
         "path": "www/sql/get_num_unset_user_settings.sql",

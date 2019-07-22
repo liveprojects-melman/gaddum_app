@@ -235,6 +235,24 @@
             return d.promise;
         }
 
+        function clearSetting(id, type, fnSuccess, fnFail) {
+
+            mappingService.query("clear_setting", { id: id, value_type:type },
+                function (result) {
+                    fnSuccess(value);
+                }
+                , fnFail);
+        }
+
+
+        function asyncClearSetting(id, type) {
+            var d = $q.defer();
+            clearSetting(id, type,  function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            return d.promise;
+        }
+
+
+
         function getSupportedInputTypes(fnSuccess, fnFail) {
 
             mappingService.query("get_supported_input_types", {},
@@ -295,6 +313,7 @@
             asyncGetAllSettings: asyncGetAllSettings,
             asyncSetSetting: asyncSetSetting,
             asyncGetSetting: asyncGetSetting,
+            asyncClearSetting : asyncClearSetting,
             asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings
         };
 

@@ -43,8 +43,8 @@
       asyncIsLoggedIn: function asyncIsLoggedIn() {
         return service.musicProvider.asyncIsLoggedIn();
       },
-      logout: function logout() {
-
+      asyncLogout: function asyncLogout() {
+        return service.musicProvider.asyncLogout();
       },
       seekTracks: function seekTracks(x) {
         // callbacks

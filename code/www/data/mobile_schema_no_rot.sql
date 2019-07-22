@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Sun Jul 21 21:12:42 2019
+-- File generated with SQLiteStudio v3.0.7 on Mon Jul 22 09:15:38 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -508,17 +508,6 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'first_time_help',
-                         NULL,
-                         'boolean'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
                          'auth_encryption_secret',
                          'TODO_SUBSTITUTE_FOR_RELEASE',
                          'string'
@@ -601,6 +590,17 @@ INSERT INTO settings (
                          'string'
                      );
 
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'first_time_help',
+                         NULL,
+                         'boolean'
+                     );
+
 
 -- Table: tracks_to_music_providers
 DROP TABLE IF EXISTS tracks_to_music_providers;
@@ -655,8 +655,8 @@ DROP TABLE IF EXISTS user_settings;
 CREATE TABLE user_settings (
     id                   TEXT NOT NULL
                               PRIMARY KEY
-                              REFERENCES settings (id) ON DELETE SET DEFAULT
-                                                       ON UPDATE SET DEFAULT
+                              REFERENCES settings (id) ON DELETE CASCADE
+                                                       ON UPDATE CASCADE
                                                        MATCH SIMPLE,
     friendly_name        TEXT,
     friendly_description TEXT,
@@ -739,19 +739,6 @@ INSERT INTO user_settings (
                               'Share mood history',
                               'When sharing a track, also share the mood you were in when you played it, and if you played all the track.',
                               'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'first_time_help',
-                              'First time help',
-                              'Switch this on again, if you want to be reminded of how things work.',
-                              'true'
                           );
 
 
