@@ -935,3 +935,6 @@ ion-side-menu-content/*.menu-content.pane*/ {
     position: absolute;
     bottom: 43px;
 }
+.friendlyDescription{
+margin:10px;
+}

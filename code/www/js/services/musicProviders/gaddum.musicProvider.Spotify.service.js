@@ -78,6 +78,7 @@
       $q.all(promises).then(
         function(arrayResult){
 
+          console.log(arrayResult);
           var accessToken = arrayResult[0]; // order important
           var expiresAt = arrayResult[1];
           var currentTimeJavaEpoch_s = Date.now() / 1000;
@@ -111,7 +112,8 @@
 
       
       $q.all(promises).then(
-        function(arrayResult){
+        function(arrayResult){  
+          console.log(arrayResult);
             deferred.resolve();
         }
       )
@@ -141,6 +143,7 @@
 
 
     function asyncLogin() {
+      console.log("auth config",AUTH_CONFIG);
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
         .then(aSyncAuthSuccess);
     }
