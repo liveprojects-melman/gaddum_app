@@ -145,7 +145,9 @@
     function asyncLogin() {
       console.log("auth config",AUTH_CONFIG);
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
-        .then(aSyncAuthSuccess);
+        .then(aSyncAuthSuccess,function(error){
+          console.log("error: "+ JSON.stringify(error));
+        });
     }
 
 

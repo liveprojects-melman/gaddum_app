@@ -173,6 +173,19 @@
   <script src="js/services/streaming/gaddum.musicProvider.service.js"></script>
   <script src="js/services/musicProviders/gaddum.musicProvider.Spotify.service.js"></script>
 <!-- END MUSIC PROVIDER -->
+<!--SHORTCUTBAR-->
+<script src="js/directives/shortcutBar/shortcutBar.directive.js"></script>
+<script src="js/directives/shortcutBar/shortcutBr.controller.js"></script>
+<script src="js/directives/shortcutBar/contextConstuctor.js"></script>
+
+<script src="js/directives/shortcutBar/shortcutBar.service.js"></script>
+
+<script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.js"></script>
+
+<script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.controller.js"></script>
+
+
+<!--END SHORTCUTBAR-->
 
 
   <!-- settings -->
@@ -222,7 +235,9 @@
 <ion-footer-bar class="bar bar-footer" style="height:auto">
   <gaddum.player></gaddum.player>
   <gaddum.playermenu></gaddum.playermenu>
+  
 </ion-footer-bar>
+<gaddum-shortcut-bar></gaddum-shortcut-bar>
 
 </body>
 
