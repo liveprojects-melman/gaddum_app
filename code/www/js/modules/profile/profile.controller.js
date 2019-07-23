@@ -23,6 +23,7 @@
     vm.test=function test() {
       $state.go(getPermissionsState);
     };
+    
 
 
   }

@@ -30,6 +30,7 @@
           }
         function setContextMenu(list){
             modalList= list;
+            console.log(modalList);
             if(shortcutCallBack){
                 shortcutCallBack();
             }

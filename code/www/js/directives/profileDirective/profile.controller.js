@@ -8,13 +8,17 @@
   control.$inject = [
       '$state',
       'profileService',
-      'profileEditModal'
+      'profileEditModal',
+      'gaddumContextMenuItem',
+      'gaddumShortcutBarService'
   ];
 
   function control(
       $state,
       profileService,
-      profileEditModal
+      profileEditModal,
+      gaddumContextMenuItem,
+      gaddumShortcutBarService
 
   ) {
       var vm = angular.extend(this, {
@@ -206,10 +210,23 @@
       function init() {
           vm.getUserGenres;
           vm.genreScrollChecker();
+          createModalList();
+          gaddumShortcutBarService.setContextMenu(vm.conMenu);
           setInterval(function() {
               vm.genreScrollChecker();
           }, 100);
       };
       init();
+      function createModalList() {
+            var firstVariable = "Edit Profile";
+            let firstFunc = vm.profileEdit; 
+            var contextMenu = [];
+            contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
+            vm.conMenu = contextMenu;
+            console.log(vm.conMenu);
+        }
+
+       
+        
   }
 })();
