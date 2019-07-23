@@ -31,10 +31,7 @@
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(allSettingsService.asyncGet('auth_encryption_secret').then(
-        function (result) {
-          AUTH_CONFIG.encryptionSecret = result;
-        }));
+
       promises.push(allSettingsService.asyncGet('auth_spotify_client_id').then(
         function (result) {
           AUTH_CONFIG.clientId = result;
@@ -142,7 +139,12 @@
 
     function asyncLogin() {
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
-        .then(aSyncAuthSuccess);
+        .then(
+          aSyncAuthSuccess,
+          function(error){
+            console.log(error);
+          }
+          );
     }
 
 
