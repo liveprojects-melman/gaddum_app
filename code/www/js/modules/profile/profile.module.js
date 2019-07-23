@@ -11,7 +11,14 @@
           url: '^/profile',
           cache:true,
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+//            gaddumShortcutBarService.clearContextMenu();
+            // gaddumShortcutBarService.setContextMenu({
+            //   menus: [ { 
+            //     label: "Edit",
+            //     method: profileService.doShit()
+            //    } ]
+              
+            // });
           }]),
           views: {
             'profile@gaddum': {
@@ -22,4 +29,5 @@
           }
         });
     });
+
 })();

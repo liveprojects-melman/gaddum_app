@@ -14,6 +14,24 @@
   ) {
     var service={};
 
+    service.createModalList = function createModalList(){
+      var edit = "Edit Profile";
+      var editFun = showEditModal;
+      var contextMenu = [];
+      contextMenu[0]=MenuItem.build(edit,editFun);
+    }
+    service.showEditModal = function showEditModal(){
+      var allGenres=profileService.getAllGenres();
+          var userGenres=profileService.getUserGenres();
+          var modalParams=[
+              {"allGenres":allGenres},
+              {"userGenres":userGenres},
+              {"userProfile":profileService.getUserProfile()}
+          ];
+          profileEditModal.open(modalParams,callback,refresh);
+    }
+
+
     return service;
   }
 })();
