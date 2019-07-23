@@ -935,3 +935,48 @@ ion-side-menu-content/*.menu-content.pane*/ {
     position: absolute;
     bottom: 43px;
 }
+.friendlyDescription{
+margin:10px;
+}
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    text-align: center;
+  }
+  .shortcutBarShare{
+    position: absolute;
+      margin-left: 0.5em;
+      width: 1em;
+      height: 100%;
+      text-align: left;
+      font-size: 3em;
+  }
+  .shortcutBarMenu{
+    position: absolute;
+    left:45%;
+    width: 1em;
+    height: 100%;
+    text-align: center;
+    font-size: 3em;
+  }
+  .shortcutBarMenuDis{
+    position: absolute;
+    left:45%;
+    color:grey;
+    width: 1em;
+    height: 100%;
+    text-align: center;
+    font-size: 3em;
+  }
+  .shortcutBarAdd{
+    position: relative;
+    left:85%;
+    width: 1em;
+    height: 100%;
+    text-align: center;
+    font-size: 3em;
+  }

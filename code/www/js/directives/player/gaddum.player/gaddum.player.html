@@ -62,10 +62,11 @@
     <div angular-marquee scroll="true" duration="10000" id="songtitle">HELLO {{gpc.marquee.songtitle}}</div>
     <div angular-marquee scroll="true" id="artistname">HELLO {{gpc.marquee.artistname}}</div>
   </div>
-  <ul id="gaddum-shuttle" class="flexbox">
-    <li class="flex-item item"><i name="prev"  class="icon ion-skipbackward">back</i></li>
-    <li ng-show="playerState.playing!=true" class="flex-item item"><i name="pause" class="icon ion-pause">pause</i></li>
-    <li ng-show="playerState.playing===true" class="flex-item item"><i name="play"  class="icon ion-play">play</i></li>
-    <li class="flex-item item"><i name="next"  class="icon ion-skipforward">fore</i></li>
-  </ul>
+  <div id="x-gaddum-shuttle" class="button-bar x-flexbox">
+    <h1>WHAT THE FUCK</h1>
+    <a class="button x-flex-item x-item"><i name="prev"  class="icon ion-skipbackward">back</i></a>
+    <a ng-show="playerState.playing!=true" class="button x-flex-item x-item"><i name="pause" class="icon ion-pause">pause</i></a>
+    <a ng-show="playerState.playing===true" class="button x-flex-item x-item"><i name="play"  class="icon ion-play">play</i></a>
+    <a class="button x-flex-item x-item"><i name="next"  class="icon ion-skipforward">fore</i></a>
+  </div>
 </div>

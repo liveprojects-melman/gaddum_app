@@ -1,0 +1,16 @@
+
+<div class="modal " ng-controller="contextMenuModalController as mc">
+  
+    <ion-content class="selectListModal">
+    <ion-list class="selectListModal" can-swipe="true">
+      <ion-item ng-click="menuItem.func(); mc.closeModal()" ng-repeat=" menuItem in mc.params " class="">
+        
+        <h2>{{menuItem.name}}</h2>
+        
+      
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  </div>
+  </content>
+</div>

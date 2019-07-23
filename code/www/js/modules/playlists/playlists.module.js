@@ -17,6 +17,9 @@
         .state('gaddum.playlists.playlistsList', {
           cache: false,
           url: '^/playlists/playlistsList',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'playlists@gaddum': {
               templateUrl: 'js/modules/playlists/playlists.list.html',

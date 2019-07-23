@@ -17,6 +17,9 @@
         .state('gaddum.gifts.giftsList', {
           cache: false,
           url: '^/gifts/list',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'gifts@gaddum': {
               templateUrl: 'js/modules/gifts/gifts.list.html',

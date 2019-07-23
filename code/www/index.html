@@ -174,6 +174,15 @@
   <script src="js/services/musicProviders/gaddum.musicProvider.Spotify.service.js"></script>
 <!-- END MUSIC PROVIDER -->
 
+<!--SHORTCUTBAR-->
+  <script src="js/directives/shortcutBar/shortcutBar.directive.js"></script>
+  <script src="js/directives/shortcutBar/shortcutBar.controller.js"></script>
+  <script src="js/directives/shortcutBar/contextConstuctor.js"></script>
+  <script src="js/directives/shortcutBar/shortcutBar.service.js"></script>
+  <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.js"></script>
+  <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.controller.js"></script>
+<!--END SHORTCUTBAR-->
+
 
   <!-- settings -->
   <script src="js/services/settings/settings.module.js"></script>
@@ -203,7 +212,7 @@
 
 <body ng-app="gaddum" ng-animate-children="true">
   <permissions_directive></permissions_directive>
-  <music_provider_login_directive></music_provider_login_directive>
+  <!--<music_provider_login_directive></music_provider_login_directive>-->
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum
@@ -222,7 +231,9 @@
 <ion-footer-bar class="bar bar-footer" style="height:auto">
   <gaddum.player></gaddum.player>
   <gaddum.playermenu></gaddum.playermenu>
+  
 </ion-footer-bar>
+<gaddum-shortcut-bar></gaddum-shortcut-bar>
 
 </body>
 

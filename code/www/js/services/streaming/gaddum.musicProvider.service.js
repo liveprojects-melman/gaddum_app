@@ -38,9 +38,11 @@
         }
       },
       asyncLogin: function asyncLogin() {
+        console.log("log in",service.musicProvider.asyncLogin());
         return service.musicProvider.asyncLogin();
       },
       asyncIsLoggedIn: function asyncIsLoggedIn() {
+        console.log(service.musicProvider.asyncIsLoggedIn());
         return service.musicProvider.asyncIsLoggedIn();
       },
       asyncLogout: function asyncLogout() {
