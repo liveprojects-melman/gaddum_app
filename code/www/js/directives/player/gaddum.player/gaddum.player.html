@@ -1,16 +1,16 @@
 <style>
  #gaddum-player {
    background-color:orange;
-   position:absolute;
-   width:100%;;
+   xposition:absolute;
+   xwidth:100%;
    height:auto;
    overflow:hidden;
    padding: 0 4px;
   }
-
+/*
    #gaddum-player>ul.flexbox {
-     position:relative;
-     bottom:100%;
+     xposition:relative;
+     xbottom:100%;
 	   display: -webkit-flex;
 	   display: flex;
 	   -webkit-flex-flow: row nowrap;
@@ -20,20 +20,20 @@
      background-color:orange;
      xpadding:12px;
    }
-
+*//*
  #gaddum-player>ul>li.flex-item {
 	 -webkit-flex: 1 0 auto;
 	 flex: 1 0 auto;
    background-color:red;
    width:20px;height:20px;
  }
-
- #gaddum-player>ul>li.flex-item>i.icon {
+*/
+/* #gaddum-player>ul>li.flex-item>i.icon {
    width:20px;
    height:20px;
    background-color:yellow;
  }
-
+*/
  div#scroller {
    display:inline-block;
    width:100%;
@@ -63,7 +63,6 @@
     <div angular-marquee scroll="true" id="artistname">HELLO {{gpc.marquee.artistname}}</div>
   </div>
   <div id="x-gaddum-shuttle" class="button-bar x-flexbox">
-    <h1>WHAT THE FUCK</h1>
     <a class="button x-flex-item x-item"><i name="prev"  class="icon ion-skipbackward">back</i></a>
     <a ng-show="playerState.playing!=true" class="button x-flex-item x-item"><i name="pause" class="icon ion-pause">pause</i></a>
     <a ng-show="playerState.playing===true" class="button x-flex-item x-item"><i name="play"  class="icon ion-play">play</i></a>
