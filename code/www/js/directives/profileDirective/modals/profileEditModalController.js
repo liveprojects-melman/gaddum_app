@@ -116,7 +116,7 @@
     vm.checkboxCheck=function(){
       var label;
       newGenres=[];
-      vm.params[0].allGenres.forEach(function checkboxCheckCallback(genre) {
+      vm.params[0].allGenres.forEach(genre => {
         label=document.getElementById("checkbox_"+genre).querySelector("input");
         console.log(label.checked);
         if (label.checked==true) {
@@ -127,13 +127,13 @@
       console.log(newGenres);
       console.log("old");
       console.log(vm.params[1].userGenres);
-
+      
       vm.params[1].userGenres=newGenres;
-    };
+    }
 
     vm.getGenresAsString=function(){
       return vm.params[1].userGenres.join(", ");
-    };
+    }
 
     vm.matchCheckboxes=function(){
       var label;
@@ -146,7 +146,7 @@
           label.checked=false;
         }
       });
-    };
+    }
 
     vm.returnData=function(){
       var newData={
@@ -158,12 +158,14 @@
       newData.genres=["music"]; */
       profileEditModal.callback(newData);
       profileEditModal.close();
-    };
+    }
 
     vm.cancel=function(){
       profileEditModal.cancel();
       profileEditModal.close();
-    };
+    }
+
+    
 
   }
 })();
