@@ -116,7 +116,7 @@
     vm.checkboxCheck=function(){
       var label;
       newGenres=[];
-      vm.params[0].allGenres.forEach(genre => {
+      vm.params[0].allGenres.forEach(function(genre){
         label=document.getElementById("checkbox_"+genre).querySelector("input");
         console.log(label.checked);
         if (label.checked==true) {

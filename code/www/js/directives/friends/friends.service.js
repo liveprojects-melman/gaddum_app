@@ -114,7 +114,7 @@
           if (input == null) {
             return friendsDummy;
           } else {
-            for (let i = 0; i < friendsDummy.length; i++) {
+            for (var i = 0; i < friendsDummy.length; i++) {
               console.log(friendsDummy[i].profile.avatar_name)
               console.log(input + " included in " + friendsDummy[i].profile.avatar_name + " = " + friendsDummy[i].profile.avatar_name.includes(input))
               if (friendsDummy[i].profile.avatar_name.toLowerCase().includes(input.toLowerCase())) {

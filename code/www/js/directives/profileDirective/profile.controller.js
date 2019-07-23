@@ -176,7 +176,7 @@
 
           for (var j = 0; j < profileService.getUserProfile().profile.avatar_graphic.length; j++) {
               bin = profileService.getUserProfile().profile.avatar_graphic[j].toString(2);
-              for (let x = bin.length; x < 8; x++) {
+              for (var x = bin.length; x < 8; x++) {
                   bin = "0" + bin;
               }
               for (var k = 0; k < bin.length; k++) {
