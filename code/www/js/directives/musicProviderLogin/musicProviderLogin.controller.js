@@ -22,15 +22,18 @@
         .then(gaddumMusicProviderService.asyncIsLoggedIn)
         .then(
           function (result) {
+            console.log("login");
             vm.visible = false;
           },
           gaddumMusicProviderService.asyncLogin)
         .then(
           function (result) {
             vm.visible = false;
+            console.log("login");
           },
           function (error) {
             vm.visible = true;
+            console.log(error);
           }
         );
     }

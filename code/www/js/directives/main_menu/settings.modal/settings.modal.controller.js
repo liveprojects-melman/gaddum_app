@@ -25,9 +25,12 @@
 
     });
 
-
-    function changed(id,value,type) {
+    sc.showFriendlyDescription = true;
+    function changed(id,value,type,friendlyDes) {
       userSettingsService.asyncSet(id, value, type);
+      sc.showFriendlyDescription = false;
+      sc.friendlyDescription = friendlyDes;
+
     }
 
 

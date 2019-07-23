@@ -17,6 +17,9 @@
         .state('gaddum.messages.messageList', {
           cache: false,
           url: '^/messages/list',
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            gaddumShortcutBarService.setContextMenu({});
+          }]),
           views: {
             'messages@gaddum': {
               templateUrl: 'js/modules/messages/messages.list.html',

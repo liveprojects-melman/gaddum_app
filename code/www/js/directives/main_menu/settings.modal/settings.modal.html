@@ -11,10 +11,13 @@
       <ion-item class="checkboxItem item-checkbox-right" ng-repeat=" setting in sc.settings " >
         
         
-        <ion-checkbox ng-model="setting.value" ng-change="sc.changed(setting.id, setting.value, setting.type)" class="checkbox item-checkbox-right">{{setting.friendly_name}}</ion-checkbox>
+        <ion-checkbox ng-model="setting.value" ng-change="sc.changed(setting.id, setting.value, setting.type,setting.friendly_description)" class="checkbox item-checkbox-right">{{setting.friendly_name}}</ion-checkbox>
       
       </ion-item>
       </ion-list>
+    </div>
+    <div class="friendlyDescription" ng-hide="sc.showFriendlyDescription">
+    <p>{{sc.friendlyDescription}}</p>
     </div>
   </ion-content>
   </div>

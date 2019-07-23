@@ -10,6 +10,16 @@
         .state('gaddum.profile', {
           url: '^/profile',
           cache:true,
+          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+//            gaddumShortcutBarService.clearContextMenu();
+            // gaddumShortcutBarService.setContextMenu({
+            //   menus: [ { 
+            //     label: "Edit",
+            //     method: profileService.doShit()
+            //    } ]
+              
+            // });
+          }]),
           views: {
             'profile@gaddum': {
               templateUrl: 'js/modules/profile/profile.html',
@@ -19,4 +29,5 @@
           }
         });
     });
+
 })();
