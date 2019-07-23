@@ -16,13 +16,13 @@
   ) {
 
     var AUTH_CONFIG = {
-      clientId: "",
+      clientId: "gaddumspotify",
       encryptionSecret: "",
-      redirectUrl: "",
+      redirectUrl: "gaddumspotify://redirect",
       scopes: ["streaming"],
       //scopes: ["streaming", "playlist-read-private", "user-read-email", "user-read-private"], // enable as needed
-      tokenExchangeUrl: "",
-      tokenRefreshUrl: ""
+      tokenExchangeUrl: "https://gaddumauth.heroku.com:443/spotify/exchange",
+      tokenRefreshUrl: "https://gaddumauth.heroku.com:443/spotify/refresh"
     }
 
 

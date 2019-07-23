@@ -11,11 +11,13 @@
     "cordova-android": "6.4.0",
     "cordova-browser": "5.0.4",
     "cordova-custom-config": "^5.1.0",
-    "cordova-ios": "4.5.5",
+    "cordova-ios": "^4.5.5",
+    "cordova-plugin-add-swift-support": "^1.6.1",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-appversion": "^1.0.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-console": "^1.1.0",
+    "cordova-plugin-customurlscheme": "^4.4.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-geolocation": "^2.4.3",
@@ -60,10 +62,14 @@
       "uk.co.workingedge.cordova.plugin.sqliteporter": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-appversion": {},
-      "cordova-spotify-oauth": {}
+      "cordova-spotify-oauth": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "gaddumspotify"
+      }
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
