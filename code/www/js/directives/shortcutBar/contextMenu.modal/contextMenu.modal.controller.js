@@ -18,16 +18,16 @@
     var mc = angular.extend(this, {
       
     });
-    $scope.contextMenuModal=contextMenuModal;
+    $scope.gaddumContextMenuModal=gaddumContextMenuModal;
     function init() {
-      mc.params =contextMenuModal.getParams();
+      mc.params =gaddumContextMenuModal.getParams();
       
       
     }
     init();
     function closeModal(){
       
-      contextMenuModal.close();
+      gaddumContextMenuModal.close();
     }
     mc.closeModal = closeModal;
   }

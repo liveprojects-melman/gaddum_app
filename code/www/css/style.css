@@ -980,3 +980,19 @@ margin:10px;
     text-align: center;
     font-size: 3em;
   }
+  .modalContext {
+      position: absolute;
+    width: 40%;
+    left: 30%;
+    top:72%;
+    bottom: 4em;
+    height: 20%;
+    background-color:white;
+    min-height: 20px;
+    border-radius: 1em;
+    border:solid black 0.3em; 
+}
+.contextButton{
+    background-color: rgba(0,0,0,0);
+    border:none;
+}
