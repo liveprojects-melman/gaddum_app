@@ -3,16 +3,16 @@
   
     angular
       .module('gaddum.shortcutBar')
-      .factory('gaddum.contextMenuItem', MenuItem)
+      .factory('gaddumContextMenuItem', gaddumContextMenuItem)
       ;
   
-      MenuItem.$inject = [
+      gaddumContextMenuItem.$inject = [
       
     ];
-    function MenuItem(
+    function gaddumContextMenuItem(
         
     ) {
-        function MenuItem(name, func) {
+        function gaddumContextMenuItem(name, func) {
             // Public properties, assigned to the instance ('this')
             this.name = name;
             this.func = func;
@@ -23,9 +23,9 @@
            * Static method, assigned to class
            * Instance ('this') is not available in static context
            */
-          MenuItem.build = function (name,func) {
+          gaddumContextMenuItem.build = function (name,func) {
             
-            return new MenuItem(
+            return new gaddumContextMenuItem(
               name,
               func
               
@@ -35,7 +35,7 @@
           /**
            * Return the constructor function
            */
-          return MenuItem;
+          return gaddumContextMenuItem;
     }
   })();
   
