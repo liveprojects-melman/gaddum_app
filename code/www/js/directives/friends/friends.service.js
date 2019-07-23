@@ -133,7 +133,7 @@
             delete friendsDummy[index];
             var tempFriends=[];
             var j=0;
-            for (let i = 0; i < friendsDummy.length; i++) {
+            for (var i = 0; i < friendsDummy.length; i++) {
           if (friendsDummy[i]!=null) {
             tempFriends[j] = friendsDummy[i];
           j++;

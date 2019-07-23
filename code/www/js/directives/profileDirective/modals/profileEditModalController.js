@@ -137,7 +137,7 @@
 
     vm.matchCheckboxes=function(){
       var label;
-      vm.params[0].allGenres.forEach(genre => {
+      vm.params[0].allGenres.forEach(function(genre){
         label=document.getElementById("checkbox_"+genre).querySelector("input");
         console.log(label.checked);
         if (vm.params[1].userGenres.includes(genre)) {

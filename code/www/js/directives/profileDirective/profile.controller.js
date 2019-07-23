@@ -219,7 +219,7 @@
       init();
       function createModalList() {
             var firstVariable = "Edit Profile";
-            let firstFunc = vm.profileEdit; 
+            var firstFunc = vm.profileEdit; 
             var contextMenu = [];
             contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
             vm.conMenu = contextMenu;
