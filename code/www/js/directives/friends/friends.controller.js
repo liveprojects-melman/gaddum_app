@@ -14,7 +14,7 @@
     
     'friendsService',
     '$ionicModal',
-    '$scope',
+    '$scope'
     /* 'friend_connectionSrvc' */
 
   ];
@@ -31,7 +31,7 @@
     $ionicModal,
     /* friend_connectionSrvc, */
 
-    $scope,
+    $scope
   ) {
     var vm = angular.extend(this, {
       friends: null,

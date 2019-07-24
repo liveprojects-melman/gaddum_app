@@ -31,7 +31,7 @@
     $ionicModal,
     
 
-    $scope,
+    $scope
   ) {
     var vm = angular.extend(this, {
       
