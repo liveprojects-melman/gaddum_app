@@ -118,8 +118,6 @@
 
 
     function aSyncAuthSuccess(response) {
-      console.log("gaddum.musicProvider.Spotify.service.js:asyncLogin success, ", response);
-
       var deferred = $q.defer();
       var promises = [];
       promises.push(allSettingsService.asyncSet('auth_spotify_access_token', response.accessToken, 'string'));

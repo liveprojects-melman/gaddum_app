@@ -8,17 +8,17 @@
     </div>
   <div class="hasHeaderE">
    <ion-list class="checkboxSettings" can-swipe="true">
-      <ion-item class="checkboxItem item-checkbox-right" ng-repeat=" setting in sc.settings " >
+      <ion-item class="checkboxItem item-checkbox-right" ng-click="sc.changeSet($index)" ng-repeat=" setting in sc.settings track by setting.id" >
         
-        
-        <ion-checkbox ng-model="setting.value" ng-change="sc.changed(setting.id, setting.value, setting.type,setting.friendly_description)" class="checkbox item-checkbox-right">{{setting.friendly_name}}</ion-checkbox>
-      
+        <h2 class="settingsH2">{{setting.friendly_name}}</h2>
+        <input type="checkbox" ng-model="setting.value" ng-change="sc.changed(setting.id, setting.value, setting.type,setting.friendly_description,$index)" class="checkbox"></input>
+        <h5 class="settingsH5">{{setting.friendly_description}}</h5>
       </ion-item>
       </ion-list>
     </div>
-    <div class="friendlyDescription" ng-hide="sc.showFriendlyDescription">
+    <!-- <div class="friendlyDescription" ng-hide="sc.showFriendlyDescription">
     <p>{{sc.friendlyDescription}}</p>
-    </div>
+    </div> -->
   </ion-content>
   </div>
  

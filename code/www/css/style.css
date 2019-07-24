@@ -155,12 +155,13 @@ ion-modal
     width: 60%;
     border-radius: 1em;
     border:solid black 0.3em; 
+    z-index: 2000;
 }
 .aboutModal{
     width:90% ;
     left:5%;
-    height: 87.5%;
-    top:7%;
+    height: 80%;
+    top:5%;
     background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
 }
 .modalTitle{
@@ -788,28 +789,29 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding:0;
     background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
 }
+
 .checkbox{
-    width:100%;
+    
     border-width:0px;
     background-color:rgba(0,0,0,0) !important;/*  this makes the background clear for the check boxes in settings*/
     color:black;
+    float: right;
+    margin-right:10px !important;
+    margin-top:4px !important;
+    border:0.05em solid black;
+    padding:10px;
     
-    
-    
+}
+.settingsH2{
+    padding:4px;
+    display:inline-block;
+}
+.settingsH5{
+    padding:4px;
+    white-space:normal !important;
 }
 
-.item-checkbox-right .checkbox input,
-.item-checkbox-right .checkbox-icon {
-  float: right;
-  margin-right:10px;
-  border:0.05em solid black;
-  border-radius:2em;
-}
-.item-checkbox.item-checkbox-right {
-  /*the default item padding*/
-  
-  padding:10px;
-}
+
 .button{
     border-color: transparent;
     background-color: #cc0000;

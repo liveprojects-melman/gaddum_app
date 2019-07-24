@@ -38,11 +38,11 @@
         }
       },
       asyncLogin: function asyncLogin() {
-        console.log("log in",service.musicProvider.asyncLogin());
+        
         return service.musicProvider.asyncLogin();
       },
       asyncIsLoggedIn: function asyncIsLoggedIn() {
-        console.log(service.musicProvider.asyncIsLoggedIn());
+        
         return service.musicProvider.asyncIsLoggedIn();
       },
       asyncLogout: function asyncLogout() {
@@ -54,8 +54,17 @@
       setTracks: function setTracks(x) {
         // callbacks
       },
-      importAllPlaylists: function importAllPlaylists(x) {
-
+      importAllPlaylists: function importAllPlaylists(limit=10,offset=0) {
+          var token = JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
+          var config = {headers: {'Authorization': `Bearer ${token}`}};
+          return $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`,config );
+          
+      },
+      getplaylistTracks: function getplaylistTracks(result){
+        
+        var token = JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
+        var config = {headers: {'Authorization': `Bearer ${token}`}};
+        return $http.get(`https://api.spotify.com/v1/playlists/${result}/tracks`,config );
       },
       getTrackInfo: function getTrackInfo(x) {
 

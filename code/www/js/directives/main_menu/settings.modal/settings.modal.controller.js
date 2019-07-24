@@ -24,12 +24,19 @@
     var sc = angular.extend(this, {
 
     });
+    var first = true;
+    sc.temp = false;
 
-    sc.showFriendlyDescription = true;
-    function changed(id,value,type,friendlyDes) {
-      userSettingsService.asyncSet(id, value, type);
-      sc.showFriendlyDescription = false;
-      sc.friendlyDescription = friendlyDes;
+    // sc.showFriendlyDescription = true;
+    function changed(id,value,type,friendlyDes,index) {
+      if (first ===true){
+        SettingsModal.initDict(sc.settings);
+        first = false;
+      }
+      // userSettingsService.asyncSet(id, value, type);
+      SettingsModal.addToDict(sc.settings[index],index);
+      // sc.showFriendlyDescription = false;
+      // sc.friendlyDescription = friendlyDes;
 
     }
 
@@ -82,9 +89,17 @@
           console.log("error colecting settings")
         }
       );
-
+      
     }
     init();
+    function changeSet(index){
+      if (first ===true){
+        SettingsModal.initDict(sc.settings);
+        first = false;
+      }
+      sc.settings[index].value = !sc.settings[index].value
+    }
     sc.changed = changed;
+    sc.changeSet = changeSet;
   }
 })();

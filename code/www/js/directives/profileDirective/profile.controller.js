@@ -10,7 +10,8 @@
       'profileService',
       'profileEditModal',
       'gaddumContextMenuItem',
-      'gaddumShortcutBarService'
+      'gaddumShortcutBarService',
+      'gaddumMusicProviderService'
   ];
 
   function control(
@@ -18,7 +19,8 @@
       profileService,
       profileEditModal,
       gaddumContextMenuItem,
-      gaddumShortcutBarService
+      gaddumShortcutBarService,
+      gaddumMusicProviderService
 
   ) {
       var vm = angular.extend(this, {
@@ -212,6 +214,8 @@
           vm.genreScrollChecker();
           createModalList();
           gaddumShortcutBarService.setContextMenu(vm.conMenu);
+
+
           setInterval(function() {
               vm.genreScrollChecker();
           }, 100);
@@ -225,6 +229,27 @@
             vm.conMenu = contextMenu;
             console.log(vm.conMenu);
         }
+        function getPlaylist(){
+
+          gaddumMusicProviderService.importAllPlaylists().then(function(result){
+              var id=result.data.items[0].id
+              
+                gaddumMusicProviderService.getplaylistTracks(id).then(function(result2){
+
+                    console.log("track",result2);
+                }).catch(function(er){
+
+                    console.log(er);
+                });
+            }).catch(function(er){
+
+                console.log(er);
+            });
+
+
+        }
+        
+        
 
        
         

@@ -294,7 +294,7 @@
                 result = sql.replace(new RegExp(expression, 'g'), replaceWith);
 
             } catch (e) {
-                console.log("substituteInSql: problem substituting: " + replaceWith);
+                console.log("substituteInSql: problem substituting: " + replaceWith + e);
             }
 
             success(result);

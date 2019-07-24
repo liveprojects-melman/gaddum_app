@@ -11,7 +11,7 @@
           url: '^/profile',
           cache:true,
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+            
           }]),
           views: {
             'profile@gaddum': {
