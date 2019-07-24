@@ -247,12 +247,18 @@
     }
 
     function sleep() {
-      emotionReaderService.setSleep(true);
-      vm.detecting = false;
+      if(emotionReaderService.isRunning){
+        emotionReaderService.setSleep(true);
+        vm.detecting = false;
+      }
+      
     }
     function wake() {
-      emotionReaderService.setSleep(false);
-      vm.detecting = true;
+      if(emotionReaderService.isRunning){
+        emotionReaderService.setSleep(false);
+        vm.detecting = true;
+      }
+      
     }
     function selectModal(){
       sleep();
