@@ -2,24 +2,24 @@
     'use strict';
 
     angular
-        .module('modalsProfile', [])
-        .factory('profileEditModal', profileEditModal);
-    profileEditModal.$inject = ['$ionicModal', '$rootScope'];
-    function profileEditModal($ionicModal, $rootScope) {
+        .module('editImageModalModule', [])
+        .factory('editImageModal', editImageModal);
+        editImageModal.$inject = ['$ionicModal', '$rootScope'];
+    function editImageModal($ionicModal, $rootScope) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
                 focusFirstInput: true,
-                controller: 'profileEditModalController as vm',
+                controller: 'editImageModalController as vm',
                 
             };
         $scope.$on("modal.hidden", function (modal) {
             close();
-            $scope.fnCallbackCancel();
+            
         });
         var modalSave = null;
         var parmeter = null;
-        var closeCheck = null;
+        var encodedImage=[];
 
         var myModal = {
             open: open,
@@ -27,19 +27,19 @@
             getParams:getParams,
             callback:callback,
             cancel:cancel,
-            closeCheckFalse:closeCheckFalse
+            imgUpdate:imgUpdate
         };
         return myModal;
 
         function open(params, fnCallbackOk, fnCallbackCancel) {
             var service = this;
-            closeCheck=true;
+
             parmeter = params;
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
-                'js/directives/profileDirective/modals/profileEditModal.html',
-                myModalInstanceOptions
+                'js/directives/profileDirective/modals/editImageModal.html',
+                myModalInstanceOptions,
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
@@ -57,15 +57,12 @@
             
         }
         function close() {
-            if(closeCheck){
-                if(modalSave){
-                    modalSave.remove();
-                }
+            
+            if(modalSave){
+                modalSave.remove();
+                $scope.fnCallbackCancel(encodedImage);
             }
-            closeCheck = true;
-        }
-        function closeCheckFalse(){
-            closeCheck = false;
+            
         }
         function closeAndRemove(modalInstance) {
             return modalInstance.hide()
@@ -76,6 +73,10 @@
 
         function callback(newData){
             $scope.fnCallbackOk(newData);
+        };
+
+        function imgUpdate(modalImage){
+            encodedImage=modalImage;
         };
 
         function cancel(){

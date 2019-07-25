@@ -790,7 +790,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
 }
 
-.checkbox{
+.hasHeaderE .checkbox{
     
     border-width:0px;
     background-color:rgba(0,0,0,0) !important;/*  this makes the background clear for the check boxes in settings*/
@@ -889,13 +889,17 @@ ion-side-menu-content/*.menu-content.pane*/ {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin: 0%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
 }
 #rerollNameBtn{
-  position: absolute;
-  right: 0%;
-  width: 30%;
-  height: 0%!important;
+    position: absolute;
+    right: 0%;
+    width: 30%;
+    height: 8%!important;
+    top: 10%;
 }
 #genreslist{
   /* position: relative; */
@@ -930,6 +934,17 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .genreCheckboxes{
     border-width: 0px;
 }
+#genresCheckboxlist{
+    height:40%;
+    position: relative;
+  }
+  #genreToggle{
+    max-width: 100%;
+    max-height: 5% !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 /* .hasfooter{
     height: 10% !important;
 } */
@@ -997,4 +1012,41 @@ margin:10px;
 .contextButton{
     background-color: rgba(0,0,0,0);
     border:none;
+}
+.modalProfileEdit{
+    width:90% ;
+    left:5%;
+    height: 80%;
+    top:5%;
+    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+}
+
+.modalGenresCheckboxes{
+    width: 50%;
+    height: 60%;
+    position: absolute;
+    left: 7%;
+    /* top: 40%; */
+    bottom: 0%;
+    
+}
+
+.genresCheckboxlist .checkbox{
+    /* border-width: 0px!important;
+    color:black;
+    float: right;
+    margin-right:0px !important;
+    margin-top:0px !important;
+    border:0.00em solid black;
+    padding:0px; */
+}
+#genreToggle{
+    /* position: absolute;
+    top: 40%; */
+}
+.profileImageEditModal{
+    width: 85%;
+    position: absolute;
+    left: 7.5%;
+
 }

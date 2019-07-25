@@ -39,33 +39,33 @@
             }
         };
 
-        var genresList=[
-            "Afrobeat",
-            "Blues",
-            "Lo-fi",
-            "Mambo",
-            "Reggae",
-            "Rocksteady",
-            "Dancehall",
-            "Soca",
-            "Ska",
-            "Bluegrass",
-            "Country",
-            "K-pop",
-            "J-pop",
-            "Hiphop",
-            "Techno",
-            "Drill",
-            "Grime",
-            "House",
-            "Electronic",
-            "Hardbass",
-            "Funk",
-            "Disco",
-            "Soul",
-            "Motown",
-            "Jazz",
-        ]
+        var genresList={"genres":[
+            {genre:"Afrobeat",value:false},
+            {genre:"Blues",value:false},
+            {genre:"Lo-fi",value:false},
+            {genre:"Mambo",value:false},
+            {genre:"Reggae",value:false},
+            {genre:"Rocksteady",value:false},
+            {genre:"Dancehall",value:false},
+            {genre:"Soca",value:false},
+            {genre:"Ska",value:false},
+            {genre:"Bluegrass",value:false},
+            {genre:"Country",value:false},
+            {genre:"K-pop",value:false},
+            {genre:"J-pop",value:false},
+            {genre:"Hiphop",value:false},
+            {genre:"Techno",value:false},
+            {genre:"Drill",value:false},
+            {genre:"Grime",value:false},
+            {genre:"House",value:false},
+            {genre:"Electronic",value:false},
+            {genre:"Hardbass",value:false},
+            {genre:"Funk",value:false},
+            {genre:"Disco",value:false},
+            {genre:"Soul",value:false},
+            {genre:"Motown",value:false},
+            {genre:"Jazz",value:false}
+        ]};
 
         var userGenres=["Jazz","Ska"];
 
@@ -85,9 +85,14 @@
             return userProfile.profile.avatar_name;
         };
 
+        service.getAvatar_image=function(){
+            return userProfile.profile.avatar_graphic;
+        };
+
         service.editGenres= function(newGenres){
             userGenres=newGenres;
         };
+        
 
         service.getUserGenres= function(){
             return userGenres;
@@ -100,6 +105,10 @@
         service.setGenres=function(genres){
             userGenres=genres;
         }
+
+        service.setAvatar_image=function(image){
+            userProfile.profile.avatar_graphic=image;
+        };
         
 
         return service;

@@ -24,8 +24,8 @@
 
   ) {
       var vm = angular.extend(this, {
-          /* genres:"Country,Bluegrass,Electroswing,nuJazz,Soul" */
-          scrollGenre:true
+          scrollGenre:true,
+          genresFontStyle:false
 
       });
       var scale = 8;
@@ -47,22 +47,6 @@
           }
       };
 
-      /* vm.userGenres = [
-          " Country",
-          " Bluegrass",
-          " Electroswing",
-          " Jazz",
-          " Soul",
-          " Funk",
-          " Disco",
-          " Grime",
-          " House",
-          " Techno",
-          " RnB",
-          " Classical",
-          " Opera",
-          " Reggae",
-      ] */
       vm.name=profileService.getUsername();
       vm.getName=function(){
           return profileService.getUsername();
@@ -72,7 +56,6 @@
           setTimeout(function(){ 
               vm.name=profileService.getUsername(); 
               vm.encodedProfile = btoa(profileService.getProfileAsString());
-              //$scope.$apply(); 
           }, 0);
       }
 
@@ -86,11 +69,10 @@
           setTimeout(function(){
                vm.userGenres=profileService.getUserGenres().join(", "); 
                vm.encodedProfile = btoa(profileService.getProfileAsString());
-               //$scope.$apply();                  
+               vm.genreScrollChecker();                  
               }, 0);
       }
 
-      /* vm.encodedProfile = btoa(JSON.stringify(vm.userProfile)); */
       vm.encodedProfile = btoa(profileService.getProfileAsString());
 
 
@@ -106,7 +88,7 @@
           profileEditModal.open(modalParams,callback,refresh);
           //var,ok,c
 
-          /* containerService.editGenres(["Hardbass"]); */
+          
           vm.getUserGenres=profileService.getUserGenres().toString();
           vm.genreScrollChecker();
       };
@@ -118,30 +100,13 @@
       
 
       vm.genreScrollChecker = function () {
-          /* vm.scrollGenre=false;
-          vm.scrollGenre=true;
-          vm.genreWidth = document.getElementById("genresText").offsetWidth;
-          vm.containerWidth = document.getElementById("nameHeader").offsetWidth;
-          vm.genreHeight= document.getElementById("genreStatic").offsetHeight;
-          if (vm.genreWidth > (vm.containerWidth-80)||(vm.genreHeight>30)) {
-              //console.log("Genre too big");
-              vm.scrollGenre=true;
-          } else{
-              //console.log("Genre small");
-              vm.scrollGenre=false;
-          } */
 
           if (document.getElementById("genreStatic")) {
-
-
 
               var genreFont = document.getElementById("genreStatic").style.font;
               var genreText = profileService.getUserGenres().join(", ");
               var genreStatic = document.getElementById("genreStatic").offsetWidth;
               var maxNoScrollWidth = document.body.clientWidth - (document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
-              /* console.log(textWidth(genreText, genreFont) + ">" + maxNoScrollWidth + "then scroll"); */
-
-
 
               if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
                   vm.scrollGenre = true;
@@ -201,11 +166,23 @@
       function callback(profileDetails){
           //update everything on screen
           vm.setName(profileDetails.name);
+          vm.setAvatar_image(profileDetails.avatar_image);
           vm.setGenres(profileDetails.genres);
+          vm.genreScrollChecker();
+
       };
-      function refresh(profileDetails){
+      function refresh(profileDetails) {
           //refresh all the things
       };
+
+      vm.setAvatar_image = function (avatar_image) {
+          console.log("aimg", avatar_image);
+          profileService.setAvatar_image(avatar_image);
+          setTimeout(function () {
+              vm.userProfile.profile.avatar_graphic = profileService.getAvatar_image(avatar_image);
+              vm.createProfileGraphic(vm.userProfile.profile_id);
+          }, 0);
+      }
 
 
       // TODO: Error Handling

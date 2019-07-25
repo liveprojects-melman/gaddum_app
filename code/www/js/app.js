@@ -32,7 +32,9 @@ angular.module('gaddum', [
   'gaddum.profileDirective',
   'gaddum.settings',
   'gaddum.permissions',
-  'gaddum.shortcutBar'
+  'gaddum.shortcutBar',
+  'editImageModalModule',
+  'genresCheckboxModalsModule'
 ])
   .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService','startupSrvc', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService,startupSrvc) {
     $rootScope.$on('slideChanged', function(a) {
