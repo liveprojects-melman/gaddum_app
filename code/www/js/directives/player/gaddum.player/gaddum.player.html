@@ -1,11 +1,15 @@
 <style>
  #gaddum-player {
    background-color:orange;
-   xposition:absolute;
-   xwidth:100%;
+   position:absolute;
+   width:100%;
    height:auto;
    overflow:hidden;
    padding: 0 4px;
+   bottom:36px !important;
+   border:1px solid black;
+   height:100px;
+   z-index:102;
   }
 /*
    #gaddum-player>ul.flexbox {
@@ -57,15 +61,13 @@
  }
 
 </style>
-<div id="gaddum-player">
-  <div id="scroller">
+<div id="scroller" class="animated" ng-show="1">
     <div angular-marquee scroll="true" duration="10000" id="songtitle">HELLO {{gpc.marquee.songtitle}}</div>
     <div angular-marquee scroll="true" id="artistname">HELLO {{gpc.marquee.artistname}}</div>
   </div>
-  <div id="x-gaddum-shuttle" class="button-bar x-flexbox">
-    <a class="button x-flex-item x-item"><i name="prev"  class="icon ion-skipbackward">back</i></a>
-    <a ng-show="playerState.playing!=true" class="button x-flex-item x-item"><i name="pause" class="icon ion-pause">pause</i></a>
-    <a ng-show="playerState.playing===true" class="button x-flex-item x-item"><i name="play"  class="icon ion-play">play</i></a>
-    <a class="button x-flex-item x-item"><i name="next"  class="icon ion-skipforward">fore</i></a>
+  <div id="gaddum-shuttle" class="button-bar">
+    <button name="prev" class="button icon-left icon ion-skipbackward">back</button>
+    <button ng-show="playerState.playing!=true" name="pause" class="icon ion-pause button">pause</button>
+    <button name="play" ng-show="playerState.playing===true" class="button icon-left button-left ion-play">play</button>
+    <button name="next" class="button icon-left icon ion-skipforward">fore</button>
   </div>
-</div>
