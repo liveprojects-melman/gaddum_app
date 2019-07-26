@@ -15,7 +15,7 @@
             };
         $scope.$on("modal.hidden", function (modal) {
             close();
-            $scope.fnCallbackCancel();
+            
         });
         var modalSave = null;
         var parmeter = null;
@@ -60,6 +60,7 @@
             if(closeCheck){
                 if(modalSave){
                     modalSave.remove();
+                    $scope.fnCallbackCancel();
                 }
             }
             closeCheck = true;

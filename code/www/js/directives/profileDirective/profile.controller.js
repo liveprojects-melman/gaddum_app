@@ -193,9 +193,9 @@
           gaddumShortcutBarService.setContextMenu(vm.conMenu);
 
 
-          setInterval(function() {
+          /* setInterval(function() {
               vm.genreScrollChecker();
-          }, 100);
+          }, 100); */
       };
       init();
       function createModalList() {
