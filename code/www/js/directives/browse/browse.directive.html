@@ -1,0 +1,70 @@
+
+    <div>
+    
+
+      <div>
+
+
+
+
+        <ion-modal-controller></ion-modal-controller>
+        <div class="item item-button-right friendsSearch">
+          <input type="text" ng-value="searchInput" name="searchTextInput" id="searchBox" ng-model="bm.searchText">
+          <button class="button button-assertive search" ng-click="bm.search(bm.searchType)" id="searchButton">
+            <i class="icon ion-search"></i>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div style="width: 40%; text-overflow: ellipsis;overflow: hidden; white-space: nowrap; margin-left:5px; display:inline-block;">
+            <h3 style="color:black; max-width: 40%;" class="openSearchModalText">{{bm.searchTypeText()}}</h3>
+        </div>
+        
+        <button class="openSearchModal button" ng-click="bm.openSearchModal()">Choose Search Criteria </button>
+      </div>
+      <ion-content ng-show="true" style="top:27%; height:56%;" id="browseListscroll">
+        <ion-list can-swipe="true" id="friendsList">
+          <ion-item ng-repeat="browse in bm.searchBrowse" 
+            can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="bm.preventSlideBox($event)"
+            ng-touchend="bm.allowSlideBox($event)" ng-mousedown="bm.preventSlideBox($event)" ng-mouseup="bm.allowSlideBox($event)">
+           
+              <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.album.images[0].url}}">
+              <p style="color:black;">{{browse.artists[0].name}}</p>
+              <p style="color:black;">{{browse.album.name}}</p>
+              <h1>{{browse.name}}</h1>
+
+            
+            
+            <ion-option-button class="button-assertive removeFriends" ng-click="bm.play(browse)">
+              <img src="css/icons8-play-50.png"/>
+              <div class="removeTextInButton">play</div>
+            
+          </ion-option-button>
+        
+          <ion-option-button class="button-info addToGroup" ng-click="bm.addToPlaylist(browse)">
+            
+            <div class="addTo">add to</div>
+          
+            <img src="css/playlist_add_black_96x96.png"/>
+
+            <div class="groupTextInButton">playlist</div>
+            </ion-option-button>
+            <ion-option-button class="button-energised shareFriends" ng-click="bm.share(browse)">
+              <img src="css/share.png" />
+              <div class="shareTextInButton">share</div>
+            
+          </ion-option-button>
+
+          </ion-item>
+        </ion-list>
+      </ion-content>
+
+
+
+
+    </div>
+
+
+
+
+    </div>

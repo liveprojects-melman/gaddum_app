@@ -8,12 +8,14 @@
 
   gaddumMusicProviderService.$inject = [
     '$http',
-    '$injector'
+    '$injector',
+    '$timeout'
   ];
 
   function gaddumMusicProviderService(
     $http,
-    $injector
+    $injector,
+    $timeout
   ) {
 
     var service = {
@@ -66,6 +68,38 @@
         var config = {headers: {'Authorization': `Bearer ${token}`}};
         return $http.get(`https://api.spotify.com/v1/playlists/${result}/tracks`,config );
       },
+      searchSpotify: function searchSpotify(searchTerm,type){
+        return new Promise(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            if (type.track){
+              $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`,config ).then(function(result){
+                //resualtArray.push(result);
+                return resolve(result);
+              });
+            }
+            if (type.artist){
+              //i did alittle set up for you and got confused good luck it didnt want to work at all.
+              var artist= $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`,config );
+              if(artist.artists.items.lenghth > 1){
+                var topTracks = $http.get(`https://api.spotify.com/v1/artists/${artist.artists.items[0].id}/top-tracks?country=SE`, config);
+                resualtArray.push(topTracks);
+              }
+              
+            }
+            if (type.album){
+              resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=album`,config ));
+            }
+            if (type.playlist){
+              resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=playlist`,config ));
+            }
+            //resolve(resualtArray);
+          });
+        });
+       
+        
+      },
       getTrackInfo: function getTrackInfo(x) {
 
       },
@@ -77,7 +111,16 @@
       },
       getGenres: function getGenres(x) {
 
-      } /*,
+      },
+      asyncGetAccessToken: function asynceGetAccessToken(){
+        return $timeout(function(){
+          return JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
+        },0);
+      }
+      
+      
+      
+      /*,
 
       state: {
         ready: false,

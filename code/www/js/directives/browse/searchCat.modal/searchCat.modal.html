@@ -1,0 +1,26 @@
+
+<div class="modal searchCatModal slide-in-down" ng-controller="searchCarModalController as mc">
+  
+    <ion-content class="selectListModal">
+    <ion-list class="selectListModal" can-swipe="true">
+      <ion-item ng-click="mc.changeTrack()">
+        <h2 class="checkboxListItemText">track</h2>
+        <input type="checkbox" ng-model="mc.list.track" ng-change="mc.changeTrack()" class="checkbox"></input>
+      </ion-item>
+      <ion-item ng-click="mc.changeArtist()" >
+        <h2 class="checkboxListItemText">artist</h2>
+        <input type="checkbox" ng-model="mc.list.artist" ng-change="mc.changeArtist()" class="checkbox"></input>
+      </ion-item>
+      <ion-item ng-click="mc.changeAlbum()">
+        <h2 class="checkboxListItemText">album</h2>
+        <input type="checkbox" ng-model="mc.list.album" ng-change="mc.changeAlbum()" class="checkbox"></input>
+      </ion-item>
+      <ion-item ng-click="mc.changePlaylist()">
+        <h2 class="checkboxListItemText">playlist</h2>
+        <input type="checkbox" ng-model="mc.list.playlist" ng-change="mc.changePlaylist()" class="checkbox"></input>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  </div>
+  </content>
+</div>

@@ -725,12 +725,21 @@ ion-side-menu-content/*.menu-content.pane*/ {
     height: 30%;
     
 }
+.addToGroup{
+    background-color: yellow !important ;
+}
 .shareFriends img{
     height: 30%;
     
 }
+.shareFriends{
+    background-color: lightblue !important;
+}
 .removeFriends img{
     height: 30%;
+}
+.removeFriends{
+    background-color: lightgreen !important;
 }
 .addTo{
     position: absolute;
@@ -1049,4 +1058,26 @@ margin:10px;
     position: absolute;
     left: 7.5%;
 
+}
+.openSearchModal{
+    float: right;
+    display: inline;
+}
+.openSearchModalText{
+    display: inline;
+}
+.searchCatModal{
+    top: 32%;
+    right: 20%;
+    bottom: 20%;
+    left: 20%;
+    min-height: 240px;
+    width: 60%;
+    height: 40%;
+    border-radius: 1em;
+    border:solid black 0.3em; 
+    z-index: 2000;
+}
+.checkboxListItemText{
+    display: inline;
 }
