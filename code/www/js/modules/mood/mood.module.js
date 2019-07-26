@@ -27,7 +27,7 @@
             gaddumMoodServiceMasterSwitchService.turnOn();
           },
           onExit: function(gaddumMoodServiceMasterSwitchService){
-            console.log("TURN OFF!")
+            console.log("TURN OFF!");
             gaddumMoodServiceMasterSwitchService.turnOff();
           }
 

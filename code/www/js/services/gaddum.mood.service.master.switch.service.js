@@ -7,9 +7,11 @@
 
   gaddumMoodServiceMasterSwitchService.$inject = [
 
+    'emotionReaderService'
   ];
   function gaddumMoodServiceMasterSwitchService (
 
+    emotionReaderService
   ) {
     var service = {
       state: {
@@ -21,6 +23,7 @@
       },
       turnOff: function turnOff() {
         console.log("off!");
+        emotionReaderService.setSleep(true);
         service.state.on = false;
       }
     };
