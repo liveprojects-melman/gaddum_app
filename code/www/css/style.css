@@ -1081,3 +1081,10 @@ margin:10px;
 .checkboxListItemText{
     display: inline;
 }
+
+.editPageProfileCanvas{
+    position: absolute;
+    right: calc( 50% - 22.5% );
+    top: calc( 100% - 45% );
+    width: 45%;
+} 
