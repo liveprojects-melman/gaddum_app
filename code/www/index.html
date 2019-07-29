@@ -223,8 +223,8 @@
 </head>
 
 <body ng-app="gaddum" ng-animate-children="true">
-  <permissions_directive></permissions_directive>
-  <music_provider_login_directive></music_provider_login_directive>
+  <!--   <permissions_directive></permissions_directive> -->
+  <!-- <music_provider_login_directive></music_provider_login_directive> -->
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum
@@ -240,10 +240,10 @@
   </ion-content>
 </body>
 
-<gaddum.player id="gaddum-player"></gaddum.player>
 <!--<gaddum.playermenu></gaddum.playermenu>-->
 
-<ion-footer-bar class="footer" style="height:5rem !important;">
+<ion-footer-bar class="footer" >
+  <gaddum.player></gaddum.player>
   <gaddum-shortcut-bar></gaddum-shortcut-bar>
 </ion-footer-bar>
 

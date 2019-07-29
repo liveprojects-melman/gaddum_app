@@ -1076,11 +1076,12 @@ margin:10px;
     height: 40%;
     border-radius: 1em;
     border:solid black 0.3em; 
-    z-index: 2000;
+    x-z-index: 2000;
 }
 .checkboxListItemText{
     display: inline;
 }
+<<<<<<< Updated upstream
 .browseSpinner{
         width: 35px;
     position: absolute;
@@ -1096,3 +1097,14 @@ margin:10px;
     width: 45%;
 } 
 
+=======
+
+/* gaddum player */
+gaddum.player {
+  width:100%;
+  position:fixed;
+  left:0;top:0;width:100px;height:200px;
+  background-color:silver;
+  display:block;
+}
+>>>>>>> Stashed changes
