@@ -57,16 +57,30 @@
         // callbacks
       },
       importAllPlaylists: function importAllPlaylists(limit=10,offset=0) {
-          var token = JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
-          var config = {headers: {'Authorization': `Bearer ${token}`}};
-          return $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`,config );
-          
+
+        return new Promise(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`,config ).then(function(result){
+                //resualtArray.push(result);
+                return resolve(result);
+              });
+            }
+        } 
       },
-      getplaylistTracks: function getplaylistTracks(result){
-        
-        var token = JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
-        var config = {headers: {'Authorization': `Bearer ${token}`}};
-        return $http.get(`https://api.spotify.com/v1/playlists/${result}/tracks`,config );
+      getplaylistTracks: function getplaylistTracks(PID){
+
+        return new Promise(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`,config ).then(function(result){
+                //resualtArray.push(result);
+                return resolve(result);
+              });
+            }
+        }
       },
       searchSpotify: function searchSpotify(searchTerm,type){
         return new Promise(function(resolve,reject){
