@@ -1081,7 +1081,7 @@ margin:10px;
 .checkboxListItemText{
     display: inline;
 }
-<<<<<<< Updated upstream
+
 .browseSpinner{
         width: 35px;
     position: absolute;
@@ -1097,7 +1097,7 @@ margin:10px;
     width: 45%;
 } 
 
-=======
+
 
 /* gaddum player */
 gaddum.player {
@@ -1107,4 +1107,126 @@ gaddum.player {
   background-color:silver;
   display:block;
 }
->>>>>>> Stashed changes
+
+/*how are you dialog*/
+.howAreYouButton{
+    width: 95%;
+    margin-left:2.5%;
+    font-size: 3rem;
+    text-align: center;
+    border:solid 1px black;
+    border-radius: 2em;
+    background-color: rgb(67, 138, 202);
+    color:black;
+}
+.emojiPeaceful{
+    width:1.5em;
+    border-radius: 10em;
+    border:solid 1px black;
+    background-color: rgb(67, 138, 202);
+}
+.emojiAngry{
+    width:1.5em;
+    float:right;
+    margin-right:20%;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiRestful{
+    width:1.5em;
+    margin-left:20%;
+    border-radius: 10em;
+    border:solid 1px black;
+    background-color: rgb(67, 138, 202);
+}
+.emojiCrazy{
+    width:1.5em;
+    float:right;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiSad{
+    width:1.5em;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiHappy{
+    width:1.5em;
+    float:right;
+    border:solid 1px black;
+    margin-right:20%;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiTired{
+    width:1.5em;
+    margin-left:20%;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiPhysical{
+    width:1.5em;
+    float: right;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiBored{
+    width:1.5em;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiFocussed{
+    width:1.5em;
+    float:right;
+    margin-right:20%;
+    border:solid 1px black;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+}
+.emojiSize{
+    font-size: 4.2em !important;
+}
+.HowAreYouModalBox{
+    width:90% ;
+    left:5%;
+    height: 95%;
+    top:2.5%;
+    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20))
+}
+.overLay{
+    position: absolute;
+    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    width:100%;
+    
+
+    
+}
+.slideHowAre.ng-hide {
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+  }
+  
+  .slideHowAre.ng-hide-remove,
+  .slideHowAre.ng-hide-add {
+    -webkit-transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+      transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+  }
+  
+  .slideHowAre.ng-hide-remove {
+    -webkit-transition: all 1s;
+    transition: all  1s;
+  }
+  
+  .slideHowAre.ng-hide-add {
+    -webkit-transition: all  1s;
+    transition: all  1s;
+  }
+.selectedItemRed{
+      background-color: rgb(255, 75, 20) !important;
+  }

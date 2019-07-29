@@ -12,6 +12,7 @@
     '$timeout',
     'gaddumMusicProviderService',
     'searchCatModal',
+    'howAreYouModal',
     
     'friendsService',
     '$ionicModal',
@@ -26,6 +27,7 @@
     $timeout,
     gaddumMusicProviderService,
     searchCatModal,
+    howAreYouModal,
 
     
     browseService,
@@ -111,6 +113,18 @@
     }
     function play(TID){
       gaddumMusicProviderService.playTrack(TID);
+      howAreYou();
+    }
+    function howAreYou(){
+      
+      howAreYouModal.open(null,fnCallbackOk,fnCallbackCancel);
+    }
+    function fnCallbackOk(emotion){
+      onItemSelect(emotion.id);
+      console.log(emotion);
+    }
+    function fnCallbackCancel(){
+      console.log("modal canceled");
     }
     
     bm.play=play;
