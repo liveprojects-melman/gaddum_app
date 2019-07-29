@@ -206,25 +206,7 @@
             vm.conMenu = contextMenu;
             console.log(vm.conMenu);
         }
-        function getPlaylist(){
-
-          gaddumMusicProviderService.importAllPlaylists().then(function(result){
-              var id=result.data.items[0].id
-              
-                gaddumMusicProviderService.getplaylistTracks(id).then(function(result2){
-
-                    console.log("track",result2);
-                }).catch(function(er){
-
-                    console.log(er);
-                });
-            }).catch(function(er){
-
-                console.log(er);
-            });
-
-
-        }
+        
         
         
 
