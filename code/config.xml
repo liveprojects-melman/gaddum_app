@@ -104,6 +104,7 @@
     <plugin name="cordova-plugin-customurlscheme" spec="^4.4.0">
         <variable name="URL_SCHEME" value="gaddumspotify" />
     </plugin>
+    <plugin name="cordova-spotify" spec="0.5.8" />
     <engine name="android" spec="6.4.0" />
     <engine name="ios" spec="^4.5.5" />
 </widget>

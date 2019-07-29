@@ -46,6 +46,7 @@
     
 
     function init() {
+      bm.searching=false;
       bm.searchBrowse=[];
       bm.sList= false;
       bm.searchText =null;
@@ -59,10 +60,11 @@
     }
     init();
     function search(){
-
+      bm.searching = true;
       gaddumMusicProviderService.searchSpotify(bm.searchText,bm.searchType).then(function(result){
         console.log(result);
         bm.sList = true;
+        bm.searching=false;
         bm.searchBrowse = result.data.tracks.items;
         
         
@@ -107,8 +109,11 @@
       }
       return text;
     }
+    function play(TID){
+      gaddumMusicProviderService.playTrack(TID);
+    }
     
-    // bm.showList = showList;
+    bm.play=play;
     bm.searchTypeText = searchTypeText;
     bm.openSearchModal = openSearchModal;
   bm.search = search;

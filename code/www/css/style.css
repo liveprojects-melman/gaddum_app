@@ -1081,3 +1081,9 @@ margin:10px;
 .checkboxListItemText{
     display: inline;
 }
+.browseSpinner{
+        width: 35px;
+    position: absolute;
+    right: 20%;
+    top: 15px;
+}

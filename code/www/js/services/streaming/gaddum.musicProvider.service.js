@@ -9,13 +9,15 @@
   gaddumMusicProviderService.$inject = [
     '$http',
     '$injector',
-    '$timeout'
+    '$timeout',
+    '$q'
   ];
 
   function gaddumMusicProviderService(
     $http,
     $injector,
-    $timeout
+    $timeout,
+    $q
   ) {
 
     var service = {
@@ -56,9 +58,30 @@
       setTracks: function setTracks(x) {
         // callbacks
       },
+      playTrack: function playTrack(TID){//doesnt work thought it would ;(
+        return $q(function(resolve,reject){
+          var deviceID = device.uuid;
+          service.asyncGetAccessToken().then(function(result){
+              cordova.plugins.spotify.play(`spotify:track:${TID}`, { 
+              clientId: `${deviceID}`,
+              token: `${result}`
+            }).then(function(){
+              return resolve(true);
+            });
+          });
+        });
+      },
+      pause: function pause(){
+        return $q(function(resolve,reject){
+          cordova.plugins.spotify.pause()
+            then(function(){
+              return resolve(true);
+            });
+        });
+      },
       importAllPlaylists: function importAllPlaylists(limit=10,offset=0) {
 
-        return new Promise(function(resolve,reject){
+        return $q(function(resolve,reject){
           var resualtArray = [];
           service.asyncGetAccessToken().then(function(result){
             var config = {headers: {'Authorization': `Bearer ${result}`}};
@@ -66,12 +89,12 @@
                 //resualtArray.push(result);
                 return resolve(result);
               });
-            }
-        } 
+            });
+        });
       },
       getplaylistTracks: function getplaylistTracks(PID){
 
-        return new Promise(function(resolve,reject){
+        return $q(function(resolve,reject){
           var resualtArray = [];
           service.asyncGetAccessToken().then(function(result){
             var config = {headers: {'Authorization': `Bearer ${result}`}};
@@ -79,11 +102,11 @@
                 //resualtArray.push(result);
                 return resolve(result);
               });
-            }
-        }
+            });
+        });
       },
       searchSpotify: function searchSpotify(searchTerm,type){
-        return new Promise(function(resolve,reject){
+        return $q(function(resolve,reject){
           var resualtArray = [];
           service.asyncGetAccessToken().then(function(result){
             var config = {headers: {'Authorization': `Bearer ${result}`}};
