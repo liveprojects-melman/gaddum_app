@@ -16,7 +16,8 @@
     
     'friendsService',
     '$ionicModal',
-    '$scope'
+    '$scope',
+    'addToPlaylistWizard'
 
   ];
 
@@ -33,7 +34,8 @@
     browseService,
     $ionicModal,
 
-    $scope
+    $scope,
+    addToPlaylistWizard
   ) {
     var bm = angular.extend(this, {
       
@@ -76,13 +78,13 @@
     });
     }
     function openSearchModal(){
-      searchCatModal.open(bm.searchType,fnCallbackOk,fnCallbackCancel);
+      searchCatModal.open(bm.searchType,fnCallbackSearchOk,fnCallbackSearchCancel);
     }
-    function fnCallbackOk(){
+    function fnCallbackSearchOk(){
 
     }
     
-    function fnCallbackCancel(type){
+    function fnCallbackSearchCancel(type){
       bm.searchType = type;
       bm.searchBrowse=[];
     }
@@ -126,7 +128,17 @@
     function fnCallbackCancel(){
       console.log("modal canceled");
     }
+    function addToPlaylist(track){
+      addToPlaylistWizard.open(track,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+    }
+    function fnCallbackAddToPlaylistOk(){
+      
+    }
+    function fnCallbackAddToPlaylistCancel(){
+      console.log("modal canceled");
+    }
     
+    bm.addToPlaylist=addToPlaylist;
     bm.play=play;
     bm.searchTypeText = searchTypeText;
     bm.openSearchModal = openSearchModal;
