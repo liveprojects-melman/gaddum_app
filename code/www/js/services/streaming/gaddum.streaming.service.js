@@ -6,10 +6,12 @@
     .factory('gaddumStreamingService', gaddumStreamingService);
 
   gaddumStreamingService.$inject = [
-    '$http'
+    '$http',
+    '$interval' // testing only
   ];
   function gaddumStreamingService(
-    $http
+    $http,
+    $interval
   ) {
     var service = {
       state: {
@@ -23,11 +25,18 @@
     };
 
     service.init = function init() {
-      service.ready = true;
-      service.playing = false;
+      service.state.ready = true;
+      service.state.playing = true;
     };
 
     service.init();
+
+    // set up a thing to toggle interface from time to time!
+    service.test = $interval(function(){
+      service.state.playing = !service.state.playing;
+      service.state.ready = !service.state.ready;
+      console.log("PLAYTOGGLE");
+    },5000,50, false );
 
     return service;
 

@@ -42,11 +42,9 @@
         }
       },
       asyncLogin: function asyncLogin() {
-        
         return service.musicProvider.asyncLogin();
       },
       asyncIsLoggedIn: function asyncIsLoggedIn() {
-        
         return service.musicProvider.asyncIsLoggedIn();
       },
       asyncLogout: function asyncLogout() {
@@ -79,6 +77,7 @@
             });
         });
       },
+
       importAllPlaylists: function importAllPlaylists(limit=10,offset=0) {
 
         return $q(function(resolve,reject){
@@ -92,6 +91,7 @@
             });
         });
       },
+
       getplaylistTracks: function getplaylistTracks(PID){
 
         return $q(function(resolve,reject){
@@ -99,10 +99,10 @@
           service.asyncGetAccessToken().then(function(result){
             var config = {headers: {'Authorization': `Bearer ${result}`}};
             $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`,config ).then(function(result){
-                //resualtArray.push(result);
-                return resolve(result);
-              });
+              //resualtArray.push(result);
+              return resolve(result);
             });
+          });
         });
       },
       searchSpotify: function searchSpotify(searchTerm,type){
@@ -123,7 +123,6 @@
                 var topTracks = $http.get(`https://api.spotify.com/v1/artists/${artist.artists.items[0].id}/top-tracks?country=SE`, config);
                 resualtArray.push(topTracks);
               }
-              
             }
             if (type.album){
               resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=album`,config ));
@@ -134,8 +133,6 @@
             //resolve(resualtArray);
           });
         });
-       
-        
       },
       getTrackInfo: function getTrackInfo(x) {
 
@@ -154,9 +151,7 @@
           return JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
         },0);
       }
-      
-      
-      
+
       /*,
 
       state: {

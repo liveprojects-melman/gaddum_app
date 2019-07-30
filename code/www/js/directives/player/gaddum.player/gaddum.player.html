@@ -1,73 +1,86 @@
 <style>
  #gaddum-player {
-   background-color:orange;
    position:absolute;
    width:100%;
    height:auto;
    overflow:hidden;
-   padding: 0 4px;
+   padding:0;
+   margin: 0 -5px;
    bottom:36px !important;
-   border:1px solid black;
-   height:100px;
-   z-index:102;
-  }
-/*
-   #gaddum-player>ul.flexbox {
-     xposition:relative;
-     xbottom:100%;
-	   display: -webkit-flex;
-	   display: flex;
-	   -webkit-flex-flow: row nowrap;
-	   flex-flow: row nowrap;
-	   -webkit-justify-content: center;
-	   justify-content:center;
-     background-color:orange;
-     xpadding:12px;
-   }
-*//*
- #gaddum-player>ul>li.flex-item {
-	 -webkit-flex: 1 0 auto;
-	 flex: 1 0 auto;
-   background-color:red;
-   width:20px;height:20px;
+   height:6rem;
  }
-*/
-/* #gaddum-player>ul>li.flex-item>i.icon {
-   width:20px;
-   height:20px;
-   background-color:yellow;
- }
-*/
+ /*
+    #gaddum-player>ul.flexbox {
+    xposition:relative;
+    xbottom:100%;
+	  display: -webkit-flex;
+	  display: flex;
+	  -webkit-flex-flow: row nowrap;
+	  flex-flow: row nowrap;
+	  -webkit-justify-content: center;
+	  justify-content:center;
+    background-color:orange;
+    xpadding:12px;
+    }
+  *//*
+    #gaddum-player>ul>li.flex-item {
+	  -webkit-flex: 1 0 auto;
+	  flex: 1 0 auto;
+    background-color:red;
+    width:20px;height:20px;
+    }
+  */
+ /* #gaddum-player>ul>li.flex-item>i.icon {
+    width:20px;
+    height:20px;
+    background-color:yellow;
+    }
+  */
  div#scroller {
    display:inline-block;
    width:100%;
    position:relative;
    left:0;
    right:0;
-   background-color:silver;
+   background-color:white;
+   padding:0 1rem;
  }
+ div#scroller {
+   text-align:center;
+}
 
- div#scroller>div {
-   display:block;
-   background-color:lime;
-   width:100%;
-   clear:both;
- }
- 
- div#gaddum-shuttle {
-   clear:both;
-   width:100%;
-   background-color:aqua;
- }
+   div#scroller>div {
+     display:block;
+     width:100%;
+     clear:both;
+   }
+   
+   div#gaddum-shuttle {
+     clear:both;
+     width:100%;
+     background-color:aqua;
+   }
+
+   /* enter/exit animations */
+
+   div#gaddum-player {
+     transition: all linear 3.5s;
+   }
+   div#gaddum-player.ng-hide {
+     margin-bottom: -100%;
+   }
 
 </style>
-<div id="scroller" class="animated" ng-show="1">
-    <div angular-marquee scroll="true" duration="10000" id="songtitle">HELLO {{gpc.marquee.songtitle}}</div>
-    <div angular-marquee scroll="true" id="artistname">HELLO {{gpc.marquee.artistname}}</div>
+<div id="gaddum-player" class="animated" ng-show="gpc.state.ready===true" ng-click="gpc.toggle();">
+  <div id="scroller" class="animated"  ng-show="gpc.state.ready===true">
+    <div angular-marquee scroll="gpc.state.playing" duration="10000" id="songtitle">HELLO {{gpc.marquee.songtitle}}</div>
+    <div angular-marquee scroll="gpc.state.playing" id="artistname">HELLO {{gpc.marquee.artistname}}</div>
+    </div>
+    <div id="gaddum-shuttle" class="button-bar">
+      <button name="prev" class="button icon-left icon ion-skipbackward">back</button>
+      <button ng-show="playerState.playing!=true" name="pause" class="icon ion-pause button" ng-press="gpc.handlePausePress()">pause</button>
+      <button name="play" ng-show="playerState.playing===true" class="button icon-left button-left ion-play" ng-press="gpc.">play</button>
+      <button name="next" class="button icon-left icon ion-skipforward">fore</button>
+    </div>
   </div>
-  <div id="gaddum-shuttle" class="button-bar">
-    <button name="prev" class="button icon-left icon ion-skipbackward">back</button>
-    <button ng-show="playerState.playing!=true" name="pause" class="icon ion-pause button">pause</button>
-    <button name="play" ng-show="playerState.playing===true" class="button icon-left button-left ion-play">play</button>
-    <button name="next" class="button icon-left icon ion-skipforward">fore</button>
-  </div>
+</div>

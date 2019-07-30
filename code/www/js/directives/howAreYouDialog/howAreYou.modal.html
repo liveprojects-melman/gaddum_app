@@ -1,0 +1,33 @@
+
+<div class="modal HowAreYouModalBox"  ng-controller="howAreYouModalController as mc" >
+  
+    <ion-content class="howAreYouModal">
+        <div class="overLay slideHowAre"  ng-hide=!mc.itemSelected >
+            <h3  class="modalTitle">{{mc.emotionSelected.name}}</h3>
+          </div>
+      <div style="width:100%;">
+          
+      <h3 class="modalTitle">How Are You?</h3>
+    </div>
+    <div class="emotionButtonDiv">
+        <button ng-click="mc.showOverlay(mc.allEmotions.peaceful)" class="emojiPeaceful emojiSize " ng-class="((mc.emotionSelected === mc.allEmotions.peaceful) ? 'selectedItemRed' : '')">{{mc.allEmotions.peaceful.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.angry)" class="emojiAngry emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.angry) ? 'selectedItemRed' : '')">{{mc.allEmotions.angry.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.restful)" class="emojiRestful emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.restful) ? 'selectedItemRed' : '')">{{mc.allEmotions.restful.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.crazy)" class="emojiCrazy emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.crazy) ? 'selectedItemRed' : '')">{{mc.allEmotions.crazy.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.sad)" class="emojiSad emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.sad) ? 'selectedItemRed' : '')">{{mc.allEmotions.sad.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.happy)" class="emojiHappy emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.happy) ? 'selectedItemRed' : '')">{{mc.allEmotions.happy.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.tired)" class="emojiTired emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.tired) ? 'selectedItemRed' : '')">{{mc.allEmotions.tired.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.physical)" class="emojiPhysical emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.physical) ? 'selectedItemRed' : '')">{{mc.allEmotions.physical.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.bored)" class="emojiBored emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.bored) ? 'selectedItemRed' : '')">{{mc.allEmotions.bored.emoji}}</button>
+        <button ng-click="mc.showOverlay(mc.allEmotions.focussed)" class="emojiFocussed emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.focussed) ? 'selectedItemRed' : '')">{{mc.allEmotions.focussed.emoji}}</button>
+      </div>
+      
+        <button ng-disabled="!(mc.emotionSelected != '')" ng-click="mc.selectEmo()" class="howAreYouButton" ng-class="((mc.emotionSelected != '') ? 'selectedItemRed' : '')">That's me</button>
+      
+      
+  </ion-content>
+  </div>
+  </content>
+</div>
+
+<!-- ng-class="((1=1) ? test : notTest)" -->

@@ -161,6 +161,10 @@
 
   <script src="js/services/gaddum.mood.service.master.switch.service.js"></script>
 
+  <script src="js/directives/howAreYouDialog/howAreYou.modal.js"></script>
+  <script src="js/directives/howAreYouDialog/howAreYou.modal.controller.js"></script>
+
+
 
 
 
@@ -194,7 +198,14 @@
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.js"></script>
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.controller.js"></script>
 <!--END SHORTCUTBAR-->
+<!-- WIZARDS  -->
 
+
+  <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.js"></script>
+  <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.controller.js"></script>
+  
+
+<!-- END OF WIZARDS  -->
 
   <!-- settings -->
   <script src="js/services/settings/settings.module.js"></script>
@@ -238,7 +249,7 @@
 </head>
 
 <body ng-app="gaddum" ng-animate-children="true">
-  <permissions_directive></permissions_directive>
+    <permissions_directive></permissions_directive>
   <music_provider_login_directive></music_provider_login_directive>
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
@@ -255,10 +266,10 @@
   </ion-content>
 </body>
 
-<gaddum.player id="gaddum-player"></gaddum.player>
 <!--<gaddum.playermenu></gaddum.playermenu>-->
 
-<ion-footer-bar class="footer" style="height:5rem !important;">
+<ion-footer-bar class="footer" >
+  <gaddum.player></gaddum.player>
   <gaddum-shortcut-bar></gaddum-shortcut-bar>
 </ion-footer-bar>
 
