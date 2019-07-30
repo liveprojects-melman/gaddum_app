@@ -26,7 +26,8 @@
     var moodIdDict = {};
     var mc = angular.extend(this, {
       itemSelected:false,
-      emotionSelected: ''
+      emotionSelected: '',
+      playlistSelected:[]
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
