@@ -87,7 +87,7 @@
       "Preserve",
       "Relish"
     ];
-    const canvas_size = 8;
+    var canvas_size = 8;
 
     var canvas;
     var canvas_wh = [];
@@ -115,7 +115,7 @@
     window.onload=init();
 
     function loadEditor(){
-      console.log("runnung");
+      //console.log("runnung");
       setTimeout(function()  {
 
         getCanvasSize();
@@ -160,12 +160,12 @@
         canvas_grid.addEventListener('touchmove', clickMove, false);
         canvas_grid.addEventListener('mousemove', clickMove, false);
         canvas_grid.addEventListener('touchend', clickEnd, false);
-        canvas_grid.addEventListener('mouseup', clickEnd, false); 
+        canvas_grid.addEventListener('mouseup', clickEnd, false);
 
         var clear = document.getElementById('clear');
         var invert = document.getElementById('invert');
         clear.addEventListener('mouseup', handle_clear, false);
-        invert.addEventListener('mouseup', handle_invert, false);	
+        invert.addEventListener('mouseup', handle_invert, false);
 
         var body = document.getElementsByTagName('body')[0];
         body.addEventListener('touchmove', clickMove, false);
@@ -192,40 +192,38 @@
         console.log(rowdata);
         var temp=rowdata.toString(2);
         console.log("temp",temp);
-        if (temp!=0) {
+        if (temp!==0) {
           if (temp.length<8) {
             var buffer="";
-            for (let i = 0; i < 8-temp.length; i++) {
+            for (var i = 0; i < 8-temp.length; i++) {
               buffer+="0";
             }
             temp=buffer+temp;
           }
-
           imgAsHash+=temp.split("").toString()+",";
           console.log("hash",imgAsHash);
         }else{
           imgAsHash+="0,0,0,0,0,0,0,0,";
         }
-
       });
       imgAsHash=imgAsHash.substring(0,imgAsHash.length-1);
-        var data = imgAsHash.substr(1).split(':');
-        var size = data[0].split(',');
-        var pixels = data[1].split(',');
-        var pixel_index = 0;
-        for (var y = 0; y<parseInt(size[1]); y++) {
-          for (var x = 0; x<parseInt(size[1]); x++) {
-            setPixel(canvas, x, y , pixel_colours[ parseInt(pixels[pixel_index]) ]);
-            pixel_index = pixel_index + 1;
-          }
+      var data = imgAsHash.substr(1).split(':');
+      var size = data[0].split(',');
+      var pixels = data[1].split(',');
+      var pixel_index = 0;
+      for (var y = 0; y<parseInt(size[1]); y++) {
+        for (var x = 0; x<parseInt(size[1]); x++) {
+          setPixel(canvas, x, y , pixel_colours[ parseInt(pixels[pixel_index]) ]);
+          pixel_index = pixel_index + 1;
         }
-        updateThumb();
+      }
+      updateThumb();
     };
 
     var handle_save = function handle_save() {
-        console.log("this is the save");
-        console.log("Returning img in callback",encodedImg);
-        editImageModal.callback(encodedImg);
+      //console.log("this is the save");
+      //console.log("Returning img in callback",encodedImg);
+      editImageModal.callback(encodedImg);
         editImageModal.close();
 
         var save_canvas = document.createElement('canvas');
