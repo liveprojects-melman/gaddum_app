@@ -247,8 +247,11 @@
     }
 
     function sleep() {
+      if(emotionReaderService.isRunning){
         emotionReaderService.setSleep(true);
         vm.detecting = false;
+      }
+        
       
       
     }
