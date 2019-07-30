@@ -192,13 +192,103 @@
 
     }
 
+    // --- needs a tidy
+    function playTrack(TID){
+      return $q(function(resolve,reject){
+          var deviceID = device.uuid;
+          service.asyncGetAccessToken().then(function(result){
+              cordova.plugins.spotify.play(`spotify:track:${TID}`, { 
+              clientId: `${deviceID}`,
+              token: `${result}`
+            }).then(function(){
+              return resolve(true);
+            });
+          });
+        });
+    }
+    function pause(){
+      return $q(function(resolve,reject){
+          cordova.plugins.spotify.pause()
+            then(function(){
+              return resolve(true);
+            });
+        });
+    }
+    function importAllPlaylists(limit=20,offset=0){
+      return $q(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`,config ).then(function(result){
+                //resualtArray.push(result);
+                return resolve(result);
+              });
+            });
+        });
+    }
+    function getPlaylistTracks(PID){
+      return $q(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`,config ).then(function(result){
+              //resualtArray.push(result);
+              return resolve(result);
+            });
+          });
+        });
+    }
+
+    function searchSpotify(searchTerm,type){
+      return $q(function(resolve,reject){
+          var resualtArray = [];
+          service.asyncGetAccessToken().then(function(result){
+            var config = {headers: {'Authorization': `Bearer ${result}`}};
+            if (type.track){
+              $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`,config ).then(function(result){
+                //resualtArray.push(result);
+                return resolve(result);
+              });
+            }
+            if (type.artist){
+              //i did alittle set up for you and got confused good luck it didnt want to work at all.
+              var artist= $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`,config );
+              if(artist.artists.items.lenghth > 1){
+                var topTracks = $http.get(`https://api.spotify.com/v1/artists/${artist.artists.items[0].id}/top-tracks?country=SE`, config);
+                resualtArray.push(topTracks);
+              }
+            }
+            if (type.album){
+              resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=album`,config ));
+            }
+            if (type.playlist){
+              resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=playlist`,config ));
+            }
+            //resolve(resualtArray);
+          });
+        });
+    }
+    function asyncGetAccessToken(){
+        return $timeout(function(){
+          return JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
+        },0);
+      }
+
+
+
 
     var service = {
       asyncInit: asyncInit,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
-      asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers
+      asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers,
+      playTrack:playTrack,
+      pause:pause,
+      importAllPlaylists:importAllPlaylists,
+      getPlaylistTracks:getPlaylistTracks,
+      searchSpotify:searchSpotify,
+      asyncGetAccessToken:asyncGetAccessToken
     };
 
     return service;
