@@ -78,7 +78,7 @@
         });
       },
 
-      importAllPlaylists: function importAllPlaylists(limit=10,offset=0) {
+      importAllPlaylists: function importAllPlaylists(limit=20,offset=0) {
 
         return $q(function(resolve,reject){
           var resualtArray = [];
