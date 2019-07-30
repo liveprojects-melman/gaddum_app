@@ -2,17 +2,17 @@
   'use strict';
 
   angular
-    .module('gaddum.settings')
-    .factory('settingIdentifier', settingIdentifier)
+    .module('gaddum.models')
+    .factory('SettingIdentifier', SettingIdentifier)
     ;
 
-  settingIdentifier.$inject = [
+  SettingIdentifier.$inject = [
 
   ];
-  function settingIdentifier(
+  function SettingIdentifier(
 
   ) {
-    function settingIdentifier(id, friendly_name, friendly_description, value_type, default_value) {
+    function SettingIdentifier(id, friendly_name, friendly_description, value_type, default_value) {
       // Public properties, assigned to the instance ('this')
       this.id = id;
       this.friendly_name = friendly_name;
@@ -41,9 +41,9 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    settingIdentifier.build = function (id, friendly_name, friendly_description, value_type, default_value) {
+    SettingIdentifier.build = function (id, friendly_name, friendly_description, value_type, default_value) {
       if (validTypes[value_type]) {
-        return new settingIdentifier(
+        return new SettingIdentifier(
           id,
           friendly_name,
           friendly_description,
@@ -57,9 +57,9 @@
 
     };
 
-    settingIdentifier.buildMinimal = function (id,value_type) {
+    SettingIdentifier.buildMinimal = function (id,value_type) {
 
-      return new settingIdentifier(
+      return new SettingIdentifier(
         id,
         null,
         null,
@@ -68,8 +68,8 @@
       );
     }
 
-    settingIdentifier.buildFromObject = function (incoming) {
-      var result = new settingIdentifier();
+    SettingIdentifier.buildFromObject = function (incoming) {
+      var result = new SettingIdentifier();
 
       result = angular.merge(result, incoming);
 
@@ -82,7 +82,7 @@
     /**
      * Return the constructor function
      */
-    return settingIdentifier;
+    return SettingIdentifier;
 
   }
 })();

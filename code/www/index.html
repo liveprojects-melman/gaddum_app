@@ -161,6 +161,10 @@
 
   <script src="js/services/gaddum.mood.service.master.switch.service.js"></script>
 
+  <script src="js/directives/howAreYouDialog/howAreYou.modal.js"></script>
+  <script src="js/directives/howAreYouDialog/howAreYou.modal.controller.js"></script>
+
+
 
 
 
@@ -194,6 +198,15 @@
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.js"></script>
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.controller.js"></script>
 <!--END SHORTCUTBAR-->
+<!-- WIZARDS  -->
+
+
+  <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.js"></script>
+  <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.controller.js"></script>
+  
+  <script src="js/wizards/gaddum.importPlaylist.wizard/importPlaylist.modal.js"></script>
+  <script src="js/wizards/gaddum.importPlaylist.wizard/importPlaylist.modal.controller.js"></script>
+<!-- END OF WIZARDS  -->
 
 
   <!-- settings -->
@@ -204,11 +217,34 @@
   <!-- <script src="js/services/settings/settings.service.dummy.js"></script> -->
   <script src="js/services/settings/settings.service.js"></script>
   
-  <script src="js/services/settings/settingIdentifier.js"></script>
+  
 
   <!-- DIRECTIVES AND USEFUL THINGS FOR JEELIZ -->
   <script src="lib/external/js/jeeliz/jeelizFaceTransfer.js"></script>
   <!-- END OF JEELIZ SPECIFICS -->
+
+
+
+
+  <!-- DATA MODELS -->
+  <script src="js/services/models/models.module.js"></script>
+  <script src="js/services/models/ErrorIdentifier.js"></script>
+  <script src="js/services/models/GenericTrack.js"></script>
+  <script src="js/services/models/GenericImportTrack.js"></script>
+  <script src="js/services/models/ImportPlaylist.js"></script>
+  <script src="js/services/models/Location.js"></script>
+  <script src="js/services/models/MoodedPlaylist.js"></script>
+  <script src="js/services/models/MoodedSearchCriteria.js"></script>
+  <script src="js/services/models/MoodIdentifier.js"></script>
+  <script src="js/services/models/Playlist.js"></script>
+  <script src="js/services/models/SearchModifier.js"></script>
+  <script src="js/services/models/SettingIdentifier.js"></script>
+  <script src="js/services/models/StatementCriteria.js"></script>
+  <script src="js/services/models/TimeStamp.js"></script>
+  <script src="js/services/models/TrackSearchCriteria.js"></script>
+  
+  
+
 
 
   <!-- lodash, for stuff that angular left out. -->
@@ -223,8 +259,8 @@
 </head>
 
 <body ng-app="gaddum" ng-animate-children="true">
-  <!--   <permissions_directive></permissions_directive> -->
-  <!-- <music_provider_login_directive></music_provider_login_directive> -->
+    <permissions_directive></permissions_directive>
+  <music_provider_login_directive></music_provider_login_directive>
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum
