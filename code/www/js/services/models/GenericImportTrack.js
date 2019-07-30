@@ -22,6 +22,25 @@
 
     }
 
+    function getName(){
+      return this.name;
+    }
+
+    function getAlbum(){
+      return this.album;
+    }
+
+    function getArtist(){
+      return this.artist;
+    }
+
+    function getProviderTrackRef(){
+      return this.provider_track_ref;
+    }
+
+    function getProviderArtworkRef(){
+      return this.provider_artwork_ref;
+    }
 
 
     /** 

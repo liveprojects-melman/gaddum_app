@@ -21,6 +21,18 @@
     }
 
 
+    function getName(){
+      return this.name;
+    }
+
+    function getProviderPlaylistRef(){
+      return this.provider_playlist_ref;
+    }
+
+    function getProviderArtworkRef(){
+      return this.provider_artwork_ref;
+    }
+
 
     /** 
      * Static method, assigned to class

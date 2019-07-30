@@ -22,6 +22,19 @@
 
 
 
+    function getName(){
+      return this.name;
+    }
+
+    function getAlbum(){
+      return this.album;
+    }
+
+    function getArtist(){
+      return this.artist;
+    }
+
+
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context

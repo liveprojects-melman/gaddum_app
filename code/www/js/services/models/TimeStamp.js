@@ -17,6 +17,11 @@
       this.javaepoch_ms = javaepoch_ms;
     }
 
+
+    function getJavaEpocMs(){
+      return javaepoch_ms;
+    }
+
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
@@ -24,6 +29,10 @@
     TimeStamp.buildFromDate = function (date) {
 
       var ms = 0;
+
+      if(date == null){
+        date = new Date();
+      }
 
       if (date instanceof Date) {
 

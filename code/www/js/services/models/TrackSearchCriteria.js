@@ -18,6 +18,15 @@
       this.searchModifiers = searxhModifiers;
     }
 
+    function getTerm(){
+      return this.term;
+    }
+
+    function getSearchModifiers(){
+      return this.serchModifiers;
+    }
+
+
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context

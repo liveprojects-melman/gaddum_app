@@ -20,6 +20,17 @@
       this.name = name;
     }
 
+    function getName(){
+      return name;
+    }
+
+    function getId(){
+      return id;
+    }
+
+
+
+
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
@@ -29,15 +40,7 @@
       return new SearchModifier(id, name);
     };
 
-    SearchModifier.buildFromObject = function(incoming){
 
-        var result = new SearchModifier();
-  
-        result = angular.merge(result, incoming);
-  
-        return result;
-  
-    };
 
 
 

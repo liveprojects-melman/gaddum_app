@@ -22,7 +22,21 @@
       this.genericTrack = genericTrack;
     }
 
+    function getMoodId(){
+      return moodId;
+    }
 
+    function getTimeStamp(){
+      return timeStamp;
+    }
+
+    function getLocation(){
+      return location;
+    }
+
+    function getGenerictrack(){
+      return genericTrack;
+    }
 
     /** 
      * Static method, assigned to class
