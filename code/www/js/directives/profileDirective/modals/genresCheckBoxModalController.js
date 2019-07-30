@@ -17,7 +17,7 @@
     editImageModal
   ) {
     var vm = angular.extend(this, {
-      showGenres: false,
+      showGenres: false
     });
     var scale = 8;
     vm.displayImage = undefined;
@@ -30,7 +30,7 @@
     }
     init();
 
-    vm.checkboxCheck = function () {
+    vm.checkboxCheck = function checkboxCheck() {
       var label;
       newGenres = [];
       vm.params[0].allGenres.genres.forEach(function(genre) {
@@ -42,11 +42,11 @@
       });
     };
 
-    vm.getGenresAsString = function () {
+    vm.getGenresAsString = function getGenresAsString() {
       return vm.params[1].userGenres.join(", ");
     };
 
-    vm.matchCheckboxes = function () {
+    vm.matchCheckboxes = function matchCheckboxes() {
       var label;
       var myTimeout = setTimeout(function() {
         vm.params[0].allGenres.genres.forEach(function(genre) {
@@ -54,7 +54,7 @@
           console.log(label.checked);
           if (vm.params[1].userGenres.includes(genre.genre)) {
             label.checked = true;
-            genre.value=true;
+            genre.value = true;
 //            console.log("true");
           } else {
             label.checked = false;
@@ -65,12 +65,12 @@
       }, 0);
     };
 
-    vm.modalGenreUpdate=function(index){
+    vm.modalGenreUpdate = function modalGenreUpdate(index){
       vm.params[0].allGenres.genres[index].value=!vm.params[0].allGenres.genres[index].value;
       genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
     };
 
-    vm.returnData = function () {
+    vm.returnData = function returnData() {
       vm.checkboxCheck();
       var newData = {
         "genres": newGenres
@@ -79,7 +79,7 @@
       genresCheckboxModal.close();
     };
 
-    vm.cancel = function () {
+    vm.cancel = function cancel() {
       genresCheckboxModal.cancel();
       genresCheckboxModal.close();
     };
