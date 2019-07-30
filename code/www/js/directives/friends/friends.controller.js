@@ -14,8 +14,6 @@
     'friendsService',
     '$ionicModal',
     '$scope'
-    /* 'friend_connectionSrvc' */
-
   ];
 
   function friendsController(
@@ -27,7 +25,6 @@
 
     friendsService,
     $ionicModal,
-    /* friend_connectionSrvc, */
 
     $scope
   ) {
@@ -45,26 +42,13 @@
     var confirmDelete;
     var indexToDelete;
 
-    $scope.tempFriends;
-
-
-
-
-
-
-
-
 
     function update() {
 
-
-    };
-
+    }
 
     function init() {
-
       vm.friends = friendsService.getAllFriends();
-
       update();
     }
     init();
@@ -92,8 +76,6 @@
       var nx = Math.floor(canvas.width / scale);
       var ny = Math.floor(canvas.height / scale);
       var bin;
-      //console.log(id);
-      //console.log(vm.friends);
       for (var i = 0; i < vm.friends.length; i++) {
         if (vm.friends[i].profile.profile_id == id) {
           for (var j = 0; j < vm.friends[i].profile.avatar_graphic.length; j++) {
@@ -143,16 +125,6 @@
     }];
 
     vm.addFriend = function addFriend(scannedProfile) {
-      /* var message;
-      message = friendsSrvc.addNewFriend(scannedProfile);
-      if (message == true) {
-        //Alert("Friend req sent");
-        console.log("Friend req sent");
-        console.log("Friend" + scannedProfile.profile.avatar_name + " added");
-      } else {
-        //Alert("Nope");
-        console.log("sadface");
-      } */
       vm.addFriendsModal();
     };
 
@@ -197,7 +169,7 @@
         document.getElementById("addFriendsModalPrevButton").disabled=true;
         document.getElementById("addFriendsModalCancelButton").disabled=false;
         document.getElementById("addFriendsModalHeaderText").innerHTML="Add a friend - Step 1";
-        document.getElementById("addFriendsModalBodyText").innerHTML="You're about to request connection to your friend. You can only do this when you are together. Ask your friends to show you their Gaddum app, at the Profile page"
+        document.getElementById("addFriendsModalBodyText").innerHTML="You're about to request connection to your friend. You can only do this when you are together. Ask your friends to show you their Gaddum app, at the Profile page";
         vm.showFinishbutton=false;
       } else if (vm.modalpage==2){
         document.getElementById("addFriendsModalPrevButton").disabled=false;
@@ -239,17 +211,10 @@
 
     vm.addNewFriend= function(){
       friendsService.addNewFriend(vm.sharedProfile);
-
       vm.modalpage++;
       console.log(vm.modalpage);
-
       vm.friends=[];
-      //console.log("HIT________________________________________");
-      //this is the line that stops the canvases from breaking VV
       setTimeout(function(){ vm.friends = friendsService.getAllFriends(); $scope.$apply(); }, 0);
-      //console.log("2!");
-      //console.log("added"+ vm.sharedProfile.profile);
-      //console.log("3!");
       vm.addFriendsModalUpdater();
     };
 
@@ -260,52 +225,22 @@
     };
 
     vm.delete = function (index) {
-      //index++;
-      //console.log(vm.friends);
       friendsService.deleteFriends(index);
-      //console.log(vm.friends);
-      //console.log("beginning refresh");
-
-      //console.log(vm.friends);
-
-      //console.log("opening confim modal");
-
-      /* vm.loadModal() */
-      /* .then(function(result){ */
-     /* console.log("result= "+result); */ 
-
       vm.friends = friendsService.getAllFriends();
-      /* $scope.friendsDummy=tempfriends; */
-      //console.log(vm.friends);
-      /* $scope.tempFriends=tempFriends; */
-
-      /* friendsDummy.splice(1,1); */
-      /* friendsDummy=a; */
-      // vm.friendsDummy=friendsDummy;
-      //vm.dummyFriendArray.splice(index,1);
-
-
-      // var friendsList=document.getElementById('friendsList');
-      // friendsList.closeOpened();
-
     };
 
     vm.confirmDelete=function(){
       confirmDelete=true;
-      //console.log("deleting = "+confirmDelete +" at "+ indexToDelete);
       $scope.modal.hide();
       vm.delete(indexToDelete);
     };
     vm.cancellDelete=function(){
       confirmDelete = false
-      //console.log("deleting = "+confirmDelete);
-      /* alert("delete Cancelled"); */
       $scope.modal.hide();
       var fl=document.getElementById('friendsList');
     };
 
     vm.goMain = function () {
-      //console.log("back (cancel) pressed - changing state to 'main'");
       $state.go('main');
     };
     vm.resetFlag = function () {
@@ -317,7 +252,6 @@
       animation: 'slide-in-up'
     });
 
-    //removed (temp?)
     vm.getDummyImage = function (profile) {
       var imgurl;
       $.getJSON("https://randomuser.me/api/?inc=picture&&z=" + profile, function (data) {
@@ -328,30 +262,16 @@
       });
       return imgurl;
     };
-    //removed (temp?)
-    vm.test = { "results": [{ "picture": { "large": "https://randomuser.me/api/portraits/men/13.jpg", "medium": "https://randomuser.me/api/portraits/med/men/13.jpg", "thumbnail": "https://randomuser.me/api/portraits/thumb/men/13.jpg" } }], "info": { "seed": "35271a2963272a00", "results": 1, "page": 1, "version": "1.2" } }
 
-    //removed (temp?)
+    vm.test = { "results": [{ "picture": { "large": "https://randomuser.me/api/portraits/men/13.jpg", "medium": "https://randomuser.me/api/portraits/med/men/13.jpg", "thumbnail": "https://randomuser.me/api/portraits/thumb/men/13.jpg" } }], "info": { "seed": "35271a2963272a00", "results": 1, "page": 1, "version": "1.2" } };
+
     vm.toggleReorder = function () {
-      //console.log("reorder toggled");
-      const reorderGroup = document.getElementById('reorder');
+      var reorderGroup = document.getElementById('reorder');
       reorderGroup.disabled = !reorderGroup.disabled;
-      //console.log(reorderGroup);
-      //console.log("disabled=" + reorderGroup.disabled);
-      reorderGroup.addEventListener('ionItemReorder', ({ detail }) => {
+      reorderGroup.addEventListener('ionItemReorder', function(detail){
         detail.complete(true);
       });
     };
-    //friends list the ng-repeat can hook into here
-    //swipe menu for friends
-    /* $scope.modal=$ionicModal.fromTemplate('<div><h1>MODAL</h1></div>',{
-      scope:$scope,
-      animation: 'slide-in-up'
-    }).then(function(modal){$scope.modal=modal;}); */
-
-    /* vm.modal2=function(){
-      ionm
-    } */
 
     init();
   }
