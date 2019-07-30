@@ -1081,7 +1081,7 @@ margin:10px;
 .checkboxListItemText{
     display: inline;
 }
-<<<<<<< Updated upstream
+
 .browseSpinner{
         width: 35px;
     position: absolute;
@@ -1089,15 +1089,12 @@ margin:10px;
     top: 15px;
 }
 
-
 .editPageProfileCanvas{
     position: absolute;
     right: calc( 50% - 22.5% );
     top: calc( 100% - 45% );
     width: 45%;
 } 
-
-=======
 
 /* gaddum player */
 gaddum.player {
@@ -1107,4 +1104,4 @@ gaddum.player {
   background-color:silver;
   display:block;
 }
->>>>>>> Stashed changes
+
