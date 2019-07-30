@@ -1,19 +1,26 @@
 (function () {
   'use strict;'
-    
+
   angular
     .module('gaddum.streaming')
     .factory('gaddumMusicProviderSpotifyService', gaddumMusicProviderSpotifyService);
 
-    gaddumMusicProviderSpotifyService.$inject = [
-      'allSettingsService',
-      '$q'
+  gaddumMusicProviderSpotifyService.$inject = [
+    'allSettingsService',
+    '$q',
+    '$timeout',
+    'SearchModifier'
   ];
-  console.log("HERE 2.2");
+
   function gaddumMusicProviderSpotifyService(
     allSettingsService,
-    $q
+    $q,
+    $timeout,
+    SearchModifier
   ) {
+
+
+    // ------ UTILITY
 
     var AUTH_CONFIG = {
       clientId: "gaddumspotify",
@@ -25,6 +32,31 @@
       tokenRefreshUrl: "https://gaddumauth.heroku.com:443/spotify/refresh"
     }
 
+
+    function createSpotifySearchModifiers() {
+
+      var result = [];
+
+
+      result.push(
+        SearchModifier.build(name, "Track Name")
+      );
+      result.push(
+        SearchModifier.build(artist, "Artist")
+      );
+      result.push(
+        SearchModifier.build(album, "Album")
+      );
+      result.push(
+        SearchModifier.build(tag, "Tags")
+      );
+
+      return result;
+
+    }
+
+
+    // ------ PUBLIC
 
     function asyncInit() {
 
@@ -49,15 +81,15 @@
           AUTH_CONFIG.tokenRefreshUrl = result;
         }));
 
-        $q.all(promises).then(
-          function (results) {
-            deferred.resolve(AUTH_CONFIG);
-          },
-          function(error){
-            deferred.reject(error);
-          }
+      $q.all(promises).then(
+        function (results) {
+          deferred.resolve(AUTH_CONFIG);
+        },
+        function (error) {
+          deferred.reject(error);
+        }
 
-        );
+      );
 
       return deferred.promise;
 
@@ -65,30 +97,30 @@
     };
 
 
-    function asyncIsLoggedIn(){
+    function asyncIsLoggedIn() {
 
       var deferred = $q.defer();
       var promises = [];
       promises.push(allSettingsService.asyncGet('auth_spotify_access_token'));
       promises.push(allSettingsService.asyncGet('auth_spotify_expires_at'));
-      
+
       $q.all(promises).then(
-        function(arrayResult){
+        function (arrayResult) {
 
           var accessToken = arrayResult[0]; // order important
           var expiresAt = arrayResult[1];
           var currentTimeJavaEpoch_s = Date.now() / 1000;
 
           var expired = currentTimeJavaEpoch_s >= expiresAt;
-          
-          if(accessToken && !expired){
+
+          if (accessToken && !expired) {
             deferred.resolve();
-          }else{
+          } else {
             deferred.reject();
           }
 
 
-          
+
         }
       )
 
@@ -98,18 +130,18 @@
     }
 
 
-    function asyncLogout(){
+    function asyncLogout() {
 
       var deferred = $q.defer();
       var promises = [];
-      promises.push(allSettingsService.asyncSet('auth_spotify_access_token',null, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at',null, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token',null, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_access_token', null, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at', null, 'string'));
+      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token', null, 'string'));
 
-      
+
       $q.all(promises).then(
-        function(arrayResult){
-            deferred.resolve();
+        function (arrayResult) {
+          deferred.resolve();
         }
       )
 
@@ -123,9 +155,9 @@
       promises.push(allSettingsService.asyncSet('auth_spotify_access_token', response.accessToken, 'string'));
       promises.push(allSettingsService.asyncSet('auth_spotify_expires_at', response.expiresAt, 'string'));
       promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token', response.encryptedRefreshToken, 'string'));
-      
+
       $q.all(promises).then(
-        function(result){
+        function (result) {
           deferred.resolve();
         }
       )
@@ -139,10 +171,25 @@
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG)
         .then(
           aSyncAuthSuccess,
-          function(error){
+          function (error) {
             console.log(error);
           }
-          );
+        );
+    }
+
+
+    function asyncGetSupportedSearchModifiers() {
+      // may make this a DB function
+
+      return $timeout(
+        function () {
+          resolve({
+            createSpotifySearchModifiers();
+          });
+        }
+      );
+
+
     }
 
 
@@ -150,7 +197,8 @@
       asyncInit: asyncInit,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
-      asyncLogout: asyncLogout
+      asyncLogout: asyncLogout,
+      asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers
     };
 
     return service;
