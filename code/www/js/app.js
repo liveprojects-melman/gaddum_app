@@ -14,6 +14,7 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
+  'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
   'gaddum.streaming',
@@ -36,6 +37,7 @@ angular.module('gaddum', [
   'editImageModalModule',
   'genresCheckboxModalsModule',
   'gaddum.searchCat'
+
 ])
   .run(['$ionicPlatform', '$state', '$rootScope', '$ionicSlideBoxDelegate', '$window', 'permissionsService','startupSrvc', function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, permissionsService,startupSrvc) {
     $rootScope.$on('slideChanged', function(a) {
