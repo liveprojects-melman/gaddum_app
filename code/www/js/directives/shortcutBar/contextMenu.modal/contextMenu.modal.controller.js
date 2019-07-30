@@ -21,7 +21,9 @@
     $scope.gaddumContextMenuModal=gaddumContextMenuModal;
     function init() {
       mc.params =gaddumContextMenuModal.getParams();
-      
+      console.log(mc.params.length);
+      mc.length = mc.params.length;
+
       
     }
     init();

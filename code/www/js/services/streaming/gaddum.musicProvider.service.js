@@ -90,6 +90,9 @@
         return $timeout(function(){
           return JSON.parse(localStorage.SpotifyOAuthData)["accessToken"];
         },0);
+      },
+      asyncImportPlaylists: function asyncImportPlaylists(importArray){
+        return service.musicProvider.asyncImportPlaylists(importArray);
       }
 
       /*,
