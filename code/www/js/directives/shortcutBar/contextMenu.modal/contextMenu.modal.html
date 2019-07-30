@@ -1,5 +1,5 @@
 
-<div class="modalContext " ng-controller="gaddumContextMenuModalController as mc">
+<div ng-class="((mc.length === 1)? 'contextOne' : 'contextMore')" class="modalContext " ng-controller="gaddumContextMenuModalController as mc">
   
     <ion-content class="selectListModal">
     <ion-list class="selectListModal" can-swipe="true">
