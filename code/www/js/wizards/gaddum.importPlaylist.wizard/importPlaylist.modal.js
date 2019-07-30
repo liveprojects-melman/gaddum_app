@@ -37,7 +37,7 @@
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/wizards/gaddum.importPlaylist.wizard/importPlaylist.modal.html',
-                myModalInstanceOptions,
+                myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {

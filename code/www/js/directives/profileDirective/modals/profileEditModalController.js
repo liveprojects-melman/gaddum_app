@@ -91,11 +91,12 @@
       "Preserve",
       "Relish"
     ];
-    vm.fullName;
-    vm.displayImage;
+    //vm.fullName;
+    //vm.displayImage;
     var newGenres = [];
     var profile;
     $scope.profileEditModal = profileEditModal;
+
     function init() {
       vm.params = profileEditModal.getParams();
       console.log("params!",vm.params);
@@ -106,7 +107,9 @@
       vm.genresAsString=vm.params[1].userGenres.join(", ");
       console.log(vm.params);
     }
+
     init();
+
     vm.toggleGenres = function () {
       vm.showGenres = !vm.showGenres;
       if (vm.showGenres) {
@@ -128,7 +131,7 @@
       vm.params[0].allGenres.forEach(function (genre) {
         label = document.getElementById("checkbox_" + genre).querySelector("input");
         console.log(label.checked);
-        if (label.checked == true) {
+        if (label.checked === true) {
           newGenres.push(genre);
         }
       });
@@ -138,11 +141,11 @@
       console.log(vm.params[1].userGenres);
 
       vm.params[1].userGenres = newGenres;
-    }
+    };
 
-    vm.genresAsString;
+//    vm.genresAsString;
 
-    vm.getGenresAsString = function () {
+    vm.getGenresAsString = function getGenresAsString() {
       if (vm.updatedGenres != null) {
         newGenres = vm.updatedGenres;
         vm.genresAsString= vm.updatedGenres.join(", ");
@@ -150,9 +153,9 @@
         newGenres = vm.params[1].userGenres;
         vm.genresAsString=vm.params[1].userGenres.join(", ");
       }
-    }
+    };
 
-    vm.matchCheckboxes = function () {
+    vm.matchCheckboxes = function matchCheckboxes( ) {
       var label;
       vm.params[0].allGenres.forEach(function(genre) {
         label = document.getElementById("checkbox_" + genre).querySelector("input");
@@ -163,7 +166,7 @@
           label.checked = false;
         }
       });
-    }
+    };
 
     vm.returnData = function () {
       var newData = {
@@ -174,22 +177,18 @@
       console.log(newData);
       profileEditModal.callback(newData);
       profileEditModal.close();
-    }
+    };
 
     vm.cancel = function () {
       profileEditModal.cancel();
       profileEditModal.close();
-    }
+    };
 
     vm.createProfileGraphic = function (id) {
-
       setTimeout(function () {
-
-
-        console.log("profile", profile);
-        console.log(document.getElementsByClassName("editPageProfileCanvas"));
+        //console.log("profile", profile);
+        //console.log(document.getElementsByClassName("editPageProfileCanvas"));
         var canvas = document.getElementsByClassName("editPageProfileCanvas");
-
 
         console.log(canvas.length);
         canvas = canvas[canvas.length - 1];
@@ -202,7 +201,7 @@
 
         for (var j = 0; j < vm.displayImage.length; j++) {
           bin = vm.displayImage[j].toString(2);
-          for (let x = bin.length; x < 8; x++) {
+          for (var x = bin.length; x < 8; x++) {
             bin = "0" + bin;
           }
           console.log(bin);
@@ -218,37 +217,34 @@
     };
 
     function rect(x, y, w, h, fs, ctx) {
-
       ctx.fillStyle = fs;
       ctx.fillRect(x * w, y * h, (w), h);
-    };
+    }
 
-    vm.profileImageEdit = function () {
-
+    vm.profileImageEdit = function profileImageEdit() {
       var modalParams = [
         {"avatar_image":vm.displayImage}
-
       ];
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
       //var,ok,c
       profileEditModal.closeCheckFalse();
     };
 
-    vm.updateImage=function(newImage){
+    vm.updateImage = function updateImage(newImage){
       //edit image 4/?
       vm.displayImage=newImage;
       vm.createProfileGraphic();
-    }
+    };
 
-    vm.imgUpdateCancel=function(image){
+    vm.imgUpdateCancel = function imgUpdateCancel(image){
       //JJJJJ
       console.log(image);
       vm.displayImage=image;
       vm.createProfileGraphic();
-    }
-    vm.showGenreCheckboxModal = function () {
-      //var checkboxPosition=document.getElementById('genreToggle').style;
+    };
 
+    vm.showGenreCheckboxModal = function showGenreCheckboxModal() {
+      //var checkboxPosition=document.getElementById('genreToggle').style;
       var modalParams = [
         {"allGenres":vm.params[0].allGenres},
         {"userGenres":newGenres}
@@ -257,15 +253,14 @@
       genresCheckboxModal.open(modalParams, vm.updateGenres, vm.genresUpdateCancel);
       //var,ok,c
       profileEditModal.closeCheckFalse();
-
     };
 
-    vm.updateGenres=function(genresData){
+    vm.updateGenres = function updateGenres(genresData){
       console.log("newg",genresData);
-      vm.updatedGenres=genresData.genres;                  
-    }
+      vm.updatedGenres=genresData.genres;
+    };
 
-    vm.genresUpdateCancel=function(genres){
+    vm.genresUpdateCancel=function genresUpdateCancel(genres){
       console.log(genres);
       var gArray =[];
       genres.forEach(function (element) {
@@ -276,6 +271,6 @@
       console.log("ga",gArray);
       vm.updatedGenres=gArray;
       vm.getGenresAsString();
-    }
+    };
   }
 })();

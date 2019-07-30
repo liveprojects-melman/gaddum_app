@@ -216,7 +216,7 @@
             });
         });
     }
-    function importAllPlaylists(limit=20,offset=0){
+    function importAllPlaylists(limit,offset){
       return $q(function(resolve,reject){
           var resualtArray = [];
           service.asyncGetAccessToken().then(function(result){

@@ -103,7 +103,7 @@
     ];
 
     $scope.editImageModal = editImageModal;
-    async function init() {
+    function init() {
       vm.params = editImageModal.getParams();
       console.log(vm.params);
       console.log("paramarams",vm.params);

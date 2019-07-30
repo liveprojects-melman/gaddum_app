@@ -39,7 +39,7 @@
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/directives/profileDirective/modals/editImageModal.html',
-                myModalInstanceOptions,
+                myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {

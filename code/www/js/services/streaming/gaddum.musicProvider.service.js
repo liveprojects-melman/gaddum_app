@@ -63,8 +63,7 @@
         return service.musicProvider.pause();
       },
 
-      importAllPlaylists: function importAllPlaylists(limit=20,offset=0) {
-
+      importAllPlaylists: function importAllPlaylists(limit,offset) {
         return service.musicProvider.importAllPlaylists();
       },
 

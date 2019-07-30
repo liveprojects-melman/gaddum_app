@@ -11,7 +11,6 @@
     '$ionicSlideBoxDelegate',
     '$timeout',
 
-    
     'friendsService',
     '$ionicModal',
     '$scope'
@@ -26,7 +25,6 @@
     $timeout,
 
 
-    
     friendsService,
     $ionicModal,
     /* friend_connectionSrvc, */
@@ -46,7 +44,7 @@
     var scale = 8;
     var confirmDelete;
     var indexToDelete;
-    
+
     $scope.tempFriends;
 
 
@@ -100,7 +98,7 @@
         if (vm.friends[i].profile.profile_id == id) {
           for (var j = 0; j < vm.friends[i].profile.avatar_graphic.length; j++) {
             bin = vm.friends[i].profile.avatar_graphic[j].toString(2);
-            for (let x = bin.length; x < 8; x++) {
+            for (var x = bin.length; x < 8; x++) {
               bin= "0"+bin;
             }
             //console.log(bin);
@@ -114,21 +112,17 @@
 
           }
         }
-
       }
+    };
 
-
-    }
     function rect(x, y, w, h, fs, ctx) {
-
       ctx.fillStyle = fs;
       ctx.fillRect(x*w, y*h, (w), h);
     }
 
-
-    vm.logg = function () {
+    vm.logg = function logg() {
       console.log("working");
-    }
+    };
 
     vm.sharedProfile = [{
       "profile": {
@@ -146,9 +140,9 @@
         ],
         device_id: "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
       }
-    }]
+    }];
 
-    vm.addFriend = function (scannedProfile) {
+    vm.addFriend = function addFriend(scannedProfile) {
       /* var message;
       message = friendsSrvc.addNewFriend(scannedProfile);
       if (message == true) {
@@ -160,9 +154,9 @@
         console.log("sadface");
       } */
       vm.addFriendsModal();
-
     };
-    vm.search = function () {
+
+    vm.search = function search() {
       var searchInput = document.getElementsByName("searchTextInput");
       var search = searchInput[0].value;
       console.log(search);
@@ -171,7 +165,7 @@
       setTimeout(function(){ vm.friends = friendsService.searchFriends(search); $scope.$apply(); }, 0);
     };
 
-    vm.loadModal = function () {
+    vm.loadModal = function loadModal() {
       $ionicModal.fromTemplateUrl('js/directives/friends/friendsDeleteModal.html', {
         scope: $scope,
         animation: 'slide-in-up'
