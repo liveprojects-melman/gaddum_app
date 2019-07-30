@@ -43,14 +43,14 @@
 
 
 
-
+    return SearchModifier;
   };
 
 
   /**
    * Return the constructor function
    */
-  return SearchModifier;
+  
 
 
 }) ();

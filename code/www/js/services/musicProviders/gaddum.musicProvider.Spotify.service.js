@@ -9,14 +9,16 @@
     'allSettingsService',
     '$q',
     '$timeout',
-    'SearchModifier'
+    'SearchModifier',
+    '$http'
   ];
 
   function gaddumMusicProviderSpotifyService(
     allSettingsService,
     $q,
     $timeout,
-    SearchModifier
+    SearchModifier,
+    $http
   ) {
 
 
@@ -178,19 +180,19 @@
     }
 
 
-    function asyncGetSupportedSearchModifiers() {
-      // may make this a DB function
+    // function asyncGetSupportedSearchModifiers() {
+    //   // may make this a DB function
 
-      return $timeout(
-        function () {
-          resolve({
-            createSpotifySearchModifiers();
-          });
-        }
-      );
+    //   return $timeout(
+    //     function () {
+    //       resolve({
+    //         createSpotifySearchModifiers();
+    //       });
+    //     }
+    //   );
 
 
-    }
+    // }
 
     // --- needs a tidy
     function playTrack(TID){
@@ -282,7 +284,7 @@
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
-      asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers,
+      // asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers,
       playTrack:playTrack,
       pause:pause,
       importAllPlaylists:importAllPlaylists,

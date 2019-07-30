@@ -811,6 +811,16 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding:10px;
     
 }
+.playlistCheckbox{
+    border-width:0px;
+    background-color:rgba(0,0,0,0) !important;/*  this makes the background clear for the check boxes in settings*/
+    color:black;
+    float: right;
+    margin-right:10px !important;
+    margin-top:4px !important;
+    border:0.05em solid black;
+    padding:10px;
+}
 .settingsH2{
     padding:4px;
     display:inline-block;

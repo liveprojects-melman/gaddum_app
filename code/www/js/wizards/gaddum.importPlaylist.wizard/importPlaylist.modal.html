@@ -13,7 +13,7 @@
     <ion-item ng-repeat="playlist in mc.playlists.$$state.value.data.items"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  class="plalistPageItemRepeat" >
       <img src="{{playlist.images[0].url}}" style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;">
       <h2>{{playlist.name}}</h2>
-       <input type="checkbox" ng-model="mc.playlistSelected[$index]" ng-change="" class="checkbox"></input>
+       <input type="checkbox" ng-model="mc.playlistSelected[$index]" ng-change="" class="playlistCheckbox"></input>
        
       <h2>{{playlist.owner.display_name}}</h2>
       
