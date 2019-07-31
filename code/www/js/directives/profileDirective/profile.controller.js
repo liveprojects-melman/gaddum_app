@@ -12,7 +12,8 @@
         'profileEditModal',
         'gaddumContextMenuItem',
         'gaddumShortcutBarService',
-        'ErrorIdentifier'
+        'ErrorIdentifier',
+        '$timeout'
     ];
 
     function control(
@@ -22,7 +23,8 @@
         profileEditModal,
         gaddumContextMenuItem,
         gaddumShortcutBarService,
-        ErrorIdentifier
+        ErrorIdentifier,
+        $timeout
 
     ) {
         var vm = angular.extend(this, {
@@ -96,7 +98,7 @@
                     vm.selectedGenres = results[1];
                     vm.userGenres = vm.selectedGenres.join(", ");
 
-                    deferred.resolve(candidate);
+                    deferred.resolve();
                 },
                 function fail(error) {
                     vm.allGenres = [];

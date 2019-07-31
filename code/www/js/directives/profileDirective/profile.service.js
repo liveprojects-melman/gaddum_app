@@ -6,11 +6,15 @@
         .factory('profileService', profileService);
 
         profileService.$inject = [
-            'gaddumMusicProviderService'
+            'gaddumMusicProviderService',
+            '$q',
+            '$timeout'
         ];
 
     function profileService(
-        gaddumMusicProviderService
+        gaddumMusicProviderService,
+        $q,
+        $timeout
     ){
         function blank(){
 
@@ -56,8 +60,15 @@
             return gaddumMusicProviderService.asyncGetGenres();
         };
 
-        service.getUserProfile= function() {
-            return userProfile;
+        service.asyncGetUserProfile= function() {
+
+            var deferred = $q.defer();
+            $timeout( 
+                function(){
+                    deferred.resolve(userProfile);
+                });
+
+            return deferred.promise;
         };
 
         service.getProfileAsString=function(){

@@ -20,19 +20,19 @@
       this.accessToken = accessToken;
       this.expiresAt = expiresAt;
       this.refreshToken = refreshToken;
-    }
+    
 
-    function getAccessToken() {
+    this.getAccessToken = function() {
       return this.accessToken;
     }
-    function getExpiresAt() {
+    this.getExpiresAt =function() {
       return this.expiresAt;
     }
-    function getRefreshToken() {
+    this.getRefreshToken = function() {
       return this.refreshToken;
     }
 
-    function hasExpired() {
+    this.hasExpired = function() {
       var currentTimeJavaEpoch_s = Date.now() / 1000;
 
       var result = currentTimeJavaEpoch_s >= this.expiresAt;
@@ -40,6 +40,7 @@
       return result;
     }
 
+    }
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context

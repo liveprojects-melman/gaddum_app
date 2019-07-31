@@ -4,8 +4,8 @@
     angular
         .module('gaddum.login')
         .factory('loginModal', loginModal);
-    loginModal.$inject = ['$ionicModal', '$rootScope', '$q', 'ErrorIdentifier'];
-    function loginModal($ionicModal, $rootScope, $q, ErrorIdentifier) {
+    loginModal.$inject = ['$ionicModal', '$rootScope', '$q', '$timeout','ErrorIdentifier'];
+    function loginModal($ionicModal, $rootScope, $q, $timeout, ErrorIdentifier) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -15,14 +15,14 @@
             };
         $scope.$on("modal.hidden", function (modal) {
             
-            close();
+            onClickOff();
             
         });
         var modalSave = null;
         var parmeter = null;
-        var isOpen = false;
-        var lastAttempt = false;
-
+        var isWorking = false;
+        var loginSuccessful = false;
+        var isClosing =  false;
 
 
         function open(params, fnCallbackOk, fnCallbackCancel) {
@@ -44,13 +44,13 @@
         }
 
         function notifyLoginFail(){
-            lastAttempt = false;
+            loginSuccessful = false;
             $scope.fnCallbackCancel();
             close();
         }
 
         function notifyLoginSuccess(){
-            lastAttempt = true;
+            loginSuccessful = true;
             $scope.fnCallbackOk();
             close();
         }
@@ -60,45 +60,78 @@
         }
 
         function close() {
+            isClosing = true; // we are closing the dialog
+            isWorking = false;   // to anyone waiting, the operation is complete
+            modalSave.remove();            
+        }
+
+        function onClickOff(){
             if(modalSave){
                 if(!modalSave._isShown){
                     modalSave.remove();
                 }
-                
             }
-            isOpen = false;
-        }
-
-
-
-        function waitFor(condition, callback) {
-            if(!condition()) {
-                console.log('waiting');
-                window.setTimeout(waitFor.bind(null, condition, callback), 1000); /* this checks the flag every 100 milliseconds*/
-            } else {
-                console.log('done');
-                callback();
+            if(!isClosing){
+                loginSuccessful = false;
+                isWorking = false;
+                $scope.fnCallbackCancel();
             }
         }
 
-        function isClosed(){
-            return !isOpen;
-        }
 
-        function asyncWaitUntilClosed(){
+        function asyncWaitAndCheck(){
             var deferred = $q.defer();
 
-            waitFor(isClosed, function(){
-                if(lastAttempt == true){
-                    deferred.resolve(true);
+            $timeout(function(){
+                if(!isWorking){
+                    
+                    deferred.resolve();
                 }else{
-                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER,"We waited while you tried to log in, but no joy."));
+                    
+                    deferred.reject();
                 }
-            })
+            },1000);
 
             return deferred.promise;
         }
 
+
+        function asyncWaitUntilClosed() {
+            
+            var deferred = $q.defer();
+          
+            function doQuery() {
+              console.log("waiting..");  
+              asyncWaitAndCheck()
+                .then(
+                    function closed() {
+                        console.log("login process completed.");
+                        deferred.resolve();
+                    },
+                    function stillOpen(){
+                        console.log("login ongoing...");
+                        doQuery();
+                    });
+            }
+            doQuery();
+            return deferred.promise
+        }
+
+        function asyncWaitForLogin(){
+            var deferred = $q.defer();
+                asyncWaitUntilClosed().then(
+                    function(){
+                        if(loginSuccessful == true){
+                            console.log("logged in.");
+                            deferred.resolve(true);
+                        }else{
+                            console.log("login aborted.");
+                            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER,"We waited while you tried to log in, but no joy."));
+                        }
+                    }
+                );
+            return deferred.promise;   
+        }
 
 
         function asyncDoLogin(){
@@ -106,13 +139,13 @@
 
             open(null, 
                 function onOK(){
-                    isOpen = false;
-                    lastAttempt = true;
+                    isWorking = false;
+                    loginSuccessful = true;
                     deferred.resolve(true);
                 },
                 function onCancel(){
-                    isOpen = false;
-                    lastAttempt = false;
+                    isWorking = false;
+                    loginSuccessful = false;
                     deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER,"Oh, no! We couldn't log you in!"));
                 }
                 );
@@ -120,13 +153,12 @@
             return deferred.promise;
         }
 
-
         function promiseLogin(){
 
-            if(isOpen){
-                return asyncWaitUntilClosed();
+            if(isWorking){
+                return asyncWaitForLogin();
             }else{
-                isOpen = true;
+                isWorking = true;
                 return asyncDoLogin();
             }
 
