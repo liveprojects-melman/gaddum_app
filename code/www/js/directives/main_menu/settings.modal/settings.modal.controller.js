@@ -10,7 +10,7 @@
     '$scope',
     '$q',
     'userSettingsService',
-    'settingIdentifier'
+    'SettingIdentifier'
 
   ];
 
@@ -19,7 +19,7 @@
     $scope,
     $q,
     userSettingsService,
-    settingIdentifier
+    SettingIdentifier
   ) {
     var sc = angular.extend(this, {
 

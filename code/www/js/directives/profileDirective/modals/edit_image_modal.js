@@ -58,9 +58,11 @@
         }
         function close() {
             
-            if(modalSave){
-                modalSave.remove();
-                $scope.fnCallbackCancel(encodedImage);
+            if (modalSave){
+                if(!modalSave._isShown){
+                    modalSave.remove();
+                    $scope.fnCallbackCancel(encodedImage);
+                }
             }
             
         }

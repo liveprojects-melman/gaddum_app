@@ -55,10 +55,13 @@
       selectedGenres = genres;
     }
     function close() {
-      if(modalSave){
-        modalSave.remove();
-        $scope.fnCallbackCancel(selectedGenres);
-      }
+      
+      if (modalSave){
+                if(!modalSave._isShown){
+                    modalSave.remove();
+                    $scope.fnCallbackCancel(selectedGenres);
+                }
+            }
     }
     function closeCheckFalse(){
       closeCheck = false;

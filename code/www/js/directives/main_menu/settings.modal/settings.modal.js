@@ -65,13 +65,17 @@
         }
         function close() {
             if(modalSave){
-                dict.forEach(function(element) {
-                    console.log(element);
-                    userSettingsService.asyncSet(element.id, element.value, element.type);
-                });
-                modalSave.remove();
-                $scope.fnCallbackCancel();
+                if(!modalSave._isShown){
+                    if(dict.length >=1){
+                        dict.forEach(function(element) {
+                            userSettingsService.asyncSet(element.id, element.value, element.type);
+                        });
+                    }
+                    $scope.fnCallbackCancel();
+                    modalSave.remove();
+                }
             }
+            
         }
         function closeAndRemove(modalInstance) {
             return modalInstance.hide()

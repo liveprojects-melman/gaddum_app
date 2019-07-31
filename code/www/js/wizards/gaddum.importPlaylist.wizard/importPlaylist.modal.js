@@ -57,9 +57,12 @@
             
         }
         function close() {
-            if(modalSave){
-                modalSave.remove();
+            if (modalSave){
+                if(!modalSave._isShown){
+                    modalSave.remove();
+                }
             }
+            
         }
         function closeAndRemove(modalInstance) {
             return modalInstance.hide()
