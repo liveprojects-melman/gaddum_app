@@ -26,6 +26,8 @@
     ImportPlaylist
   ) {
     var moodIdDict = {};
+    var count = 0;
+    var offset = 0;
     var mc = angular.extend(this, {
       itemSelected:false,
       emotionSelected: '',
@@ -37,7 +39,7 @@
       
       mc.params =importPlaylistWizard.getParams();
       console.log(mc.params);
-      gaddumMusicProviderService.importAllPlaylists().then(function(result){
+      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
         console.log("heya",result);
         var count = 0;
         result.data.items.forEach(function(element) {
@@ -50,6 +52,7 @@
           console.log("playlistArry",mc.playlistArray);
           count = count+1;
         });
+        offset = offset+20;
       });
       
       
@@ -60,6 +63,24 @@
       mc.playlistArray[index].value = !mc.playlistArray[index].value;
       mc.itemSelected = true;
     }
+    function more(){
+      console.log("more");
+      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
+        console.log("heya",result);
+        var count = 0;
+        result.data.items.forEach(function(element) {
+          console.log(count);
+          mc.playlistArray[count] = {"name":element.name};
+          mc.playlistArray[count].display_name = element.owner.display_name;
+          mc.playlistArray[count].id = element.id;
+          mc.playlistArray[count].artwork = element.images[0].url;
+          mc.playlistArray[count].value = false;
+          console.log("playlistArry",mc.playlistArray);
+          count = count+1;
+        });
+        offset = offset+20;
+      });
+    }
     function importPlaylists(){
       console.log("got in here");
       var importArray = [];
@@ -69,7 +90,10 @@
         }
       });
       gaddumMusicProviderService.asyncImportPlaylists(importArray);
+      importPlaylistWizard.close();
+      
     }
+    mc.more = more;
     mc.importPlaylists = importPlaylists;
     mc.playlistSelected = playlistSelected;
 

@@ -63,8 +63,8 @@
         return service.musicProvider.pause();
       },
 
-      importAllPlaylists: function importAllPlaylists(limit,offset) {
-        return service.musicProvider.importAllPlaylists();
+      importAllPlaylists: function importAllPlaylists(offset) {
+        return service.musicProvider.importAllPlaylists(offset);
       },
 
       getplaylistTracks: function getplaylistTracks(PID){
@@ -92,7 +92,7 @@
         },0);
       },
       asyncImportPlaylists: function asyncImportPlaylists(importArray){
-        return service.musicProvider.asyncImportPlaylists(importArray);
+        //return service.musicProvider.asyncImportPlaylists(importArray);
       }
 
       /*,

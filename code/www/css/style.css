@@ -1310,3 +1310,8 @@ div#scroller.ng-hide {
 .contextMore{
     top:72% !important;
 }
+.importIconMore{
+    position:absolute;
+    bottom:5px;
+    left: 5px;
+}
