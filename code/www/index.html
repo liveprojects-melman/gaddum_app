@@ -100,8 +100,13 @@
 
   <!-- directives -->
   <!-- DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
-  <script src="js/directives/musicProviderLogin/musicProviderLogin.directive.js"></script>
-  <script src="js/directives/musicProviderLogin/musicProviderLogin.controller.js"></script>
+
+  <script src="js/modals/login/login.module.js"></script>"
+  <script src="js/modals/login/musicProviderLogin.modal.js"></script>"
+  <script src="js/modals/login/musicProviderLogin.modal.controller.js"></script>"
+
+
+
 <!-- END DIRECTIVE FOR MUSIC PROVIDER LOGIN -->
 
   <script src="lib/qrcode-generator/qrcode.js"></script>
@@ -165,9 +170,6 @@
   <script src="js/directives/howAreYouDialog/howAreYou.modal.controller.js"></script>
 
 
-
-
-
   <script src="js/services/data_api/data_api.module.js"></script>
   <script src="js/services/data_api/data_api.service.js"></script>
 
@@ -198,9 +200,16 @@
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.js"></script>
   <script src="js/directives/shortcutBar/contextMenu.modal/contextMenu.modal.controller.js"></script>
 <!--END SHORTCUTBAR-->
+
+
+<!-- SELECTOR -->
+  <script src="js/modals/selector/selector.module.js"></script>
+  <script src="js/modals/selector/selector.modal.controller.js"></script>
+  <script src="js/modals/selector/selector.modal.html"></script>
+  <script src="js/modals/selector/selector.modal.js"></script>
+<!-- END SELECTOR -->
+
 <!-- WIZARDS  -->
-
-
   <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.js"></script>
   <script src="js/wizards/gaddum.addToPlaylist.wizard/addToPlaylist.modal.controller.js"></script>
   
@@ -228,6 +237,7 @@
 
   <!-- DATA MODELS -->
   <script src="js/services/models/models.module.js"></script>
+  <script src="js/services/models/AccessCredentials.js"></script>
   <script src="js/services/models/ErrorIdentifier.js"></script>
   <script src="js/services/models/GenericTrack.js"></script>
   <script src="js/services/models/GenericImportTrack.js"></script>
@@ -236,6 +246,7 @@
   <script src="js/services/models/MoodedPlaylist.js"></script>
   <script src="js/services/models/MoodedSearchCriteria.js"></script>
   <script src="js/services/models/MoodIdentifier.js"></script>
+  <script src="js/services/models/MusicProviderIdentifier.js"></script>
   <script src="js/services/models/Playlist.js"></script>
   <script src="js/services/models/SearchModifier.js"></script>
   <script src="js/services/models/SettingIdentifier.js"></script>
@@ -260,7 +271,7 @@
 
 <body ng-app="gaddum" ng-animate-children="true">
     <permissions_directive></permissions_directive>
-  <music_provider_login_directive></music_provider_login_directive>
+
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
       gaddum

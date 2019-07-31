@@ -6,12 +6,11 @@
         .factory('profileService', profileService);
 
         profileService.$inject = [
-        
-         
-    ];
+            'gaddumMusicProviderService'
+        ];
 
     function profileService(
-      
+        gaddumMusicProviderService
     ){
         function blank(){
 
@@ -39,38 +38,22 @@
             }
         };
 
-        var genresList={"genres":[
-            {genre:"Afrobeat",value:false},
-            {genre:"Blues",value:false},
-            {genre:"Lo-fi",value:false},
-            {genre:"Mambo",value:false},
-            {genre:"Reggae",value:false},
-            {genre:"Rocksteady",value:false},
-            {genre:"Dancehall",value:false},
-            {genre:"Soca",value:false},
-            {genre:"Ska",value:false},
-            {genre:"Bluegrass",value:false},
-            {genre:"Country",value:false},
-            {genre:"K-pop",value:false},
-            {genre:"J-pop",value:false},
-            {genre:"Hiphop",value:false},
-            {genre:"Techno",value:false},
-            {genre:"Drill",value:false},
-            {genre:"Grime",value:false},
-            {genre:"House",value:false},
-            {genre:"Electronic",value:false},
-            {genre:"Hardbass",value:false},
-            {genre:"Funk",value:false},
-            {genre:"Disco",value:false},
-            {genre:"Soul",value:false},
-            {genre:"Motown",value:false},
-            {genre:"Jazz",value:false}
-        ]};
+
 
         var userGenres=["Jazz","Ska"];
 
-        service.getAllGenres = function(){
-            return genresList;
+        service.asyncGetAllGenres = function(){
+            return gaddumMusicProviderService.asyncGetSupportedGenres();
+        };
+
+
+        service.asyncSetGenres= function(newGenres){
+            return gaddumMusicProviderService.asyncSetGenres(newGenres);
+        };
+        
+
+        service.asyncGetGenres= function(){
+            return gaddumMusicProviderService.asyncGetGenres();
         };
 
         service.getUserProfile= function() {
@@ -89,14 +72,7 @@
             return userProfile.profile.avatar_graphic;
         };
 
-        service.editGenres= function(newGenres){
-            userGenres=newGenres;
-        };
-        
 
-        service.getUserGenres= function(){
-            return userGenres;
-        };
 
         service.setName=function(name){
             userProfile.profile.avatar_name=name;

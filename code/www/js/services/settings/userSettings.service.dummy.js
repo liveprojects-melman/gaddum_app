@@ -5,13 +5,13 @@
     .factory('userSettingsService', userSettingsService);
 
   userSettingsService.$inject = [
-    'settingIdentifier',
+    'SettingIdentifier',
     '$timeout',
     '$q'
   ];
   
   function userSettingsService(
-    settingIdentifier,
+    SettingIdentifier,
     $timeout,
     $q
   ) {
@@ -86,7 +86,7 @@
           keys.forEach(
             function(key){
               var setting = dict[key];
-              result.push(settingIdentifier.build(
+              result.push(SettingIdentifier.build(
                 key,
                 setting.friendly_name,
                 setting.friendly_description,

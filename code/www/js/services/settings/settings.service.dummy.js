@@ -7,13 +7,13 @@
     ;
 
   allSettingsService.$inject = [
-    'settingIdentifier',
+    'SettingIdentifier',
     '$timeout',
     '$q'
   ];
 
   function allSettingsService(
-    settingIdentifier,
+    SettingIdentifier,
     $timeout,
     $q
   ) {
@@ -35,7 +35,7 @@
       keys.forEach(
         function (key) {
           var setting = dict[key];
-          arrayOfSettings.push(settingIdentifier.buildMinimal(
+          arrayOfSettings.push(SettingIdentifier.buildMinimal(
             setting.id, 'boolean'
           ));
         }
