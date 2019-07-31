@@ -1037,7 +1037,7 @@ margin:10px;
     left: 30%;
     top:72%;
     bottom: 4em;
-    height: 20%;
+    height: auto;
     background-color:white;
     min-height: 20px;
     border-radius: 1em;
@@ -1114,7 +1114,6 @@ margin:10px;
     top: 15px;
 }
 
-
 .editPageProfileCanvas{
     position: absolute;
     right: calc( 50% - 22.5% );
@@ -1131,6 +1130,56 @@ gaddum.player {
   left:0;top:0;width:100px;height:200px;
   background-color:silver;
   display:block;
+}
+#gaddum-player {
+  position:absolute;
+  left:8px;
+  right:8px;
+  background-color:rgba(255,255,255,.6);
+  padding:0 0px 4px;
+  margin: 0 -5px 4px;
+  border-radius: 8px;
+  bottom:50px !important;
+  xheight:6rem;
+}
+div#scroller {
+  display:inline-block;
+  width:100%;
+  position:relative;
+  left:0;
+  right:0;
+  margin-bottom:2px;
+  padding:2px 2px;
+}
+div#scroller  {
+  text-align:center;
+}
+div#scroller>div {
+  display:block;
+  width:100%;
+  clear:both;
+  overflow: hidden;
+  text-align: center;
+}
+div#gaddum-shuttle {
+  margin:-6px 2px 0px 4px !important;
+  padding-right:8px;
+  left:4px;
+}
+
+/* enter/exit animations */
+
+div#gaddum-player {
+  transition: all ease-in-out 1.5s;
+}
+div#gaddum-player.ng-hide {
+  margin-bottom: -100%;
+}
+div#scroller {
+  transition: all ease-in-out 2.5s;
+}
+div#scroller.ng-hide {
+  opacity: 0;
 }
 
 /*how are you dialog*/
@@ -1255,6 +1304,34 @@ gaddum.player {
 .selectedItemRed{
       background-color: rgb(255, 75, 20) !important;
   }
+
   .selectButtonLogin{
       bottom: -50px !important;
   }
+
+  .playlistImportList{
+      height:80%;
+      top:10%;
+      bottom:10%;
+  }
+  .playlistImportButton{
+      bottom:5px;
+      right:5px;
+      position:absolute;
+  }
+  .playlistImportTitle{
+    font-size: 2.5rem;
+    text-align: center;
+    color:black;
+}
+.contextOne{
+    top:82% !important;
+}
+.contextMore{
+    top:72% !important;
+}
+.importIconMore{
+    position:absolute;
+    bottom:5px;
+    left: 5px;
+}

@@ -9,7 +9,6 @@
     'genresCheckboxModal',
     '$scope',
     'editImageModal'
-
   ];
 
   function genresCheckboxModalController(
@@ -18,77 +17,71 @@
     editImageModal
   ) {
     var vm = angular.extend(this, {
-      showGenres: false,
+      showGenres: false
     });
     var scale = 8;
-    vm.displayImage;
+    vm.displayImage = undefined;
     var newGenres = [];
-    
+
     $scope.genresCheckboxModal = genresCheckboxModal;
     function init() {
       vm.params = genresCheckboxModal.getParams();
-      console.log("params!",vm.params);
       console.log(vm.params[2]);
-      //document.getElementsByClassName('modalGenresCheckboxes').style.top=vm.params[2];
     }
     init();
-    
-    vm.checkboxCheck = function () {
+
+    vm.checkboxCheck = function checkboxCheck() {
       var label;
       newGenres = [];
       vm.params[0].allGenres.genres.forEach(function(genre) {
         label = document.getElementById("checkbox_" + genre.genre).querySelector("input");
-        console.log(genre, label.checked, label);
-        if (label.checked == true) {
+        //console.log(genre, label.checked, label);
+        if (label.checked === true) {
           newGenres.push(genre.genre);
         }
       });
-      console.log("new");
-      console.log(newGenres);
-      console.log("old");
-      console.log(vm.params[1].userGenres);
-    }
+    };
 
-    vm.getGenresAsString = function () {
+    vm.getGenresAsString = function getGenresAsString() {
       return vm.params[1].userGenres.join(", ");
-    }
+    };
 
-    vm.matchCheckboxes = function () {
+    vm.matchCheckboxes = function matchCheckboxes() {
       var label;
-      setTimeout(function() {
+      var myTimeout = setTimeout(function() {
         vm.params[0].allGenres.genres.forEach(function(genre) {
           label = document.getElementById("checkbox_" + genre.genre).querySelector("input");
           console.log(label.checked);
           if (vm.params[1].userGenres.includes(genre.genre)) {
             label.checked = true;
-            genre.value=true;
-            console.log("true");
+            genre.value = true;
+//            console.log("true");
           } else {
             label.checked = false;
-            console.log("false");
+//            console.log("false");
           }
           genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
         });
       }, 0);
-    }
+    };
 
-    vm.modalGenreUpdate=function(index){
+    vm.modalGenreUpdate = function modalGenreUpdate(index){
       vm.params[0].allGenres.genres[index].value=!vm.params[0].allGenres.genres[index].value;
       genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
-    }
+    };
 
-    vm.returnData = function () {
+    vm.returnData = function returnData() {
       vm.checkboxCheck();
-      var newData = {        
-        "genres": newGenres        
-      };    
+      var newData = {
+        "genres": newGenres
+      };
       genresCheckboxModal.callback(newData);
       genresCheckboxModal.close();
-    }
+    };
 
-    vm.cancel = function () {
+    vm.cancel = function cancel() {
       genresCheckboxModal.cancel();
       genresCheckboxModal.close();
-    }
+    };
   }
 })();

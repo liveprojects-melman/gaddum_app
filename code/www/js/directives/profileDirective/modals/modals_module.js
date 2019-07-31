@@ -57,13 +57,15 @@
             
         }
         function close() {
-            if(closeCheck){
-                if(modalSave){
+            
+            if (modalSave){
+                if(!modalSave._isShown){
                     modalSave.remove();
                     $scope.fnCallbackCancel();
                 }
             }
-            closeCheck = true;
+            
+            
         }
         function closeCheckFalse(){
             closeCheck = false;

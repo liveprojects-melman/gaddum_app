@@ -12,12 +12,9 @@
                 focusFirstInput: true,
                 controller: 'howAreYouModalController as mc',
                 animation: 'slide-in-down'
-                
             };
         $scope.$on("modal.hidden", function (modal) {
-            
             close();
-            
         });
         var modalSave = null;
         var parmeter = null;
@@ -37,28 +34,28 @@
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/directives/howAreYouDialog/howAreYou.modal.html',
-                myModalInstanceOptions,
+                myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
                     closeAndRemove(modalInstance);
-                    
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();
             });
-            
+
         }
         function getParams(){
             return parmeter;
         }
         function callback(emotion){
             $scope.fnCallbackOk(emotion);
-            
         }
         function close() {
-            if(modalSave){
-                modalSave.remove();
+            if (modalSave){
+                if(!modalSave._isShown){
+                    modalSave.remove();
+                }
             }
         }
         function closeAndRemove(modalInstance) {

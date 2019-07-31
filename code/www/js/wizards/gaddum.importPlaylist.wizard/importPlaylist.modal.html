@@ -5,21 +5,23 @@
        
       <div style="width:100%;">
           
-      <h3 class="modalTitle">Which Playlist do you want to add the track to?</h3>
+      <h3 class="playlistImportTitle">Which Playlist?</h3>
     </div>
     <div>
-<ion-content class="playlistPageListContent">
-  <ion-list class="list">
-    <ion-item ng-repeat="playlist in mc.playlists.$$state.value.data.items"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  class="plalistPageItemRepeat" >
-      <img src="{{playlist.images[0].url}}" style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;">
+<ion-content class="playlistImportList">
+  <ion-list class="playlistImportList">
+    <ion-item  ng-repeat="playlist in mc.playlistArray"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  class="" >
+      <img src="{{playlist.artwork}}" ng-click="mc.playlistSelected($index)" style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;">
       <h2>{{playlist.name}}</h2>
-       <input type="checkbox" ng-model="mc.playlistSelected[$index]" ng-change="" class="playlistCheckbox"></input>
+       <input type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)" class="playlistCheckbox"></input>
        
-      <h2>{{playlist.owner.display_name}}</h2>
+      <h2>{{playlist.display_name}}</h2>
       
     </ion-item>
   </ion-list>
 </ion-content>
+<button ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button">Import</button>
+<button ng-click="mc.more()" class="button importIconMore icon ion-more"></button>
 </div>
       
         <!-- <button ng-disabled="!(mc.emotionSelected != '')" ng-click="mc.selectEmo()" class="howAreYouButton" ng-class="((mc.emotionSelected != '') ? 'selectedItemRed' : '')">That's me</button> -->

@@ -22,11 +22,16 @@
       "songtitle": gaddumStreamingService.song.title,
       "artistname": gaddumStreamingService.song.artist
     };
-    gpc.scroll = gaddumStreamingService.state;
     gpc.toggle=function toggle(){
       console.log("TOGGLE!");
       gpc.state.ready = !gpc.state.ready;
-    }
+    };
+
+    gpc.handleBackPress = function handleBackPress(){};
+    gpc.handlePausePress = function handlePausePress(){};
+    gpc.handlePlayPress = function handlePlayPress(){};
+    gpc.handleNextPress = function handleNextPress(){};
+
     return gpc;
   }
 })();

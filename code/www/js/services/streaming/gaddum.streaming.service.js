@@ -31,13 +31,17 @@
 
     service.init();
 
-    // set up a thing to toggle interface from time to time!
+    /*
+    // set up a thing to toggle interface from time to time! (testing)
     service.test = $interval(function(){
       service.state.playing = !service.state.playing;
-      service.state.ready = !service.state.ready;
       console.log("PLAYTOGGLE");
-    },5000,50, false );
-
+    },3000,50, true );
+    service.test2 = $interval(function(){
+      service.state.ready = !service.state.ready;
+      console.log("READYTOGGLE");
+    },5000,50, true );
+    */
     return service;
 
   }

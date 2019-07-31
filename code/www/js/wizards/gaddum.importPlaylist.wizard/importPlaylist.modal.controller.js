@@ -12,7 +12,8 @@
       '$scope',
       '$timeout',
       '$q',
-      'gaddumMusicProviderService'
+      'gaddumMusicProviderService',
+      'ImportPlaylist'
 
   ];
   
@@ -21,13 +22,16 @@
     $scope,
     $timeout,
     $q,
-    gaddumMusicProviderService
+    gaddumMusicProviderService,
+    ImportPlaylist
   ) {
     var moodIdDict = {};
+    var count = 0;
+    var offset = 0;
     var mc = angular.extend(this, {
       itemSelected:false,
       emotionSelected: '',
-      playlistSelected:[]
+      playlistArray:[]
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
@@ -35,11 +39,63 @@
       
       mc.params =importPlaylistWizard.getParams();
       console.log(mc.params);
-      mc.playlists = gaddumMusicProviderService.importAllPlaylists();
-      console.log("heya",mc.playlists);
+      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
+        console.log("heya",result);
+        var count = 0;
+        result.data.items.forEach(function(element) {
+          console.log(count);
+          mc.playlistArray[count] = {"name":element.name};
+          mc.playlistArray[count].display_name = element.owner.display_name;
+          mc.playlistArray[count].id = element.id;
+          mc.playlistArray[count].artwork = element.images[0].url;
+          mc.playlistArray[count].value = false;
+          console.log("playlistArry",mc.playlistArray);
+          count = count+1;
+        });
+        offset = offset+20;
+      });
+      
       
     }
     init();
+    function playlistSelected(index){
+      console.log("here",mc.playlistArray[index].value);
+      mc.playlistArray[index].value = !mc.playlistArray[index].value;
+      mc.itemSelected = true;
+    }
+    function more(){
+      console.log("more");
+      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
+        console.log("heya",result);
+        var count = 0;
+        result.data.items.forEach(function(element) {
+          console.log(count);
+          mc.playlistArray[count] = {"name":element.name};
+          mc.playlistArray[count].display_name = element.owner.display_name;
+          mc.playlistArray[count].id = element.id;
+          mc.playlistArray[count].artwork = element.images[0].url;
+          mc.playlistArray[count].value = false;
+          console.log("playlistArry",mc.playlistArray);
+          count = count+1;
+        });
+        offset = offset+20;
+      });
+    }
+    function importPlaylists(){
+      console.log("got in here");
+      var importArray = [];
+      mc.playlistArray.forEach(function(element) {
+        if (element.value === true) {
+          importArray.push(ImportPlaylist.build(element.name,element.id,element.artwork));
+        }
+      });
+      gaddumMusicProviderService.asyncImportPlaylists(importArray);
+      importPlaylistWizard.close();
+      
+    }
+    mc.more = more;
+    mc.importPlaylists = importPlaylists;
+    mc.playlistSelected = playlistSelected;
 
   }
 })();

@@ -37,7 +37,7 @@
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/wizards/gaddum.importPlaylist.wizard/importPlaylist.modal.html',
-                myModalInstanceOptions,
+                myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
@@ -57,9 +57,12 @@
             
         }
         function close() {
-            if(modalSave){
-                modalSave.remove();
+            if (modalSave){
+                if(!modalSave._isShown){
+                    modalSave.remove();
+                }
             }
+            
         }
         function closeAndRemove(modalInstance) {
             return modalInstance.hide()
