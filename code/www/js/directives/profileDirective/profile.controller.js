@@ -261,14 +261,16 @@
 
         // TODO: Error Handling
         function init() {
+            console.log("init");
             asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(
                 function () {
                     vm.genreScrollChecker();
-                    createModalList();
-                    gaddumShortcutBarService.setContextMenu(vm.conMenu);
+                    
                 }
             );
-
+            createModalList();
+            console.log("context",vm.conMenu);
+            gaddumShortcutBarService.setContextMenu(vm.conMenu);
         };
         init();
 
