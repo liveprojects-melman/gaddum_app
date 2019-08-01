@@ -37,6 +37,10 @@
       return this.defaultValue;
     }
 
+
+
+    SettingIdentifier.VALID_TYPES = validTypes;
+
     /**
      * Static method, assigned to class
      * Instance ('this') is not available in static context
