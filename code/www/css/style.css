@@ -1342,3 +1342,11 @@ div#scroller.ng-hide {
     right: 12%;
     top: 61%;
 }
+.selectorModal{
+    height: 8%;
+    position: absolute;
+    min-height: 0px;
+    width: 46%;
+    top: 46%;
+    left: 29%;
+}
