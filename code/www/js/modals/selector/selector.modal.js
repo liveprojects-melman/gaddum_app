@@ -57,8 +57,10 @@
             modalSave.remove();
         }
         function onClickOff(){
-            if(!myModal.isClosing){
-                $scope.fnCallbackCancel();
+            if(modalSave){
+                if(!myModal.isClosing){
+                    $scope.fnCallbackCancel();
+                }
             }
             if(modalSave){
                 if(!modalSave._isShown){
