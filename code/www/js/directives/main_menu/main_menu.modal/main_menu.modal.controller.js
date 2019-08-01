@@ -10,6 +10,7 @@
       '$scope',
       'AboutModal',
       'SettingsModal',
+      'loginModal',
       'gaddumMusicProviderService'
   ];
   
@@ -18,16 +19,22 @@
     $scope,
     AboutModal,
     SettingsModal,
-    LoginModal,
+    loginModal,
     gaddumMusicProviderService
   ) {
     var mc = angular.extend(this, {
       
     });
     $scope.mainMenuModal=mainMenuModal;
+    mc.isLoggedIn = false;
     function init() {
       mc.params =mainMenuModal.getParams();
-      
+      gaddumMusicProviderService.asyncIsLoggedIn().then(function(result){
+        console.log("inside",result);
+        mc.isLoggedIn = result;
+        console.log("check1",mc.isLoggedIn);
+      });
+      console.log("check2",mc.isLoggedIn);
     }
     init();
     function goToAbout(){
@@ -37,12 +44,19 @@
     }
 
     function logout(){
-      mainMenuModal.close();
+      console.log("logout");
       gaddumMusicProviderService.asyncLogout().then(
         function(){
-          LoginModal.open(null,fnCallbackOk,fnCallbackCancel);
+          console.log("logged out");
+          loginModal.promiseLogin();
         }
       );
+      mainMenuModal.close();
+    }
+    function login(){
+      console.log("logging in");
+      mainMenuModal.close();
+      loginModal.promiseLogin();
     }
 
     function goToSettings(){
@@ -59,5 +73,6 @@
     mc.goToAbout = goToAbout;
     mc.goToSettings = goToSettings;
     mc.logout = logout;
+    mc.login = login;
   }
 })();

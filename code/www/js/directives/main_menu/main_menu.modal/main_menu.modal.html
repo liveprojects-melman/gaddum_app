@@ -9,9 +9,16 @@
       <ion-item ng_click="mc.goToSettings()">
         Settings
       </ion-item>
-      <ion-item ng_click="mc.logout()">
-        Settings
-      </ion-item>
+      <div ng-hide="mc.isLoggedIn">
+        <ion-item ng_click="mc.login()">
+          Login
+        </ion-item>
+      </div>
+      <div ng-hide="!mc.isLoggedIn">
+        <ion-item ng_click="mc.logout()">
+          Logout
+        </ion-item>
+      </div>
     </ion-list>
   </ion-content>
   </div>
