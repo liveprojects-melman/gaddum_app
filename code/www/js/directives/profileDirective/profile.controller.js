@@ -196,20 +196,29 @@
             var nx = Math.floor(canvas.width / scale);
             var ny = Math.floor(canvas.height / scale);
             var bin;
-
-            for (var j = 0; j < profileService.getUserProfile().profile.avatar_graphic.length; j++) {
-                bin = profileService.getUserProfile().profile.avatar_graphic[j].toString(2);
-                for (var x = bin.length; x < 8; x++) {
-                    bin = "0" + bin;
-                }
-                for (var k = 0; k < bin.length; k++) {
-                    if (bin[k] == "1") {
-                        rect(k, j, nx, ny, '#000000', ctx);
-                    } else {
-                        rect(k, j, nx, ny, '#ffffff', ctx);
+            var profile;
+            profileService.asyncGetUserProfile().then(
+                function success(result) {
+                    vm.userProfile = result;
+                    for (var j = 0; j < vm.userProfile.profile.avatar_graphic.length; j++) {
+                        bin = vm.userProfile.profile.avatar_graphic[j].toString(2);
+                        for (var x = bin.length; x < 8; x++) {
+                            bin = "0" + bin;
+                        }
+                        for (var k = 0; k < bin.length; k++) {
+                            if (bin[k] == "1") {
+                                rect(k, j, nx, ny, '#000000', ctx);
+                            } else {
+                                rect(k, j, nx, ny, '#ffffff', ctx);
+                            }
+                        }
                     }
+                    //deferred.resolve();
+                },
+                function fail(error) {
+                    deferred.reject(error);
                 }
-            }
+            );
         };
         function rect(x, y, w, h, fs, ctx) {
 
@@ -252,14 +261,16 @@
 
         // TODO: Error Handling
         function init() {
+            console.log("init");
             asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(
                 function () {
                     vm.genreScrollChecker();
-                    createModalList();
-                    gaddumShortcutBarService.setContextMenu(vm.conMenu);
+                    
                 }
             );
-
+            createModalList();
+            console.log("context",vm.conMenu);
+            gaddumShortcutBarService.setContextMenu(vm.conMenu);
         };
         init();
 
