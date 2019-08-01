@@ -262,7 +262,7 @@
         // TODO: Error Handling
         function init() {
             console.log("init");
-            asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(
+            asyncPopulateGenres().then(asyncPopulateProfile).then(
                 function () {
                     vm.genreScrollChecker();
                     

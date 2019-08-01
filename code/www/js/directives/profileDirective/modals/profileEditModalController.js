@@ -152,6 +152,9 @@
       } else {
         newGenres = vm.params[1].userGenres;
         vm.genresAsString=vm.params[1].userGenres.join(", ");
+        if (vm.genresAsString=="") {
+          vm.genresAsString="No Music"
+        }
       }
     };
 

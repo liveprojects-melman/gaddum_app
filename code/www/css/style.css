@@ -926,6 +926,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
   margin: 0%;
   padding-top: 10px;
   padding-bottom: 10px;
+  position: relative;
+  top: 13%;
 
 }
 #rerollNameBtn{
@@ -933,7 +935,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     right: 0%;
     width: 30%;
     height: 8%!important;
-    top: 10%;
+    top: 13%;
 }
 #genreslist{
   /* position: relative; */
@@ -1116,9 +1118,9 @@ margin:10px;
 
 .editPageProfileCanvas{
     position: absolute;
-    right: calc( 50% - 22.5% );
-    top: calc( 100% - 45% );
-    width: 45%;
+    /* right: calc( 50% - 22.5% ); */
+    top: 47%;
+    width: 58%;
 } 
 
 
@@ -1334,4 +1336,9 @@ div#scroller.ng-hide {
     position:absolute;
     bottom:5px;
     left: 5px;
+}
+#showImageEditBtn{
+    position: absolute;
+    right: 12%;
+    top: 61%;
 }

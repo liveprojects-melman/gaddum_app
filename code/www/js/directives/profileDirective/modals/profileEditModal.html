@@ -1,16 +1,16 @@
 <div class="modal modalProfileEdit" ng-controller="profileEditModalController as vm">
   <ion-content has-header="true" padding="true" scroll="false">
-    <h1>Your name</h1>
+    <h1>Your Name</h1>
     <div>
     <h2 id="avatarName">{{vm.fullName}} </h2>
     <button
         class="button ion-refresh button-energized" ng-click="vm.newName()" id="rerollNameBtn"></button>
       </div>
-    <h2>Your music</h2>
+    <h2>Your Music</h2>
     <button class="button button-stable ion-arrow-down-b" ng-click="vm.showGenreCheckboxModal()" id="genreToggle">
       {{vm.genresAsString}}</button>
     <br>
-    <button id="showImageEditBtn" class="button button-stable icon-right ion-edit" ng-click="vm.profileImageEdit()">Edit Profile Image</button>
+    <button id="showImageEditBtn" class="button button-stable icon-right ion-edit ion-text-center" ng-click="vm.profileImageEdit()"></button>
     <canvas class="editPageProfileCanvas" ng-attr-id="q"
     ng-init="vm.createProfileGraphic(vm.profile.profile_id)" height=160 width=160
      ng-click="vm.profileImageEdit()"></canvas>
