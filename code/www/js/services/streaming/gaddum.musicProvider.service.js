@@ -154,7 +154,7 @@
       return asyncCheckForLoginPromptIfNeeded().then( service.musicProvider.asyncPauseCurrentTrack);
     }
 
-    function asyncImportAllPlaylists(limit=20,offset=0){
+    function asyncImportAllPlaylists(limit,offset){
       return service.musicProvider.importAllPlaylists();
     }
 
