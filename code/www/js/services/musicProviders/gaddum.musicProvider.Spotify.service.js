@@ -300,6 +300,12 @@
 
     function asyncLogout() {
 
+
+      // Cordova Auth hides in local storage
+      cordova.plugins.spotifyAuth.forget(); 
+
+
+      // .. and our own in the DB
       var deferred = $q.defer();
       var promises = [];
 
