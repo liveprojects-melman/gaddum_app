@@ -87,11 +87,11 @@
 
         service.setName=function(name){
             userProfile.profile.avatar_name=name;
-        }
+        };
 
         service.setGenres=function(genres){
             userGenres=genres;
-        }
+        };
 
         service.setAvatar_image=function(image){
             userProfile.profile.avatar_graphic=image;

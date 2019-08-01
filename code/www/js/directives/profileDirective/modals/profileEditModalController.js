@@ -21,7 +21,8 @@
   ) {
     var vm = angular.extend(this, {
       showGenres: false,
-      updateGenres:[]
+      updateGenres:[],
+      allGenres:[]
     });
     var scale = 8;
     var fnames = [
@@ -100,13 +101,26 @@
     function init() {
       vm.params = profileEditModal.getParams();
       console.log("params!",vm.params);
+      initialiseGenres();
       vm.fullName = vm.params[2].userProfile.profile.avatar_name;
       newGenres = vm.params[1].userGenres;
       profile = vm.params[2].userProfile.profile;
       vm.displayImage=profile.avatar_graphic;
       vm.genresAsString=vm.params[1].userGenres.join(", ");
       console.log(vm.params);
+      genresCheck();
     }
+    function initialiseGenres(){
+      console.log("init genres",vm.params[0].allGenres);
+      vm.params[0].allGenres.forEach(function(element)  {
+        if (newGenres.includes(element)) {
+          allGenres.push({"Name":element,"Value":true});
+        }else{
+        allGenres.push({"Name":element,"Value":false});
+        }
+      });
+      console.log("all G",allgenres);
+    };
 
     init();
 
@@ -146,6 +160,7 @@
 //    vm.genresAsString;
 
     vm.getGenresAsString = function getGenresAsString() {
+      console.log("updg",updateGenres);
       if (vm.updatedGenres != null) {
         newGenres = vm.updatedGenres;
         vm.genresAsString= vm.updatedGenres.join(", ");
@@ -155,6 +170,12 @@
         if (vm.genresAsString=="") {
           vm.genresAsString="No Music"
         }
+      }
+    };
+    function genresCheck(){
+      if (vm.genresAsString==null||vm.genresAsString=="") {
+        console.log("!!");
+        vm.genresAsString="No Music";
       }
     };
 
@@ -265,7 +286,8 @@
 
     vm.genresUpdateCancel=function genresUpdateCancel(genres){
       console.log(genres);
-      var gArray =[];
+      if (genres!=null) {
+        var gArray =[];
       genres.forEach(function (element) {
         if (element.value) {
           gArray.push(element.genre);
@@ -274,6 +296,8 @@
       console.log("ga",gArray);
       vm.updatedGenres=gArray;
       vm.getGenresAsString();
+      };
+      
     };
   }
 })();
