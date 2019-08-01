@@ -15,7 +15,7 @@
     function TrackSearchCriteria(term, searchModifiers ) {
       // Public properties, assigned to the instance ('this')
       this.term = term;
-      this.searchModifiers = searxhModifiers;
+      this.searchModifiers = searchModifiers;
     }
 
     function getTerm(){

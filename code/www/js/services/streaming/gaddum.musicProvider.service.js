@@ -71,6 +71,14 @@
       return deferred.promise;
     }
 
+    function asyncGetSupportedSearchModifier(){
+      return $q(function(resolve,reject){
+          service.musicProvider.asyncGetSupportedSearchModifier().then(function(result){
+            return resolve(result);
+          });
+        });
+    }
+
     function asyncSetServiceProvider(musicProviderName) {
         // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
         service.musicProvider = $injector.get(musicProviderName);
@@ -124,10 +132,10 @@
       return promise;
     }
 
-    function asyncSeekTracks(trackSearchCriteria){
+    function asyncSeekTracks(searchTerm,trackSearchCriteria){
       return asyncCheckForLoginPromptIfNeeded().then(
         function(){
-          return service.musicProvider.asyncSeekTracks(trackSearchCriteria);
+          return service.musicProvider.asyncSeekTracks(searchTerm,trackSearchCriteria);
         });
     }
 
@@ -209,6 +217,7 @@
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres : asyncSetGenres,
       asyncGetGenres : asyncGetGenres,
+      asyncGetSupportedSearchModifier:asyncGetSupportedSearchModifier
 
       /*,
 
