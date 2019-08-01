@@ -48,8 +48,9 @@
 
     vm.matchCheckboxes = function matchCheckboxes() {
       var label;
+      console.log("genres",vm.params[0].allGenres);
       var myTimeout = setTimeout(function() {
-        vm.params[0].allGenres.genres.forEach(function(genre) {
+        vm.params[0].allGenres.forEach(function(genre) {
           label = document.getElementById("checkbox_" + genre.genre).querySelector("input");
           console.log(label.checked);
           if (vm.params[1].userGenres.includes(genre.genre)) {

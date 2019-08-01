@@ -158,7 +158,7 @@
 
         vm.genreScrollChecker = function () {
 
-            if (document.getElementById("genreStatic")) {
+            if (document.getElementById("genreStatic")&&vm.userGenres!=null) {
 
                 var genreFont = document.getElementById("genreStatic").style.font;
                 var genreText = vm.userGenres.join(", ");
