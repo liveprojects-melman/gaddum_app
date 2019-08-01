@@ -11,6 +11,6 @@ INSERT INTO
     )
 SELECT   
     "replacement_parameter_id",
-    null
+    null,
     "replacement_parameter_value_type"
 WHERE (Select Changes() = 0);
