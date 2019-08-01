@@ -20,7 +20,7 @@
             
         });
         var modalSave = null;
-        var parmeter = null;
+        var parameter = null;
 
         var myModal = {
             open: open,
@@ -32,7 +32,7 @@
         return myModal;
 
         function open(params, fnCallbackOk, fnCallbackCancel) {
-            parmeter = params;
+            parameter = params;
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel=fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
@@ -45,7 +45,7 @@
             
         }
         function getParams(){
-            return parmeter;
+            return parameter;
         }
         function callback(namedIdentifier){
             close();
@@ -57,14 +57,15 @@
             modalSave.remove();
         }
         function onClickOff(){
+            if(!myModal.isClosing){
+                $scope.fnCallbackCancel();
+            }
             if(modalSave){
                 if(!modalSave._isShown){
                     modalSave.remove();
                 }
             }
-            if(!myModal.isClosing){
-                $scope.fnCallbackCancel();
-            }
+
         }
         
     }
