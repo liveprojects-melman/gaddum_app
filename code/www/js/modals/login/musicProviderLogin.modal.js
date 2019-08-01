@@ -174,8 +174,6 @@
             promiseLogin: promiseLogin,
             notifyLoginFail: notifyLoginFail,
             notifyLoginSuccess: notifyLoginSuccess
-
-        
         };
         return myModal;
 

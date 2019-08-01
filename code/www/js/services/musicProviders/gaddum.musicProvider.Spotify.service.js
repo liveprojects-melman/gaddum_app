@@ -313,8 +313,12 @@
       $q.all(promises).then(
         function (arrayResult) {
           deferred.resolve();
+        },
+        function (err) {
+          deferred.reject(err);
         }
-      )
+
+      );
 
       return deferred.promise;
     }
