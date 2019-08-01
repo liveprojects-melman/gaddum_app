@@ -12,7 +12,9 @@
     'SearchModifier',
     '$http',
     'ErrorIdentifier',
-    'AccessCredentials'
+    'AccessCredentials',
+    'SearchModifier',
+    'gaddumMusicProviderService'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -22,7 +24,9 @@
     SearchModifier,
     $http,
     ErrorIdentifier,
-    AccessCredentials
+    AccessCredentials,
+    SearchModifier,
+    gaddumMusicProviderService
 
   ) {
 
@@ -69,7 +73,7 @@
       "Soul",
       "Motown",
       "Jazz"]
-  
+
 
     var userGenres = [];
 
@@ -113,7 +117,7 @@
         function (result) {
           deferred.resolve(CACHED_ACCESS_CREDENTIALS);
         },
-        function(error){
+        function (error) {
           deferred.reject(error)
         }
       )
@@ -127,7 +131,7 @@
       console.log("attempting login ... ");
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
-          function(result){
+          function (result) {
             asyncAuthSuccess(result);
           }
         );
@@ -137,7 +141,7 @@
     function asyncRefresh() {
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
-          function(result){
+          function (result) {
             asyncAuthSuccess(result);
           }
         );
@@ -302,7 +306,7 @@
 
 
       // Cordova Auth hides in local storage
-      cordova.plugins.spotifyAuth.forget(); 
+      cordova.plugins.spotifyAuth.forget();
 
 
       // .. and our own in the DB
@@ -329,39 +333,39 @@
       return deferred.promise;
     }
 
-    function asyncGetSupportedGenres(){
+    function asyncGetSupportedGenres() {
       var deferred = $q.defer();
 
       $timeout(
-        function(){
+        function () {
           deferred.resolve(GENRES_LIST);
-      });
+        });
 
 
       return deferred.promise;
     }
 
 
-    function asyncSetGenres(candidates){
+    function asyncSetGenres(candidates) {
       var deferred = $q.defer();
 
       $timeout(
-        function(){
+        function () {
           userGenres = candidates;
           deferred.resolve(userGenres);
-      });
+        });
 
 
       return deferred.promise;
     }
 
-    function asyncGetGenres(){
+    function asyncGetGenres() {
       var deferred = $q.defer();
 
       $timeout(
-        function(){
+        function () {
           deferred.resolve(userGenres);
-      });
+        });
 
 
       return deferred.promise;
@@ -371,7 +375,7 @@
     function asyncGetSupportedSearchModifiers() {
       // may make this a DB function
       var deferred = $q.defer();
-      
+
       $timeout(
         function () {
           deferred.resolve(
@@ -432,32 +436,69 @@
       });
     }
 
-    function searchSpotify(searchTerm, type) {
+    function asyncGetSupportedSearchModifier() {
       return $q(function (resolve, reject) {
-        var resualtArray = [];
-        asyncGetAccessCredentials().then(function (result) {
-          var config = { headers: { 'Authorization': `Bearer ${result}` } };
-          if (type.track) {
-            $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`, config).then(function (result) {
-              //resualtArray.push(result);
+        asyncMakeSearchModifiers().then(function (result) {
+          console.log("spot", result);
+          return resolve(result);
+        });
+      });
+    }
+    function asyncMakeSearchModifiers() {
+      return $q(function (resolve, reject) {
+        var searchModifierArray = [];
+        searchModifierArray.push(SearchModifier.build("track", "Track"));
+        searchModifierArray.push(SearchModifier.build("artist", "Artist"));
+        searchModifierArray.push(SearchModifier.build("album", "Album"));
+        searchModifierArray.push(SearchModifier.build("genre", "Genre"));
+        return resolve(searchModifierArray);
+      });
+    }
+
+    function asyncSeekTracks(searchTerm, trackSearchCrit) {
+      return $q(function (resolve, reject) {
+        asyncGetAccessCredentials().then(function (resultToken) {
+          gaddumMusicProviderService.asyncGetSupportedGenres().then(function (resultGen) {
+            var genres=null;
+            genres = resultGen;
+            var searchString = `https://api.spotify.com/v1/search?q=${searchTerm}`;
+            console.log(resultToken);
+            var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
+            trackSearchCrit.forEach(function (element) {
+              if (element.id === "genre") {
+                console.log("genre",resultGen);
+                var count = 0;
+                searchString = searchString + ' OR genre:"';
+                searchString = searchString + "southern";
+                // genres.forEach(function (genElement) {
+                //   if (count === 0) {
+                //     searchString = searchString + genElement
+                //   }
+                //   else {
+                //     searchString = searchString + " OR " + genElement;
+                //   }
+                //   count = count + 1;
+                // });
+                searchString = searchString + '"';
+
+              }
+              if (element.id === "artist") {
+                searchString = searchString + " OR artist:" + searchTerm;
+              }
+              if (element.id === "album") {
+                searchString = searchString + " OR album:" + searchTerm;
+              }
+              if (element.id === "track") {
+                searchString = searchString + " OR track:" + searchTerm;
+              }
+              "https://api.spotify.com/v1/search?query=Heya+OR+genre%3A%22Afrobeat+OR+Blues+OR+Lo-fi+OR+Mambo+OR+Reggae+OR+Rocksteady+OR+Dancehall+OR+Soca+OR+Ska+OR+Bluegrass+OR+Country+OR+K-pop+OR+J-pop+OR+Hiphop+OR+Techno+OR+Drill+OR+Grime+OR+House+OR+Electronic+OR+Hardbass+OR+Funk+OR+Disco+OR+Soul+OR+Motown+OR+Jazz%22&type=track&market=GB&offset=0&limit=20"
+            });
+            searchString = searchString + "&type=track"
+            console.log(encodeURI(searchString), config);
+            $http.get(encodeURI(searchString), config).then(function (result) {
               return resolve(result);
             });
-          }
-          if (type.artist) {
-            //i did alittle set up for you and got confused good luck it didnt want to work at all.
-            var artist = $http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`, config);
-            if (artist.artists.items.lenghth > 1) {
-              var topTracks = $http.get(`https://api.spotify.com/v1/artists/${artist.artists.items[0].id}/top-tracks?country=SE`, config);
-              resualtArray.push(topTracks);
-            }
-          }
-          if (type.album) {
-            resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=album`, config));
-          }
-          if (type.playlist) {
-            resualtArray.push($http.get(`https://api.spotify.com/v1/search?q=${searchTerm}&type=playlist`, config));
-          }
-          //resolve(resualtArray);
+          });
         });
       });
     }
@@ -479,7 +520,8 @@
       pause: pause,
       importAllPlaylists: importAllPlaylists,
       getPlaylistTracks: getPlaylistTracks,
-      searchSpotify: searchSpotify
+      asyncSeekTracks: asyncSeekTracks,
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
     };
 
     return service;

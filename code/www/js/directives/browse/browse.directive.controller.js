@@ -54,18 +54,17 @@
       bm.searchBrowse=[];
       bm.sList= false;
       bm.searchText =null;
-      bm.searchType = {
-        "track": true,
-        "artist": false,
-        "album": false,
-        "playlist": false
-      
-      }
+      bm.searchType = null;
+      gaddumMusicProviderService.asyncGetSupportedSearchModifier().then(function(result){
+        bm.searchType = result;
+        console.log("searchType",bm.searchType);
+      });
     }
     init();
     function search(){
       bm.searching = true;
-      gaddumMusicProviderService.searchSpotify(bm.searchText,bm.searchType).then(function(result){
+      bm.searchTemp = [bm.searchType[3]];
+      gaddumMusicProviderService.asyncSeekTracks(bm.searchText,bm.searchTemp).then(function(result){
         console.log(result);
         bm.sList = true;
         bm.searching=false;
@@ -97,21 +96,7 @@
     //   }
     // }
     function searchTypeText(){
-      var text="";
-      bm.sList = false;
-      if(bm.searchType.track){
-        text = text +" Track";
-      }
-      if(bm.searchType.artist){
-        text = text +" Artist";
-      }
-      if(bm.searchType.album){
-        text = text +" Album";
-      }
-      if(bm.searchType.playlist){
-        text = text +" Playlist";
-      }
-      return text;
+      
     }
     function play(TID){
       gaddumMusicProviderService.playTrack(TID);
