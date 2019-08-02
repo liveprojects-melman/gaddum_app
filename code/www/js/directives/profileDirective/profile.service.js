@@ -29,7 +29,7 @@
             AVATAR_GRAPHIC: 'avatar_graphic',
             AVATAR_NAME: 'avatar_name',
             PROFILE_ID: 'profile_id',
-            DEVICE_ID: 'device_id'
+            DEVICE_ID: 'push_device_id'
         }
 
         var VALID_TYPES = SettingIdentifier.VALID_TYPES;

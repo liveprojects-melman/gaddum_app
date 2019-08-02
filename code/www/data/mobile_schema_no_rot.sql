@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Fri Aug 2 13:19:58 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Aug 2 15:11:41 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -875,6 +875,28 @@ INSERT INTO settings (
                          'first_time_help',
                          NULL,
                          'boolean'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'avatar_graphic',
+                         '',
+                         'string'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'avatar_name',
+                         NULL,
+                         'string'
                      );
 
 
