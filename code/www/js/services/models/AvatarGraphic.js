@@ -9,6 +9,34 @@
   AvatarGraphic.$inject = [
 
   ];
+
+  function isHexColourValue(candidate) {
+    var result = false;
+    if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) {
+      result = true;
+    }
+    return result;
+  }
+
+  function is8BitList(values) {
+    var result = false;
+
+    if (values && values.length == 8) {
+      result = true;
+      for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        if (!((value >= 0) && (value <= 255))){
+          result = false;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+
+
+
   function AvatarGraphic(
   ) {
     function AvatarGraphic(
@@ -28,36 +56,20 @@
       this.toBlob = function () {
         return atob(JSON.stringify(this));
       }
+
+      this.isHexColourValue = isHexColourValue;
+      this.is8BitList = is8BitList;
+      
+
     }
 
-    function isHexColourValue(candidate) {
-      var result = false;
-      if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) {
-        result = true;
-      }
-      return result;
-    }
 
-    function is8BitList(values) {
-      var result = false;
-
-      if (values && values.length == 8) {
-        result = true;
-        for (var i = 0; i < values.length; i++) {
-          var value = values[i];
-          if (!((value >= 0) && (value <= 255))){
-            result = false;
-            break;
-          }
-        }
-      }
-      return result;
-    }
   }
 
 
-  AvatarGraphic.isHexColourValue(candidate) = isHexColourValue;
-  AvatarGraphic.is8BitList(candidate) = is8BitList;
+
+  AvatarGraphic.isHexColourValue = isHexColourValue;
+  AvatarGraphic.is8BitList = is8BitList;
 
 
   /** 
