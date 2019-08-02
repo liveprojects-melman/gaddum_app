@@ -57,14 +57,13 @@
         return atob(JSON.stringify(this));
       }
 
-      this.isHexColourValue = isHexColourValue;
-      this.is8BitList = is8BitList;
+
       
 
     }
 
 
-  }
+  
 
 
 
@@ -106,6 +105,7 @@
    * Return the constructor function
    */
   return AvatarGraphic;
+}
 
 
 }) ();
