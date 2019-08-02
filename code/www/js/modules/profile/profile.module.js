@@ -10,9 +10,9 @@
         .state('gaddum.profile', {
           url: '^/profile',
           cache:true,
-          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+          //resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
             
-          }]),
+          //}]),
           views: {
             'profile@gaddum': {
               templateUrl: 'js/modules/profile/profile.html',

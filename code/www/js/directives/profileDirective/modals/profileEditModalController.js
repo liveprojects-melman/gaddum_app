@@ -110,16 +110,16 @@
       console.log(vm.params);
       genresCheck();
     }
-    function initialiseGenres(){
-      console.log("init genres",vm.params[0].allGenres);
-      vm.params[0].allGenres.forEach(function(element)  {
+    function initialiseGenres() {
+      console.log("init genres", vm.params[0].allGenres);
+      vm.params[0].allGenres.forEach(function (element) {
         if (newGenres.includes(element)) {
-          allGenres.push({"Name":element,"Value":true});
-        }else{
-        allGenres.push({"Name":element,"Value":false});
+          vm.allGenres.push({ "Name": element, "Value": true });
+        } else {
+          vm.allGenres.push({ "Name": element, "Value": false });
         }
       });
-      console.log("all G",allgenres);
+      console.log("all G", vm.allGenres);
     };
 
     init();
@@ -160,7 +160,7 @@
 //    vm.genresAsString;
 
     vm.getGenresAsString = function getGenresAsString() {
-      console.log("updg",updateGenres);
+      //console.log("updg",vm.updateGenres);
       if (vm.updatedGenres != null) {
         newGenres = vm.updatedGenres;
         vm.genresAsString= vm.updatedGenres.join(", ");
@@ -270,7 +270,7 @@
     vm.showGenreCheckboxModal = function showGenreCheckboxModal() {
       //var checkboxPosition=document.getElementById('genreToggle').style;
       var modalParams = [
-        {"allGenres":vm.params[0].allGenres},
+        {"allGenres":/* vm.params[0]. */vm.allGenres},
         {"userGenres":newGenres}
         //{"checkboxPosition":checkboxPosition}
       ];
@@ -289,8 +289,8 @@
       if (genres!=null) {
         var gArray =[];
       genres.forEach(function (element) {
-        if (element.value) {
-          gArray.push(element.genre);
+        if (element.Value) {
+          gArray.push(element.Name);
         }
       });
       console.log("ga",gArray);

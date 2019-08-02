@@ -73,7 +73,9 @@
             return profileService.getUserGenres();
         }
         vm.setGenres = function (genres) {
+            console.log("genres test",profileService.getUserGenres());
             profileService.setGenres(genres);
+            console.log("genres test2",profileService.getUserGenres());
             setTimeout(function () {
                 vm.userGenres = profileService.getUserGenres().join(", ");
                 vm.encodedProfile = btoa(profileService.getProfileAsString());
