@@ -20,11 +20,11 @@
       this.name = name;
     }
 
-    function getName(){
+    this.getName = function(){
       return name;
     }
 
-    function getId(){
+    this.getId = function(){
       return id;
     }
 
