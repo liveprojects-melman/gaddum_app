@@ -14,15 +14,17 @@
       // Public properties, assigned to the instance ('this')
       this.lat = lat;
       this.lon = lon;  
-    }
+    
 
-    function getLat(){
+    this.getLat = function(){
       return this.lat;
     }
 
-    function getLon(){
+    this.getLon =function(){
       return this.lon;
     }
+
+  }
 
     /** 
      * Static method, assigned to class

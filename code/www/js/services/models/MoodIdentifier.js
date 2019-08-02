@@ -12,30 +12,35 @@
   function MoodIdentifier(
 
   ) {
-    function MoodIdentifier(id,name) {
+    function MoodIdentifier(id,name, id_anti) {
       // Public properties, assigned to the instance ('this')
       this.id = id;
       this.name = name;
+      this.id_anti = id_anti
+    
 
-    }
-
-    function getName(){
+    this.getName =function(){
       return name;
     }
 
-    function getId(){
+    this.getId = function(){
       return id;
     }
 
+    this.getIdAnti = function(){
+      return id_anti;
+    }
+
+  }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    MoodIdentifier.build = function (id, name) {
+    MoodIdentifier.build = function (id, name, id_anti) {
       
         return new MoodIdentifier(
-          id, name
+          id, name, id_anti
         );
  
 
