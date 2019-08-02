@@ -22,32 +22,20 @@
     $scope.searchCatModal=searchCatModal;
     function init() {
       mc.params =searchCatModal.getParams();
-      mc.list = mc.params;
+      console.log("params",mc.params);
+      
     }
     init();
     
     
     
-    function changeTrack(){
-      mc.list.track = !mc.list.track;
-      searchCatModal.chosen(mc.list);
+    function change(search){
+      search.value = !search.value;
+      searchCatModal.chosen(mc.params);
     }
-    function changeArtist(){
-      mc.list.artist = !mc.list.artist;
-      searchCatModal.chosen(mc.list);
-    }
-    function changeAlbum(){
-      mc.list.album = !mc.list.album;
-      searchCatModal.chosen(mc.list);
-    }
-    function changePlaylist(){
-      mc.list.playlist = !mc.list.playlist;
-      searchCatModal.chosen(mc.list);
-    }
-    mc.changeTrack =changeTrack;
-    mc.changeArtist =changeArtist;
-    mc.changeAlbum =changeAlbum;
-    mc.changePlaylist =changePlaylist;
+    
+    mc.change =change;
+
 
 
 

@@ -31,9 +31,9 @@
             can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="bm.preventSlideBox($event)"
             ng-touchend="bm.allowSlideBox($event)" ng-mousedown="bm.preventSlideBox($event)" ng-mouseup="bm.allowSlideBox($event)">
            
-              <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.album.images[0].url}}">
-              <p style="color:black;">{{browse.artists[0].name}}</p>
-              <p style="color:black;">{{browse.album.name}}</p>
+              <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.artwork_url}}">
+              <p style="color:black;">{{browse.artist}}</p>
+              <p style="color:black;">{{browse.album}}</p>
               <h1>{{browse.name}}</h1>
 
             
@@ -58,6 +58,9 @@
             
           </ion-option-button>
 
+          </ion-item>
+          <ion-item ng-click="bm.moreTracks()" ng-hide="bm.moreTrackCheck">
+            <p>More...</p>
           </ion-item>
         </ion-list>
       </ion-content>

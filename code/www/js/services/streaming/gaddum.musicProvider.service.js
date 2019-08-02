@@ -132,10 +132,10 @@
       return promise;
     }
 
-    function asyncSeekTracks(searchTerm,trackSearchCriteria){
+    function asyncSeekTracks(searchTerm,trackSearchCriteria,limit,page){
       return asyncCheckForLoginPromptIfNeeded().then(
         function(){
-          return service.musicProvider.asyncSeekTracks(searchTerm,trackSearchCriteria);
+          return service.musicProvider.asyncSeekTracks(searchTerm,trackSearchCriteria,limit,page);
         });
     }
 

@@ -14,7 +14,8 @@
     'ErrorIdentifier',
     'AccessCredentials',
     'SearchModifier',
-    'gaddumMusicProviderService'
+    'gaddumMusicProviderService',
+    'TrackInfo'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -26,7 +27,8 @@
     ErrorIdentifier,
     AccessCredentials,
     SearchModifier,
-    gaddumMusicProviderService
+    gaddumMusicProviderService,
+    TrackInfo
 
   ) {
 
@@ -456,7 +458,49 @@
       });
     }
 
-    function asyncSeekTracks(searchTerm, trackSearchCrit) {
+    var seekTrackCache =[];
+    var offset = 0;
+    var searchT = null;
+    var trackCrit = null;
+    function asyncSeekTracks(searchTerm, trackSearchCrit,limit,page) {
+      return $q(function (resolve, reject) {
+        if(searchT != searchTerm){
+          searchT = searchTerm;
+          offset=0;
+          seekTrackCache = [];
+        }
+        if(trackCrit != trackSearchCrit){
+          trackCrit = trackSearchCrit;
+          offset=0;
+          seekTrackCache = [];
+        }
+        var seekResult=[];
+        if(seekTrackCache.length > (page*limit)){
+          var i;
+          for(i=0;(i<(seekTrackCache.length -(page*limit)))&&(i<10);i++){
+            seekResult.push(seekTrackCache[((page*limit)+i)]);
+          }
+          return resolve(seekResult);
+        }
+        else{
+          asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset).then(function(result){
+            result.forEach(function(resultTrack){
+              seekTrackCache.push(resultTrack);
+              
+            });
+            if(result.length == 0){
+              return reject();
+            }
+            offset = offset+limit;
+            asyncSeekTracks(searchTerm, trackSearchCrit,limit,page).then(function(promise){
+              return resolve(promise);
+            });
+          });
+        }
+      });
+    }
+    
+    function asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset) {
       return $q(function (resolve, reject) {
         asyncGetAccessCredentials().then(function (resultToken) {
           gaddumMusicProviderService.asyncGetSupportedGenres().then(function (resultGen) {
@@ -479,14 +523,15 @@
               if (element.id === "track") {
                 if (genreCheck) {
                   genres.forEach(function (genre) {
-                    searchString = baseSearchString + "track:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    searchString = baseSearchString + 'track:"' + searchTerm + '" genre:"' + genre + `"&type=track&limit=${limit}&offset=${offset}`;
                     $http.get(encodeURI(searchString), config).then(function (result) {
                       searchResult.push(result);
                     });
                   });
                   console.log("seach", searchResult);
                 }
-                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                searchString = baseSearchString + 'track:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
+                console.log("searchString",searchString);
                 $http.get(encodeURI(searchString), config).then(function (result) {
                   searchResult.push(result);
                 });
@@ -495,14 +540,14 @@
               if (element.id === "artist") {
                 if (genreCheck) {
                   genres.forEach(function (genre) {
-                    searchString = baseSearchString + "artist:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    searchString = baseSearchString + 'artist:"' + searchTerm + '" genre:"' + genre + `"&type=track&limit=${limit}&offset=${offset}`;
                     $http.get(encodeURI(searchString), config).then(function (result) {
                       searchResult.push(result);
                     });
                   });
                   console.log("seach", searchResult);
                 }
-                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                searchString = baseSearchString + 'artist:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {
                   searchResult.push(result);
                 });
@@ -511,14 +556,14 @@
               if (element.id === "album") {
                 if (genreCheck) {
                   genres.forEach(function (genre) {
-                    searchString = baseSearchString + "album:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    searchString = baseSearchString + 'album:"' + searchTerm + '" genre:"' + genre + `"&type=track&limit=${limit}&offset=${offset}`;
                     $http.get(encodeURI(searchString), config).then(function (result) {
                       searchResult.push(result);
                     });
                   });
                   console.log("seach", searchResult);
                 }
-                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                searchString = baseSearchString + 'album:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {
                   searchResult.push(result);
                 });
@@ -536,9 +581,16 @@
                     if (trackL.id === track.id) {
                       isntIn = true;
                     }
+                    else{
+                      seekTrackCache.forEach(function(cache) {
+                        if(track.id === cache.id){
+                          isntIn = true;
+                        }
+                      });
+                    }
                   });
                   if (!isntIn) {
-                    trackList.push(track);
+                    trackList.push(TrackInfo.build(track.name,track.album.name,track.artists[0].name,track.duration_ms,track.album.images[0].url,track.id));
                   }
                 });
               });

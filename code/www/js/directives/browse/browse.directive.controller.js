@@ -53,28 +53,78 @@
       bm.searching=false;
       bm.searchBrowse=[];
       bm.sList= false;
+      bm.lastSeek = null;
+      bm.lastType = null;
+      bm.page = 0;
+      bm.moreTrackCheck = true;
       bm.searchText =null;
-      bm.searchType = null;
+      bm.searchType = [];
+      bm.searchingType = [];
       gaddumMusicProviderService.asyncGetSupportedSearchModifier().then(function(result){
-        bm.searchType = result;
+        result.forEach(function(element){
+          bm.searchType.push({mod:element,value:false});
+        });
+        //bm.searchType = result;
         console.log("searchType",bm.searchType);
       });
     }
     init();
     function search(){
+      bm.moreTrackCheck = false;
+      bm.searchingType = [];
+      bm.page = 0;
       bm.searching = true;
-      bm.searchTemp = [bm.searchType[0],bm.searchType[3]];
-      gaddumMusicProviderService.asyncSeekTracks(bm.searchText,bm.searchType).then(function(result){
+      bm.searchBrowse = [];
+      bm.searchType.forEach(function(type){
+        if(type.value){
+          bm.searchingType.push(type.mod);
+        }
+        
+      });
+      if(bm.searchingType.length == 0){
+        bm.searchType.forEach(function(type){
+          if(type.mod.name == "Track"){
+            bm.searchingType.push(type.mod);
+          }
+        });
+      }
+      console.log("searching",bm.searchingType);
+      gaddumMusicProviderService.asyncSeekTracks(bm.searchText,bm.searchingType,10,bm.page).then(function(result){
         console.log(result);
+        bm.lastSeek = bm.searchText;
+        bm.lastType = bm.searchingType;
         bm.sList = true;
         bm.searching=false;
-        bm.searchBrowse = result;
+        result.forEach(function(element){
+          bm.searchBrowse.push(element);
+        });
         
         
       }).catch(function(er){
-
+        bm.sList = false;
+        bm.moreTrackCheck = true;
+        bm.searching=false;
         console.log(er);
     });
+    }
+    function moreTracks(){
+      bm.searching = true;
+      bm.page = bm.page+1;
+      gaddumMusicProviderService.asyncSeekTracks(bm.lastSeek,bm.lastType,10,bm.page).then(function(result){
+        bm.sList = true;
+        bm.searching=false;
+        result.forEach(function(element){
+          bm.searchBrowse.push(element);
+        });
+        
+        
+      }).catch(function(er){
+        bm.sList = true;
+        bm.searching=false;
+        bm.moreTrackCheck = true;
+        console.log(er);
+    });
+
     }
     function openSearchModal(){
       searchCatModal.open(bm.searchType,fnCallbackSearchOk,fnCallbackSearchCancel);
@@ -86,6 +136,7 @@
     function fnCallbackSearchCancel(type){
       bm.searchType = type;
       bm.searchBrowse=[];
+      bm.moreTrackCheck = true;
     }
     // function showList(){
     //   if (bm.searchBrowse.length >=1){
@@ -128,6 +179,7 @@
     bm.searchTypeText = searchTypeText;
     bm.openSearchModal = openSearchModal;
   bm.search = search;
+  bm.moreTracks = moreTracks
 
 
   }
