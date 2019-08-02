@@ -18,29 +18,31 @@
       this.album = album;
       this.artist = artist;
 
-    }
-
-
-
-    function getName(){
+    this. getName = function(){
       return this.name;
     }
 
-    function getAlbum(){
+    this.getAlbum = function(){
       return this.album;
     }
 
-    function getArtist(){
+    this.getArtist = function(){
       return this.artist;
     }
 
+  }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
     GenericTrack.build = function (name, album, artist) {
+
       
+      if(!name) name = "";
+      if(!album) album = "";
+      if(!artist) artist = "";
+
         return new GenericTrack(
           name, album, artist
         );

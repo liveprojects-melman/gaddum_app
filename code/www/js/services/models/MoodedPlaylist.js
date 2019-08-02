@@ -8,16 +8,28 @@
 
   MoodedPlaylist.$inject = [
     'MoodIdentifier',
-    'GenericTrack'
+    'GenericTrack',
+    'Playlist'
   ];
   function MoodedPlaylist(
     MoodIdentifier,
-    GenericTrack
+    GenericTrack,
+    Playlist
   ) {
     function MoodedPlaylist(moodId, genericTracks) {
       // Public properties, assigned to the instance ('this')
       this.genericTracks = genericTracks;
       this.moodId = moodId;
+
+      this.getGenericTracks = function(){
+        return this.genericTracks;
+      }
+
+      this.getMoodId = function(){
+        return this.moodId;
+      }
+
+
     }
 
     /** 
@@ -25,20 +37,20 @@
      * Instance ('this') is not available in static context
      */
     MoodedPlaylist.build = function (moodId, playlist) {
-      
-        var genericTracks = null;
 
-        try{
-          genericTracks = playlist.genericTracks;  
-        }catch(e){
-          // playlist was null
-        }
+      var result = null;
+      if ((moodId instanceof MoodIdentifier) && (playlist instanceof Playlist)) {
 
-        return new MoodedPlaylist(
+        result = new MoodedPlaylist(
           moodId,
-          genericTracks
+          playlist.getGenericTracks()
         );
- 
+      } else {
+        throw ("MoodedPlaylist must have non-null MoodIdentifier and Playlist");
+      }
+
+      return result;
+
 
     };
 

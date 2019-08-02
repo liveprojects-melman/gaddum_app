@@ -9,6 +9,11 @@
   Playlist.$inject = [
 
   ];
+
+
+
+
+  
   function Playlist(
 
   ) {
@@ -16,12 +21,11 @@
       // Public properties, assigned to the instance ('this')
       this.genericTracks = genericTracks;
 
-    }
+      this.getGenericTracks = function(){
+        return this.genericTracks;
+      }    
 
-    function getGenericTracks(){
-      return genericTracks;
-    }
-
+  }
 
     /** 
      * Static method, assigned to class
