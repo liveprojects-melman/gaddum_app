@@ -30,6 +30,8 @@ import { resolve } from "dns";
 
         function initialise(){
 
+
+            
         } 
 
 
@@ -91,7 +93,11 @@ import { resolve } from "dns";
 
         // --- Loader
 
-        function asyncLoadMoodedPlaylist() {
+        function asyncLoadMoodedPlaylists(moodedPlaylist) {
+
+
+
+
         }
 
         // --- Statement
@@ -111,7 +117,7 @@ import { resolve } from "dns";
                 asyncFindPlaylists: asyncFindPlaylists
             },
             loader: {
-                asyncLoadMoodedPlaylist: asyncLoadMoodedPlaylist
+                asyncLoadMoodedPlaylists: asyncLoadMoodedPlaylists
             },
             statement: {
                 asyncApplyStatement: asyncApplyStatement

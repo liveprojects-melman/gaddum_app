@@ -51,6 +51,13 @@
 
       result = angular.merge(result, incoming);
 
+
+      if(result.id == result.mood_hot){
+        result.id_anti = result.mood_cool;
+      }else{
+        result.id_anti = result.mood_hot;
+      }
+
       return result;
 
     };

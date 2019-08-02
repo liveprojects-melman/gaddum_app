@@ -10,7 +10,9 @@
         'moment',
         'mappingService',
         'dbService',
-        'utilitiesService'
+        'utilitiesService',
+        'MoodIdentifier',
+        'ErrorIdentifier'
 
 
     ];
@@ -20,7 +22,9 @@
         moment,
         mappingService,
         dbService,
-        utilitiesService
+        utilitiesService,
+        MoodIdentifier,
+        ErrorIdentifier
 
     ) {
 
@@ -61,6 +65,15 @@
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
                     if (rows.length > 0) {
+
+                        try {
+                            rows.forEach(
+                                function (candidate) {
+                                    MoodIdentifier.buildFromObject(candidate);
+                                });
+                        } catch (e) {
+                            fnFail(e);
+                        }
                         fnSuccess(rows);
                     } else {
                         fnFail("no supported moods!");
@@ -73,7 +86,13 @@
 
         function asyncGetSupportedMoodIds() {
             var d = $q.defer();
-            getSupportedMoodIds(function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            getSupportedMoodIds(
+                function (res) {
+                    d.resolve(res);
+                },
+                function (err) {
+                    d.reject(err);
+                });
             return d.promise;
         }
 
@@ -188,12 +207,12 @@
 
                         var candidate = rows[0];
                         var value = candidate.value; // default is 'string'
-                        if(candidate.value_type === 'integer'){
+                        if (candidate.value_type === 'integer') {
                             value = parseInt(candidate.value);
-                        }else if(candidate.value_type == 'boolean'){
-                            if(candidate.value == 'true'){
+                        } else if (candidate.value_type == 'boolean') {
+                            if (candidate.value == 'true') {
                                 value = true;
-                            }else{
+                            } else {
                                 value = false;
                             }
                         }
@@ -221,7 +240,7 @@
 
         function setSetting(id, value, type, fnSuccess, fnFail) {
 
-            mappingService.query("set_setting", { id: id, value: value, value_type:type },
+            mappingService.query("set_setting", { id: id, value: value, value_type: type },
                 function (result) {
                     fnSuccess(value);
                 }
@@ -231,13 +250,13 @@
 
         function asyncSetSetting(id, value, type) {
             var d = $q.defer();
-            setSetting(id, value, type,  function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            setSetting(id, value, type, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
         }
 
         function clearSetting(id, type, fnSuccess, fnFail) {
 
-            mappingService.query("clear_setting", { id: id, value_type:type },
+            mappingService.query("clear_setting", { id: id, value_type: type },
                 function (result) {
                     fnSuccess(value);
                 }
@@ -247,7 +266,7 @@
 
         function asyncClearSetting(id, type) {
             var d = $q.defer();
-            clearSetting(id, type,  function (res) { d.resolve(res); }, function (err) { d.reject(err); });
+            clearSetting(id, type, function (res) { d.resolve(res); }, function (err) { d.reject(err); });
             return d.promise;
         }
 
@@ -305,6 +324,7 @@
 
 
         var service = {
+
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,
@@ -313,7 +333,7 @@
             asyncGetAllSettings: asyncGetAllSettings,
             asyncSetSetting: asyncSetSetting,
             asyncGetSetting: asyncGetSetting,
-            asyncClearSetting : asyncClearSetting,
+            asyncClearSetting: asyncClearSetting,
             asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings
         };
 
