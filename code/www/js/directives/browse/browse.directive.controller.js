@@ -63,12 +63,12 @@
     init();
     function search(){
       bm.searching = true;
-      bm.searchTemp = [bm.searchType[3]];
-      gaddumMusicProviderService.asyncSeekTracks(bm.searchText,bm.searchTemp).then(function(result){
+      bm.searchTemp = [bm.searchType[0],bm.searchType[3]];
+      gaddumMusicProviderService.asyncSeekTracks(bm.searchText,bm.searchType).then(function(result){
         console.log(result);
         bm.sList = true;
         bm.searching=false;
-        bm.searchBrowse = result.data.tracks.items;
+        bm.searchBrowse = result;
         
         
       }).catch(function(er){
