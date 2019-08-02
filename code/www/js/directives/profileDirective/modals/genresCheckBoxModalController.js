@@ -51,7 +51,7 @@
       console.log("genres",vm.params[0].allGenres);
       var myTimeout = setTimeout(function() {
         vm.params[0].allGenres.forEach(function(genre) {
-          label = document.getElementById("checkbox_" + genre.genre).querySelector("input");
+          label = document.getElementById("checkbox_" + genre.Name).querySelector("input");
           console.log(label.checked);
           if (vm.params[1].userGenres.includes(genre.genre)) {
             label.checked = true;
@@ -67,8 +67,12 @@
     };
 
     vm.modalGenreUpdate = function modalGenreUpdate(index){
-      vm.params[0].allGenres.genres[index].value=!vm.params[0].allGenres.genres[index].value;
-      genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
+      console.log("index",index);
+      console.log("allGG",vm.params[0].allGenres);
+      console.log("agi",vm.params[0].allGenres[index]);
+      vm.params[0].allGenres[index].Value=!vm.params[0].allGenres[index].Value;
+      genresCheckboxModal.setGenre(vm.params[0].allGenres);
+      console.log("agi",vm.params[0].allGenres[index]);
     };
 
     vm.returnData = function returnData() {

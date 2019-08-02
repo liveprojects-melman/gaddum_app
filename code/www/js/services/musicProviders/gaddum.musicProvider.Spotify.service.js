@@ -413,6 +413,7 @@
     }
     function importAllPlaylists(limit, offset) {
       return $q(function (resolve, reject) {
+        limit = 20;
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
           var config = { headers: { 'Authorization': `Bearer ${result}` } };
@@ -459,45 +460,92 @@
       return $q(function (resolve, reject) {
         asyncGetAccessCredentials().then(function (resultToken) {
           gaddumMusicProviderService.asyncGetSupportedGenres().then(function (resultGen) {
-            var genres=null;
+            var genres = null;
+            genreCheck = false;
+            searchResult = [];
+            var searchString = null;
             genres = resultGen;
-            var searchString = `https://api.spotify.com/v1/search?q=${searchTerm}`;
+            trackSearchCrit.forEach(function (genCheck) {
+              console.log("genCheck", genCheck);
+              if (genCheck.id === "genre") {
+                genreCheck = true;
+              }
+            })
+            var baseSearchString = `https://api.spotify.com/v1/search?q=`;
+
             console.log(resultToken);
             var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
             trackSearchCrit.forEach(function (element) {
-              if (element.id === "genre") {
-                console.log("genre",resultGen);
-                var count = 0;
-                searchString = searchString + ' OR genre:"';
-                searchString = searchString + "southern";
-                // genres.forEach(function (genElement) {
-                //   if (count === 0) {
-                //     searchString = searchString + genElement
-                //   }
-                //   else {
-                //     searchString = searchString + " OR " + genElement;
-                //   }
-                //   count = count + 1;
-                // });
-                searchString = searchString + '"';
+              if (element.id === "track") {
+                if (genreCheck) {
+                  genres.forEach(function (genre) {
+                    searchString = baseSearchString + "track:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    $http.get(encodeURI(searchString), config).then(function (result) {
+                      searchResult.push(result);
+                    });
+                  });
+                  console.log("seach", searchResult);
+                }
+                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                $http.get(encodeURI(searchString), config).then(function (result) {
+                  searchResult.push(result);
+                });
 
               }
               if (element.id === "artist") {
-                searchString = searchString + " OR artist:" + searchTerm;
+                if (genreCheck) {
+                  genres.forEach(function (genre) {
+                    searchString = baseSearchString + "artist:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    $http.get(encodeURI(searchString), config).then(function (result) {
+                      searchResult.push(result);
+                    });
+                  });
+                  console.log("seach", searchResult);
+                }
+                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                $http.get(encodeURI(searchString), config).then(function (result) {
+                  searchResult.push(result);
+                });
+
               }
               if (element.id === "album") {
-                searchString = searchString + " OR album:" + searchTerm;
+                if (genreCheck) {
+                  genres.forEach(function (genre) {
+                    searchString = baseSearchString + "album:" + searchTerm + ' genre:"' + genre + '"&type=track';
+                    $http.get(encodeURI(searchString), config).then(function (result) {
+                      searchResult.push(result);
+                    });
+                  });
+                  console.log("seach", searchResult);
+                }
+                searchString = baseSearchString + "album:" + searchTerm + "&type=track";
+                $http.get(encodeURI(searchString), config).then(function (result) {
+                  searchResult.push(result);
+                });
+
               }
-              if (element.id === "track") {
-                searchString = searchString + " OR track:" + searchTerm;
-              }
-              "https://api.spotify.com/v1/search?query=Heya+OR+genre%3A%22Afrobeat+OR+Blues+OR+Lo-fi+OR+Mambo+OR+Reggae+OR+Rocksteady+OR+Dancehall+OR+Soca+OR+Ska+OR+Bluegrass+OR+Country+OR+K-pop+OR+J-pop+OR+Hiphop+OR+Techno+OR+Drill+OR+Grime+OR+House+OR+Electronic+OR+Hardbass+OR+Funk+OR+Disco+OR+Soul+OR+Motown+OR+Jazz%22&type=track&market=GB&offset=0&limit=20"
             });
-            searchString = searchString + "&type=track"
-            console.log(encodeURI(searchString), config);
-            $http.get(encodeURI(searchString), config).then(function (result) {
-              return resolve(result);
-            });
+            var trackList = [];
+            var isntIn = false;
+            $timeout(function () {
+              var temp = searchResult;
+              searchResult.forEach(function (element) {
+                element.data.tracks.items.forEach(function (track) {
+                  isntIn = false;
+                  trackList.forEach(function (trackL) {
+                    if (trackL.id === track.id) {
+                      isntIn = true;
+                    }
+                  });
+                  if (!isntIn) {
+                    trackList.push(track);
+                  }
+                });
+              });
+              console.log("final search ", trackList);
+              return resolve(trackList);
+            },1000);
+
           });
         });
       });

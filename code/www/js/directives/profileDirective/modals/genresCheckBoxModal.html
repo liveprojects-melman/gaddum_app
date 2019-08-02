@@ -9,8 +9,8 @@
           </div>
       <ion-content  id="genreslist" scroll="true" class="has-header">
         <ion-list id="genresCheckboxlist" ng-init="vm.matchCheckboxes()">
-          <ion-item ng-repeat="genre in vm.params[0].allGenres.genres">
-            <ion-checkbox id="checkbox_{{genre.genre}}" color="primary" slot="end" value="{{genre.genre}}" style="border-width: 0px;" ng-click="vm.modalGenreUpdate($index)" ng-modal="genre.value">{{genre.genre}}
+          <ion-item ng-repeat="genre in vm.params[0].allGenres">
+            <ion-checkbox id="checkbox_{{genre.Name}}" color="primary" slot="end" value="{{genre.Name}}" style="border-width: 0px;" ng-click="vm.modalGenreUpdate($index)" ng-modal="genre.Value">{{genre.Name}}
             </ion-checkbox>
           </ion-item>
         </ion-list>
