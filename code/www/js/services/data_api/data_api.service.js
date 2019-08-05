@@ -62,19 +62,20 @@
         function getSupportedMoodIds(fnSuccess, fnFail) {
 
             mappingService.query("get_supported_mood_ids", {},
-                function (result) {
-                    var rows = mappingService.getResponses(result.rows);
+                function (response) {
+                    var result = [];
+                    var rows = mappingService.getResponses(response.rows);
                     if (rows.length > 0) {
 
                         try {
                             rows.forEach(
                                 function (candidate) {
-                                    MoodIdentifier.buildFromObject(candidate);
+                                    result.push(MoodIdentifier.buildFromObject(candidate));
                                 });
                         } catch (e) {
                             fnFail(e);
                         }
-                        fnSuccess(rows);
+                        fnSuccess(result);
                     } else {
                         fnFail("no supported moods!");
                     }

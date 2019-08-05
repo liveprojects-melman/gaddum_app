@@ -510,14 +510,11 @@
             var searchString = null;
             genres = resultGen;
             trackSearchCrit.forEach(function (genCheck) {
-              console.log("genCheck", genCheck);
               if (genCheck.id === "genre") {
                 genreCheck = true;
               }
             })
             var baseSearchString = `https://api.spotify.com/v1/search?q=`;
-
-            console.log(resultToken);
             var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
             trackSearchCrit.forEach(function (element) {
               if (element.id === "track") {
@@ -528,10 +525,8 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'track:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
-                console.log("searchString",searchString);
                 $http.get(encodeURI(searchString), config).then(function (result) {
                   searchResult.push(result);
                 });
@@ -545,7 +540,6 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'artist:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {
@@ -561,7 +555,6 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'album:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {

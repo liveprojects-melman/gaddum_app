@@ -214,9 +214,10 @@
     var service = {
 
       asyncInitialise: asyncInitialise,
-      getSupportedMoodIds: getSupportedMoodIds,
+      asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
       faceToMoodId: faceToMoodId,
       asyncMoodIdToResources: asyncMoodIdToResources
+
     };
 
     return service;
