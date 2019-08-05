@@ -23,7 +23,19 @@
 
       this.getGenericTracks = function(){
         return this.genericTracks;
-      }    
+      }
+      
+      this.add = function(playlist){
+        if(playlist){
+          var source = playlist.getGenericTracks();
+          if(source){
+            var destination = this.genericTracks;
+            source.forEach(function(candidate){
+              destination.push(candidate);
+            });
+          }
+        }
+      }
 
   }
 
@@ -33,6 +45,10 @@
      */
     Playlist.build = function (genericTracks) {
       
+      if(!genericTracks){
+        genericTracks = [];
+      }
+
         return new Playlist(
           genericTracks
         );

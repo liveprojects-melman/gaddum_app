@@ -55,10 +55,10 @@
         vm.selecteGenres = [];
         vm.userGenres = "";
 
-        vm.name = vm.userProfile.profile.avatar_name;
+        vm.name = vm.userProfile.avatar_name;
         vm.getName = function () {
             asyncPopulateProfile.then(
-                function(){vm.name=vm.userProfile.profile.avatar_name;}
+                function(){vm.name=vm.userProfile.avatar_name;}
             );
         };
         vm.setName = function (name) {
@@ -204,8 +204,8 @@
             profileService.asyncGetUserProfile().then(
                 function success(result) {
                     vm.userProfile = result;
-                    for (var j = 0; j < vm.userProfile.profile.avatar_graphic.length; j++) {
-                        bin = vm.userProfile.profile.avatar_graphic[j].toString(2);
+                    for (var j = 0; j < vm.userProfile.avatar_graphic.length; j++) {
+                        bin = vm.userProfile.avatar_graphic[j].toString(2);
                         for (var x = bin.length; x < 8; x++) {
                             bin = "0" + bin;
                         }
@@ -248,7 +248,7 @@
             console.log("aimg", avatar_image);
             profileService.setAvatar_image(avatar_image);
             setTimeout(function () {
-                vm.userProfile.profile.avatar_graphic = profileService.getAvatar_image(avatar_image);
+                vm.userProfile.avatar_graphic = profileService.getAvatar_image(avatar_image);
                 vm.createProfileGraphic(vm.userProfile.profile_id);
             }, 0);
         }
