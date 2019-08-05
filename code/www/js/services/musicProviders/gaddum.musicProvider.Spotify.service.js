@@ -15,7 +15,8 @@
     'AccessCredentials',
     'SearchModifier',
     'gaddumMusicProviderService',
-    'TrackInfo'
+    'TrackInfo',
+    'GenericImportTrack'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -28,7 +29,8 @@
     AccessCredentials,
     SearchModifier,
     gaddumMusicProviderService,
-    TrackInfo
+    TrackInfo,
+    GenericImportTrack
 
   ) {
 
@@ -413,24 +415,34 @@
         });
       });
     }
-    function importAllPlaylists(limit, offset) {
+    function asyncGetProfilePlaylist(offset,limit) {
       return $q(function (resolve, reject) {
-        limit = 20;
+        
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
-          var config = { headers: { 'Authorization': `Bearer ${result}` } };
-          $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (result) {
+          console.log(result);
+          var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
+          console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
+          $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
             //resualtArray.push(result);
-            return resolve(result);
+            return resolve(results);
           });
         });
       });
     }
-    function getPlaylistTracks(PID) {
+    function asyncImportPlaylists(playlists){
+      playlists.forEach(function(element){
+        console.log("playlist",element);
+        asyncGetPlaylistTracks(element.provider_playlist_ref).then(function(result){
+          console.log("tracks",result);
+        });
+      });
+    }
+    function asyncGetPlaylistTracks(PID) {
       return $q(function (resolve, reject) {
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
-          var config = { headers: { 'Authorization': `Bearer ${result}` } };
+          var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             //resualtArray.push(result);
             return resolve(result);
@@ -611,8 +623,8 @@
       asyncGetGenres: asyncGetGenres,
       playTrack: playTrack,
       pause: pause,
-      importAllPlaylists: importAllPlaylists,
-      getPlaylistTracks: getPlaylistTracks,
+      asyncGetProfilePlaylist: asyncGetProfilePlaylist,
+      asyncImportPlaylists:asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
     };
