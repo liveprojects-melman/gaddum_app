@@ -207,18 +207,21 @@
         vm.helpTips = false;
       }
       defaultDisplay();
-      vm.allEmotions = moodService.getSupportedMoodIds();
-      if (emotionReaderService.isRunning === false) {
-        beginInitialiseCapture(function () {
+      moodService.asyncGetSupportedMoodIds().then(function (result) {
+        vm.allEmotions = result;
+        if (emotionReaderService.isRunning === false) {
+          beginInitialiseCapture(function () {
+            asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
+          });
+          vm.selectbutton = true;
+        }
+        else {
+
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
-        });
-        vm.selectbutton = true;
-      }
-      else{
-        
-        asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
-        vm.selectbutton = true;
-      }
+          vm.selectbutton = true;
+        }
+      });
+
 
     }
 
@@ -247,30 +250,30 @@
     }
 
     function sleep() {
-      if(emotionReaderService.isRunning){
+      if (emotionReaderService.isRunning) {
         emotionReaderService.setSleep(true);
         vm.detecting = false;
       }
-        
-      
-      
+
+
+
     }
     function wake() {
-      if(emotionReaderService.isRunning){
+      if (emotionReaderService.isRunning) {
         emotionReaderService.setSleep(false);
         vm.detecting = true;
       }
-      
+
     }
-    function selectModal(){
+    function selectModal() {
       sleep();
-      
-      moodSelectModal.open(vm.allEmotions,fnCallbackOk,fnCallbackCancel);
+
+      moodSelectModal.open(vm.allEmotions, fnCallbackOk, fnCallbackCancel);
     }
-    function fnCallbackOk(emotion){
+    function fnCallbackOk(emotion) {
       onItemSelect(emotion);
     }
-    function fnCallbackCancel(){
+    function fnCallbackCancel() {
       console.log("modal canceled");
     }
     vm.onItemSelect = onItemSelect;
@@ -285,11 +288,11 @@
     //   $scope.hide = function() {
     //     $mdDialog.hide();
     //   };
-  
+
     //   // $scope.cancel = function() {
     //   //   $mdDialog.cancel();
     //   // };
-  
+
     //   // $scope.answer = function(answer) {
     //   //   $mdDialog.hide(answer);
     //   // };
