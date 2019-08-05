@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-var startState = 'gaddum';
+var startState = 'gaddum.profile';
 
 angular.module('gaddum', [
   'ionic',
@@ -59,11 +59,8 @@ angular.module('gaddum', [
 
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // update the slider delegate - is there a matching slide name?
-        console.log("±±±±± stateChangeStart", [event,toState, toParams,fromState,fromParams]);
-        var baseStateName = toState.name;
-        if(baseStateName.indexOf(".")>=0) {
-          baseStateName = toState.name.split(".")[1];
-        }
+  //     console.log("stateChangeStart", toState);
+        var baseStateName = toState.name.split(".")[1];
         if(angular.isDefined(baseStateName)===true) {
           var sliderState = false;
           $($("#main_wrapper").find("ion-slide")).each(function(i){
@@ -80,7 +77,7 @@ angular.module('gaddum', [
       });
 
       $rootScope.$on('$stateChangeError', function (err, toState, toParams, fromState, fromParams) {
-        console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', {err, toState, toParams, fromState, fromParams } );
+        console.log('⚠️$stateChangeError!! ' + toState.to + '- : \n', err, toState, toParams);
       });
 
       $ionicPlatform.ready(function(){
@@ -116,17 +113,20 @@ angular.module('gaddum', [
         }
   */
         if($window.cordova) {
+          
+          
           console.log("invoking StartupSrvc.asyncInitialise...");
 
           startupSrvc.asyncInitialise().then(function(){
             console.log("invoking gaddumMusicProviderService.initialise..");
             gaddumMusicProviderService.initialise(loginModal.promiseLogin);
             console.log("initialise complete. Moving to state.");
-//            $state.go( startState );
+            $state.go( startState );
           });
         } else {
-//          $state.go( startState );
+          $state.go( startState );
         }
+        
         //$state.go(getPermissionsState);
       }/*]*/);
   }]);

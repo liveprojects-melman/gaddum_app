@@ -102,65 +102,67 @@
         }
 
         service.returnPermissions = function() {
-          var waitForAllPermissions = $q.defer()
-          var hasPermissions = {};
-          //console.log("ad");
+            var waitForAllPermissions = $q.defer()
+            var hasPermissions = {};
+            console.log("ad");
 
-          service.permissions.hasAllRequiredPermissions = true;
-          getAllPermissions(0, waitForAllPermissions);
+            service.permissions.hasAllRequiredPermissions = true;
+            getAllPermissions(0, waitForAllPermissions);
 
-          return waitForAllPermissions.promise
+            return waitForAllPermissions.promise
         };
         service.returnPermissionStates = function() {
-          var waitForAllPermissions = $q.defer();
-          var hasPermissions = {};
+            var waitForAllPermissions = $q.defer()
+            var hasPermissions = {};
 
-          if(window.hasOwnProperty('cordova')===false) {
-            waitForAllPermissions.resolve({hasAllRequiredPermissions: true});
-          } else {
-            service.permissions.hasAllRequiredPermissions = true;
-            getAllPermissionStates(0, waitForAllPermissions);
-          }
-          return waitForAllPermissions.promise;
+            if(window.hasOwnProperty('cordova')===false) {
+                waitForAllPermissions.resolve({hasAllRequiredPermissions: true});
+            } else {
+                service.permissions.hasAllRequiredPermissions = true;
+                getAllPermissionStates(0, waitForAllPermissions);
+            }
+
+            return waitForAllPermissions.promise
         };
 
         var getAllPermissions = function(index, promise) {
             if(permissionsMap[index] == "camera") {
-              console.log(service.permissions, permissionsMap,device, index);
-              console.log("service: " ,service);
-              permissions[ service.permissions[ permissionsMap[index] ][device.platform].check](
-                function(result) {
-                  //console.log("perm..Srvc: "+ permissionsMap[index] + ":"+ result);
+                console.log(service.permissions, permissionsMap,device, index);
+                console.log("service: " ,service);
+                permissions[ service.permissions[ permissionsMap[index] ][device.platform].check](
+                    function(result) {
+                        console.log("perm..Srvc: "+ permissionsMap[index] + ":"+ result);
 
-                  if(result == false){service.permissions.hasAllRequiredPermissions = false; }
-                  service.permissions[permissionsMap[index]].hasPermission = result;
-                  if(index < permissionsMap.length -1){
-                    getAllPermissions(++index, promise);
-                  } else {
-                    promise.resolve(service.permissions);
-                  }
-                },
-                function(){},
-                {
-                  externalStorage: false
-                }
-              );
+                        if(result == false){service.permissions.hasAllRequiredPermissions = false; }
+
+                        service.permissions[permissionsMap[index]].hasPermission = result;
+                        if(index < permissionsMap.length -1){
+                            getAllPermissions(++index, promise);
+                        } else {
+                            promise.resolve(service.permissions);
+                        }
+                    },
+                    function(){},
+                    {
+                        externalStorage: false
+                    }
+                );
             } else {
-              permissions[ service.permissions[ permissionsMap[index] ][device.platform].check](
-                function(result) {
-                  //console.log("perm..Srvc: "+ permissionsMap[index] + ":"+ result);
+                permissions[ service.permissions[ permissionsMap[index] ][device.platform].check](
+                    function(result) {
+                        console.log("perm..Srvc: "+ permissionsMap[index] + ":"+ result);
 
-                  if(result == false){service.permissions.hasAllRequiredPermissions = false; }
+                        if(result == false){service.permissions.hasAllRequiredPermissions = false; }
 
-                  service.permissions[permissionsMap[index]].hasPermission = result;
-                  if(index < permissionsMap.length -1){
-                    getAllPermissions(++index, promise);
-                  } else {
-                    promise.resolve(service.permissions);
-                  }
-                },
-                function(){}
-              );
+                        service.permissions[permissionsMap[index]].hasPermission = result;
+                        if(index < permissionsMap.length -1){
+                            getAllPermissions(++index, promise);
+                        } else {
+                            promise.resolve(service.permissions);
+                        }
+                    },
+                    function(){}
+                );
             }
         };
 

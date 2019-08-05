@@ -9,15 +9,10 @@
       $stateProvider
         .state('gaddum.profile', {
           url: '^/profile',
-          cache:false,
-          redirectTo: 'gaddum.profile.view'
-        })
-        .state('gaddum.profile.view', {
-          cache: false,
-          url: '^/profile/view',
-          resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
-          }]),
+          cache:true,
+          //resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
+            
+          //}]),
           views: {
             'profile@gaddum': {
               templateUrl: 'js/modules/profile/profile.html',
