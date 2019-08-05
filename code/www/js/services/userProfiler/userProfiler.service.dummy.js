@@ -26,6 +26,7 @@ import { resolve } from "dns";
         $timeout
     ) {
 
+        
 
 
         function initialise(){
@@ -93,7 +94,7 @@ import { resolve } from "dns";
 
         // --- Loader
 
-        function asyncLoadMoodedPlaylists(moodedPlaylist) {
+        function asyncLoadMoodedPlaylists(arrayMoodedPlaylists) {
 
 
 
