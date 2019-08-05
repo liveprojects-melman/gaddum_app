@@ -36,7 +36,7 @@
         vm.userProfile = {
             "profile": {
                 "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
-                "avatar_name": "Lemon Jelly",
+                "avatar_name": "Lemmon Jelly",
                 "avatar_graphic": [
                     0,
                     102,
@@ -55,17 +55,19 @@
         vm.selecteGenres = [];
         vm.userGenres = "";
 
-        vm.name = profileService.getUsername();
+        vm.name = vm.userProfile.profile.avatar_name;
         vm.getName = function () {
-            return profileService.getUsername();
-        }
+            asyncPopulateProfile.then(
+                function(){vm.name=vm.userProfile.profile.avatar_name;}
+            );
+        };
         vm.setName = function (name) {
             profileService.setName(name);
             setTimeout(function () {
-                vm.name = profileService.getUsername();
-                vm.encodedProfile = btoa(profileService.getProfileAsString());
+                vm.name = profileService.asyncGetAvatarName();
+                vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
             }, 0);
-        }
+        };
 
 
 
@@ -78,12 +80,12 @@
             console.log("genres test2",profileService.getUserGenres());
             setTimeout(function () {
                 vm.userGenres = profileService.getUserGenres().join(", ");
-                vm.encodedProfile = btoa(profileService.getProfileAsString());
+                vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
                 vm.genreScrollChecker();
             }, 0);
         }
 
-        vm.encodedProfile = btoa(profileService.getProfileAsString());
+        vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
 
 
         function asyncPopulateGenres() {
@@ -273,6 +275,7 @@
             createModalList();
             console.log("context",vm.conMenu);
             gaddumShortcutBarService.setContextMenu(vm.conMenu);
+            console.log("profile",vm.userProfile);
         };
         init();
 

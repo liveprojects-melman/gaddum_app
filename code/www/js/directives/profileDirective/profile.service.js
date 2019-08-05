@@ -170,7 +170,7 @@
 
             dataApiService.asyncGetSetting(SETTINGS.AVATAR_GRAPHIC).then(
                 function onSuccess(candidate) {
-                    resolve(AvatarGraphic.buildFromBlob(candidate));
+                    deferred.resolve(AvatarGraphic.buildFromBlob(candidate));
                 },
                 function onFail(error) {
                     deferred.reject(error);
