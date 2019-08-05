@@ -7,37 +7,44 @@
     .module('gaddum.mood')
     .controller('howAreYouModalController', howAreYouModalController);
 
-    howAreYouModalController.$inject = [
-      'howAreYouModal',
-      '$scope',
-      '$timeout',
-      'moodService',
-      '$q'
+  howAreYouModalController.$inject = [
+    'howAreYouModal',
+    '$scope',
+    '$timeout',
+    'moodService',
+    '$q',
+    'MoodIdentifier'
 
   ];
-  
+
   function howAreYouModalController(
     howAreYouModal,
     $scope,
     $timeout,
     moodService,
-    $q
+    $q,
+    MoodIdentifier
   ) {
     var moodIdDict = {};
     var mc = angular.extend(this, {
-      itemSelected:false,
+      itemSelected: false,
       emotionSelected: ''
     });
-    $scope.howAreYouModal=howAreYouModal;
+    $scope.howAreYouModal = howAreYouModal;
     function init() {
-      mc.allEmotions = moodService.getSupportedMoodIds();
-      asyncPopulateMoodResourceDict(mc.allEmotions, moodIdDict).then(function(){
-        mc.allEmotions = moodIdDict;
-        console.log("heya",mc.allEmotions);
+      moodService.asyncGetSupportedMoodIds().then(function (supportedMoods) {
+        mc.allEmotions = supportedMoods
+        console.log("start", mc.allEmotions);
+        mc.allEmotionsSave = mc.allEmotions;
+        asyncPopulateMoodResourceDict(mc.allEmotions, moodIdDict).then(function () {
+          mc.allEmotions = moodIdDict;
+          console.log("heya", mc.allEmotions);
+        });
+
+        mc.params = howAreYouModal.getParams();
       });
-      
-      mc.params =howAreYouModal.getParams();
-      
+
+
     }
     init();
 
@@ -73,18 +80,27 @@
       return deferred.promise;
     }
 
-    function selectEmo(){
-      howAreYouModal.callback(mc.emotionSelected);
+    function selectEmo() {
+      var result = null;
+      console.log("end", mc.allEmotionsSave);
+      mc.allEmotionsSave.forEach(function (element) {
+        if (element.id === mc.emotionSelected.name) {
+          result = element;
+        }
+
+      });
+      console.log("result",result);
+      howAreYouModal.callback(result);
       howAreYouModal.close();
     }
-    function showOverlay(emotionSelected){
+    function showOverlay(emotionSelected) {
       mc.emotionSelected = emotionSelected;
       mc.itemSelected = true;
-      $timeout(function(){
-        mc.itemSelected = false; 
-      },1000); 
+      $timeout(function () {
+        mc.itemSelected = false;
+      }, 1000);
     }
-    mc.showOverlay =showOverlay;
+    mc.showOverlay = showOverlay;
     mc.selectEmo = selectEmo;
   }
 })();
