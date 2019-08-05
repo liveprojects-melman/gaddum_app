@@ -20,7 +20,7 @@
       </div>
       <div>
         <div style="width: 40%; text-overflow: ellipsis;overflow: hidden; white-space: nowrap; margin-left:5px; display:inline-block;">
-            <h3 style="color:black; max-width: 40%;" class="openSearchModalText">{{bm.searchTypeText()}}</h3>
+            <h3 style="color:black; max-width: 40%;" class="openSearchModalText">{{bm.typeSearch}}</h3>
         </div>
         
         <button class="openSearchModal button" ng-click="bm.openSearchModal()">Choose Search Criteria </button>
@@ -38,7 +38,7 @@
 
             
             
-            <ion-option-button class="button-assertive removeFriends" ng-click="bm.play(browse.id)">
+            <ion-option-button class="button-assertive removeFriends" ng-click="bm.play(browse)">
               <img src="css/icons8-play-50.png"/>
               <div class="removeTextInButton">play</div>
             

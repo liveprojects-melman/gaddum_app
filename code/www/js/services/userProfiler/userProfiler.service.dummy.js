@@ -1,4 +1,3 @@
-import { resolve } from "dns";
 
 (function () {
     'use strict';
@@ -96,7 +95,7 @@ import { resolve } from "dns";
 
         function asyncLoadMoodedPlaylists(arrayMoodedPlaylists) {
 
-
+            console.log("Mooded Playlist",moodedPlaylist);
 
 
         }

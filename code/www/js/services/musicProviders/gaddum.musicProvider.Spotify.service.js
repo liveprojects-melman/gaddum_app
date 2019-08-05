@@ -15,7 +15,8 @@
     'AccessCredentials',
     'SearchModifier',
     'gaddumMusicProviderService',
-    'TrackInfo'
+    'TrackInfo',
+    'GenericImportTrack'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -28,7 +29,8 @@
     AccessCredentials,
     SearchModifier,
     gaddumMusicProviderService,
-    TrackInfo
+    TrackInfo,
+    GenericImportTrack
 
   ) {
 
@@ -413,24 +415,34 @@
         });
       });
     }
-    function importAllPlaylists(limit, offset) {
+    function asyncGetProfilePlaylist(offset,limit) {
       return $q(function (resolve, reject) {
-        limit = 20;
+        
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
-          var config = { headers: { 'Authorization': `Bearer ${result}` } };
-          $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (result) {
+          console.log(result);
+          var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
+          console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
+          $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
             //resualtArray.push(result);
-            return resolve(result);
+            return resolve(results);
           });
         });
       });
     }
-    function getPlaylistTracks(PID) {
+    function asyncImportPlaylists(playlists){
+      playlists.forEach(function(element){
+        console.log("playlist",element);
+        asyncGetPlaylistTracks(element.provider_playlist_ref).then(function(result){
+          console.log("tracks",result);
+        });
+      });
+    }
+    function asyncGetPlaylistTracks(PID) {
       return $q(function (resolve, reject) {
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
-          var config = { headers: { 'Authorization': `Bearer ${result}` } };
+          var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             //resualtArray.push(result);
             return resolve(result);
@@ -510,14 +522,11 @@
             var searchString = null;
             genres = resultGen;
             trackSearchCrit.forEach(function (genCheck) {
-              console.log("genCheck", genCheck);
               if (genCheck.id === "genre") {
                 genreCheck = true;
               }
             })
             var baseSearchString = `https://api.spotify.com/v1/search?q=`;
-
-            console.log(resultToken);
             var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
             trackSearchCrit.forEach(function (element) {
               if (element.id === "track") {
@@ -528,10 +537,8 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'track:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
-                console.log("searchString",searchString);
                 $http.get(encodeURI(searchString), config).then(function (result) {
                   searchResult.push(result);
                 });
@@ -545,7 +552,6 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'artist:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {
@@ -561,7 +567,6 @@
                       searchResult.push(result);
                     });
                   });
-                  console.log("seach", searchResult);
                 }
                 searchString = baseSearchString + 'album:"' + searchTerm + `"&type=track&limit=${limit}&offset=${offset}`;
                 $http.get(encodeURI(searchString), config).then(function (result) {
@@ -618,8 +623,8 @@
       asyncGetGenres: asyncGetGenres,
       playTrack: playTrack,
       pause: pause,
-      importAllPlaylists: importAllPlaylists,
-      getPlaylistTracks: getPlaylistTracks,
+      asyncGetProfilePlaylist: asyncGetProfilePlaylist,
+      asyncImportPlaylists:asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
     };

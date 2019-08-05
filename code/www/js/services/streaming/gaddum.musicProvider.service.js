@@ -154,8 +154,16 @@
       return asyncCheckForLoginPromptIfNeeded().then( service.musicProvider.asyncPauseCurrentTrack);
     }
 
-    function asyncImportAllPlaylists(limit,offset){
-      return service.musicProvider.importAllPlaylists();
+    function asyncGetProfilePlaylist(offset,limit){
+      return asyncCheckForLoginPromptIfNeeded().then(function(){
+        return service.musicProvider.asyncGetProfilePlaylist(offset,limit);
+      });
+    }
+    
+    function asyncImportPlaylists(playlists){
+      return asyncCheckForLoginPromptIfNeeded().then(function(){
+        return service.musicProvider.asyncImportPlaylists(playlists);
+      });
     }
 
 
@@ -212,12 +220,13 @@
       asyncSetTrack:  asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
-      asyncImportAllPlaylists: asyncImportAllPlaylists,
+      asyncImportPlaylists: asyncImportPlaylists,
       asyncGetTrackInfo:asyncGetTrackInfo,
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres : asyncSetGenres,
       asyncGetGenres : asyncGetGenres,
-      asyncGetSupportedSearchModifier:asyncGetSupportedSearchModifier
+      asyncGetSupportedSearchModifier:asyncGetSupportedSearchModifier,
+      asyncGetProfilePlaylist:asyncGetProfilePlaylist
 
       /*,
 

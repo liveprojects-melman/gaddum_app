@@ -13,6 +13,11 @@
     'gaddumMusicProviderService',
     'searchCatModal',
     'howAreYouModal',
+    'GenericTrack',
+    'MoodedPlaylist',
+    'MoodIdentifier',
+    'Playlist',
+    'userProfilerService',
     
     'friendsService',
     '$ionicModal',
@@ -29,7 +34,11 @@
     gaddumMusicProviderService,
     searchCatModal,
     howAreYouModal,
-
+    GenericTrack,
+    MoodedPlaylist,
+    MoodIdentifier,
+    Playlist,
+    userProfilerService,
     
     browseService,
     $ionicModal,
@@ -64,8 +73,7 @@
         result.forEach(function(element){
           bm.searchType.push({mod:element,value:false});
         });
-        //bm.searchType = result;
-        console.log("searchType",bm.searchType);
+        bm.searchType[0].value = true;
       });
     }
     init();
@@ -85,6 +93,8 @@
         bm.searchType.forEach(function(type){
           if(type.mod.name == "Track"){
             bm.searchingType.push(type.mod);
+            bm.typeSearch = "Track";
+            bm.searchType[0].value = true;
           }
         });
       }
@@ -137,6 +147,7 @@
       bm.searchType = type;
       bm.searchBrowse=[];
       bm.moreTrackCheck = true;
+      searchTypeText();
     }
     // function showList(){
     //   if (bm.searchBrowse.length >=1){
@@ -146,22 +157,51 @@
     //     return false;
     //   }
     // }
+    bm.typeSearch="Track";
     function searchTypeText(){
-      
+      var result = "";
+      var first = true;
+      console.log(bm.searchType);
+      bm.searchType.forEach(function(element) {
+        if(element.value){
+          if (first){
+            result = element.mod.name;
+            first = false;
+          }
+          else{
+            result = result+", "+ element.mod.name;
+          }
+        }        
+      });
+      if(result === ""){
+        result = "Track";
+        bm.searchType[0].value = true;
+      }
+      bm.typeSearch = result;
     }
-    function play(TID){
-      gaddumMusicProviderService.playTrack(TID);
+    function play(track){
+      console.log("track",track);
+      currentTrack = GenericTrack.build(track.getName(),track.getAlbum(),track.getArtist());
+      console.log("current",currentTrack);
       howAreYou();
     }
+    var currentTrack = null;
     function howAreYou(){
-      
-      howAreYouModal.open(null,fnCallbackOk,fnCallbackCancel);
+      howAreYouModal.open(null,fnCallbackHowAreYouOk,fnCallbackHowAreYouCancel);
     }
-    function fnCallbackOk(emotion){
-      onItemSelect(emotion.id);
-      console.log(emotion);
+    function fnCallbackHowAreYouOk(emotion){
+      var arrayTrack = [];
+      var playlist=null;
+      var mooded= null;
+      var moodedArray =[];
+      arrayTrack.push(currentTrack);
+      playlist = Playlist.build(arrayTrack);
+      mooded = MoodedPlaylist.build(emotion,playlist);
+      moodedArray.push(mooded);
+      userProfilerService.loader.asyncLoadMoodedPlaylists(moodedArray);
+      console.log(moodedArray);
     }
-    function fnCallbackCancel(){
+    function fnCallbackHowAreYouCancel(){
       console.log("modal canceled");
     }
     function addToPlaylist(track){

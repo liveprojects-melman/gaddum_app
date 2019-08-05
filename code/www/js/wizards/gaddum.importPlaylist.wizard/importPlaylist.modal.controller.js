@@ -28,6 +28,7 @@
     var moodIdDict = {};
     var count = 0;
     var offset = 0;
+    var limit = 10;
     var mc = angular.extend(this, {
       itemSelected:false,
       emotionSelected: '',
@@ -35,11 +36,10 @@
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
-      
-      
+
       mc.params =importPlaylistWizard.getParams();
       console.log(mc.params);
-      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
+      gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
         console.log("heya",result);
         var count = 0;
         result.data.items.forEach(function(element) {
@@ -52,7 +52,7 @@
           console.log("playlistArry",mc.playlistArray);
           count = count+1;
         });
-        offset = offset+20;
+        offset = offset+10;
       });
       
       
@@ -65,9 +65,9 @@
     }
     function more(){
       console.log("more");
-      gaddumMusicProviderService.importAllPlaylists(offset).then(function(result){
+      gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
         console.log("heya",result);
-        var count = 0;
+        var count = offset;
         result.data.items.forEach(function(element) {
           console.log(count);
           mc.playlistArray[count] = {"name":element.name};
@@ -78,7 +78,7 @@
           console.log("playlistArry",mc.playlistArray);
           count = count+1;
         });
-        offset = offset+20;
+        offset = offset+10;
       });
     }
     function importPlaylists(){
