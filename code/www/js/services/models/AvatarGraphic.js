@@ -10,27 +10,44 @@
 
   ];
 
-  function isHexColourValue(candidate) {
+  function checkHexColourValue(candidate) {
+
     var result = false;
-    if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) {
-      result = true;
+    try {
+      if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) {
+        result = true;
+      }
     }
+    catch (e) { }
+    if (!result) {
+      throw ("bad hex colour value: need a string: #rrbbgg");
+    }
+
     return result;
   }
 
-  function is8BitList(values) {
+  function check8BitList(values) {
     var result = false;
 
-    if (values && values.length == 8) {
-      result = true;
-      for (var i = 0; i < values.length; i++) {
-        var value = values[i];
-        if (!((value >= 0) && (value <= 255))){
-          result = false;
-          break;
+    try {
+      if (values && values.length == 8) {
+        result = true;
+        for (var i = 0; i < values.length; i++) {
+          var value = values[i];
+          if (!((value >= 0) && (value <= 255))) {
+            result = false;
+            break;
+          }
         }
       }
+    } catch (e) {
+      result = false;
     }
+
+    if (!result) {
+      throw ("Bad 8 bit list. Need a list of integers:   0 <= int <= 255");
+    }
+
     return result;
   }
 
@@ -57,55 +74,70 @@
         return atob(JSON.stringify(this));
       }
 
-
-      
-
     }
 
-
-  
-
-
-
-  AvatarGraphic.isHexColourValue = isHexColourValue;
-  AvatarGraphic.is8BitList = is8BitList;
+    var build = function (colour, values) { // throws
+      var result = null;
 
 
-  /** 
-   * Static method, assigned to class
-   * Instance ('this') is not available in static context
-   */
-  AvatarGraphic.build = function (colour, values) {
-    var result = null;
+      checkHexColourValue(colour);
+      check8BitList(values);
 
-    if (typeof colour == 'string' && typeof (values) == 'array') {
-      if (isHexColourValues(colour) && is8BitList(values)){
-        result = new AvatarGraphic(
-          colour,
-          values
-        );
-      }else{
-        throw ("AvatarGraphic: bad parameters: colour: hex string, values: array of 8 * (0 > int < 255)");
-      }
-    }
-
-    return result;
-
-  };
+      result = new AvatarGraphic(
+        colour,
+        values
+      );
 
 
-  AvatarGraphic.buildFromBlob = function(incoming){
-      var candidate = JSON.parse(btoa(incoming));
-      var result = new AvatarGraphic();
-      result = angular.merge(result, candidate);
+
       return result;
+
+    };
+
+
+    var buildDefault = function () {
+
+      return build("#000000", [0, 0, 0, 0, 0, 0, 0, 0]);
+
+
+    }
+
+    var buildFromBlob = function (incoming) {
+      var result = null;
+
+      try {
+        var candidate = JSON.parse(btoa(incoming));
+        var result = new AvatarGraphic();
+        result = angular.merge(result, candidate);
+        checkHexColourValues(result.getColour());
+        check8BitList(result,getValues());
+
+
+      } catch (e) {
+        result = buildDefault();
+      }
+      return result;
+    }
+
+
+    /** 
+     * Static methods, assigned to class
+     * Instance ('this') is not available in static context
+     */
+    AvatarGraphic.checkHexColourValue = checkHexColourValue; // warning! throws
+    AvatarGraphic.check8BitList = check8BitList; // warning! throws
+    AvatarGraphic.build = build; // warning! throws
+    AvatarGraphic.buildFromBlob = buildFromBlob; // warning! throws
+
+
+
+
+
+    /**
+     * Return the constructor function
+     */
+    return AvatarGraphic;
   }
 
-  /**
-   * Return the constructor function
-   */
-  return AvatarGraphic;
-}
 
-
-}) ();
+})();
