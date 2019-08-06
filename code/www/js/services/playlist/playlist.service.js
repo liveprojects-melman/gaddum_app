@@ -26,7 +26,7 @@
     function createPlaylist(playlistName,arrayTracks){
 
     }
-    function importAllPlaylists(){
+    function importAllPlaylists(){//this is pointless
         gaddumMusicProviderService.importAllPlaylists().then(function(result){
               var id=result.data.items[0].id
               

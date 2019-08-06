@@ -1,4 +1,10 @@
 /* Empty. Add your own CSS if you like */
+:root {
+    --color-primaryBackground: linear-gradient(to bottom,#cb0009,#fa8b1d);
+    --color-secondaryBackground: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    --color-listOdd:  #6244fc;
+    --color-listEven: #646aca;
+  }
 
 /* headers and titles */
 div.bar.bar-subheader {
@@ -123,7 +129,7 @@ div.box {
   height:100%;
 
   display:block;
-  background-image: linear-gradient(to bottom,#cb0009,#fa8b1d);
+  background-image: var(--color-primaryBackground);
 }
 div#main_wrapper, div.slider {
   /* bottom:0; */
@@ -162,7 +168,7 @@ ion-modal
     left:5%;
     height: 80%;
     top:5%;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    background-image: var(--color-secondaryBackground);
 }
 .modalTitle{
     font-size: 3rem;
@@ -280,47 +286,47 @@ textarea {
 
 
 ul {
-	margin: .25em 2.5em .5em 2.5em;
+    margin: .25em 2.5em .5em 2.5em;
 }
 ul>li {
-	padding:0;
-	margin:0;
-	list-style-type:disc;
-	list-style-position:outside;
+    padding:0;
+    margin:0;
+    list-style-type:disc;
+    list-style-position:outside;
 }
 
 h3 {
-	color:#66deff;
+    color:#66deff;
 }
 
 .scroll{
-	height: 100%;
+    height: 100%;
 }
 
 span.gobutton {
-	display:inline-block;
-	height: 2em !important;
-	width: 2em;
-	border-radius: 100%;
-	min-height: 30px; min-width:30px;
-	padding: 0;
-	border-width: 2px;
-	border-color: #ffc900;
-	border-style:solid;
-	background-color: rgba(0,0,0,0.65);
-	color:white;
-	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-	font-size: 70%;
-	top:-5px;
-	position:relative;
-	text-align: super;
+    display:inline-block;
+    height: 2em !important;
+    width: 2em;
+    border-radius: 100%;
+    min-height: 30px; min-width:30px;
+    padding: 0;
+    border-width: 2px;
+    border-color: #ffc900;
+    border-style:solid;
+    background-color: rgba(0,0,0,0.65);
+    color:white;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    font-size: 70%;
+    top:-5px;
+    position:relative;
+    text-align: super;
 }
 
 .forcecenter {
-	left: 50%;
-	margin-left:-40px;
-	margin-top:10px;
-	transform: translate(-50%, 0%);
+    left: 50%;
+    margin-left:-40px;
+    margin-top:10px;
+    transform: translate(-50%, 0%);
 }
 
 /* credit links */
@@ -338,7 +344,7 @@ a.credit:hover {
 }
 
 ion-side-menu-content/*.menu-content.pane*/ {
-	background-color:black !important;
+    background-color:black !important;
 }
 
 .credit-section {
@@ -365,12 +371,12 @@ ion-side-menu-content/*.menu-content.pane*/ {
     top: 55%;/* h=60 t=30 */
 }
 .listodd{
-    background-color: #6244fc;
+    background-color: var(--color-listOdd);
     padding-bottom: 5px;
     padding-top: 5px;
 }
 .listeven{
-    background-color: #646aca;
+    background-color: var(--color-listEven);
     padding-bottom: 5px;
     padding-top: 5px;
 }
@@ -379,6 +385,16 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 50%;
     width: 200px;
     height: 200px;
+}
+.importSpinner{
+    right: 40%;
+    top: 30%;
+    height: 35px;
+    width: 35px;
+    margin: 0;
+    padding: 0;
+    display: inline;
+    position: absolute;
 }
 .moodCamera{
     position: absolute;
@@ -546,8 +562,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
     bottom: 1rem;
     left: 11.5rem;
     border-bottom: 0.75rem solid transparent;  /* left arrow slant */
-	border-top: 0.75rem solid transparent; /* right arrow slant */
-	border-left: 3rem solid #000;
+    border-top: 0.75rem solid transparent; /* right arrow slant */
+    border-left: 3rem solid #000;
     
     display: block;
     width: 0;
@@ -558,8 +574,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
     bottom: 1.25rem;
     left: 11.3rem;
     border-bottom: 0.5rem solid transparent;  /* left arrow slant */
-	border-top: 0.5rem solid transparent; /* right arrow slant */
-	border-left: 2.5rem solid #fff;
+    border-top: 0.5rem solid transparent; /* right arrow slant */
+    border-left: 2.5rem solid #fff;
     
     display: block;
     width: 0;
@@ -572,7 +588,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     border-bottom: 0.75rem solid transparent;  /* left arrow slant */
     border-top: 0.75rem solid transparent;
     border-left: 0.5rem solid transparent; /* right arrow slant */
-	border-right: 3rem solid #000;
+    border-right: 3rem solid #000;
 }
 .triangle-border.top:after {
     top: 1.7rem;
@@ -582,7 +598,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     border-bottom: 0.5rem solid transparent;  /* left arrow slant */
     border-top: 0.5rem solid transparent;
     border-left: 0.5rem solid transparent; /* right arrow slant */
-	border-right: 2.5rem solid #fff;
+    border-right: 2.5rem solid #fff;
 }
 
 /* end of bubbles */
@@ -667,19 +683,19 @@ ion-side-menu-content/*.menu-content.pane*/ {
     top: 55%;/* h=60 t=30 */
 }
 .listodd{
-    background-color: #6244fc !important;
+    background-color: var(--color-listOdd) !important;
     padding-bottom: 0px;
     padding-top: 0px;
     padding-left: 0px;
 }
 .listodd>.item-content{
-    background-color: #6244fc !important;
+    background-color: var(--color-listOdd) !important;
 }
 .listeven>.item-content{
-    background-color: #646aca !important;
+    background-color: var(--color-listEven)!important;
 }
 .listeven{
-    background-color: #646aca;
+    background-color: var(--color-listEven);
     padding-bottom: 0px;
     padding-top: 0px;
     padding-left: 0px;
@@ -811,7 +827,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .checkboxItem{
     border-width:0;
     padding:0;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    background-image: var(--color-secondaryBackground);
 }
 
 .hasHeaderE .checkbox{
@@ -827,14 +843,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
     
 }
 .playlistCheckbox{
-    border-width:0px;
-    background-color:rgba(0,0,0,0) !important;/*  this makes the background clear for the check boxes in settings*/
-    color:black;
     float: right;
-    margin-right:10px !important;
-    margin-top:4px !important;
-    border:0.05em solid black;
-    padding:10px;
+    margin-top: 4px !important;
 }
 .settingsH2{
     padding:4px;
@@ -1035,11 +1045,12 @@ margin:10px;
   }
   .modalContext {
       position: absolute;
-    width: 40%;
-    left: 30%;
+    width: 50%;
+    left: 25%;
     top:72%;
     bottom: 4em;
     height: auto;
+    text-align: center;
     background-color:white;
     min-height: 20px;
     border-radius: 1em;
@@ -1047,14 +1058,17 @@ margin:10px;
 }
 .contextButton{
     background-color: rgba(0,0,0,0);
-    border:none;
+    border: none;
+    border-radius: 0.5em;
+    width: auto;
+    z-index: 0;
 }
 .modalProfileEdit{
     width:90% ;
     left:5%;
     height: 80%;
     top:5%;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    background-image: var(--color-secondaryBackground);
 }
 
 .modalGenresCheckboxes{
@@ -1121,22 +1135,24 @@ margin:10px;
     /* right: calc( 50% - 22.5% ); */
     top: 47%;
     width: 58%;
-}
+} 
+
+
 
 /* gaddum player */
 #slideboxwrapper {
-  padding-bottom:0px;
-  transition:0.25s linear all;
-}
-#slideboxwrapper.playeropen.ng-enter {
-}
-#slideboxwrapper.playeropen.ng-leave {
-}
-#slideboxwrapper.playeropen {
-  padding-bottom:100px !important;
-  background-color: red;
-}
-
+    padding-bottom:0px;
+    transition:0.25s linear all;
+  }
+  #slideboxwrapper.playeropen.ng-enter {
+  }
+  #slideboxwrapper.playeropen.ng-leave {
+  }
+  #slideboxwrapper.playeropen {
+    padding-bottom:100px !important;
+    background-color: red;
+  }
+  
 gaddum.player {
   width:100%;
   position:fixed;
@@ -1279,17 +1295,23 @@ div#scroller.ng-hide {
 .emojiSize{
     font-size: 4.2em !important;
 }
-
 .HowAreYouModalBox{
     width:90% ;
     left:5%;
     height: 95%;
     top:2.5%;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20))
+    background-image: var(--color-secondaryBackground);
+}
+.importPlaylistModal{
+    width:90% ;
+    left:5%;
+    height: 75%;
+    top:2.5%;
+    background-image: var(--color-secondaryBackground);
 }
 .overLay{
     position: absolute;
-    background-image: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    background-image: var(--color-secondaryBackground);
     width:100%;
     
 
@@ -1330,8 +1352,20 @@ div#scroller.ng-hide {
   }
   .playlistImportButton{
       bottom:5px;
-      right:5px;
+      left:60%;
+      width: 30%;
+      height: 8%;
+      min-height: 20px;
       position:absolute;
+  }
+  .importButtonText{
+    bottom:-10px;
+    left:5%;
+    width: 55%;
+    height: 8%;
+    text-align: center;
+    min-height: 20px;
+    position:absolute;
   }
   .playlistImportTitle{
     font-size: 2.5rem;
@@ -1339,7 +1373,7 @@ div#scroller.ng-hide {
     color:black;
 }
 .contextOne{
-    top:82% !important;
+    top:81.2% !important;
 }
 .contextMore{
     top:72% !important;
@@ -1361,4 +1395,27 @@ div#scroller.ng-hide {
     width: 46%;
     top: 46%;
     left: 29%;
+}
+.playlistDisplayName{
+    padding-left:5px;
+    font-size: 12px !important;
+    color: darkslategray;
+}
+.playlistNameText{
+    padding-left:5px;
+    font-weight: 700 !important;
+    color:black;
+    display: inline-block;
+    width: 80%;
+}
+.playlistArt{
+    width:100%; 
+    opacity:0.3; 
+    position: absolute; 
+    top:-50%;
+    left:0;
+    z-index: -1;
+}
+.moreButtonImport{
+    text-align: center;
 }

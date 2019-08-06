@@ -1,7 +1,7 @@
 
 <div ng-class="((mc.length === 1)? 'contextOne' : 'contextMore')" class="modalContext " ng-controller="gaddumContextMenuModalController as mc">
   
-    <ion-content class="selectListModal">
+    <!-- <ion-content class="selectListModal"> -->
     <ion-list class="selectListModal" can-swipe="true">
       <ion-item ng-click="menuItem.func(); mc.closeModal()" ng-repeat=" menuItem in mc.params " class="contextButton">
         
@@ -10,7 +10,5 @@
       
       </ion-item>
     </ion-list>
-  </ion-content>
-  </div>
-  </content>
+  <!-- </ion-content> -->
 </div>

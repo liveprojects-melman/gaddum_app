@@ -137,8 +137,12 @@
         .then(
           function (result) {
             asyncAuthSuccess(result);
+          },
+          function(error){
+            console.log(error);
           }
-        );
+        )
+        ;
     }
 
 

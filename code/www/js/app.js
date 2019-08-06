@@ -38,7 +38,8 @@ angular.module('gaddum', [
   'editImageModalModule',
   'genresCheckboxModalsModule',
   'gaddum.searchCat',
-  'gaddum.userprofiler'
+  'gaddum.userprofiler',
+  'gaddum.alert'
 
 ])
   .run([
