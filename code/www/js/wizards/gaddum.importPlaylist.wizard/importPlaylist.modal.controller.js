@@ -37,8 +37,8 @@
       playlistArray:[],
       hideMore: false,
       hideSpinner:true,
-      importButtonText:"Press To ",
-      importButtonHide:false
+      importButtonHide:false,
+      Importtext:"Import"
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
@@ -93,7 +93,6 @@
       });
     }
     function importPlaylists(){
-      mc.importButtonText = "Importing";
       mc.importButtonHide = true;
       var importArray = [];
       mc.playlistArray.forEach(function(element) {

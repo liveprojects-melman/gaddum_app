@@ -695,7 +695,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     background-color: var(--color-listEven)!important;
 }
 .listeven{
-    background-color: var(--color-listEven);
+    background-color: var(--color-listEven) !important;
     padding-bottom: 0px;
     padding-top: 0px;
     padding-left: 0px;
@@ -1346,16 +1346,26 @@ div#scroller.ng-hide {
   }
 
   .playlistImportList{
-      height:80%;
-      top:10%;
+      height:77%;
+      top:13%;
       bottom:10%;
+  }
+  .playlistListImport{
+      height: 90px;
   }
   .playlistImportButton{
       bottom:5px;
-      left:60%;
-      width: 30%;
+      left:2.5%;
+      width: 95%;
       height: 8%;
       min-height: 20px;
+      position:absolute;
+  }
+  .playlistImportButtonSpinner{
+      height: 25px;
+      width: 25px;
+      left:45%;
+      bottom: 5px;
       position:absolute;
   }
   .importButtonText{
@@ -1370,6 +1380,7 @@ div#scroller.ng-hide {
   .playlistImportTitle{
     font-size: 2.5rem;
     text-align: center;
+    padding: 5px;
     color:black;
 }
 .contextOne{
@@ -1397,23 +1408,24 @@ div#scroller.ng-hide {
     left: 29%;
 }
 .playlistDisplayName{
-    padding-left:5px;
+    padding-left:90px;
     font-size: 12px !important;
     color: darkslategray;
 }
 .playlistNameText{
-    padding-left:5px;
+    padding-left:90px;
     font-weight: 700 !important;
     color:black;
     display: inline-block;
-    width: 80%;
+    width: 100%;
 }
 .playlistArt{
-    width:100%; 
-    opacity:0.3; 
+    width:80px; 
+    height: 80px;
     position: absolute; 
-    top:-50%;
-    left:0;
+    top:5px;
+
+    left:5px;
     z-index: -1;
 }
 .moreButtonImport{
