@@ -1436,3 +1436,45 @@ div#scroller.ng-hide {
 .moreButtonImport{
     text-align: center;
 }
+.addToPlaylistWizard{
+    width: 70%;
+    left: 15%;
+    height: 60%;
+    top: 14%;
+    background-image: var(--color-secondaryBackground);
+}
+.addToPlaylistButtonLeft{
+    left: 5px;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonCenter{
+    right: 33%;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonCenterTwo{
+    right: 28%;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonRight{
+    right: 5px;
+    bottom: 5px;
+    position: absolute;
+}
+.modalTitleAddPlaylist{
+    font-size: 2rem;
+    text-align: center;
+    color: black;
+
+}
+.addToPlaylistText{
+    font-size: 25px;
+    padding-left: 10px;
+    font-weight: 300;
+    line-height: 30px;
+}
+.addToPlaylistTextDiv{
+    padding-top: 25%;
+}

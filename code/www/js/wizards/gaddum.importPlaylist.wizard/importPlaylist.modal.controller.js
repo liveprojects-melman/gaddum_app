@@ -68,7 +68,13 @@
     function playlistSelected(index){
       console.log("here",mc.playlistArray[index].value);
       mc.playlistArray[index].value = !mc.playlistArray[index].value;
-      mc.itemSelected = true;
+      mc.itemSelected = false;
+      mc.playlistArray.forEach(function(element){
+        if(element.value){
+          mc.itemSelected = true;
+        }
+        
+      });
     }
     function more(){
       console.log("more");

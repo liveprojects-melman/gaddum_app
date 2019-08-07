@@ -3,13 +3,13 @@
 
   angular
     .module('gaddum.playlists')
-    .factory('playlistsService', playlistsService)
+    .factory('playlistsServiceSlideBox', playlistsServiceSlideBox)
   ;
 
-  playlistsService.$inject = [
+  playlistsServiceSlideBox.$inject = [
     '$http'
   ];
-  function playlistsService(
+  function playlistsServiceSlideBox(
     $http
   ) {
     var service={};

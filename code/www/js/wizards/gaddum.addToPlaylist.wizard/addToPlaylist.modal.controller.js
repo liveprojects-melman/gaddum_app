@@ -11,7 +11,8 @@
       'addToPlaylistWizard',
       '$scope',
       '$timeout',
-      '$q'
+      '$q',
+      'playlistService'
 
   ];
   
@@ -19,7 +20,8 @@
     addToPlaylistWizard,
     $scope,
     $timeout,
-    $q
+    $q,
+    playlistService
   ) {
     var moodIdDict = {};
     var mc = angular.extend(this, {
@@ -29,12 +31,29 @@
     $scope.addToPlaylistWizard=addToPlaylistWizard;
     function init() {
       
-      
+      mc.state = true;
       mc.params =addToPlaylistWizard.getParams();
       console.log(mc.params);
+      //mc.playlistArray = playlistService.asyncSeekPlaylists();
       
     }
     init();
+    function close(){
+      addToPlaylistWizard.close();
+    }
+    function createPlaylist(){
+
+    }
+    function changeState(){
+      mc.state = !mc.state;
+    }
+    function add(){
+
+    }
+    mc.add = add;
+    mc.close=close;
+    mc.createPlaylist= createPlaylist;
+    mc.changeState=changeState;
 
   }
 })();

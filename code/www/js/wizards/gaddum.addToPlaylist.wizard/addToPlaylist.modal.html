@@ -1,18 +1,42 @@
 
-<div class="modal HowAreYouModalBox"  ng-controller="addToPlaylistModalController as mc" >
+<div class="modal addToPlaylistWizard"  ng-controller="addToPlaylistModalController as mc" >
   
-    <ion-content class="howAreYouModal">
+    <ion-content ng-hide="!mc.state" >
        
       <div style="width:100%;">
           
-      <h3 class="modalTitle">Which Playlist do you want to add the track to?</h3>
+      <h3 class="modalTitleAddPlaylist">Add To Playlist</h3>
     </div>
-    
-      
-        <!-- <button ng-disabled="!(mc.emotionSelected != '')" ng-click="mc.selectEmo()" class="howAreYouButton" ng-class="((mc.emotionSelected != '') ? 'selectedItemRed' : '')">That's me</button> -->
-      
-      
+    <ion-content class="playlistImportList">
+      <ion-list class="playlistImportList">
+        <ion-item  ng-class-odd="'listodd'" ng-class-even="'listeven'" class="playlistListImport" ng-repeat="playlist in mc.playlistArray"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  ng-click="mc.playlistSelected($index)" >
+          <h2 class="playlistNameText">{{playlist.name}}</h2>
+          <label class="playlistCheckbox toggle toggle-assertive">
+            <input type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)" ></input>
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    <button ng-click="mc.close()" class="button addToPlaylistButtonLeft">Cancel</button>
+    <button ng-click="mc.createPlaylist()" class="button addToPlaylistButtonCenter">New</button>
+    <button ng-click="mc.changeState()" class="button addToPlaylistButtonRight">Next</button>
   </ion-content>
+  
+  <ion-content ng-hide="mc.state" class="howAreYouModal">
+     
+    <div style="width:100%;">
+        
+    <h3 class="modalTitleAddPlaylist">Add To Playlist</h3>
   </div>
-  </content>
+  <div class="addToPlaylistTextDiv">
+    <p class="addToPlaylistText">You're going to add to a playlist.</p>
+    <p class="addToPlaylistText">Are You Sure?</p>
+  </div>
+  <button ng-click="mc.changeState()" class="button addToPlaylistButtonLeft">Previous</button>
+  <button ng-click="mc.close()" class="button addToPlaylistButtonCenterTwo">Cancel</button>
+  <button ng-click="mc.add()" class="button addToPlaylistButtonRight">Add</button>
+</ion-content>
 </div>
