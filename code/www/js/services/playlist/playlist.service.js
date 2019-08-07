@@ -8,67 +8,47 @@
 
   playlistService.$inject = [
     'dataApiService',
-    '$q',
-    'gaddumMusicProviderService'
+    'PlaylistIdentifier',
+    'GenericTrack'
   ];
   function playlistService(
     dataApiService,
-    $q,
-    gaddumMusicProviderService
+    PlaylistIdentifier,
+    GenericTrack
+
   ) {
 
-    function addToPlaylist(TID,PID){
 
+    function asyncSeekPlaylists(searchName){
+      return dataApiService.asyncSeekPlaylists(searchName);
     }
-    function seekPlaylist(searchName){
 
+    function asyncSetPlayList(playlistIdentifier){
+      return dataApiService.asyncSetPlayList(playlistIdentifier);
     }
-    function createPlaylist(playlistName,arrayTracks){
+    
 
+    function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
+      return dataApiService.asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks);
     }
-    function importAllPlaylists(){
-        gaddumMusicProviderService.importAllPlaylists().then(function(result){
-              var id=result.data.items[0].id
-              
-                gaddumMusicProviderService.getplaylistTracks(id).then(function(result2){
 
-                    console.log("track",result2);
-                }).catch(function(er){
-
-                    console.log(er);
-                });
-            }).catch(function(er){
-
-                console.log(er);
-            });
+    function asyncGetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
+      return dataApiService.asyncGetPlaylistTracks(playlistIdentifier, arrayGenericTracks);
     }
-    function removePlaylist(PID){
 
+    function asyncRemovePlaylist(playlistIdentifier){
+      return dataApiService.asyncRemovePlaylist(playlistIdentifier);
     }
-    function editPlaylist(PID, arrayTracks){
 
-    }
-    function checkIsGift(PID){
 
-    }
-    function moodEnable(PID){
-
-    }
-    function moodDisable(PID){
-
-    }
 
     var service = {
-        addToPlaylist:addToPlaylist,
-        seekPlaylist:seekPlaylist,
-        createPlaylist:createPlaylist,
-        importAllPlaylists:importAllPlaylists,
-        removePlaylist:removePlaylist,
-        editPlaylist:editPlaylist,
-        checkIsGift:checkIsGift,
-        moodEnable:moodEnable,
-        moodDisable:moodDisable
-      
+      asyncSeekPlaylists:asyncSeekPlaylists,
+      asyncSetPlayList: asyncSetPlayList,
+      asyncSetPlaylistTracks:asyncSetPlaylistTracks,
+      asyncGetPlaylistTracks:asyncGetPlaylistTracks,
+      asyncRemovePlaylist:asyncRemovePlaylist
+
     };
 
     return service;
