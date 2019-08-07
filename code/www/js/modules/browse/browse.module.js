@@ -18,7 +18,7 @@
           cache: false,
           url: '^/browse/list',
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+            gaddumShortcutBarService.clearContextMenu();
           }]),
           views: {
             'browse@gaddum': {

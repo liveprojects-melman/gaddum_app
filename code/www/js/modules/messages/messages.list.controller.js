@@ -19,7 +19,7 @@
     var vm = angular.extend(this, {
 
     });
-
+    
     // attaching these methods to ng-mousedown/up on ion-items
     // makes swiping the item not cause the slidebox to move
     vm.preventSlideBox = function preventSlideBox() {

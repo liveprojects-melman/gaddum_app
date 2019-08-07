@@ -18,7 +18,7 @@
           cache: false,
           url: '^/gifts/list',
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+            gaddumShortcutBarService.clearContextMenu();
           }]),
           views: {
             'gifts@gaddum': {
