@@ -137,8 +137,12 @@
         .then(
           function (result) {
             asyncAuthSuccess(result);
+          },
+          function(error){
+            console.log(error);
           }
-        );
+        )
+        ;
     }
 
 
@@ -431,6 +435,7 @@
       });
     }
     function asyncImportPlaylists(playlists){
+      
       playlists.forEach(function(element){
         console.log("playlist",element);
         asyncGetPlaylistTracks(element.provider_playlist_ref).then(function(result){

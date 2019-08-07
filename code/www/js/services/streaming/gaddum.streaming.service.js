@@ -7,10 +7,12 @@
 
   gaddumStreamingService.$inject = [
     '$http',
+    '$rootScope',
     '$interval' // testing only
   ];
   function gaddumStreamingService(
     $http,
+    $rootScope,
     $interval
   ) {
     var service = {
@@ -36,12 +38,13 @@
     service.test = $interval(function(){
       service.state.playing = !service.state.playing;
       console.log("PLAYTOGGLE");
-    },3000,50, true );
+    },3000,50, true ); */
     service.test2 = $interval(function(){
-      service.state.ready = !service.state.ready;
+      //service.state.ready = !service.state.ready;
+      $rootScope.$broadcast('player:ready',service.state.ready);
       console.log("READYTOGGLE");
     },5000,50, true );
-    */
+/*    */
     return service;
 
   }

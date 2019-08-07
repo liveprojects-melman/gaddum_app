@@ -13,7 +13,8 @@
       '$timeout',
       '$q',
       'gaddumMusicProviderService',
-      'ImportPlaylist'
+      'ImportPlaylist',
+      'alertModal'
 
   ];
   
@@ -23,7 +24,8 @@
     $timeout,
     $q,
     gaddumMusicProviderService,
-    ImportPlaylist
+    ImportPlaylist,
+    alertModal
   ) {
     var moodIdDict = {};
     var count = 0;
@@ -32,11 +34,15 @@
     var mc = angular.extend(this, {
       itemSelected:false,
       emotionSelected: '',
-      playlistArray:[]
+      playlistArray:[],
+      hideMore: false,
+      hideSpinner:true,
+      importButtonHide:false,
+      Importtext:"Import"
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
-
+      mc.hideSpinner = false;
       mc.params =importPlaylistWizard.getParams();
       console.log(mc.params);
       gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
@@ -53,6 +59,7 @@
           count = count+1;
         });
         offset = offset+10;
+        mc.hideSpinner = true;
       });
       
       
@@ -65,8 +72,11 @@
     }
     function more(){
       console.log("more");
+      mc.hideSpinner = false;
       gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
-        console.log("heya",result);
+        if(result.data.items.length === 0){
+          mc.hideMore = true;
+        }
         var count = offset;
         result.data.items.forEach(function(element) {
           console.log(count);
@@ -79,18 +89,26 @@
           count = count+1;
         });
         offset = offset+10;
+        mc.hideSpinner = true;
       });
     }
     function importPlaylists(){
-      console.log("got in here");
+      mc.importButtonHide = true;
       var importArray = [];
       mc.playlistArray.forEach(function(element) {
         if (element.value === true) {
           importArray.push(ImportPlaylist.build(element.name,element.id,element.artwork));
         }
       });
-      gaddumMusicProviderService.asyncImportPlaylists(importArray);
-      importPlaylistWizard.close();
+      gaddumMusicProviderService.asyncImportPlaylists(importArray)
+      .then(function(result){
+        importPlaylistWizard.close();
+        
+      },function(error){
+        importPlaylistWizard.close();
+        alertModal.open("failed to Import",null,null);
+      });
+      
       
     }
     mc.more = more;

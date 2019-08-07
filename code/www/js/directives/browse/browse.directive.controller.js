@@ -18,6 +18,7 @@
     'MoodIdentifier',
     'Playlist',
     'userProfilerService',
+    'gaddumShortcutBarService',
     
     'friendsService',
     '$ionicModal',
@@ -39,6 +40,7 @@
     MoodIdentifier,
     Playlist,
     userProfilerService,
+    gaddumShortcutBarService,
     
     browseService,
     $ionicModal,
@@ -69,6 +71,7 @@
       bm.searchText =null;
       bm.searchType = [];
       bm.searchingType = [];
+      gaddumShortcutBarService.clearContextMenu();
       gaddumMusicProviderService.asyncGetSupportedSearchModifier().then(function(result){
         result.forEach(function(element){
           bm.searchType.push({mod:element,value:false});

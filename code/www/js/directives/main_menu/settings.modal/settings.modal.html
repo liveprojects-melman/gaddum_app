@@ -11,7 +11,12 @@
       <ion-item class="checkboxItem item-checkbox-right" ng-click="sc.changeSet($index)" ng-repeat=" setting in sc.settings track by setting.id" >
         
         <h2 class="settingsH2">{{setting.friendly_name}}</h2>
-        <input type="checkbox" ng-model="setting.value" ng-change="sc.changed(setting.id, setting.value, setting.type,setting.friendly_description,$index)" class="checkbox"></input>
+        <label class="settingsCheckbox toggle toggle-assertive">
+          <input type="checkbox" ng-model="setting.value" ng-click="sc.changeSet($index)" ng-change="sc.changed(setting.id, setting.value, setting.type,setting.friendly_description,$index)" class="checkbox"></input>
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
         <h5 class="settingsH5">{{setting.friendly_description}}</h5>
       </ion-item>
       </ion-list>
