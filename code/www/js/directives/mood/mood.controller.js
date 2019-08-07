@@ -15,7 +15,8 @@
     'moodService',
     '$ionicModal',
     '$scope',
-    'moodSelectModal'
+    'moodSelectModal',
+    'gaddumShortcutBarService'
   ];
 
   function moodDirectiveController(
@@ -26,7 +27,8 @@
     moodService,
     $ionicModal,
     $scope,
-    moodSelectModal
+    moodSelectModal,
+    gaddumShortcutBarService
   ) {
     var vm = angular.extend(this, {
       allEmotions: null,

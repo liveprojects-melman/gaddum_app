@@ -13,7 +13,7 @@
           cache: true,
           url: '^/mood',
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+            gaddumShortcutBarService.clearContextMenu();
           }]),
           views: {
             'mood@gaddum' : {

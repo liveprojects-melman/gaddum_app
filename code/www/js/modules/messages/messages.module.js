@@ -18,7 +18,7 @@
           cache: false,
           url: '^/messages/list',
           resolve: (['gaddumShortcutBarService',function(gaddumShortcutBarService){
-            gaddumShortcutBarService.setContextMenu({});
+            gaddumShortcutBarService.clearContextMenu();
           }]),
           views: {
             'messages@gaddum': {
