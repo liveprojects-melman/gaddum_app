@@ -846,6 +846,11 @@ ion-side-menu-content/*.menu-content.pane*/ {
     float: right;
     margin-top: 4px !important;
 }
+.settingsCheckbox{
+    float: right;
+    margin-top: 4px !important;
+    margin-right: 5px;
+}
 .settingsH2{
     padding:4px;
     display:inline-block;

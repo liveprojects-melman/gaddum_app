@@ -40,7 +40,7 @@
       console.log("PLAYTOGGLE");
     },3000,50, true ); */
     service.test2 = $interval(function(){
-      service.state.ready = !service.state.ready;
+      //service.state.ready = !service.state.ready;
       $rootScope.$broadcast('player:ready',service.state.ready);
       console.log("READYTOGGLE");
     },5000,50, true );
