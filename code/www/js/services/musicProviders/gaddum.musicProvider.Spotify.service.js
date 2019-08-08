@@ -17,7 +17,8 @@
     'gaddumMusicProviderService',
     'TrackInfo',
     'GenericImportTrack',
-    'dataApiService'
+    'dataApiService',
+    'ImportPlaylist'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -32,7 +33,8 @@
     gaddumMusicProviderService,
     TrackInfo,
     GenericImportTrack,
-    dataApiService
+    dataApiService,
+    ImportPlaylist
 
   ) {
 
@@ -82,6 +84,15 @@
 
 
     var userGenres = [];
+
+      //TODO: this must be set but the parent music provider
+      var musicProviderId = "89a2b713-0265-42f7-9aac-01739e53obdc";
+      function getProviderId(){
+        return musicProviderId;
+      }
+      function setProviderId(uuid){
+        musicProviderId = uuid;
+      }
 
     function createSpotifySearchModifiers() {
 
@@ -424,14 +435,16 @@
     function asyncGetProfilePlaylist(offset, limit) {
       return $q(function (resolve, reject) {
 
-        var resualtArray = [];
+        var resultArray = [];
         asyncGetAccessCredentials().then(function (result) {
           console.log(result);
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
           $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
-            //resualtArray.push(result);
-            return resolve(results);
+            results.data.items.forEach(function(element) {
+              resultArray.push(ImportPlaylist.build(element.name,element.id,element.images[0].url,element.owner.display_name));
+            });
+            return resolve(resultArray);
           });
         });
       });
@@ -445,8 +458,7 @@
               .then(
                 function (results) {
                   console.log("tracks", results);
-                  resolve(results);
-                  dataApiService.asyncImportTrackInfo()
+                  asyncImportTracks(results).then(resolve,reject);
                 },
                 function(error){
                   console.log(error);
@@ -459,21 +471,39 @@
       })
     }
     function asyncImportTracks(tracks) {
-      if (tracks) {
-        tracks.forEach(function (track) {
+      return $q(function(resolve,reject){
+        if (tracks) {
+          var promises = [];
+          tracks.forEach(function (track) {
+            dataApiService.asyncImportTrackInfo(track).
+            then(
+              function(result){
+                promises.push(result);
+            },
+            function(error){
+              return reject(error);
+            }
+            );
+  
+          });
+          return resolve(promises);
+        }
+        else{
+          return reject();
+        }
+      });
 
-
-        });
-      }
     }
     function asyncGetPlaylistTracks(PID) {
       return $q(function (resolve, reject) {
-        var resualtArray = [];
+        var resultArray = [];
         asyncGetAccessCredentials().then(function (result) {
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
-            //resualtArray.push(result);
-            return resolve(result);
+            result.data.items.forEach(function(element) {
+              resultArray.push(TrackInfo.build(element.track.name,element.track.album.name,element.track.artists[0].name,element.track.duration_ms,element.track.album.images[0].url,element.track.id));
+            });
+            return resolve(resultArray);
           });
         });
       });
@@ -654,7 +684,8 @@
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
       asyncImportPlaylists: asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
-      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
+      setProviderId:setProviderId
     };
 
     return service;

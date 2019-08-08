@@ -12,36 +12,41 @@
   function ImportPlaylist(
 
   ) {
-    function ImportPlaylist(name, providerPlaylistRef, providerArtworkRef) {
+    function ImportPlaylist(name, providerPlaylistRef, providerArtworkRef, ownerName) {
       // Public properties, assigned to the instance ('this')
       this.name = name;
       this.provider_playlist_ref = providerPlaylistRef;
       this.provider_artwork_ref = providerArtworkRef;
+      this.owner_name = ownerName;
+
+
+      this.getName= function(){
+        return this.name;
+      }
+  
+      this.getProviderPlaylistRef= function(){
+        return this.provider_playlist_ref;
+      }
+  
+      this.getProviderArtworkRef= function(){
+        return this.provider_artwork_ref;
+      }
+      this.getOwnerName= function(){
+        return this.owner_name;
+      }
 
     }
 
-
-    function getName(){
-      return this.name;
-    }
-
-    function getProviderPlaylistRef(){
-      return this.provider_playlist_ref;
-    }
-
-    function getProviderArtworkRef(){
-      return this.provider_artwork_ref;
-    }
 
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    ImportPlaylist.build = function (name, providerPlaylistRef, providerArtworkRef) {
+    ImportPlaylist.build = function (name, providerPlaylistRef, providerArtworkRef, ownerName) {
       
         return new ImportPlaylist(
-          name, providerPlaylistRef, providerArtworkRef
+          name, providerPlaylistRef, providerArtworkRef, ownerName
         );
  
 

@@ -25,7 +25,6 @@
     playlistService,
     GenericTrack
   ) {
-    var moodIdDict = {};
     var mc = angular.extend(this, {
       itemSelected:false,
       emotionSelected: ''

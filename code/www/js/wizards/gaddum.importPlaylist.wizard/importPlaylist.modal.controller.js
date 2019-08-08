@@ -46,16 +46,14 @@
       mc.params =importPlaylistWizard.getParams();
       console.log(mc.params);
       gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
-        console.log("heya",result);
         var count = 0;
-        result.data.items.forEach(function(element) {
-          console.log(count);
-          mc.playlistArray[count] = {"name":element.name};
-          mc.playlistArray[count].display_name = element.owner.display_name;
-          mc.playlistArray[count].id = element.id;
-          mc.playlistArray[count].artwork = element.images[0].url;
+        result.forEach(function(element) {
+          console.log(element);
+          mc.playlistArray[count] = {"name":element.getName()};
+          mc.playlistArray[count].display_name = element.getOwnerName();
+          mc.playlistArray[count].id = element.getProviderPlaylistRef();
+          mc.playlistArray[count].artwork = element.getProviderArtworkRef();
           mc.playlistArray[count].value = false;
-          console.log("playlistArry",mc.playlistArray);
           count = count+1;
         });
         offset = offset+10;
@@ -84,12 +82,12 @@
           mc.hideMore = true;
         }
         var count = offset;
-        result.data.items.forEach(function(element) {
+        result.forEach(function(element) {
           console.log(count);
-          mc.playlistArray[count] = {"name":element.name};
-          mc.playlistArray[count].display_name = element.owner.display_name;
-          mc.playlistArray[count].id = element.id;
-          mc.playlistArray[count].artwork = element.images[0].url;
+          mc.playlistArray[count] = {"name":element.getName()};
+          mc.playlistArray[count].display_name = element.getOwnerName();
+          mc.playlistArray[count].id = element.getProviderPlaylistRef();
+          mc.playlistArray[count].artwork = element.getProviderArtworkRef();
           mc.playlistArray[count].value = false;
           console.log("playlistArry",mc.playlistArray);
           count = count+1;
@@ -103,7 +101,7 @@
       var importArray = [];
       mc.playlistArray.forEach(function(element) {
         if (element.value === true) {
-          importArray.push(ImportPlaylist.build(element.name,element.id,element.artwork));
+          importArray.push(ImportPlaylist.build(element.name,element.id,element.artwork,element.display_name));
         }
       });
       gaddumMusicProviderService.asyncImportPlaylists(importArray)
