@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Wed Aug 7 08:27:55 2019
+-- File generated with SQLiteStudio v3.0.7 on Thu Aug 8 17:23:26 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -17,311 +17,180 @@ CREATE TABLE playlists (
 );
 
 
--- Table: supported_timeslots
-DROP TABLE IF EXISTS supported_timeslots;
+-- Table: tracks_to_music_providers
+DROP TABLE IF EXISTS tracks_to_music_providers;
 
-CREATE TABLE supported_timeslots (
-    start_time TIME    UNIQUE
-                       NOT NULL,
-    end_time   TIME    UNIQUE
-                       NOT NULL,
-    id         INTEGER PRIMARY KEY AUTOINCREMENT
-                       UNIQUE
-);
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '00:00:00',
-                                    '00:59:59',
-                                    1
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '01:00:00',
-                                    '01:59:59',
-                                    2
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '02:00:00',
-                                    '02:59:59',
-                                    3
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '03:00:00',
-                                    '03:59:59',
-                                    4
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '04:00:00',
-                                    '04:59:59',
-                                    5
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '05:00:00',
-                                    '05:59:59',
-                                    6
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '06:00:00',
-                                    '06:59:59',
-                                    7
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '07:00:00',
-                                    '07:59:59',
-                                    8
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '08:00:00',
-                                    '08:59:59',
-                                    9
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '09:00:00',
-                                    '09:59:59',
-                                    10
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '10:00:00',
-                                    '10:59:59',
-                                    11
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '11:00:00',
-                                    '11:59:59',
-                                    12
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '12:00:00',
-                                    '12:59:59',
-                                    13
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '13:00:00',
-                                    '13:59:59',
-                                    14
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '14:00:00',
-                                    '14:59:59',
-                                    15
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '15:00:00',
-                                    '15:59:59',
-                                    16
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '16:00:00',
-                                    '16:59:59',
-                                    17
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '17:00:00',
-                                    '17:59:59',
-                                    18
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '18:00:00',
-                                    '18:59:59',
-                                    19
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '19:00:00',
-                                    '19:59:59',
-                                    20
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '20:00:00',
-                                    '20:59:59',
-                                    21
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '21:00:00',
-                                    '21:59:59',
-                                    22
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '22:00:00',
-                                    '22:59:59',
-                                    23
-                                );
-
-INSERT INTO supported_timeslots (
-                                    start_time,
-                                    end_time,
-                                    id
-                                )
-                                VALUES (
-                                    '23:00:00',
-                                    '23:59:59',
-                                    24
-                                );
-
-
--- Table: queue
-DROP TABLE IF EXISTS queue;
-
-CREATE TABLE queue (
-    id        TEXT    PRIMARY KEY
-                      NOT NULL
-                      UNIQUE,
-    timestamp INTEGER NOT NULL,
-    item      STRING  NOT NULL,
-    type      STRING  NOT NULL
+CREATE TABLE tracks_to_music_providers (
+    id                TEXT PRIMARY KEY
+                           UNIQUE
+                           NOT NULL,
+    track_id          TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                                  ON UPDATE CASCADE
+                                                  MATCH SIMPLE
+                           NOT NULL,
+    music_provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                           ON UPDATE CASCADE
+                                                           MATCH SIMPLE
+                           NOT NULL
 );
 
 
--- Table: tracks_to_references
-DROP TABLE IF EXISTS tracks_to_references;
+-- Table: music_provider_settings
+DROP TABLE IF EXISTS music_provider_settings;
 
-CREATE TABLE tracks_to_references (
-    id           TEXT PRIMARY KEY
-                      UNIQUE
-                      NOT NULL,
-    track_id     TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                             ON UPDATE CASCADE
-                                             MATCH SIMPLE
-                      NOT NULL,
-    reference_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+CREATE TABLE music_provider_settings (
+    provider   TEXT   REFERENCES music_providers (id) ON DELETE SET DEFAULT
                                                       ON UPDATE CASCADE
                                                       MATCH SIMPLE
-                      NOT NULL
+                      NOT NULL,
+    id         STRING NOT NULL,
+    value      TEXT,
+    value_type TEXT   NOT NULL
+);
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'homepage_url',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'client_id',
+                                        'e09602dc211e406a99b2a1d74215b03e',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'redirect_url',
+                                        'gaddumspotify://callback',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_refresh_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
+                                        'string '
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_exchange_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
+                                        'string '
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'access_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'refresh_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'expires_at',
+                                        NULL,
+                                        'integer'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'base64_csv_genre_tags',
+                                        'IkFmcm9iZWF0IiwiQmx1ZXMiLCJMby1maSIsIk1hbWJvIiwiUmVnZ2FlIiwiUm9ja3N0ZWFkeSIsIkRhbmNlaGFsbCIsIlNvY2EiLCJTa2EiLCJCbHVlZ3Jhc3MiLCJDb3VudHJ5IiwiSy1wb3AiLCJKLXBvcCIsIkhpcGhvcCIsIlRlY2hubyIsIkRyaWxsIiwiR3JpbWUiLCJIb3VzZSIsIkVsZWN0cm9uaWMiLCJIYXJkYmFzcyIsIkZ1bmsiLCJEaXNjbyIsIlNvdWwiLCJNb3Rvd24iLCJKYXp6Ig==',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'base64_csv_selected_genre_tags',
+                                        NULL,
+                                        'string'
+                                    );
+
+
+-- Table: track_references
+DROP TABLE IF EXISTS track_references;
+
+CREATE TABLE track_references (
+    id          TEXT PRIMARY KEY
+                     NOT NULL
+                     UNIQUE,
+    web_uri     TEXT,
+    player_uri  TEXT,
+    provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                     ON UPDATE CASCADE
+                                                     MATCH SIMPLE
 );
 
 
@@ -676,71 +545,16 @@ INSERT INTO supported_face_criteria (
                                     );
 
 
--- Table: supported_input_types
-DROP TABLE IF EXISTS supported_input_types;
+-- Table: queue
+DROP TABLE IF EXISTS queue;
 
-CREATE TABLE supported_input_types (
-    name TEXT PRIMARY KEY
-            NOT NULL
-            UNIQUE
-);
-
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'boolean'
-                                  );
-
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'integer'
-                                  );
-
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'text'
-                                  );
-
-
--- Table: connections
-DROP TABLE IF EXISTS connections;
-
-CREATE TABLE connections (
-    id                              TEXT    PRIMARY KEY
-                                            UNIQUE
-                                            NOT NULL,
-    connection_state                INTEGER REFERENCES supported_connection_states (id) ON DELETE CASCADE
-                                                                                        ON UPDATE SET DEFAULT
-                                                                                        MATCH SIMPLE,
-    target_profile                  TEXT    REFERENCES profiles (id) ON DELETE CASCADE
-                                                                     ON UPDATE CASCADE
-                                                                     MATCH SIMPLE,
-    state_change_timestamp_epoch_ms INTEGER NOT NULL,
-    provider_device_id              TEXT    NOT NULL,
-    provider_connection_id          TEXT
-);
-
-
--- Table: tracks_to_music_providers
-DROP TABLE IF EXISTS tracks_to_music_providers;
-
-CREATE TABLE tracks_to_music_providers (
-    id                TEXT PRIMARY KEY
-                           UNIQUE
-                           NOT NULL,
-    track_id          TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                                  ON UPDATE CASCADE
-                                                  MATCH SIMPLE
-                           NOT NULL,
-    music_provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                           ON UPDATE CASCADE
-                                                           MATCH SIMPLE
-                           NOT NULL
+CREATE TABLE queue (
+    id        TEXT    PRIMARY KEY
+                      NOT NULL
+                      UNIQUE,
+    timestamp INTEGER NOT NULL,
+    item      STRING  NOT NULL,
+    type      STRING  NOT NULL
 );
 
 
@@ -755,39 +569,6 @@ CREATE TABLE tracks (
     album      TEXT,
     artist     TIME,
     duration_s INTEGER NOT NULL
-);
-
-
--- Table: track_references
-DROP TABLE IF EXISTS track_references;
-
-CREATE TABLE track_references (
-    id          TEXT PRIMARY KEY
-                     NOT NULL
-                     UNIQUE,
-    web_uri     TEXT,
-    player_uri  TEXT,
-    provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                     ON UPDATE CASCADE
-                                                     MATCH SIMPLE
-);
-
-
--- Table: profiles_to_encryption_keys
-DROP TABLE IF EXISTS profiles_to_encryption_keys;
-
-CREATE TABLE profiles_to_encryption_keys (
-    id             TEXT PRIMARY KEY
-                        UNIQUE
-                        NOT NULL,
-    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
-                                                 ON UPDATE CASCADE
-                                                 MATCH SIMPLE
-                        NOT NULL,
-    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
-                                                        ON UPDATE CASCADE
-                                                        MATCH SIMPLE
-                        NOT NULL
 );
 
 
@@ -929,83 +710,6 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'auth_spotify_client_id',
-                         'e09602dc211e406a99b2a1d74215b03e',
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_redirect_url',
-                         'gaddumspotify://callback',
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_token_exchange_url',
-                         'https://gaddumauth.herokuapp.com:443/spotify/exchange',
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_token_refresh_url',
-                         'https://gaddumauth.herokuapp.com:443/spotify/refresh',
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_access_token',
-                         NULL,
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_expires_at',
-                         NULL,
-                         'integer'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
-                         'auth_spotify_encrypted_refresh_token',
-                         NULL,
-                         'string'
-                     );
-
-INSERT INTO settings (
-                         id,
-                         value,
-                         value_type
-                     )
-                     VALUES (
                          'first_time_help',
                          NULL,
                          'boolean'
@@ -1044,22 +748,378 @@ INSERT INTO settings (
                          'integer'
                      );
 
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_max_track_duration_for_skip_s',
+                         '2',
+                         'integer'
+                     );
 
--- Table: tracks_to_artwork
-DROP TABLE IF EXISTS tracks_to_artwork;
 
-CREATE TABLE tracks_to_artwork (
-    id          TEXT PRIMARY KEY
-                     UNIQUE
-                     NOT NULL,
-    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                     NOT NULL,
-    resource_id TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                     NOT NULL
+-- Table: supported_input_types
+DROP TABLE IF EXISTS supported_input_types;
+
+CREATE TABLE supported_input_types (
+    name TEXT PRIMARY KEY
+            NOT NULL
+            UNIQUE
+);
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'boolean'
+                                  );
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'integer'
+                                  );
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'text'
+                                  );
+
+
+-- Table: connections
+DROP TABLE IF EXISTS connections;
+
+CREATE TABLE connections (
+    id                              TEXT    PRIMARY KEY
+                                            UNIQUE
+                                            NOT NULL,
+    connection_state                INTEGER REFERENCES supported_connection_states (id) ON DELETE CASCADE
+                                                                                        ON UPDATE SET DEFAULT
+                                                                                        MATCH SIMPLE,
+    target_profile                  TEXT    REFERENCES profiles (id) ON DELETE CASCADE
+                                                                     ON UPDATE CASCADE
+                                                                     MATCH SIMPLE,
+    state_change_timestamp_epoch_ms INTEGER NOT NULL,
+    provider_device_id              TEXT    NOT NULL,
+    provider_connection_id          TEXT
+);
+
+
+-- Table: profiles_to_encryption_keys
+DROP TABLE IF EXISTS profiles_to_encryption_keys;
+
+CREATE TABLE profiles_to_encryption_keys (
+    id             TEXT PRIMARY KEY
+                        UNIQUE
+                        NOT NULL,
+    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
+                                                 ON UPDATE CASCADE
+                                                 MATCH SIMPLE
+                        NOT NULL,
+    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
+                                                        ON UPDATE CASCADE
+                                                        MATCH SIMPLE
+                        NOT NULL
+);
+
+
+-- Table: supported_timeslots
+DROP TABLE IF EXISTS supported_timeslots;
+
+CREATE TABLE supported_timeslots (
+    start_time TIME    UNIQUE
+                       NOT NULL,
+    end_time   TIME    UNIQUE
+                       NOT NULL,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT
+                       UNIQUE
+);
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '00:00:00',
+                                    '00:59:59',
+                                    1
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '01:00:00',
+                                    '01:59:59',
+                                    2
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '02:00:00',
+                                    '02:59:59',
+                                    3
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '03:00:00',
+                                    '03:59:59',
+                                    4
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '04:00:00',
+                                    '04:59:59',
+                                    5
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '05:00:00',
+                                    '05:59:59',
+                                    6
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '06:00:00',
+                                    '06:59:59',
+                                    7
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '07:00:00',
+                                    '07:59:59',
+                                    8
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '08:00:00',
+                                    '08:59:59',
+                                    9
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '09:00:00',
+                                    '09:59:59',
+                                    10
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '10:00:00',
+                                    '10:59:59',
+                                    11
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '11:00:00',
+                                    '11:59:59',
+                                    12
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '12:00:00',
+                                    '12:59:59',
+                                    13
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '13:00:00',
+                                    '13:59:59',
+                                    14
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '14:00:00',
+                                    '14:59:59',
+                                    15
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '15:00:00',
+                                    '15:59:59',
+                                    16
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '16:00:00',
+                                    '16:59:59',
+                                    17
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '17:00:00',
+                                    '17:59:59',
+                                    18
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '18:00:00',
+                                    '18:59:59',
+                                    19
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '19:00:00',
+                                    '19:59:59',
+                                    20
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '20:00:00',
+                                    '20:59:59',
+                                    21
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '21:00:00',
+                                    '21:59:59',
+                                    22
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '22:00:00',
+                                    '22:59:59',
+                                    23
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '23:00:00',
+                                    '23:59:59',
+                                    24
+                                );
+
+
+-- Table: tracks_to_references
+DROP TABLE IF EXISTS tracks_to_references;
+
+CREATE TABLE tracks_to_references (
+    id           TEXT PRIMARY KEY
+                      UNIQUE
+                      NOT NULL,
+    track_id     TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                             ON UPDATE CASCADE
+                                             MATCH SIMPLE
+                      NOT NULL,
+    reference_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                      ON UPDATE CASCADE
+                                                      MATCH SIMPLE
+                      NOT NULL
 );
 
 
@@ -1076,32 +1136,41 @@ CREATE TABLE base64_resources (
 );
 
 
+-- Table: playlists_to_tracks
+DROP TABLE IF EXISTS playlists_to_tracks;
+
+CREATE TABLE playlists_to_tracks (
+    id          TEXT PRIMARY KEY
+                     UNIQUE
+                     NOT NULL,
+    playlist_id TEXT REFERENCES playlists (id) ON DELETE CASCADE
+                                               ON UPDATE CASCADE
+                                               MATCH SIMPLE
+                     NOT NULL,
+    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                            ON UPDATE CASCADE
+                                            MATCH SIMPLE
+                     NOT NULL
+);
+
+
 -- Table: music_providers
 DROP TABLE IF EXISTS music_providers;
 
 CREATE TABLE music_providers (
-    id             TEXT PRIMARY KEY
-                        UNIQUE
-                        NOT NULL,
-    friendly_name  TEXT NOT NULL,
-    homepage_url   TEXT NOT NULL,
-    token          TEXT,
-    csv_genre_tags TEXT
+    id   TEXT PRIMARY KEY
+              UNIQUE
+              NOT NULL,
+    name TEXT NOT NULL
 );
 
 INSERT INTO music_providers (
                                 id,
-                                friendly_name,
-                                homepage_url,
-                                token,
-                                csv_genre_tags
+                                name
                             )
                             VALUES (
-                                '89a2b713-0265-42f7-9aac-01739e530bdc',
-                                'Spotify',
-                                'https://www.spotify.com/uk/',
-                                NULL,
-                                NULL
+                                'gaddumMusicProviderSpotifyService',
+                                'Spotify'
                             );
 
 
@@ -1238,6 +1307,36 @@ CREATE TABLE observations (
 );
 
 
+-- Table: tracks_to_artwork
+DROP TABLE IF EXISTS tracks_to_artwork;
+
+CREATE TABLE tracks_to_artwork (
+    id          TEXT PRIMARY KEY
+                     UNIQUE
+                     NOT NULL,
+    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                            ON UPDATE CASCADE
+                                            MATCH SIMPLE
+                     NOT NULL,
+    resource_id TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                            ON UPDATE CASCADE
+                                            MATCH SIMPLE
+                     NOT NULL
+);
+
+
+-- Table: supported_connection_states
+DROP TABLE IF EXISTS supported_connection_states;
+
+CREATE TABLE supported_connection_states (
+    id   INTEGER PRIMARY KEY
+                 UNIQUE
+                 NOT NULL,
+    name TEXT    UNIQUE
+                 NOT NULL
+);
+
+
 -- Table: playlists_to_profiles
 DROP TABLE IF EXISTS playlists_to_profiles;
 
@@ -1253,22 +1352,78 @@ CREATE TABLE playlists_to_profiles (
 );
 
 
--- Table: playlists_to_tracks
-DROP TABLE IF EXISTS playlists_to_tracks;
+-- Table: encryption_keys
+DROP TABLE IF EXISTS encryption_keys;
 
-CREATE TABLE playlists_to_tracks (
-    id          TEXT PRIMARY KEY
-                     UNIQUE
-                     NOT NULL,
-    playlist_id TEXT REFERENCES playlists (id) ON DELETE CASCADE
-                                               ON UPDATE CASCADE
-                                               MATCH SIMPLE
-                     NOT NULL,
-    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                     NOT NULL
+CREATE TABLE encryption_keys (
+    id         TEXT PRIMARY KEY
+                    UNIQUE
+                    NOT NULL,
+    base64_key TEXT NOT NULL
 );
+
+
+-- Table: mood_pairings
+DROP TABLE IF EXISTS mood_pairings;
+
+CREATE TABLE mood_pairings (
+    mood_hot  TEXT PRIMARY KEY
+                   REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL,
+    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL
+);
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'focussed',
+                              'bored'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'physical',
+                              'tired'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'happy',
+                              'sad'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'crazy',
+                              'restful'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'angry',
+                              'peaceful'
+                          );
 
 
 -- Table: criteria_to_moods
@@ -1651,18 +1806,6 @@ INSERT INTO criteria_to_moods (
                               );
 
 
--- Table: supported_connection_states
-DROP TABLE IF EXISTS supported_connection_states;
-
-CREATE TABLE supported_connection_states (
-    id   INTEGER PRIMARY KEY
-                 UNIQUE
-                 NOT NULL,
-    name TEXT    UNIQUE
-                 NOT NULL
-);
-
-
 -- Table: supported_moods
 DROP TABLE IF EXISTS supported_moods;
 
@@ -1829,80 +1972,6 @@ INSERT INTO supported_moods (
                                 NULL,
                                 '🤔'
                             );
-
-
--- Table: mood_pairings
-DROP TABLE IF EXISTS mood_pairings;
-
-CREATE TABLE mood_pairings (
-    mood_hot  TEXT PRIMARY KEY
-                   REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL,
-    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL
-);
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'focussed',
-                              'bored'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'physical',
-                              'tired'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'happy',
-                              'sad'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'crazy',
-                              'restful'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'angry',
-                              'peaceful'
-                          );
-
-
--- Table: encryption_keys
-DROP TABLE IF EXISTS encryption_keys;
-
-CREATE TABLE encryption_keys (
-    id         TEXT PRIMARY KEY
-                    UNIQUE
-                    NOT NULL,
-    base64_key TEXT NOT NULL
-);
 
 
 -- COMMIT TRANSACTION;

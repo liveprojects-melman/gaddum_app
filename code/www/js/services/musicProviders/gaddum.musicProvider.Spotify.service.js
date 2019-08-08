@@ -23,6 +23,7 @@
 
   function gaddumMusicProviderSpotifyService(
     allSettingsService,
+    providerSettingsService,
     $q,
     $timeout,
     SearchModifier,
@@ -41,19 +42,9 @@
 
     // ------ UTILITY
 
-    var AUTH_CONFIG = {
-      clientId: "gaddumspotify",
-      encryptionSecret: "",
-      redirectUrl: "gaddumspotify://redirect",
-      scopes: ["streaming"],
-      //scopes: ["streaming", "playlist-read-private", "user-read-email", "user-read-private"], // enable as needed
-      tokenExchangeUrl: "https://gaddumauth.heroku.com:443/spotify/exchange",
-      tokenRefreshUrl: "https://gaddumauth.heroku.com:443/spotify/refresh"
-    }
-
-
+    var AUTH_CONFIG = null;
+    var PROVIDER_ID = null;
     var CACHED_ACCESS_CREDENTIALS = null;
-
 
     var GENRES_LIST = [
       "Afrobeat",
@@ -83,16 +74,15 @@
       "Jazz"]
 
 
-    var userGenres = [];
 
-      //TODO: this must be set but the parent music provider
-      var musicProviderId = "89a2b713-0265-42f7-9aac-01739e53obdc";
-      function getProviderId(){
-        return musicProviderId;
-      }
-      function setProviderId(uuid){
-        musicProviderId = uuid;
-      }
+
+
+    function getProviderId() {
+      return musicProviderId;
+    }
+    function setProviderId(uuid) {
+      musicProviderId = uuid;
+    }
 
     function createSpotifySearchModifiers() {
 
@@ -124,11 +114,18 @@
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(allSettingsService.asyncSet('auth_spotify_access_token', response.accessToken, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at', response.expiresAt, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token', response.encryptedRefreshToken, 'string'));
+      // looks awful, but we know we are putting something in the database which is supported by TimeStamp.
+      var accessToken = response.accessToken;
+      var refreshToken = response.encryptedRefreshToken;
+      var expires_at = timeService.getTimeStamp(moment().add(response.expires_in, 'seconds').toDate).getJavaEpocS();
 
-      CACHED_ACCESS_CREDENTIALS = AccessCredentials.build(response.accessToken, response.expiresAt, response.encryptedRefreshToken);
+
+
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'access_token', accessToken));
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'expires_at', expires_at));
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'refresh_token', refreshToken));
+
+      CACHED_ACCESS_CREDENTIALS = AccessCredentials.build(accessToken, expiresAt, refreshToken);
 
       $q.all(promises).then(
         function (result) {
@@ -229,9 +226,9 @@
     function asyncLookupAccessCredentials() {
       var deferred = $q.defer();
       var promises = [];
-      promises.push(allSettingsService.asyncGet('auth_spotify_access_token'));
-      promises.push(allSettingsService.asyncGet('auth_spotify_expires_at'));
-      promises.push(allSettingsService.asyncGet('auth_spotify_encrypted_refresh_token'));
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'access_token'));
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'expires_at'));
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'refresh_token'));
 
       $q.all(promises).then(
         function (results) {
@@ -266,25 +263,28 @@
 
     // ------ PUBLIC
 
-    function asyncInit() {
-
+    function asyncInit(musicProviderIdentifier) {
+      PROVIDER_ID = musicProviderIdentifier;
       var deferred = $q.defer();
       var promises = [];
 
 
-      promises.push(allSettingsService.asyncGet('auth_spotify_client_id').then(
+
+
+
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'client_id').then(
         function (result) {
           AUTH_CONFIG.clientId = result;
         }));
-      promises.push(allSettingsService.asyncGet('auth_spotify_redirect_url').then(
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'redirect_url').then(
         function (result) {
           AUTH_CONFIG.redirectUrl = result;
         }));
-      promises.push(allSettingsService.asyncGet('auth_spotify_token_exchange_url').then(
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'token_exchange_url').then(
         function (result) {
           AUTH_CONFIG.tokenExchangeUrl = result;
         }));
-      promises.push(allSettingsService.asyncGet('auth_spotify_token_refresh_url').then(
+      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'token_refresh_url').then(
         function (result) {
           AUTH_CONFIG.tokenRefreshUrl = result;
         }));
@@ -334,9 +334,9 @@
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(allSettingsService.asyncSet('auth_spotify_access_token', null, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_expires_at', null, 'string'));
-      promises.push(allSettingsService.asyncSet('auth_spotify_encrypted_refresh_token', null, 'string'));
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'access_token', null));
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'expires_at', null));
+      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'encrypted_refresh_token', null));
 
       CACHED_ACCESS_CREDENTIALS = null;
 
@@ -354,12 +354,49 @@
       return deferred.promise;
     }
 
+    function base64ToTagArray(base64Enc) { // throws
+      var result = [];
+
+      var csv = btoa(base64Enc);
+      var array = csv.split(',');
+      array.forEach(
+        function (item) {
+          result.push(item.trim());
+        });
+
+      return result;
+
+    }
+
+    function tagArrayToBase64(tagArray) { //throws
+
+      var trimmed = [];
+
+      tagArray.forEach(
+        function (item) {
+          result.push(item.trim());
+        }
+      );
+
+      result = atob(trimmed.join(','));
+
+      return result;
+
+    }
+
+
     function asyncGetSupportedGenres() {
       var deferred = $q.defer();
 
-      $timeout(
-        function () {
-          deferred.resolve(GENRES_LIST);
+
+      providerSettingsService.asyncGet(PROVIDER_ID, 'base64_csv_genre_tags').then(
+        function (base64Enc) {
+          try {
+            deferred.resolve(base64ToTagArray(base64Enc));
+          } catch (e) {
+            deferred.resolve([]);
+          }
+
         });
 
 
@@ -372,9 +409,32 @@
 
       $timeout(
         function () {
-          userGenres = candidates;
-          deferred.resolve(userGenres);
-        });
+          try {
+            var value = tagArrayToBase64(candidates);
+            providerSettingsService.asyncSet(PROVIDER_ID, 'base64_csv_selected_genre_tags', value).then(
+              function () {
+                deferred.resolve();
+              },
+              function (error) {
+                deferred.reject(
+                  ErrorIdentifier.build(ErrorIdentifier.DATABASE, "asyncSetGenres: error: " + error.message)
+                )
+              }
+            );
+          } catch (e) {
+            providerSettingsService.asyncClear(PROVIDER_ID, 'base64_csv_selected_genre_tags').then(
+              function () {
+                deferred.resolve();
+              },
+              function (error) {
+                deferred.reject(
+                  ErrorIdentifier.build(ErrorIdentifier.DATABASE, "asyncSetGenres: error: " + error.message)
+                );
+              }
+            );
+          }
+        }
+      );
 
 
       return deferred.promise;
@@ -441,8 +501,8 @@
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
           $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
-            results.data.items.forEach(function(element) {
-              resultArray.push(ImportPlaylist.build(element.name,element.id,element.images[0].url,element.owner.display_name));
+            results.data.items.forEach(function (element) {
+              resultArray.push(ImportPlaylist.build(element.name, element.id, element.images[0].url, element.owner.display_name));
             });
             return resolve(resultArray);
           });
@@ -458,37 +518,37 @@
               .then(
                 function (results) {
                   console.log("tracks", results);
-                  asyncImportTracks(results).then(resolve,reject);
+                  asyncImportTracks(results).then(resolve, reject);
                 },
-                function(error){
+                function (error) {
                   console.log(error);
                   return reject(error);
                 }));
-            });
-          }
-          $q.all(promises).then(
-            resolve,reject);
+          });
+        }
+        $q.all(promises).then(
+          resolve, reject);
       })
     }
     function asyncImportTracks(tracks) {
-      return $q(function(resolve,reject){
+      return $q(function (resolve, reject) {
         if (tracks) {
           var promises = [];
           tracks.forEach(function (track) {
             dataApiService.asyncImportTrackInfo(track).
-            then(
-              function(result){
-                promises.push(result);
-            },
-            function(error){
-              return reject(error);
-            }
-            );
-  
+              then(
+                function (result) {
+                  promises.push(result);
+                },
+                function (error) {
+                  return reject(error);
+                }
+              );
+
           });
           return resolve(promises);
         }
-        else{
+        else {
           return reject();
         }
       });
@@ -500,8 +560,8 @@
         asyncGetAccessCredentials().then(function (result) {
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
-            result.data.items.forEach(function(element) {
-              resultArray.push(TrackInfo.build(element.track.name,element.track.album.name,element.track.artists[0].name,element.track.duration_ms,element.track.album.images[0].url,element.track.id));
+            result.data.items.forEach(function (element) {
+              resultArray.push(TrackInfo.build(element.track.name, element.track.album.name, element.track.artists[0].name, element.track.duration_ms, element.track.album.images[0].url, element.track.id));
             });
             return resolve(resultArray);
           });
@@ -685,7 +745,7 @@
       asyncImportPlaylists: asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
-      setProviderId:setProviderId
+      setProviderId: setProviderId
     };
 
     return service;

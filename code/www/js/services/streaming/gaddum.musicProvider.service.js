@@ -11,6 +11,7 @@
     '$injector',
     '$timeout',
     '$q',
+    'dataApiService',
     'MusicProviderIdentifier'
   ];
 
@@ -19,22 +20,10 @@
     $injector,
     $timeout,
     $q,
+    dataApiService,
     MusicProviderIdentifier
 
   ) {
-
-
-    function buildMusicProviders() {
-
-      var result = [];
-
-      result.push(MusicProviderIdentifier.build("Spotify", "gaddumMusicProviderSpotifyService"));
-
-      return result;
-
-    }
-
-
 
     function onLoginNotNeeded() {
       var deferred = $q.defer();
@@ -63,7 +52,30 @@
 
     function asyncGetSupportedServiceProviders() {
       var deferred = $q.defer();
+
+
+      dataApiService.getSupportedMusicProviders().then(
+        function onSuccess(items){
+          var results = [];
+          if(items && items.length > 0){
+
+            items.forEach(function(item){
+              results.push(MusicProviderIdentifier.buildFromObject(item));
+            });
+
+          deferred.resolve(results);
+          }else{
+            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "no music providers found!"));
+          }
+        },
+        function onFail(error){
+          deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "error looking for music providers: " + error.message));
+        }
+      );
+
       $timeout(
+
+
         function () {
           deferred.resolve(buildMusicProviders());
         }
@@ -79,10 +91,10 @@
       });
     }
 
-    function asyncSetServiceProvider(musicProviderName) {
+    function asyncSetServiceProvider(musicProviderIdentifier) {
       // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
-      service.musicProvider = $injector.get(musicProviderName);
-      return service.musicProvider.asyncInit();
+      service.musicProvider = $injector.get(musicProviderIdentifier.getId());
+      return service.musicProvider.asyncInit(musicProviderIdentifier);
     }
 
 

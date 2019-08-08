@@ -134,6 +134,45 @@
         }
     },
     {
+        "name": "create_provider_setting(provider_id, setting_id, value_type)",
+        "function": "create_provider_setting",
+        "path": "www/sql/create_provider_setting.sql",
+        "default_parameters": {
+            "provider_id" : "gaddumMusicProviderSpotifyService",
+            "setting_id": "homepage_url",
+            "value_type": "string"
+        }
+    },
+    {
+        "name": "clear_provider_setting(provider_id, setting_id)",
+        "function": "clear_provider_setting",
+        "path": "www/sql/clear_provider_setting.sql",
+        "default_parameters": {
+            "provider_id" : "gaddumMusicProviderSpotifyService",
+            "setting_id": "homepage_url"
+        }
+    },
+    {
+        "name": "set_provider_setting(provider_id, setting_id, value)",
+        "function": "set_provider_setting",
+        "path": "www/sql/set_provider_setting.sql",
+        "default_parameters": {
+            "provider_id" : "gaddumMusicProviderSpotifyService",
+            "setting_id": "homepage_url",
+            "value": "https://www.spotify.com/uk/"
+        }
+    },
+    {
+        "name": "get_provider_setting(provider_id, setting_id)",
+        "function": "get_provider_setting",
+        "path": "www/sql/get_provider_setting.sql",
+        "default_parameters": {
+            "provider_id" : "gaddumMusicProviderSpotifyService",
+            "setting_id": "homepage_url"
+        }
+    },
+
+    {
         "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",
         "path": "www/sql/add_observation.sql",

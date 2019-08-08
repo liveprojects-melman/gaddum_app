@@ -40,7 +40,7 @@
 
     function asyncLogin() {
       ac.busy = true;
-      gaddumMusicProviderService.asyncSetServiceProvider(ac.selectedNamedIdentifier.getId())
+      gaddumMusicProviderService.asyncSetServiceProvider(ac.selectedNamedIdentifier
         .then(gaddumMusicProviderService.asyncLogin()
         .then(
           function () {

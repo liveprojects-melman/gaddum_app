@@ -255,11 +255,11 @@
 
         function setSetting(id, value, type, fnSuccess, fnFail) {
 
-            mappingService.query("set_setting", { id: id, value: value, value_type: type },
-                function (result) {
-                    fnSuccess(value);
-                }
-                , fnFail);
+            mappingService.query(
+                "set_setting",
+                { id: id, value: value, value_type: type },
+                fnSuccess,
+                fnFail);
         }
 
 
@@ -271,11 +271,11 @@
 
         function clearSetting(id, type, fnSuccess, fnFail) {
 
-            mappingService.query("clear_setting", { id: id, value_type: type },
-                function (result) {
-                    fnSuccess(result);
-                }
-                , fnFail);
+            mappingService.query(
+                "clear_setting",
+                { id: id, value_type: type },
+                fnSuccess,
+                fnFail);
         }
 
 
@@ -286,6 +286,116 @@
         }
 
 
+        function asyncGetAllProviderSettings(provider_id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_all_provider_settings",
+                {
+                    provider_id: provider_id
+                },
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+
+                    deferred.resolve(rows);
+
+                }
+                ,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncGetProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+            return deferred.promise;
+        }
+
+
+        function asyncGetProviderSetting(provider_id, setting_id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_provider_setting",
+                {
+                    provider_id: provider_id,
+                    setting_id: setting_id
+                },
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length == 1) {
+                        var candidate = rows[0];
+                        var value = candidate.value; // default is 'string'
+                        if (candidate.value_type === 'integer') {
+                            value = parseInt(candidate.value);
+                        } else if (candidate.value_type == 'boolean') {
+                            if (candidate.value == 'true') {
+                                value = true;
+                            } else {
+                                value = false;
+                            }
+                        }
+                        deferred.resolve(value);
+                    } else {
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncGetProviderSetting: setting not found!"));
+                    }
+                }
+                ,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncGetProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+            return deferred.promise;
+        }
+
+        function asyncSetProviderSetting(provider_id, setting_id, value) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "set_provider_setting",
+                {
+                    provider_id: provider_id,
+                    setting_id: setting_id,
+                    value: value
+                },
+                deferred.resolve,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncSetProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+            return deferred.promise;
+        }
+
+        function asyncClearProviderSetting(provider_id, setting_id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "clear_provider_setting",
+                {
+                    provider_id: provider_id,
+                    setting_id: setting_id
+                },
+                deferred.resolve
+                ,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "clearProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+            return deferred.promise;
+        }
+
+        function asyncCreateProviderSetting(provider_id, setting_id, value, value_type) {
+            mappingService.query(
+                "create_provider_setting",
+                {
+                    provider_id: provider_id,
+                    setting_id: setting_id,
+                    value: value,
+                    value_type: value_type
+                },
+                deferred.resolve,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncCreateProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+        }
 
         function getSupportedInputTypes(fnSuccess, fnFail) {
 
@@ -454,9 +564,9 @@
         }
 
         // update / create a playlist
-        function asyncDoSetPlaylist(name,id) {
+        function asyncDoSetPlaylist(name, id) {
             var deferred = $q.defer();
-            
+
             mappingService.query("create_playlist", {
                 name: name,
                 id: id
@@ -464,7 +574,7 @@
                 function () {
                     // cannot return the result of an insert, like Postgres, so have to search for the id of the object we created.
                     mappingService.query(
-                        "set_playlist", 
+                        "set_playlist",
                         {
                             name: name,
                             id: id
@@ -488,7 +598,7 @@
             return deferred.promise;
         }
 
-        
+
         function asyncCreatePlaylist(name) {
             return asyncDoSetPlaylist(
                 name,
@@ -496,15 +606,19 @@
             );
         }
 
-        function asyncSetPlaylist(playlistIndentifier){
+        function asyncSetPlaylist(playlistIndentifier) {
             //TODO:  Handle other flags in playlist identifier, which handle gifts and moodenable
             return asyncDoSetPlaylist(
                 playlistIdentifier.getName(),
                 playlistIdentifier.getId()
-            );   
+            );
         }
 
         function asyncImportTrackInfo(trackInfo) {
+
+            // check to see if a track like this exists in the DB
+
+
             //TODO: THIS IS A DUMMY! Track info goes into the DB.
             // TODO: Use track reference and service provider to ensure that we don't duplicate an entry.
             var deferred = $q.defer();
@@ -638,12 +752,22 @@
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,
             asyncGetSupportedInputTypes: asyncGetSupportedInputTypes,
+
             asyncGetUserSettings: asyncGetUserSettings,
+            asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings,
             asyncGetAllSettings: asyncGetAllSettings,
+
             asyncSetSetting: asyncSetSetting,
             asyncGetSetting: asyncGetSetting,
             asyncClearSetting: asyncClearSetting,
-            asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings,
+
+            asyncGetAllProviderSettings: asyncGetAllProviderSettings,
+            asyncCreateProviderSetting: asyncCreateProviderSetting,
+            asyncGetProviderSetting: asyncGetProviderSetting,
+            asyncSetProviderSetting: asyncSetProviderSetting,
+            asyncClearProviderSetting: asyncClearProviderSetting,
+
+
             asyncAddObservation: asyncAddObservation,
             asyncSeekTracks: asyncSeekTracks,
             asyncSeekPlaylists: asyncSeekPlaylists,
