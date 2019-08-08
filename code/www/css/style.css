@@ -1103,7 +1103,20 @@ margin:10px;
     width: 85%;
     position: absolute;
     left: 7.5%;
+    top: 6%;
+    height: 79%;
 
+}
+#canvas_holder #edit{
+    
+    width: 88%;
+    height: 88%;
+    position: absolute;
+    top: 5%;
+}
+div#controls{
+    position: absolute;
+    bottom: 5%;
 }
 .openSearchModal{
     float: right;
