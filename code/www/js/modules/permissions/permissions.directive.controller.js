@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+  var postStartState = 'gaddum.profile';
+
     angular
         .module('gaddum.permissions')
         .controller('permissionsDirectiveController', control);
@@ -26,7 +28,7 @@
       console.log("permissions controller checking in!");
 
       vm.goMain = function() {
-        //$state.go( startState );
+        $state.go( postStartState );
       };
 
       vm.permissions = false;
