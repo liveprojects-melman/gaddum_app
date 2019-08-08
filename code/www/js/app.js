@@ -67,7 +67,7 @@ angular.module('gaddum', [
           if(toState.name!="permissions") {
             event.preventDefault();
             console.log(" -- going to permissions now");
-            $state.go('permissions',{},{location:false,notify:false,reload:true});
+            $state.go('permissions',{},{location:true,notify:false,reload:true});
             return;
           }
         }
