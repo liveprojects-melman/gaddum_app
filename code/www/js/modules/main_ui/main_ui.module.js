@@ -11,8 +11,27 @@
       $stateProvider
         .state('gaddum', {
           url: '/',
-          virtual: true,
-//          abstract: true,
+//          onEnter: ['startupSrvc',function(startupSrvc){
+//            gaddumMusicProviderService.initialise(loginModal.promiseLogin);                     }],
+          //virtual: true,
+          //abstract: true,
+//          resolve:{
+//            permissions:["permissionService", function(permissionService) {
+//              return permissionService.hasAllRequiredPermissions;
+//            }]
+//          },
+//          onEnter:['$state','permissionsService',function($state,permissionsService) {
+            //if (permissions===false) {
+ //           console.log("ASKING FOR PERMISSIONS...");
+//            if(permissionsService.hasAllRequiredPermissions!=true){
+//              console.log("You don't have permissions, rerouting!");
+//              $state.go('permissions');
+//            }
+            //}
+          //          }],
+          onEnter: ['startupSrvc','gaddumMusicProviderService','loginModal',function onEnterForMain(startupSrvc,gaddumMusicProviderService,loginModal){
+            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
+          }],
           views: {
             'gaddum': {
               templateUrl: 'js/modules/main_ui/main_ui.html',
@@ -26,13 +45,5 @@
             }
           }
         });
-//        .state('home', {
-//          cache:true,
-//          url: '/'
-//        });
-/*        .state('groupsList', {
-          cache:true,
-          url: '/main/groups'
-        });*/
-    })
+    });
 })();

@@ -18,14 +18,18 @@
           </button>
         </div>
       </div>
-      <div>
+      <div class="item item-button-right">
+        <p style="text-overflow: ellipsis;overflow: hidden; white-space: nowrap; width:40%;">{{bm.typeSearch}}</p>
+        <button class="openSearchModal button" ng-click="bm.openSearchModal()">Choose Search Criteria </button>
+      </div>
+      <!-- <div>
         <div style="width: 40%; text-overflow: ellipsis;overflow: hidden; white-space: nowrap; margin-left:5px; display:inline-block;">
             <h3 style="color:black; max-width: 40%;" class="openSearchModalText">{{bm.typeSearch}}</h3>
         </div>
         
         <button class="openSearchModal button" ng-click="bm.openSearchModal()">Choose Search Criteria </button>
-      </div>
-      <ion-content ng-show="true" style="top:10em; height:68%;" id="browseListscroll">
+      </div> -->
+      <ion-content ng-show="true" style="top:9rem; bottom:0;" id="browseListscroll">
         <ion-list can-swipe="true" id="friendsList">
           <ion-item ng-repeat="browse in bm.searchBrowse" 
             can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="bm.preventSlideBox($event)"

@@ -39,7 +39,10 @@ angular.module('gaddum', [
   'genresCheckboxModalsModule',
   'gaddum.searchCat',
   'gaddum.userprofiler',
-  'gaddum.alert'
+  'gaddum.alert',
+  'playlistViewModule',
+  'playlistEditModule',
+  'gaddum.playlistDirective'
 
 ])
   .run([
@@ -51,7 +54,8 @@ angular.module('gaddum', [
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
-    function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, startupSrvc,loginModal,gaddumMusicProviderService) {
+    'permissionsService',
+    function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, startupSrvc,loginModal,gaddumMusicProviderService, permissionsService) {
       
       $rootScope.$on('slideChanged', function(a) {
         var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
@@ -60,7 +64,16 @@ angular.module('gaddum', [
 
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // update the slider delegate - is there a matching slide name?
-  //     console.log("stateChangeStart", toState);
+        //     console.log("stateChangeStart", toState);
+        if(permissionsService.hasAllRequiredPermissions!=true){
+          console.log("NO PERMISSIONS!",toState.name);
+          if(toState.name!="permissions") {
+            event.preventDefault();
+            console.log(" -- going to permissions now");
+            $state.go('permissions',{},{location:true,notify:false,reload:false});
+            return;
+          }
+        }
         var baseStateName = toState.name.split(".")[1];
         if(angular.isDefined(baseStateName)===true) {
           var sliderState = false;
@@ -114,20 +127,18 @@ angular.module('gaddum', [
         }
   */
         if($window.cordova) {
-          
-          
+
           console.log("invoking StartupSrvc.asyncInitialise...");
 
           startupSrvc.asyncInitialise().then(function(){
             console.log("invoking gaddumMusicProviderService.initialise..");
-            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
+            //            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
             console.log("initialise complete. Moving to state.");
             $state.go( startState );
           });
         } else {
           $state.go( startState );
         }
-        
-        //$state.go(getPermissionsState);
+         //$state.go(getPermissionsState);
       }/*]*/);
   }]);
