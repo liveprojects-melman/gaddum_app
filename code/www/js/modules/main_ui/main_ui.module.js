@@ -11,8 +11,8 @@
       $stateProvider
         .state('gaddum', {
           url: '/',
-          onEnter: ['startupSrvc',function(startupSrvc){
-            gaddumMusicProviderService.initialise(loginModal.promiseLogin);                     }],
+//          onEnter: ['startupSrvc',function(startupSrvc){
+//            gaddumMusicProviderService.initialise(loginModal.promiseLogin);                     }],
           //virtual: true,
           //abstract: true,
 //          resolve:{
