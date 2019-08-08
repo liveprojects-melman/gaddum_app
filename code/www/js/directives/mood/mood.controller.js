@@ -254,11 +254,8 @@
     function sleep() {
       if (emotionReaderService.isRunning) {
         emotionReaderService.setSleep(true);
-        vm.detecting = false;
       }
-
-
-
+      vm.detecting = false;
     }
     function wake() {
       if (emotionReaderService.isRunning) {
