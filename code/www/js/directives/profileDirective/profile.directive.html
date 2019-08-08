@@ -20,15 +20,15 @@
     </p>
   </div>
   <canvas class="profileImageCanvas" id="profileImage"
-    ng-init="vm.createProfileGraphic(vm.userProfile.profile.profile_id)" height=80 width=80
+    ng-init="vm.createProfileGraphic()" height=80 width=80
     ></canvas>
   <div class="qrdiv">
     <qrcode version=15 data={{vm.encodedProfile}} size=200%></qrcode>
   </div>
-<ion-footer-bar align-title="left" class="bar-assertive profileFooter">
+<!-- <ion-footer-bar align-title="left" class="bar-assertive profileFooter">
   <div class="buttons">
     <button class="button" ng-click="vm.profileEdit()">Edit</button>
   </div>
   <h1 class="title">Profile</h1>
-</ion-footer-bar>
+</ion-footer-bar> -->
 </ion-view>

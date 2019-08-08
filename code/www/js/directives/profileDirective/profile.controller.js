@@ -79,7 +79,7 @@
                 });
             setTimeout(function () {
                 vm.name = profileService.asyncGetAvatarName();//change
-                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify(vm.userProfile.profile) + "}");
+                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
             }, 0);
         };
 
@@ -94,12 +94,12 @@
             console.log("genres test2",profileService.asyncGetGenres());
             setTimeout(function () {
                 vm.userGenres = genres;
-                vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
+                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
                 vm.genreScrollChecker();
             }, 0);
         }
 
-        vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
+        //vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
 
 
         function asyncPopulateGenres() {
@@ -135,6 +135,8 @@
             profileService.asyncGetUserProfile().then(
                 function success(result) {
                     vm.userProfile = result;
+                    vm.name=result.avatar_name;
+                    vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
                     deferred.resolve();
                 },
                 function fail(error) {
@@ -207,7 +209,7 @@
             return result;
         }
 
-        vm.createProfileGraphic = function (avatar_graphic) {
+        vm.createProfileGraphic = function () {
             var canvas = document.getElementsByClassName("profileImageCanvas");
             canvas = canvas[canvas.length - 1];
             var ctx = canvas.getContext('2d');
@@ -217,8 +219,8 @@
             var profile;
             profileService.asyncGetUserProfile().then(
                 function success(result) {
-                    var graphic = avatar_graphic.getValues();
-                    var colour=avatar_graphic.getColour();
+                    var graphic = result.avatar_graphic.getValues();
+                    var colour=result.avatar_graphic.getColour();
                     for (var j = 0; j < graphic.length; j++) {
                         bin = graphic[j].toString(2);
                         for (var x = bin.length; x < 8; x++) {
