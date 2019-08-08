@@ -1,0 +1,35 @@
+<div class="modal modalPlaylistEdit" ng-controller="playlistEditModalController as vm">
+  <ion-content has-header="true" padding="true">
+    <ion-header-bar align-title="left" class="bar-positive">
+      <div class="buttons">
+        <button class="button" ng-click="vm.showDeleteToggle()">ShowDelete</button>
+      </div>
+      <h1 class="title">Edit Playlist</h1>
+      <div class="buttons">
+        <button class="button" ng-click="vm.showReorderToggle()">Show Reorder</button>
+      </div>
+    </ion-header-bar>
+    
+    
+    
+    <div class="playlistEditTitlediv">
+      <input class="playlistTitleEdit" value="{{vm.params.name}}"></input>
+    </div>
+
+    <ion-content class="editPlaylistSongsList" overflow-scroll="false">
+      <ion-list can-swipe="true" show-delete="vm.showDelete" show-reorder="vm.showReorder" can-reorder="true">
+        <ion-item ng-repeat="song in vm.playlist.items" >
+          <!-- <img ng-src="{{.img}}"> -->
+          <h2>{{song.track.name}}</h2>
+
+          <ion-delete-button class="ion-minus-circled" ng-click="vm.deleteSong($index)">
+          </ion-delete-button>
+          <ion-reorder-button class="ion-navicon" on-reorder="vm.reorderlog(song,$fromIndex,$toIndex);";>
+          </ion-reorder-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+
+  </ion-content>
+</div>

@@ -1,0 +1,41 @@
+<div class="modal modalPlaylistView" ng-controller="playlistViewModalController as vm">
+  <ion-content has-header="true" padding="true" scroll="false">
+    <h1 class="playlistTitle">{{vm.params.name }}</h1>
+
+    <ion-content class="viewPlaylistEditList">
+
+      <ion-list>
+        <ion-item ng-repeat="song in vm.playlist.items" class="">
+          <!-- <img ng-src="{{.img}}"> -->
+          <h2>{{song.track.name}}</h2>
+          <!-- <p>{{.description}}</p> -->
+          <!-- <ion-option-button class="button-positive" ng-click="action1()">
+            Action 1
+          </ion-option-button>
+          <ion-option-button class="button-info" ng-click="action2()">
+            Action 2
+          </ion-option-button>
+          <ion-delete-button class="ion-minus-circled" >
+          </ion-delete-button>
+          <ion-reorder-button class="ion-navicon" >
+          </ion-reorder-button> -->
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+
+
+<ion-footer-bar align-title="left" class="bar-assertive">
+  <div class="buttons playlistViewButtonsDiv">
+    <button class="button playlistViewButton" ng-click="doSomething()"><i class="icon ion-android-share-alt"></i></button>
+    <button class="button playlistViewButton" ng-click="doSomething()"><div class="playlistViewAddToPlaylistIconDiv"><img src="css/add_to_playlist_icon.svg" id="addToPlaylistIcon"></div></button>
+    <button class="button playlistViewButton" ng-click="vm.editPlaylist()"><i class="icon ion-edit"></i></button>
+    <button class="button playlistViewButton" ng-click="doSomething()"><i class="icon ion-play"></i></button>
+  </div>
+  <!-- <h1 class="title">aaaa</h1> -->
+  <!-- <div class="buttons">
+    <button class="button" ng-click="doSomething()">Play</button>
+  </div> -->
+</ion-footer-bar>
+  </ion-content>
+</div>
