@@ -66,9 +66,12 @@ angular.module('gaddum', [
         // update the slider delegate - is there a matching slide name?
         //     console.log("stateChangeStart", toState);
         if(permissionsService.hasAllRequiredPermissions!=true){
-          console.log("NO PERMISSIONS!",toState);
+          console.log("NO PERMISSIONS!",toState.name);
           if(toState.name!="permissions") {
-            $state.go('permissions');
+            event.preventDefault();
+            console.log(" -- going to permissions now");
+            $state.go('permissions',{},{location:true,notify:false,reload:true});
+            return;
           }
         }
         var baseStateName = toState.name.split(".")[1];
@@ -124,8 +127,7 @@ angular.module('gaddum', [
         }
   */
         if($window.cordova) {
-          
-          
+
           console.log("invoking StartupSrvc.asyncInitialise...");
 
           startupSrvc.asyncInitialise().then(function(){
@@ -137,7 +139,6 @@ angular.module('gaddum', [
         } else {
           $state.go( startState );
         }
-        
-        //$state.go(getPermissionsState);
+         //$state.go(getPermissionsState);
       }/*]*/);
   }]);
