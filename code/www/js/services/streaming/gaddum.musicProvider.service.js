@@ -24,7 +24,7 @@
   ) {
 
 
-    function buildMusicProviders(){ 
+    function buildMusicProviders() {
 
       var result = [];
 
@@ -36,10 +36,10 @@
 
 
 
-    function onLoginNotNeeded(){
+    function onLoginNotNeeded() {
       var deferred = $q.defer();
       $timeout(
-        function(){
+        function () {
           deferred.resolve();
         }
       );
@@ -47,16 +47,16 @@
     }
 
 
-    function asyncPromptIfLoginNeeded(loggedIn){
-      if(loggedIn){
+    function asyncPromptIfLoginNeeded(loggedIn) {
+      if (loggedIn) {
         return onLoginNotNeeded();
-      }else{
+      } else {
         return service.returnsALoginPromise();
       }
     }
 
     // will force a login if one is required
-    function asyncCheckForLoginPromptIfNeeded(){
+    function asyncCheckForLoginPromptIfNeeded() {
       return asyncIsLoggedIn().then(asyncPromptIfLoginNeeded)
     }
 
@@ -64,56 +64,56 @@
     function asyncGetSupportedServiceProviders() {
       var deferred = $q.defer();
       $timeout(
-        function(){
+        function () {
           deferred.resolve(buildMusicProviders());
         }
       );
       return deferred.promise;
     }
 
-    function asyncGetSupportedSearchModifier(){
-      return $q(function(resolve,reject){
-          service.musicProvider.asyncGetSupportedSearchModifier().then(function(result){
-            return resolve(result);
-          });
+    function asyncGetSupportedSearchModifier() {
+      return $q(function (resolve, reject) {
+        service.musicProvider.asyncGetSupportedSearchModifier().then(function (result) {
+          return resolve(result);
         });
+      });
     }
 
     function asyncSetServiceProvider(musicProviderName) {
-        // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
-        service.musicProvider = $injector.get(musicProviderName);
-        return service.musicProvider.asyncInit();
+      // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
+      service.musicProvider = $injector.get(musicProviderName);
+      return service.musicProvider.asyncInit();
     }
 
-    
+
 
     function asyncLogin() {
       var promise = null;
 
-      if(service.musicProvider){
+      if (service.musicProvider) {
         promise = service.musicProvider.asyncLogin();
-      }else{
+      } else {
         var deferred = $q.defer();
         promise = deferred.promise;
-        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM,"call setSupportedServiceProvider before attempting to login."));
+        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "call setSupportedServiceProvider before attempting to login."));
       }
       return promise;
-      
+
     }
 
     function asyncIsLoggedIn() {
       var promise = null;
 
-      if(service.musicProvider){
+      if (service.musicProvider) {
         promise = service.musicProvider.asyncIsLoggedIn();
-      }else{
+      } else {
 
         var deferred = $q.defer();
         promise = deferred.promise;
-        $timeout(function(){
+        $timeout(function () {
           deferred.resolve(false);
         });
-        
+
       }
       return promise;
     }
@@ -122,9 +122,9 @@
 
       var promise = null;
 
-      if(service.musicProvider){
+      if (service.musicProvider) {
         promise = service.musicProvider.asyncLogout();
-      }else{
+      } else {
         var deferred = $q.defer();
         promise = deferred.promise;
         deferred.resolve();
@@ -132,78 +132,81 @@
       return promise;
     }
 
-    function asyncSeekTracks(searchTerm,trackSearchCriteria,limit,page){
+    function asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page) {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
-          return service.musicProvider.asyncSeekTracks(searchTerm,trackSearchCriteria,limit,page);
+        function () {
+          return service.musicProvider.asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page);
         });
     }
 
-    function asyncSetTrack(genericTrack){
+    function asyncSetTrack(genericTrack) {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           return service.musicProvider.asyncSetTrack(genericTrack);
         });
     }
 
-    function asyncPlayCurrentTrack(){
+    function asyncPlayCurrentTrack() {
       return asyncCheckForLoginPromptIfNeeded().then(service.musicProvider.asyncPlayCurrentTrack);
     }
 
-    function asyncPauseCurrentTrack(){
-      return asyncCheckForLoginPromptIfNeeded().then( service.musicProvider.asyncPauseCurrentTrack);
+    function asyncPauseCurrentTrack() {
+      return asyncCheckForLoginPromptIfNeeded().then(service.musicProvider.asyncPauseCurrentTrack);
     }
 
-    function asyncGetProfilePlaylist(offset,limit){
-      return asyncCheckForLoginPromptIfNeeded().then(function(){
-        return service.musicProvider.asyncGetProfilePlaylist(offset,limit);
+    function asyncGetProfilePlaylist(offset, limit) {
+      return asyncCheckForLoginPromptIfNeeded().then(function () {
+        return service.musicProvider.asyncGetProfilePlaylist(offset, limit);
       });
     }
-    
-    function asyncImportPlaylists(playlists){
-      return asyncCheckForLoginPromptIfNeeded().then(function(){
+
+    function asyncImportPlaylists(playlists) {
+      return asyncCheckForLoginPromptIfNeeded().then(function () {
         return service.musicProvider.asyncImportPlaylists(playlists);
       });
     }
 
+    function asyncImportTracks(tracks) {
+      return service.musicProvider.asyncImportTracks(tracks);
+    }
 
-    function asyncGetTrackInfo(genericTrack){
+    function asyncGetTrackInfo(genericTrack) {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           return service.musicProvider.asyncGetTrackInfo(genericTrack);
         });
     }
 
 
-    function asyncGetSupportedGenres(){
+    function asyncGetSupportedGenres() {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           return service.musicProvider.asyncGetSupportedGenres();
         });
     }
 
-    function asyncSetGenres(genres){
+    function asyncSetGenres(genres) {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           return service.musicProvider.asyncSetGenres(genres);
         });
-    }    
-    
-    function asyncGetGenres(){
+    }
+
+    function asyncGetGenres() {
       return asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           return service.musicProvider.asyncGetGenres();
         });
-    }   
+    }
 
     function initialise(returnsALoginPromise) {
-      if(returnsALoginPromise){
+      if (returnsALoginPromise) {
         service.returnsALoginPromise = returnsALoginPromise;
-      }else{
-        throw(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle the update of its access credentials, calling MusicProviderService.asyncLogin()"))
+      } else {
+        throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle the update of its access credentials, calling MusicProviderService.asyncLogin()"))
       }
     };
-    
+
     var service = {
       // vars
       musicProvider: undefined,
@@ -213,20 +216,21 @@
       initialise: initialise,
       asyncGetSupportedServiceProviders: asyncGetSupportedServiceProviders,
       asyncSetServiceProvider: asyncSetServiceProvider,
-      asyncLogin:asyncLogin,
+      asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
-      asyncSeekTracks:  asyncSeekTracks,
-      asyncSetTrack:  asyncSetTrack,
+      asyncSeekTracks: asyncSeekTracks,
+      asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
       asyncImportPlaylists: asyncImportPlaylists,
-      asyncGetTrackInfo:asyncGetTrackInfo,
+      asyncGetTrackInfo: asyncGetTrackInfo,
       asyncGetSupportedGenres: asyncGetSupportedGenres,
-      asyncSetGenres : asyncSetGenres,
-      asyncGetGenres : asyncGetGenres,
-      asyncGetSupportedSearchModifier:asyncGetSupportedSearchModifier,
-      asyncGetProfilePlaylist:asyncGetProfilePlaylist
+      asyncSetGenres: asyncSetGenres,
+      asyncGetGenres: asyncGetGenres,
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
+      asyncGetProfilePlaylist: asyncGetProfilePlaylist,
+      asyncImportTracks:asyncImportTracks
 
       /*,
 

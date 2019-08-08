@@ -12,7 +12,8 @@
       '$scope',
       '$timeout',
       '$q',
-      'playlistService'
+      'playlistService',
+      'GenericTrack'
 
   ];
   
@@ -21,7 +22,8 @@
     $scope,
     $timeout,
     $q,
-    playlistService
+    playlistService,
+    GenericTrack
   ) {
     var moodIdDict = {};
     var mc = angular.extend(this, {
@@ -32,9 +34,15 @@
     function init() {
       
       mc.state = true;
+      mc.displayArray=[];
       mc.params =addToPlaylistWizard.getParams();
       console.log(mc.params);
-      //mc.playlistArray = playlistService.asyncSeekPlaylists();
+      playlistService.asyncSeekPlaylists().then(function(result){
+        mc.playlistArray = result;
+        mc.playlistArray.forEach(function(element){
+          mc.displayArray.push({name:element.getName(),value:false});
+        });
+      });
       
     }
     init();
@@ -48,8 +56,29 @@
       mc.state = !mc.state;
     }
     function add(){
-
+      var count = 0;
+      var playlists=[];
+      mc.displayArray.forEach(function(element){
+        if(element.value){
+          playlists.push(mc.playlistArray[count]);
+        }
+        count++;
+        
+      });
+      playlists.forEach(function(playlist){
+        playlistService.asyncGetPlaylistTracks(playlist).then(function(result){
+          //give trackInfo(mc.params) to spotify service
+          var trackGen = GenericTrack.build(mc.params.getName(),mc.params.getAlbum(),mc.params.getArtist());
+          result.push(trackGen);
+          playlistService.asyncSetPlaylistTracks(playlist,result)
+        });
+        
+      });
     }
+    function playlistSelected(index){
+      mc.displayArray[index].value = !mc.displayArray[index].value;
+    }
+    mc.playlistSelected = playlistSelected;
     mc.add = add;
     mc.close=close;
     mc.createPlaylist= createPlaylist;

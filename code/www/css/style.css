@@ -1478,3 +1478,19 @@ div#scroller.ng-hide {
 .addToPlaylistTextDiv{
     padding-top: 25%;
 }
+.addToPlaylistList{
+    height: 5%;
+}
+.addToPlaylistListDiv{
+    top: 12%;
+    position: absolute;
+    width: 100%;
+    height: 72%;
+}
+.addToPlaylistNameText{
+    padding: 10px;
+    font-weight: 700 !important;
+    color: black;
+    display: inline-block;
+    width: 75%;
+}

@@ -7,10 +7,10 @@
           
       <h3 class="modalTitleAddPlaylist">Add To Playlist</h3>
     </div>
-    <ion-content class="playlistImportList">
-      <ion-list class="playlistImportList">
-        <ion-item  ng-class-odd="'listodd'" ng-class-even="'listeven'" class="playlistListImport" ng-repeat="playlist in mc.playlistArray"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  ng-click="mc.playlistSelected($index)" >
-          <h2 class="playlistNameText">{{playlist.name}}</h2>
+    <ion-content class="addToPlaylistListDiv">
+      <ion-list >
+        <ion-item  ng-class-odd="'listodd'" ng-class-even="'listeven'" class="addToPlaylistList" ng-repeat="playlist in mc.displayArray"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  ng-click="mc.playlistSelected($index)" >
+          <h2 class="addToPlaylistNameText">{{playlist.name}}</h2>
           <label class="playlistCheckbox toggle toggle-assertive">
             <input type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)" ></input>
             <div class="track">

@@ -16,7 +16,8 @@
     'SearchModifier',
     'gaddumMusicProviderService',
     'TrackInfo',
-    'GenericImportTrack'
+    'GenericImportTrack',
+    'dataApiService'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -30,7 +31,8 @@
     SearchModifier,
     gaddumMusicProviderService,
     TrackInfo,
-    GenericImportTrack
+    GenericImportTrack,
+    dataApiService
 
   ) {
 
@@ -138,7 +140,7 @@
           function (result) {
             asyncAuthSuccess(result);
           },
-          function(error){
+          function (error) {
             console.log(error);
           }
         )
@@ -419,9 +421,9 @@
         });
       });
     }
-    function asyncGetProfilePlaylist(offset,limit) {
+    function asyncGetProfilePlaylist(offset, limit) {
       return $q(function (resolve, reject) {
-        
+
         var resualtArray = [];
         asyncGetAccessCredentials().then(function (result) {
           console.log(result);
@@ -434,14 +436,35 @@
         });
       });
     }
-    function asyncImportPlaylists(playlists){
-      
-      playlists.forEach(function(element){
-        console.log("playlist",element);
-        asyncGetPlaylistTracks(element.provider_playlist_ref).then(function(result){
-          console.log("tracks",result);
+    function asyncImportPlaylists(playlists) {
+      return $q(function (resolve, reject) {
+        if (playlists) {
+          var promises = [];
+          playlists.forEach(function (playlist) {
+            promises.push(asyncGetPlaylistTracks(playlist.provider_playlist_ref)
+              .then(
+                function (results) {
+                  console.log("tracks", results);
+                  resolve(results);
+                  dataApiService.asyncImportTrackInfo()
+                },
+                function(error){
+                  console.log(error);
+                  return reject(error);
+                }));
+            });
+          }
+          $q.all(promises).then(
+            resolve,reject);
+      })
+    }
+    function asyncImportTracks(tracks) {
+      if (tracks) {
+        tracks.forEach(function (track) {
+
+
         });
-      });
+      }
     }
     function asyncGetPlaylistTracks(PID) {
       return $q(function (resolve, reject) {
@@ -475,49 +498,49 @@
       });
     }
 
-    var seekTrackCache =[];
+    var seekTrackCache = [];
     var offset = 0;
     var searchT = null;
     var trackCrit = null;
-    function asyncSeekTracks(searchTerm, trackSearchCrit,limit,page) {
+    function asyncSeekTracks(searchTerm, trackSearchCrit, limit, page) {
       return $q(function (resolve, reject) {
-        if(searchT != searchTerm){
+        if (searchT != searchTerm) {
           searchT = searchTerm;
-          offset=0;
+          offset = 0;
           seekTrackCache = [];
         }
-        if(trackCrit != trackSearchCrit){
+        if (trackCrit != trackSearchCrit) {
           trackCrit = trackSearchCrit;
-          offset=0;
+          offset = 0;
           seekTrackCache = [];
         }
-        var seekResult=[];
-        if(seekTrackCache.length > (page*limit)){
+        var seekResult = [];
+        if (seekTrackCache.length > (page * limit)) {
           var i;
-          for(i=0;(i<(seekTrackCache.length -(page*limit)))&&(i<10);i++){
-            seekResult.push(seekTrackCache[((page*limit)+i)]);
+          for (i = 0; (i < (seekTrackCache.length - (page * limit))) && (i < 10); i++) {
+            seekResult.push(seekTrackCache[((page * limit) + i)]);
           }
           return resolve(seekResult);
         }
-        else{
-          asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset).then(function(result){
-            result.forEach(function(resultTrack){
+        else {
+          asyncGetSeekTracks(searchTerm, trackSearchCrit, limit, offset).then(function (result) {
+            result.forEach(function (resultTrack) {
               seekTrackCache.push(resultTrack);
-              
+
             });
-            if(result.length == 0){
+            if (result.length == 0) {
               return reject();
             }
-            offset = offset+limit;
-            asyncSeekTracks(searchTerm, trackSearchCrit,limit,page).then(function(promise){
+            offset = offset + limit;
+            asyncSeekTracks(searchTerm, trackSearchCrit, limit, page).then(function (promise) {
               return resolve(promise);
             });
           });
         }
       });
     }
-    
-    function asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset) {
+
+    function asyncGetSeekTracks(searchTerm, trackSearchCrit, limit, offset) {
       return $q(function (resolve, reject) {
         asyncGetAccessCredentials().then(function (resultToken) {
           gaddumMusicProviderService.asyncGetSupportedGenres().then(function (resultGen) {
@@ -591,22 +614,22 @@
                     if (trackL.id === track.id) {
                       isntIn = true;
                     }
-                    else{
-                      seekTrackCache.forEach(function(cache) {
-                        if(track.id === cache.id){
+                    else {
+                      seekTrackCache.forEach(function (cache) {
+                        if (track.id === cache.id) {
                           isntIn = true;
                         }
                       });
                     }
                   });
                   if (!isntIn) {
-                    trackList.push(TrackInfo.build(track.name,track.album.name,track.artists[0].name,track.duration_ms,track.album.images[0].url,track.id));
+                    trackList.push(TrackInfo.build(track.name, track.album.name, track.artists[0].name, track.duration_ms, track.album.images[0].url, track.id));
                   }
                 });
               });
               console.log("final search ", trackList);
               return resolve(trackList);
-            },1000);
+            }, 1000);
 
           });
         });
@@ -629,7 +652,7 @@
       playTrack: playTrack,
       pause: pause,
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportPlaylists:asyncImportPlaylists,
+      asyncImportPlaylists: asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
     };
