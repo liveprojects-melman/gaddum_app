@@ -127,7 +127,7 @@ angular.module('gaddum', [
 
           startupSrvc.asyncInitialise().then(function(){
             console.log("invoking gaddumMusicProviderService.initialise..");
-            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
+//            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
             console.log("initialise complete. Moving to state.");
             $state.go( startState );
           });
