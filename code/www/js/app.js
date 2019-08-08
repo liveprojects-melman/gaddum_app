@@ -39,7 +39,10 @@ angular.module('gaddum', [
   'genresCheckboxModalsModule',
   'gaddum.searchCat',
   'gaddum.userprofiler',
-  'gaddum.alert'
+  'gaddum.alert',
+  'playlistViewModule',
+  'playlistEditModule',
+  'gaddum.playlistDirective'
 
 ])
   .run([

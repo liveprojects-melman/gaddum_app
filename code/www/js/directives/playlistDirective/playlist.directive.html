@@ -1,0 +1,55 @@
+<ion-view class="hasHeader hasFooter" style="background-image: linear-gradient(to bottom,#cb0009,#fa8b1d)" can-swipe-back="false">
+  <div class="item item-button-right playlistsSearch">
+    <input type="text"  name="searchPlaylistsInput" id="searchPlaylistsBox" value="Search" ng-click="vm.searchClick()" ng-blur="vm.searchDeselect()" ng-init="vm.searchColour()">
+    <button class="button button-assertive search"  id="searchPlaylistsButton" ng-click="vm.searchPlaylists()">
+      <i class="icon ion-search"></i>
+    </button>
+  </div>
+
+
+  <div>
+<ion-content class="playlistPageListContent">
+  <ion-list class="list">
+    <ion-item ng-repeat="playlist in vm.playlistsToShow"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  class="playlistPageItemRepeat" >
+      <img src="{{playlist.images[0].url}}" style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;">
+      <h2>{{playlist.name}}</h2>
+      <h2>{{playlist.owner.display_name}}</h2>
+      <!-- <h2>test</h2>
+      <h2>testtest</h2> -->
+      <!-- <p>{{.description}}</p> -->
+      <ion-option-button class="button-positive icon ion-play" ng-click="action2()">
+        <div class="playlistTextInButton"><p>Play</p></div>
+      </ion-option-button>
+      <ion-option-button class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
+        <div class="playlistTextInButton"><p>View</p></div>
+      </ion-option-button>
+      <ion-option-button class="button-info icon-bottom ion-trash-b" ng-click="action1()">
+        <div class="playlistRemoveDivInButton"><p class="playlistRemoveTextInButton">Remove</p></div>
+      </ion-option-button>
+      
+      <!-- <ion-delete-button class="ion-minus-circled" ng-click="s.splice(, 1)">
+      </ion-delete-button> -->
+      <!-- <ion-reorder-button class="ion-navicon" on-reorder="s.splice(, 1);s.splice(, 0, );">
+      </ion-reorder-button> -->
+    </ion-item>
+  </ion-list>
+</ion-content>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <ion-footer-bar align-title="left" class="bar-assertive profileFooter">
+  <div class="buttons">
+    <button class="button" ng-click="vm.profileEdit()">Edit</button>
+  </div>
+  <h1 class="title">Profile</h1>
+</ion-footer-bar> -->
+</ion-view>
