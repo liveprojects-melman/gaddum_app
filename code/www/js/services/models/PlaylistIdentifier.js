@@ -14,10 +14,19 @@
   ) {
     function PlaylistIdentifier(id,name,isGift, isMoodEnabled) {
       // Public properties, assigned to the instance ('this')
+
+      if(isGift == null){
+        isGift = false; // by default, we are not a gift
+      }
+
+      if(isMoodEnabled == null){  // by default, we contribute to mood
+        isMoodEnabled = true;
+      }
+
       this.id = id;
       this.name = name;
-      this.isGift = isGift;
-      this.isMoodEnabled;
+      this.isGift = isGift ;
+      this.isMoodEnabled = isMoodEnabled;
     
 
     this.getName = function(){
@@ -63,9 +72,6 @@
       var result = new PlaylistIdentifier();
 
       result = angular.merge(result, incoming);
-
-
-
 
       return result;
 

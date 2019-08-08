@@ -7,25 +7,18 @@
 
     dataApiService.$inject = [
         '$q',
-        'moment',
         'mappingService',
-        'dbService',
         'utilitiesService',
-        'MoodIdentifier',
-        'ErrorIdentifier'
-
-
+        'PlaylistIdentifier',
+        'GenericTrack'
     ];
 
     function dataApiService(
         $q,
-        moment,
         mappingService,
-        dbService,
         utilitiesService,
-        MoodIdentifier,
-        ErrorIdentifier
-
+        PlaylistIdentifier,
+        GenericTrack
     ) {
 
         function createError(code, message) {
@@ -63,19 +56,10 @@
 
             mappingService.query("get_supported_mood_ids", {},
                 function (response) {
-                    var result = [];
+
                     var rows = mappingService.getResponses(response.rows);
                     if (rows.length > 0) {
-
-                        try {
-                            rows.forEach(
-                                function (candidate) {
-                                    result.push(MoodIdentifier.buildFromObject(candidate));
-                                });
-                        } catch (e) {
-                            fnFail(e);
-                        }
-                        fnSuccess(result);
+                        fnSuccess(rows);
                     } else {
                         fnFail("no supported moods!");
                     }
@@ -88,6 +72,36 @@
         function asyncGetSupportedMoodIds() {
             var d = $q.defer();
             getSupportedMoodIds(
+                function (res) {
+                    d.resolve(res);
+                },
+                function (err) {
+                    d.reject(err);
+                });
+            return d.promise;
+        }
+
+
+        function getSupportedTimeSlots(fnSuccess, fnFail) {
+
+            mappingService.query("get_supported_time_slots", {},
+                function (response) {
+                    var result = [];
+                    var rows = mappingService.getResponses(response.rows);
+                    if (rows.length > 0) {
+                        fnSuccess(rows);
+                    } else {
+                        fnFail("no supported time slots!");
+                    }
+                }
+                , fnFail);
+        }
+
+
+
+        function asyncGetSupportedTimeSlots() {
+            var d = $q.defer();
+            getSupportedTimeSlots(
                 function (res) {
                     d.resolve(res);
                 },
@@ -259,7 +273,7 @@
 
             mappingService.query("clear_setting", { id: id, value_type: type },
                 function (result) {
-                    fnSuccess(value);
+                    fnSuccess(result);
                 }
                 , fnFail);
         }
@@ -324,8 +338,302 @@
 
 
 
-        var service = {
+        function asyncSeekTracks(name, album, artist, id) {
+            var deferred = $q.defer();
 
+            mappingService.query(
+                "seek_track",
+                {
+                    name: name,
+                    album: album,
+                    artist: artist,
+                    id: id
+                },
+                function (items) {
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
+        function asyncGetTracks(name, album, artist, id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_track",
+                {
+                    name: name,
+                    album: album,
+                    artist: artist,
+                    id: id
+                },
+                function (items) {
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
+        function asyncSeekPlaylists(name, id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "seek_playlist",
+                {
+                    name: name,
+                    id: id
+                },
+                function (items) {
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(PlaylistIdentifier.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
+        function asyncGetPlaylists(name, id) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_playlist",
+                {
+                    name: name,
+                    id: id
+                },
+                function onSuccess(items) {
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(PlaylistIdentifier.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+        // update / create a playlist
+        function asyncDoSetPlaylist(name,id) {
+            var deferred = $q.defer();
+            
+            mappingService.query("create_playlist", {
+                name: name,
+                id: id
+            },
+                function () {
+                    // cannot return the result of an insert, like Postgres, so have to search for the id of the object we created.
+                    mappingService.query(
+                        "set_playlist", 
+                        {
+                            name: name,
+                            id: id
+                        },
+                        function (response) {
+
+                            if (response && (response.length > 0)) {
+                                // we rely on the default build to set flags like isGift and moodEnabled appropriately
+                                var result = PlaylistIdentifier.buildFromObject(response[0]);
+                                deferred.resolve(result);
+                            } else {
+                                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "failed to create playlist object"));
+                            }
+                        },
+                        deferred.reject
+                    );
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+        }
+
+        
+        function asyncCreatePlaylist(name) {
+            return asyncDoSetPlaylist(
+                name,
+                utilitiesService.createUuid()
+            );
+        }
+
+        function asyncSetPlaylist(playlistIndentifier){
+            //TODO:  Handle other flags in playlist identifier, which handle gifts and moodenable
+            return asyncDoSetPlaylist(
+                playlistIdentifier.getName(),
+                playlistIdentifier.getId()
+            );   
+        }
+
+        function asyncImportTrackInfo(trackInfo) {
+            //TODO: THIS IS A DUMMY! Track info goes into the DB.
+            // TODO: Use track reference and service provider to ensure that we don't duplicate an entry.
+            var deferred = $q.defer();
+
+            $timeout(
+                function () {
+                    var uuid = utilites.createUuid();
+
+                    trackInfo.id = uuid;
+
+                    result = GenericTrack.buildFromTrackInfo(trackInfo);
+                    deferred.resolve(result);
+                }
+            );
+
+
+            return $q.deferred();
+
+
+        }
+
+
+        // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
+        // "timestamp_s": "1565165883",
+        // "mood_id" : "physical",// MAY BE NULL
+        // "timeslot": 3,
+        // "location_lat" : 53.5041, // MAY BE NULL
+        // "location_lon": -2.1910,// MAY BE NULL
+        // "location_code" : "M1 5GD", // MAY BE NULL
+        // "track_percent" : 68,
+        // "num_repeats" : 4,
+        // "mood_suitable" : true,
+        // "track": "467f79eb-969d-4ab0-8869-b915a9491c0d" // MAY BE NULL
+
+
+        function addObservation(
+            id,
+            timestamp_s,
+            mood_id,
+            timeSlot,
+            location_lat,
+            location_lon,
+            location_code,
+            track_percent,
+            num_repeats,
+            mood_suitable,
+            track,
+            fnSuccess,
+            fnFail
+        ) {
+            mappingService.query("add_observation", {
+                id,
+                timestamp_s,
+                mood_id,
+                timeSlot,
+                location_lat,
+                location_lon,
+                location_code,
+                track_percent,
+                num_repeats,
+                mood_suitable,
+                track,
+            },
+                function (result) {
+                    fnSuccess(result);
+                }
+                , fnFail);
+        }
+
+        function asyncAddObservation(observation) {
+            var deferred = $q.defer();
+
+            $timeout(
+                function () {
+                    if (observation) {
+                        var id = observation.getId();
+                        var timestamp_s = observation.getTimeStamp().getJavaEpocS();
+                        var mood = observation.getMood();
+                        var mood_id = mood ? mood.getId() : null;
+                        var timeSlot = observation.getTimeSlot().getId();
+
+                        var location = observation.getLocation();
+                        var location_lat = location ? location.getLat() : null;
+                        var location_lon = location ? location.getLon() : null;
+
+                        var postcode = observation.getPostcode();
+                        var location_code = postcode ? postcode.getPostcode() : null;
+
+                        var track_percent = observation.getTrackPercent();
+                        var num_repeats = observation.getNumRepeats();
+                        var mood_suitable = observation.isMoodSuitable();
+
+                        var genericTrack = observation.getTrack();
+                        var track = genericTrack ? genericTrack.getId() : null;
+
+                        addObservation(
+                            id,
+                            timestamp_s,
+                            mood_id,
+                            timeSlot,
+                            location_lat,
+                            location_lon,
+                            location_code,
+                            track_percent,
+                            num_repeats,
+                            mood_suitable,
+                            track,
+                            function fnOnSuccess() {
+                                deferred.resolve(observation)
+                            },
+                            function fnOnError(error) {
+                                deferred.reject(error)
+                            }
+                        )
+
+
+                    } else {
+                        deferred.resolve(null);
+                    }
+                }
+
+            );
+
+            return deferred.promise;
+        }
+
+
+
+        var service = {
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,
@@ -335,7 +643,16 @@
             asyncSetSetting: asyncSetSetting,
             asyncGetSetting: asyncGetSetting,
             asyncClearSetting: asyncClearSetting,
-            asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings
+            asyncGetNumUnsetUserSettings: asyncGetNumUnsetUserSettings,
+            asyncAddObservation: asyncAddObservation,
+            asyncSeekTracks: asyncSeekTracks,
+            asyncSeekPlaylists: asyncSeekPlaylists,
+            asyncGetTracks: asyncGetTracks,
+            asyncGetPlaylists: asyncGetPlaylists,
+            asyncCreatePlaylist: asyncCreatePlaylist,
+            asyncSetPlaylist: asyncSetPlaylist,
+            asyncImportTrackInfo: asyncImportTrackInfo
+
         };
 
 

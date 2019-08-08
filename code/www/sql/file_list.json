@@ -76,6 +76,90 @@
         "path": "www/sql/get_num_unset_user_settings.sql",
         "default_parameters": {
         }
+    },
+    {
+        "name": "get_supported_timeslots()",
+        "function": "get_supported_timeslots",
+        "path": "www/sql/get_supported_timeslots.sql",
+        "default_parameters": {
+        }
+    },
+    {
+        "name": "seek_tracs(name, album, artist, id)",
+        "function": "seek_tracks",
+        "path": "www/sql/seek_tracks.sql",
+        "default_parameters": {
+            "name" : "Killer Queen",
+            "artist" : "Queen",
+            "album": "Sheer Heart Attack",
+            "id":""
+        }
+    },
+    {
+        "name": "get_tracks(name, album, artist, id)",
+        "function": "get_tracks",
+        "path": "www/sql/get_tracks.sql",
+        "default_parameters": {
+            "name" : "Killer Queen",
+            "artist" : "Queen",
+            "album": "Sheer Heart Attack",
+            "id": ""
+        }
+    },    
+    {
+        "name": "seek_playlists(name, id)",
+        "function": "seek_playlists",
+        "path": "www/sql/seek_playlists.sql",
+        "default_parameters": {
+            "name" : "Queen",
+            "id" : ""
+        }
+    },    
+    {
+        "name": "get_playlists(name, id)",
+        "function": "get_playlists",
+        "path": "www/sql/get_playlists.sql",
+        "default_parameters": {
+            "name" : "Queen",
+            "id": ""
+        }
+    },
+    {
+        "name": "create_playlist(id, name)",
+        "function": "create_playlist",
+        "path": "www/sql/create_playlist.sql",
+        "default_parameters": {
+            "name" : "Queen",
+            "id": ""
+        }
+    },
+    {
+        "name": "set_playlist(id, name)",
+        "function": "set_playlist",
+        "path": "www/sql/set_playlist.sql",
+        "default_parameters": {
+            "name" : "Queen",
+            "id": ""
+        }
+    },
+    {
+        "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
+        "function": "add_observation",
+        "path": "www/sql/add_observation.sql",
+        "default_parameters": {
+            "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
+            "timestamp_s": "1565165883",
+            "mood_id" : "08b2c793-a801-4bce-aaae-2442c86e6d10",
+            "timeslot": 3,
+            "location_lat" : 53.5041, 
+            "location_lon": -2.1910,
+            "location_code" : "M1 5GD",
+            "track_percent" : 68,
+            "num_repeats" : 4,
+            "mood_suitable" : true,
+            "track": "467f79eb-969d-4ab0-8869-b915a9491c0d"
+        }
     }
 
+ 
 ]

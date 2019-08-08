@@ -287,10 +287,15 @@
             var result = sql;
 
             try {
-
-                var replaceWith = object.toString();
+                var replaceWith = null;
+                if(object){
+                    replaceWith = object.toString();
+                }else{
+                    replaceWith = 'null';
+                }
                 var _searchFor = service.private.applyPrefix(service.private.PARAMETER_PREFIX, searchFor);
                 var expression = "\\b(" + _searchFor + ")\\b";
+
                 result = sql.replace(new RegExp(expression, 'g'), replaceWith);
 
             } catch (e) {

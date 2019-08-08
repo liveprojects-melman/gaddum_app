@@ -8,11 +8,14 @@
 
   moodService.$inject = [
     'dataApiService',
-    '$q'
+    '$q',
+    'Moodidentifier'
+
   ];
   function moodService(
     dataApiService,
-    $q
+    $q,
+    MoodIdentifier
   ) {
 
     var g_dictMoodExpressionDetectionCriteria = {};
@@ -26,10 +29,10 @@
 
 
       dataApiService.asyncGetSupportedMoodIds().then(
-        function (arrayIds) {
-          g_arraySupportedMoodIds = arrayIds;
-
-          arrayIds.forEach(function (moodId) {
+        function (arryItems) {
+          g_arraySupportedMoodIds = arrayItems;
+          arrayIds.forEach(function (item) {
+            var moodId = MoodIdentifier.buildFromObject(item);
             g_dictSupportedMoodIds[moodId.id] = moodId;
           });
 

@@ -1,10 +1,342 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Fri Aug 2 15:11:41 2019
+-- File generated with SQLiteStudio v3.0.7 on Wed Aug 7 08:27:55 2019
 --
 -- Text encoding used: UTF-8
 --
 -- PRAGMA foreign_keys = off;
 -- BEGIN TRANSACTION;
+
+-- Table: playlists
+DROP TABLE IF EXISTS playlists;
+
+CREATE TABLE playlists (
+    id   TEXT PRIMARY KEY
+              UNIQUE
+              NOT NULL,
+    name TEXT
+);
+
+
+-- Table: supported_timeslots
+DROP TABLE IF EXISTS supported_timeslots;
+
+CREATE TABLE supported_timeslots (
+    start_time TIME    UNIQUE
+                       NOT NULL,
+    end_time   TIME    UNIQUE
+                       NOT NULL,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT
+                       UNIQUE
+);
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '00:00:00',
+                                    '00:59:59',
+                                    1
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '01:00:00',
+                                    '01:59:59',
+                                    2
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '02:00:00',
+                                    '02:59:59',
+                                    3
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '03:00:00',
+                                    '03:59:59',
+                                    4
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '04:00:00',
+                                    '04:59:59',
+                                    5
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '05:00:00',
+                                    '05:59:59',
+                                    6
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '06:00:00',
+                                    '06:59:59',
+                                    7
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '07:00:00',
+                                    '07:59:59',
+                                    8
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '08:00:00',
+                                    '08:59:59',
+                                    9
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '09:00:00',
+                                    '09:59:59',
+                                    10
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '10:00:00',
+                                    '10:59:59',
+                                    11
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '11:00:00',
+                                    '11:59:59',
+                                    12
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '12:00:00',
+                                    '12:59:59',
+                                    13
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '13:00:00',
+                                    '13:59:59',
+                                    14
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '14:00:00',
+                                    '14:59:59',
+                                    15
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '15:00:00',
+                                    '15:59:59',
+                                    16
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '16:00:00',
+                                    '16:59:59',
+                                    17
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '17:00:00',
+                                    '17:59:59',
+                                    18
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '18:00:00',
+                                    '18:59:59',
+                                    19
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '19:00:00',
+                                    '19:59:59',
+                                    20
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '20:00:00',
+                                    '20:59:59',
+                                    21
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '21:00:00',
+                                    '21:59:59',
+                                    22
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '22:00:00',
+                                    '22:59:59',
+                                    23
+                                );
+
+INSERT INTO supported_timeslots (
+                                    start_time,
+                                    end_time,
+                                    id
+                                )
+                                VALUES (
+                                    '23:00:00',
+                                    '23:59:59',
+                                    24
+                                );
+
+
+-- Table: queue
+DROP TABLE IF EXISTS queue;
+
+CREATE TABLE queue (
+    id        TEXT    PRIMARY KEY
+                      NOT NULL
+                      UNIQUE,
+    timestamp INTEGER NOT NULL,
+    item      STRING  NOT NULL,
+    type      STRING  NOT NULL
+);
+
+
+-- Table: tracks_to_references
+DROP TABLE IF EXISTS tracks_to_references;
+
+CREATE TABLE tracks_to_references (
+    id           TEXT PRIMARY KEY
+                      UNIQUE
+                      NOT NULL,
+    track_id     TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                             ON UPDATE CASCADE
+                                             MATCH SIMPLE
+                      NOT NULL,
+    reference_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                      ON UPDATE CASCADE
+                                                      MATCH SIMPLE
+                      NOT NULL
+);
+
+
+-- Table: profiles
+DROP TABLE IF EXISTS profiles;
+
+CREATE TABLE profiles (
+    id                TEXT PRIMARY KEY
+                           UNIQUE
+                           NOT NULL,
+    name              TEXT,
+    avatar_graphic_id TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
+                                                            ON UPDATE CASCADE
+);
+
 
 -- Table: supported_face_criteria
 DROP TABLE IF EXISTS supported_face_criteria;
@@ -344,48 +676,6 @@ INSERT INTO supported_face_criteria (
                                     );
 
 
--- Table: tracks
-DROP TABLE IF EXISTS tracks;
-
-CREATE TABLE tracks (
-    id         TEXT    PRIMARY KEY
-                       NOT NULL
-                       UNIQUE,
-    name       TEXT,
-    album      TEXT,
-    artist     TIME,
-    duration_s INTEGER NOT NULL
-);
-
-
--- Table: observations
-DROP TABLE IF EXISTS observations;
-
-CREATE TABLE observations (
-    id            TEXT    PRIMARY KEY
-                          UNIQUE
-                          NOT NULL,
-    timestamp_s   INTEGER NOT NULL,
-    mood_id       INTEGER REFERENCES supported_moods (id) ON DELETE NO ACTION
-                                                          ON UPDATE CASCADE
-                                                          MATCH SIMPLE
-                          NOT NULL,
-    timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
-                                                              ON UPDATE CASCADE
-                                                              MATCH SIMPLE
-                          NOT NULL,
-    location_lat  DOUBLE,
-    location_lon  DOUBLE,
-    location_code TIME,
-    track_percent INTEGER NOT NULL,
-    num_repeats   INTEGER NOT NULL,
-    mood_suitable BOOLEAN NOT NULL,
-    track         TEXT    REFERENCES tracks (id) ON DELETE CASCADE
-                                                 ON UPDATE CASCADE
-                                                 MATCH SIMPLE
-);
-
-
 -- Table: supported_input_types
 DROP TABLE IF EXISTS supported_input_types;
 
@@ -417,198 +707,6 @@ INSERT INTO supported_input_types (
                                   );
 
 
--- Table: playlists_to_tracks
-DROP TABLE IF EXISTS playlists_to_tracks;
-
-CREATE TABLE playlists_to_tracks (
-    id          TEXT PRIMARY KEY
-                     UNIQUE
-                     NOT NULL,
-    playlist_id TEXT REFERENCES playlists (id) ON DELETE CASCADE
-                                               ON UPDATE CASCADE
-                                               MATCH SIMPLE
-                     NOT NULL,
-    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                     NOT NULL
-);
-
-
--- Table: user_settings
-DROP TABLE IF EXISTS user_settings;
-
-CREATE TABLE user_settings (
-    id                   TEXT NOT NULL
-                              PRIMARY KEY
-                              REFERENCES settings (id) ON DELETE CASCADE
-                                                       ON UPDATE CASCADE
-                                                       MATCH SIMPLE,
-    friendly_name        TEXT,
-    friendly_description TEXT,
-    default_value        TEXT
-);
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'collection_play_history',
-                              'Collect play history',
-                              'Collect and store the tracks you play, and when you play them. On the device only.',
-                              'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'collection_location_history',
-                              'Collect location history',
-                              'When collecting and storing the tracks you play, add where you played them. Stored on device only.',
-                              'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'collection_mood_history',
-                              'Collect mood history',
-                              'When collecting and storing the tracks you play, add the mood you were in when you played them. Stored on device only.',
-                              'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'sharing_play_history',
-                              'Share play history',
-                              'When sharing a track, also share when you have played it.',
-                              'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'sharing_location_history',
-                              'Share location history',
-                              'When sharing a track, also share where you have played it.',
-                              'false'
-                          );
-
-INSERT INTO user_settings (
-                              id,
-                              friendly_name,
-                              friendly_description,
-                              default_value
-                          )
-                          VALUES (
-                              'sharing_mood_history',
-                              'Share mood history',
-                              'When sharing a track, also share the mood you were in when you played it, and if you played all the track.',
-                              'false'
-                          );
-
-
--- Table: mood_pairings
-DROP TABLE IF EXISTS mood_pairings;
-
-CREATE TABLE mood_pairings (
-    mood_hot  TEXT PRIMARY KEY
-                   REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL,
-    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL
-);
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'focussed',
-                              'bored'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'physical',
-                              'tired'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'happy',
-                              'sad'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'crazy',
-                              'restful'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'angry',
-                              'peaceful'
-                          );
-
-
--- Table: tracks_to_references
-DROP TABLE IF EXISTS tracks_to_references;
-
-CREATE TABLE tracks_to_references (
-    id           TEXT PRIMARY KEY
-                      UNIQUE
-                      NOT NULL,
-    track_id     TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                             ON UPDATE CASCADE
-                                             MATCH SIMPLE
-                      NOT NULL,
-    reference_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                      ON UPDATE CASCADE
-                                                      MATCH SIMPLE
-                      NOT NULL
-);
-
-
 -- Table: connections
 DROP TABLE IF EXISTS connections;
 
@@ -628,33 +726,69 @@ CREATE TABLE connections (
 );
 
 
--- Table: music_providers
-DROP TABLE IF EXISTS music_providers;
+-- Table: tracks_to_music_providers
+DROP TABLE IF EXISTS tracks_to_music_providers;
 
-CREATE TABLE music_providers (
+CREATE TABLE tracks_to_music_providers (
+    id                TEXT PRIMARY KEY
+                           UNIQUE
+                           NOT NULL,
+    track_id          TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                                  ON UPDATE CASCADE
+                                                  MATCH SIMPLE
+                           NOT NULL,
+    music_provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                           ON UPDATE CASCADE
+                                                           MATCH SIMPLE
+                           NOT NULL
+);
+
+
+-- Table: tracks
+DROP TABLE IF EXISTS tracks;
+
+CREATE TABLE tracks (
+    id         TEXT    PRIMARY KEY
+                       NOT NULL
+                       UNIQUE,
+    name       TEXT,
+    album      TEXT,
+    artist     TIME,
+    duration_s INTEGER NOT NULL
+);
+
+
+-- Table: track_references
+DROP TABLE IF EXISTS track_references;
+
+CREATE TABLE track_references (
+    id          TEXT PRIMARY KEY
+                     NOT NULL
+                     UNIQUE,
+    web_uri     TEXT,
+    player_uri  TEXT,
+    provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                     ON UPDATE CASCADE
+                                                     MATCH SIMPLE
+);
+
+
+-- Table: profiles_to_encryption_keys
+DROP TABLE IF EXISTS profiles_to_encryption_keys;
+
+CREATE TABLE profiles_to_encryption_keys (
     id             TEXT PRIMARY KEY
                         UNIQUE
                         NOT NULL,
-    friendly_name  TEXT NOT NULL,
-    homepage_url   TEXT NOT NULL,
-    token          TEXT,
-    csv_genre_tags TEXT
+    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
+                                                 ON UPDATE CASCADE
+                                                 MATCH SIMPLE
+                        NOT NULL,
+    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
+                                                        ON UPDATE CASCADE
+                                                        MATCH SIMPLE
+                        NOT NULL
 );
-
-INSERT INTO music_providers (
-                                id,
-                                friendly_name,
-                                homepage_url,
-                                token,
-                                csv_genre_tags
-                            )
-                            VALUES (
-                                '89a2b713-0265-42f7-9aac-01739e530bdc',
-                                'Spotify',
-                                'https://www.spotify.com/uk/',
-                                NULL,
-                                NULL
-                            );
 
 
 -- Table: settings
@@ -899,6 +1033,17 @@ INSERT INTO settings (
                          'string'
                      );
 
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'trackselector_max_skips',
+                         '5',
+                         'integer'
+                     );
+
 
 -- Table: tracks_to_artwork
 DROP TABLE IF EXISTS tracks_to_artwork;
@@ -918,6 +1063,48 @@ CREATE TABLE tracks_to_artwork (
 );
 
 
+-- Table: base64_resources
+DROP TABLE IF EXISTS base64_resources;
+
+CREATE TABLE base64_resources (
+    id        TEXT    PRIMARY KEY
+                      NOT NULL
+                      UNIQUE,
+    content   TEXT,
+    is_url    BOOLEAN,
+    mime_type TEXT    NOT NULL
+);
+
+
+-- Table: music_providers
+DROP TABLE IF EXISTS music_providers;
+
+CREATE TABLE music_providers (
+    id             TEXT PRIMARY KEY
+                        UNIQUE
+                        NOT NULL,
+    friendly_name  TEXT NOT NULL,
+    homepage_url   TEXT NOT NULL,
+    token          TEXT,
+    csv_genre_tags TEXT
+);
+
+INSERT INTO music_providers (
+                                id,
+                                friendly_name,
+                                homepage_url,
+                                token,
+                                csv_genre_tags
+                            )
+                            VALUES (
+                                '89a2b713-0265-42f7-9aac-01739e530bdc',
+                                'Spotify',
+                                'https://www.spotify.com/uk/',
+                                NULL,
+                                NULL
+                            );
+
+
 -- Table: gifted_playlists
 DROP TABLE IF EXISTS gifted_playlists;
 
@@ -931,66 +1118,123 @@ CREATE TABLE gifted_playlists (
 );
 
 
--- Table: track_references
-DROP TABLE IF EXISTS track_references;
+-- Table: user_settings
+DROP TABLE IF EXISTS user_settings;
 
-CREATE TABLE track_references (
-    id          TEXT PRIMARY KEY
-                     NOT NULL
-                     UNIQUE,
-    web_uri     TEXT,
-    player_uri  TEXT,
-    provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                     ON UPDATE CASCADE
-                                                     MATCH SIMPLE
+CREATE TABLE user_settings (
+    id                   TEXT NOT NULL
+                              PRIMARY KEY
+                              REFERENCES settings (id) ON DELETE CASCADE
+                                                       ON UPDATE CASCADE
+                                                       MATCH SIMPLE,
+    friendly_name        TEXT,
+    friendly_description TEXT,
+    default_value        TEXT
 );
 
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'collection_play_history',
+                              'Collect play history',
+                              'Collect and store the tracks you play, and when you play them. On the device only.',
+                              'false'
+                          );
 
--- Table: tracks_to_music_providers
-DROP TABLE IF EXISTS tracks_to_music_providers;
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'collection_location_history',
+                              'Collect location history',
+                              'When collecting and storing the tracks you play, add where you played them. Stored on device only.',
+                              'false'
+                          );
 
-CREATE TABLE tracks_to_music_providers (
-    id                TEXT PRIMARY KEY
-                           UNIQUE
-                           NOT NULL,
-    track_id          TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                                  ON UPDATE CASCADE
-                                                  MATCH SIMPLE
-                           NOT NULL,
-    music_provider_id TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                           ON UPDATE CASCADE
-                                                           MATCH SIMPLE
-                           NOT NULL
-);
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'collection_mood_history',
+                              'Collect mood history',
+                              'When collecting and storing the tracks you play, add the mood you were in when you played them. Stored on device only.',
+                              'false'
+                          );
+
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'sharing_play_history',
+                              'Share play history',
+                              'When sharing a track, also share when you have played it.',
+                              'false'
+                          );
+
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'sharing_location_history',
+                              'Share location history',
+                              'When sharing a track, also share where you have played it.',
+                              'false'
+                          );
+
+INSERT INTO user_settings (
+                              id,
+                              friendly_name,
+                              friendly_description,
+                              default_value
+                          )
+                          VALUES (
+                              'sharing_mood_history',
+                              'Share mood history',
+                              'When sharing a track, also share the mood you were in when you played it, and if you played all the track.',
+                              'false'
+                          );
 
 
--- Table: supported_connection_states
-DROP TABLE IF EXISTS supported_connection_states;
+-- Table: observations
+DROP TABLE IF EXISTS observations;
 
-CREATE TABLE supported_connection_states (
-    id   INTEGER PRIMARY KEY
-                 UNIQUE
-                 NOT NULL,
-    name TEXT    UNIQUE
-                 NOT NULL
-);
-
-
--- Table: profiles_to_encryption_keys
-DROP TABLE IF EXISTS profiles_to_encryption_keys;
-
-CREATE TABLE profiles_to_encryption_keys (
-    id             TEXT PRIMARY KEY
-                        UNIQUE
-                        NOT NULL,
-    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
+CREATE TABLE observations (
+    id            TEXT    PRIMARY KEY
+                          UNIQUE
+                          NOT NULL,
+    timestamp_s   INTEGER NOT NULL,
+    mood_id       INTEGER REFERENCES supported_moods (id) ON DELETE NO ACTION
+                                                          ON UPDATE CASCADE
+                                                          MATCH SIMPLE,
+    timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
+                                                              ON UPDATE CASCADE
+                                                              MATCH SIMPLE
+                          NOT NULL,
+    location_lat  DOUBLE,
+    location_lon  DOUBLE,
+    location_code TIME,
+    track_percent INTEGER NOT NULL,
+    num_repeats   INTEGER NOT NULL,
+    mood_suitable BOOLEAN NOT NULL,
+    track         TEXT    REFERENCES tracks (id) ON DELETE CASCADE
                                                  ON UPDATE CASCADE
                                                  MATCH SIMPLE
-                        NOT NULL,
-    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
-                                                        ON UPDATE CASCADE
-                                                        MATCH SIMPLE
-                        NOT NULL
 );
 
 
@@ -1009,40 +1253,21 @@ CREATE TABLE playlists_to_profiles (
 );
 
 
--- Table: base64_resources
-DROP TABLE IF EXISTS base64_resources;
+-- Table: playlists_to_tracks
+DROP TABLE IF EXISTS playlists_to_tracks;
 
-CREATE TABLE base64_resources (
-    id        TEXT    PRIMARY KEY
-                      NOT NULL
-                      UNIQUE,
-    content   TEXT,
-    is_url    BOOLEAN,
-    mime_type TEXT    NOT NULL
-);
-
-
--- Table: profiles
-DROP TABLE IF EXISTS profiles;
-
-CREATE TABLE profiles (
-    id                TEXT PRIMARY KEY
-                           UNIQUE
-                           NOT NULL,
-    name              TEXT,
-    avatar_graphic_id TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
-                                                            ON UPDATE CASCADE
-);
-
-
--- Table: playlists
-DROP TABLE IF EXISTS playlists;
-
-CREATE TABLE playlists (
-    id   TEXT PRIMARY KEY
-              UNIQUE
-              NOT NULL,
-    name TEXT
+CREATE TABLE playlists_to_tracks (
+    id          TEXT PRIMARY KEY
+                     UNIQUE
+                     NOT NULL,
+    playlist_id TEXT REFERENCES playlists (id) ON DELETE CASCADE
+                                               ON UPDATE CASCADE
+                                               MATCH SIMPLE
+                     NOT NULL,
+    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                            ON UPDATE CASCADE
+                                            MATCH SIMPLE
+                     NOT NULL
 );
 
 
@@ -1426,16 +1651,15 @@ INSERT INTO criteria_to_moods (
                               );
 
 
--- Table: queue
-DROP TABLE IF EXISTS queue;
+-- Table: supported_connection_states
+DROP TABLE IF EXISTS supported_connection_states;
 
-CREATE TABLE queue (
-    id        TEXT    PRIMARY KEY
-                      NOT NULL
-                      UNIQUE,
-    timestamp INTEGER NOT NULL,
-    item      STRING  NOT NULL,
-    type      STRING  NOT NULL
+CREATE TABLE supported_connection_states (
+    id   INTEGER PRIMARY KEY
+                 UNIQUE
+                 NOT NULL,
+    name TEXT    UNIQUE
+                 NOT NULL
 );
 
 
@@ -1607,16 +1831,67 @@ INSERT INTO supported_moods (
                             );
 
 
--- Table: supported_timeslots
-DROP TABLE IF EXISTS supported_timeslots;
+-- Table: mood_pairings
+DROP TABLE IF EXISTS mood_pairings;
 
-CREATE TABLE supported_timeslots (
-    id   INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT
-                 UNIQUE
-                 NOT NULL,
-    name TEXT    NOT NULL
-                 UNIQUE
+CREATE TABLE mood_pairings (
+    mood_hot  TEXT PRIMARY KEY
+                   REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL,
+    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL
 );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'focussed',
+                              'bored'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'physical',
+                              'tired'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'happy',
+                              'sad'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'crazy',
+                              'restful'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'angry',
+                              'peaceful'
+                          );
 
 
 -- Table: encryption_keys

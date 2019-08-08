@@ -18,15 +18,19 @@
     }
 
 
-    function getJavaEpocMs(){
-      return javaepoch_ms;
+    this.getJavaEpocMs = function(){
+      return this.javaepoch_ms;
+    }
+
+    this.getJavaEpocS = function(){
+      return this.javaepoch_ms / 1000;
     }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TimeStamp.buildFromDate = function (date) {
+    TimeStamp.build = function (date) {
 
       var ms = 0;
 

@@ -12,7 +12,7 @@
   function TrackInfo(
 
   ) {
-    function TrackInfo(name, album, artist, duration_s, artwork_url, track_reference) {
+    function TrackInfo(name, album, artist, duration_s, artwork_url, track_reference, service_provider) {
       // Public properties, assigned to the instance ('this')
       this.name = name;
       this.album = album;
@@ -20,6 +20,7 @@
       this.duration_s = duration_s;
       this.artwork_url = artwork_url;
       this.track_reference = track_reference;
+      this.service_provider = service_provider;
 
     this. getName = function(){
       return this.name;
@@ -45,13 +46,17 @@
       return this.track_reference;
     }
 
+    this.getServiceProvider = function(){
+      return this.service_provider;
+    }
+
   }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TrackInfo.build = function (name, album, artist, duration_s, artwork_url, track_reference) {
+    TrackInfo.build = function (name, album, artist, duration_s, artwork_url, track_reference, service_provider) {
 
       
       if(!name) name = "";
@@ -59,10 +64,11 @@
       if(!artist) artist = "";
       if(!duration_s) duration_s =0;
       if(!artwork_url) artwork_url = "";
-      if(track_reference) track_reference = "";
+      if(!track_reference) track_reference = "";
+      if(!service_provider) service_provider = "";
 
         return new TrackInfo(
-          name, album, artist, duration_s, artwork_url, track_reference
+          name, album, artist, duration_s, artwork_url, track_reference, service_provider
         );
  
 

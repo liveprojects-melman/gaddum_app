@@ -9,17 +9,22 @@
   playlistService.$inject = [
     'dataApiService',
     'PlaylistIdentifier',
-    'GenericTrack'
+    'GenericTrack',
+    '$q'
   ];
   function playlistService(
     dataApiService,
     PlaylistIdentifier,
-    GenericTrack
-
+    GenericTrack,
+    $q
   ) {
 
 
-    function asyncSeekPlaylists(searchName){
+    function asyncCreatePlaylist(name){
+      return dataApiService.asyncCreatePlaylist(name);
+    }
+
+    function asyncSeekPlaylists(searchName){      
       return dataApiService.asyncSeekPlaylists(searchName);
     }
 
@@ -27,13 +32,12 @@
       return dataApiService.asyncSetPlayList(playlistIdentifier);
     }
     
-
     function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
       return dataApiService.asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks);
     }
 
-    function asyncGetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
-      return dataApiService.asyncGetPlaylistTracks(playlistIdentifier, arrayGenericTracks);
+    function asyncGetPlaylistTracks(playlistIdentifier){
+      return dataApiService.asyncGetPlaylistTracks(playlistIdentifier);
     }
 
     function asyncRemovePlaylist(playlistIdentifier){
@@ -43,6 +47,7 @@
 
 
     var service = {
+      asyncCreatePlaylist:asyncCreatePlaylist,
       asyncSeekPlaylists:asyncSeekPlaylists,
       asyncSetPlayList: asyncSetPlayList,
       asyncSetPlaylistTracks:asyncSetPlaylistTracks,

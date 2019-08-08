@@ -7,32 +7,71 @@
     ;
 
   Observation.$inject = [
-
+    'TimeStamp',
+    'MoodIdentifer',
+    'Location',
+    'Postcode',
+    'GenericTrack'
   ];
   function Observation(
-
+    TimeStamp,
+    MoodIdentifer,
+    Location,
+    Postcode,
+    GenericTrack
   ) {
 
-    function Observation() {
+    function Observation(id,timeStamp,mood, timeSlot, location, postcode, trackPercent, numRepeats, moodSuitable, genericTrack) {
       // Public properties, assigned to the instance ('this')
       this.id = id;
-      this.timestamp_s = timestamp_s;
-      this.mood_id = mood_id;
-      this.timeslot = timeslot;
-      this.lat = lat;
-      this.lon = lon;
+      this.timeStamp = timeStamp;
+      this.mood = mood;
+      this.timeSlot = timeSlot;
+      this.location = location;
       this.postcode = postcode;
-      this.num_repeats = num_repeats;
-      this.mood_suitable = mood_suitable;
-      this.track = track;
+      this.trackPercent = trackPercent;
+      this.numRepeats = numRepeats;
+      this.moodSuitable = moodSuitable;
+      this.genericTrack = genericTrack;
     }
 
-    function getId() {
+    this.getId = function() {
       return this.id;
     }
-    function getTimestamp_s() {
-      return this.message;
+    this.getTimeStamp = function(){
+      return this.timeStamp;
     }
+    this.getMood = function(){
+      return this.mood;
+    }
+    this.getTimeSlot = function(){
+      return this.timeSlot;
+    }
+    this.getLocation = function(){
+      return this.location;
+    }
+    this.getPostcode = function(){
+      return this.postcode;
+    }
+    this.getTrackPercent = function(){
+      return this.trackPercent;
+    }
+    this.getNumRepeats = function(){
+      return this.numRepeats;
+    }
+    this.isMoodSuitable = function(){
+      return this.moodSuitable;
+    }
+    this.getTrack = function(){
+      return this.genericTrack;
+    }
+
+
+    Observation.build = function (id,timeStamp,mood, timeSlot, location, postcode, trackPercent,numRepeats, moodSuitable, genericTrack){
+      return new Observation(id,timeStamp,mood, timeSlot, location, postcode, trackPercent, numRepeats, moodSuitable, genericTrack);
+
+    }    
+
 
     /** 
      * Static method, assigned to class
@@ -42,9 +81,6 @@
       var result = new Observation();
 
       result = angular.merge(result, incoming);
-
-
-
 
       return result;
 

@@ -3,8 +3,7 @@
 
   angular
     .module('gaddum.models')
-    .factory('Location', Location)
-    ;
+    .factory('Location', Location);
 
   Location.$inject = [
   ];
@@ -13,7 +12,8 @@
     function Location(lat, lon) {
       // Public properties, assigned to the instance ('this')
       this.lat = lat;
-      this.lon = lon;  
+      this.lon = lon;
+
     
 
     this.getLat = function(){
@@ -23,6 +23,7 @@
     this.getLon =function(){
       return this.lon;
     }
+
 
   }
 
@@ -34,16 +35,9 @@
       return new Location(lat, lon);
     };
 
-    Location.buildFromObject = function (incoming) {
-      var result = new Location();
-
-      result = angular.merge(result, incoming);
-
-      return result;
-
-    };
-
-
+    Location.buildEmpty = function(){
+      return new Location(null, null, null);
+    }
   };
 
 
