@@ -102,14 +102,24 @@
       vm.params = profileEditModal.getParams();
       console.log("params!",vm.params);
       initialiseGenres();
-      vm.fullName = vm.params[2].userProfile.profile.avatar_name;
+      vm.fullName = vm.params[2].userProfile.avatar_name;
       newGenres = vm.params[1].userGenres;
-      profile = vm.params[2].userProfile.profile;
-      vm.displayImage=profile.avatar_graphic;
+      profile = vm.params[2].userProfile;
+      vm.displayImage=profile.avatar_graphic.values;
+      console.log("disp img",vm.displayImage);
+      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage==null) {
+        vm.displayImage=[128,128,128,128,128,128,128,128];
+      };
+      if (vm.fullName==null||vm.fullName=="") {
+        vm.fullName="Defaulthony Nameson";
+      };
       vm.genresAsString=vm.params[1].userGenres.join(", ");
       console.log(vm.params);
       genresCheck();
     }
+    function emptyArrayCheck(item){
+        return item==0;
+    };
     function initialiseGenres() {
       console.log("init genres", vm.params[0].allGenres);
       vm.params[0].allGenres.forEach(function (element) {
@@ -249,6 +259,7 @@
       var modalParams = [
         {"avatar_image":vm.displayImage}
       ];
+      console.log("displat img",vm.displayImage);
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
       //var,ok,c
       profileEditModal.closeCheckFalse();
@@ -269,6 +280,7 @@
 
     vm.showGenreCheckboxModal = function showGenreCheckboxModal() {
       //var checkboxPosition=document.getElementById('genreToggle').style;
+      console.log("new genres",newGenres);
       var modalParams = [
         {"allGenres":/* vm.params[0]. */vm.allGenres},
         {"userGenres":newGenres}

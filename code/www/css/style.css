@@ -1103,7 +1103,20 @@ margin:10px;
     width: 85%;
     position: absolute;
     left: 7.5%;
+    top: 6%;
+    height: 79%;
 
+}
+#canvas_holder #edit{
+    
+    width: 88%;
+    height: 88%;
+    position: absolute;
+    top: 5%;
+}
+div#controls{
+    position: absolute;
+    bottom: 5%;
 }
 .openSearchModal{
     float: right;
@@ -1435,4 +1448,62 @@ div#scroller.ng-hide {
 }
 .moreButtonImport{
     text-align: center;
+}
+.addToPlaylistWizard{
+    width: 70%;
+    left: 15%;
+    height: 60%;
+    top: 14%;
+    background-image: var(--color-secondaryBackground);
+}
+.addToPlaylistButtonLeft{
+    left: 5px;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonCenter{
+    right: 33%;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonCenterTwo{
+    right: 28%;
+    bottom: 5px;
+    position: absolute;
+}
+.addToPlaylistButtonRight{
+    right: 5px;
+    bottom: 5px;
+    position: absolute;
+}
+.modalTitleAddPlaylist{
+    font-size: 2rem;
+    text-align: center;
+    color: black;
+
+}
+.addToPlaylistText{
+    font-size: 25px;
+    padding-left: 10px;
+    font-weight: 300;
+    line-height: 30px;
+}
+.addToPlaylistTextDiv{
+    padding-top: 25%;
+}
+.addToPlaylistList{
+    height: 5%;
+}
+.addToPlaylistListDiv{
+    top: 12%;
+    position: absolute;
+    width: 100%;
+    height: 72%;
+}
+.addToPlaylistNameText{
+    padding: 10px;
+    font-weight: 700 !important;
+    color: black;
+    display: inline-block;
+    width: 75%;
 }

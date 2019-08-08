@@ -9,7 +9,7 @@
     '$state',
     '$stateParams',
     '$ionicSlideBoxDelegate',
-    'playlistsService',
+    'playlistsServiceSlideBox',
     'gaddumContextMenuItem',
     'importPlaylistWizard',
     'gaddumShortcutBarService'
@@ -19,7 +19,7 @@
     $state,
     $stateParams,
     $ionicSlideBoxDelegate,
-    playlistsService,
+    playlistsServiceSlideBox,
     gaddumContextMenuItem,
     importPlaylistWizard,
     gaddumShortcutBarService
@@ -37,7 +37,7 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
-    vm.groupsList = playlistsService.playlistsList;
+    vm.groupsList = playlistsServiceSlideBox.playlistsList;
 
     function init() {
           createModalList();

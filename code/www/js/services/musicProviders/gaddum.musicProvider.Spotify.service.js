@@ -16,7 +16,9 @@
     'SearchModifier',
     'gaddumMusicProviderService',
     'TrackInfo',
-    'GenericImportTrack'
+    'GenericImportTrack',
+    'dataApiService',
+    'ImportPlaylist'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -30,7 +32,9 @@
     SearchModifier,
     gaddumMusicProviderService,
     TrackInfo,
-    GenericImportTrack
+    GenericImportTrack,
+    dataApiService,
+    ImportPlaylist
 
   ) {
 
@@ -80,6 +84,15 @@
 
 
     var userGenres = [];
+
+      //TODO: this must be set but the parent music provider
+      var musicProviderId = "89a2b713-0265-42f7-9aac-01739e53obdc";
+      function getProviderId(){
+        return musicProviderId;
+      }
+      function setProviderId(uuid){
+        musicProviderId = uuid;
+      }
 
     function createSpotifySearchModifiers() {
 
@@ -138,7 +151,7 @@
           function (result) {
             asyncAuthSuccess(result);
           },
-          function(error){
+          function (error) {
             console.log(error);
           }
         )
@@ -419,38 +432,78 @@
         });
       });
     }
-    function asyncGetProfilePlaylist(offset,limit) {
+    function asyncGetProfilePlaylist(offset, limit) {
       return $q(function (resolve, reject) {
-        
-        var resualtArray = [];
+
+        var resultArray = [];
         asyncGetAccessCredentials().then(function (result) {
           console.log(result);
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
           $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
-            //resualtArray.push(result);
-            return resolve(results);
+            results.data.items.forEach(function(element) {
+              resultArray.push(ImportPlaylist.build(element.name,element.id,element.images[0].url,element.owner.display_name));
+            });
+            return resolve(resultArray);
           });
         });
       });
     }
-    function asyncImportPlaylists(playlists){
-      
-      playlists.forEach(function(element){
-        console.log("playlist",element);
-        asyncGetPlaylistTracks(element.provider_playlist_ref).then(function(result){
-          console.log("tracks",result);
-        });
+    function asyncImportPlaylists(playlists) {
+      return $q(function (resolve, reject) {
+        if (playlists) {
+          var promises = [];
+          playlists.forEach(function (playlist) {
+            promises.push(asyncGetPlaylistTracks(playlist.provider_playlist_ref)
+              .then(
+                function (results) {
+                  console.log("tracks", results);
+                  asyncImportTracks(results).then(resolve,reject);
+                },
+                function(error){
+                  console.log(error);
+                  return reject(error);
+                }));
+            });
+          }
+          $q.all(promises).then(
+            resolve,reject);
+      })
+    }
+    function asyncImportTracks(tracks) {
+      return $q(function(resolve,reject){
+        if (tracks) {
+          var promises = [];
+          tracks.forEach(function (track) {
+            dataApiService.asyncImportTrackInfo(track).
+            then(
+              function(result){
+                promises.push(result);
+            },
+            function(error){
+              return reject(error);
+            }
+            );
+  
+          });
+          return resolve(promises);
+        }
+        else{
+          return reject();
+        }
       });
+
     }
     function asyncGetPlaylistTracks(PID) {
       return $q(function (resolve, reject) {
-        var resualtArray = [];
+        var resultArray = [];
         asyncGetAccessCredentials().then(function (result) {
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
-            //resualtArray.push(result);
-            return resolve(result);
+            result.data.items.forEach(function(element) {
+              resultArray.push(TrackInfo.build(element.track.name,element.track.album.name,element.track.artists[0].name,element.track.duration_ms,element.track.album.images[0].url,element.track.id));
+            });
+            return resolve(resultArray);
           });
         });
       });
@@ -475,49 +528,49 @@
       });
     }
 
-    var seekTrackCache =[];
+    var seekTrackCache = [];
     var offset = 0;
     var searchT = null;
     var trackCrit = null;
-    function asyncSeekTracks(searchTerm, trackSearchCrit,limit,page) {
+    function asyncSeekTracks(searchTerm, trackSearchCrit, limit, page) {
       return $q(function (resolve, reject) {
-        if(searchT != searchTerm){
+        if (searchT != searchTerm) {
           searchT = searchTerm;
-          offset=0;
+          offset = 0;
           seekTrackCache = [];
         }
-        if(trackCrit != trackSearchCrit){
+        if (trackCrit != trackSearchCrit) {
           trackCrit = trackSearchCrit;
-          offset=0;
+          offset = 0;
           seekTrackCache = [];
         }
-        var seekResult=[];
-        if(seekTrackCache.length > (page*limit)){
+        var seekResult = [];
+        if (seekTrackCache.length > (page * limit)) {
           var i;
-          for(i=0;(i<(seekTrackCache.length -(page*limit)))&&(i<10);i++){
-            seekResult.push(seekTrackCache[((page*limit)+i)]);
+          for (i = 0; (i < (seekTrackCache.length - (page * limit))) && (i < 10); i++) {
+            seekResult.push(seekTrackCache[((page * limit) + i)]);
           }
           return resolve(seekResult);
         }
-        else{
-          asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset).then(function(result){
-            result.forEach(function(resultTrack){
+        else {
+          asyncGetSeekTracks(searchTerm, trackSearchCrit, limit, offset).then(function (result) {
+            result.forEach(function (resultTrack) {
               seekTrackCache.push(resultTrack);
-              
+
             });
-            if(result.length == 0){
+            if (result.length == 0) {
               return reject();
             }
-            offset = offset+limit;
-            asyncSeekTracks(searchTerm, trackSearchCrit,limit,page).then(function(promise){
+            offset = offset + limit;
+            asyncSeekTracks(searchTerm, trackSearchCrit, limit, page).then(function (promise) {
               return resolve(promise);
             });
           });
         }
       });
     }
-    
-    function asyncGetSeekTracks(searchTerm, trackSearchCrit,limit,offset) {
+
+    function asyncGetSeekTracks(searchTerm, trackSearchCrit, limit, offset) {
       return $q(function (resolve, reject) {
         asyncGetAccessCredentials().then(function (resultToken) {
           gaddumMusicProviderService.asyncGetSupportedGenres().then(function (resultGen) {
@@ -591,22 +644,22 @@
                     if (trackL.id === track.id) {
                       isntIn = true;
                     }
-                    else{
-                      seekTrackCache.forEach(function(cache) {
-                        if(track.id === cache.id){
+                    else {
+                      seekTrackCache.forEach(function (cache) {
+                        if (track.id === cache.id) {
                           isntIn = true;
                         }
                       });
                     }
                   });
                   if (!isntIn) {
-                    trackList.push(TrackInfo.build(track.name,track.album.name,track.artists[0].name,track.duration_ms,track.album.images[0].url,track.id));
+                    trackList.push(TrackInfo.build(track.name, track.album.name, track.artists[0].name, track.duration_ms, track.album.images[0].url, track.id));
                   }
                 });
               });
               console.log("final search ", trackList);
               return resolve(trackList);
-            },1000);
+            }, 1000);
 
           });
         });
@@ -629,9 +682,10 @@
       playTrack: playTrack,
       pause: pause,
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportPlaylists:asyncImportPlaylists,
+      asyncImportPlaylists: asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
-      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
+      setProviderId:setProviderId
     };
 
     return service;

@@ -13,7 +13,8 @@
         'gaddumContextMenuItem',
         'gaddumShortcutBarService',
         'ErrorIdentifier',
-        '$timeout'
+        '$timeout',
+        'AvatarGraphic'
     ];
 
     function control(
@@ -24,12 +25,14 @@
         gaddumContextMenuItem,
         gaddumShortcutBarService,
         ErrorIdentifier,
-        $timeout
+        $timeout,
+        AvatarGraphic
 
     ) {
         var vm = angular.extend(this, {
             scrollGenre: true,
-            genresFontStyle: false
+            genresFontStyle: false,
+            displayGenres:""
 
         });
         var scale = 8;
@@ -55,17 +58,28 @@
         vm.selecteGenres = [];
         vm.userGenres = "";
 
-        vm.name = vm.userProfile.avatar_name;
+        
         vm.getName = function () {
-            asyncPopulateProfile.then(
-                function(){vm.name=vm.userProfile.avatar_name;}
+            asyncPopulateProfile().then(
+                function success(){
+                    vm.name=vm.userProfile.profile.avatar_name;
+                }
             );
         };
         vm.setName = function (name) {
-            profileService.setName(name);
+            profileService.asyncSetAvatarName(name).then(
+                function () {
+                    console.log("SET NAME done");;
+                    profileService.asyncGetAvatarName().then(
+                        function success(result){
+                            console.log("new name",result)
+                            vm.name=result;
+                        }
+                    )
+                });
             setTimeout(function () {
-                vm.name = profileService.asyncGetAvatarName();
-                vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
+                vm.name = profileService.asyncGetAvatarName();//change
+                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify(vm.userProfile.profile) + "}");
             }, 0);
         };
 
@@ -75,11 +89,11 @@
             return profileService.getUserGenres();
         }
         vm.setGenres = function (genres) {
-            console.log("genres test",profileService.getUserGenres());
-            profileService.setGenres(genres);
-            console.log("genres test2",profileService.getUserGenres());
+            console.log("genres test",profileService.asyncGetGenres());
+            profileService.asyncSetGenres(genres);
+            console.log("genres test2",profileService.asyncGetGenres());
             setTimeout(function () {
-                vm.userGenres = profileService.getUserGenres().join(", ");
+                vm.userGenres = genres;
                 vm.encodedProfile = btoa("{\"profile\": "+JSON.stringify(vm.userProfile.profile)+"}");
                 vm.genreScrollChecker();
             }, 0);
@@ -100,8 +114,8 @@
                 function success(results) {
                     vm.allGenres = results[0];
                     vm.selectedGenres = results[1];
-                    vm.userGenres = vm.selectedGenres.join(", ");
-
+                    vm.userGenres = vm.selectedGenres/* .join(", ") */;
+                    vm.displayGenres=vm.userGenres.join(", ");
                     deferred.resolve();
                 },
                 function fail(error) {
@@ -161,9 +175,9 @@
 
 
         vm.genreScrollChecker = function () {
-
-            if (document.getElementById("genreStatic")&&vm.userGenres!=null) {
-
+            vm.displayGenres=vm.userGenres.join(", ");
+            if (document.getElementById("genreStatic")&&vm.userGenres!=null&&vm.userGenres!=""&&vm.userGenres.length!=0) {
+                console.log("scroll genres",vm.userGenres);
                 var genreFont = document.getElementById("genreStatic").style.font;
                 var genreText = vm.userGenres.join(", ");
                 var maxNoScrollWidth = document.body.clientWidth - (document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
@@ -193,7 +207,7 @@
             return result;
         }
 
-        vm.createProfileGraphic = function (id) {
+        vm.createProfileGraphic = function (avatar_graphic) {
             var canvas = document.getElementsByClassName("profileImageCanvas");
             canvas = canvas[canvas.length - 1];
             var ctx = canvas.getContext('2d');
@@ -203,15 +217,16 @@
             var profile;
             profileService.asyncGetUserProfile().then(
                 function success(result) {
-                    vm.userProfile = result;
-                    for (var j = 0; j < vm.userProfile.avatar_graphic.length; j++) {
-                        bin = vm.userProfile.avatar_graphic[j].toString(2);
+                    var graphic = avatar_graphic.getValues();
+                    var colour=avatar_graphic.getColour();
+                    for (var j = 0; j < graphic.length; j++) {
+                        bin = graphic[j].toString(2);
                         for (var x = bin.length; x < 8; x++) {
                             bin = "0" + bin;
                         }
                         for (var k = 0; k < bin.length; k++) {
                             if (bin[k] == "1") {
-                                rect(k, j, nx, ny, '#000000', ctx);
+                                rect(k, j, nx, ny, colour, ctx);
                             } else {
                                 rect(k, j, nx, ny, '#ffffff', ctx);
                             }
@@ -246,10 +261,19 @@
 
         vm.setAvatar_image = function (avatar_image) {
             console.log("aimg", avatar_image);
-            profileService.setAvatar_image(avatar_image);
+            avatar_image=AvatarGraphic.build("#FF00FF",avatar_image);
+            //profileService.asyncSetAvatarGraphic(avatar_image);
             setTimeout(function () {
-                vm.userProfile.avatar_graphic = profileService.getAvatar_image(avatar_image);
-                vm.createProfileGraphic(vm.userProfile.profile_id);
+                profileService.asyncSetAvatarGraphic(avatar_image).then(
+                    function success(result) {
+                        console.log("presult",result);
+                vm.userProfile.avatar_graphic = avatar_image;
+                /* vm.createProfileGraphic(vm.userProfile.profile_id); */
+                vm.createProfileGraphic(avatar_image);
+                    },
+                    function fail(error) {
+                        deferred.reject(error);
+                    })
             }, 0);
         }
 
@@ -266,16 +290,27 @@
         // TODO: Error Handling
         function init() {
             console.log("init");
-            asyncPopulateGenres().then(asyncPopulateProfile).then(
+            vm.name = vm.userProfile.profile.avatar_name;
+        /*     asyncPopulateGenres().then(function () {
+                
+            }); */
+            asyncPopulateGenres().then(
+                asyncPopulateProfile()).then(function () { 
+                    vm.genreScrollChecker() });
+
+            /* asyncPopulateProfile().then(
                 function () {
+                    vm.name = vm.userProfile.profile.avatar_name;
                     vm.genreScrollChecker();
-                    
                 }
-            );
+            ); */
+
+
+
             createModalList();
-            console.log("context",vm.conMenu);
+            console.log("context", vm.conMenu);
             gaddumShortcutBarService.setContextMenu(vm.conMenu);
-            console.log("profile",vm.userProfile);
+            console.log("profile", vm.userProfile);
         };
         init();
 

@@ -50,19 +50,51 @@
       var label;
       console.log("genres",vm.params[0].allGenres);
       var myTimeout = setTimeout(function() {
-        vm.params[0].allGenres.forEach(function(genre) {
-          label = document.getElementById("checkbox_" + genre.Name).querySelector("input");
-          console.log(label.checked);
-          if (vm.params[1].userGenres.includes(genre.genre)) {
+        /* vm.params[0].allGenres.forEach(function(genre) {
+          label = document.getElementById("checkbox_" + genre.Name).querySelector("input"); */
+          
+/*           if (vm.params[1].userGenres.includes(genre.genre)) {
             label.checked = true;
             genre.value = true;
 //            console.log("true");
           } else {
             label.checked = false;
 //            console.log("false");
-          }
+          } */
+/*           vm.params[1].userGenres.forEach(function(userGenre){
+            console.log(label.checked,userGenre);
+            if (userGenre.Name==genre.Name) {
+              labal.checked=true;
+            };
+          });
           genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
-        });
+        }); */
+        if (vm.params[1] != null&&vm.params[1]!=[]) {
+
+
+          vm.params[0].allGenres.forEach(function (genre) {
+            label = document.getElementById("checkbox_" + genre.Name).querySelector("input");
+            if (genre.Value) {
+              label.checked = true;
+            } else {
+              label.checked == false;
+            };
+            if (vm.params[1].userGenres.includes(genre.Name)) {
+              label.checked = true;
+              genre.Value = true;
+            };
+          });
+        }
+        genresCheckboxModal.setGenre(vm.params[0].allGenres.genres);
+      /* }); */
+
+
+
+
+
+
+
+
       }, 0);
     };
 

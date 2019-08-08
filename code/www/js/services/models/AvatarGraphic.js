@@ -14,7 +14,8 @@
 
     var result = false;
     try {
-      if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) {
+      /* if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(candidate)) { */
+      if (/#[0-9a-f]{6}?/i.test(candidate)) {
         result = true;
       }
     }
@@ -71,7 +72,11 @@
         return this.values;
       }
       this.toBlob = function () {
-        return atob(JSON.stringify(this));
+        /* var v=[128, 128, 128, 130, 130, 130, 128, 128].join("z");
+        var blobbed=btoa({"colour":this.colour,"values":v,"getColour":this.getColour,"getValues":this.getValues,"toBlob":this.toBlob});
+        return blobbed; */
+
+        return btoa(JSON.stringify(this));
       }
 
     }
@@ -106,11 +111,12 @@
       var result = null;
 
       try {
-        var candidate = JSON.parse(btoa(incoming));
+        var candidate = JSON.parse(atob(incoming));
         var result = new AvatarGraphic();
         result = angular.merge(result, candidate);
-        checkHexColourValues(result.getColour());
-        check8BitList(result,getValues());
+        checkHexColourValue(result.getColour());
+        /* result.getValues=result.getValues.split("z"); */
+        check8BitList(result.getValues());
 
 
       } catch (e) {
