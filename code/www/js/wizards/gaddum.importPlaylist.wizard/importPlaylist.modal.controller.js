@@ -78,7 +78,7 @@
       console.log("more");
       mc.hideSpinner = false;
       gaddumMusicProviderService.asyncGetProfilePlaylist(offset,limit).then(function(result){
-        if(result.data.items.length === 0){
+        if(result.length === 0){
           mc.hideMore = true;
         }
         var count = offset;
