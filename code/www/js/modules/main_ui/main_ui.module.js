@@ -10,9 +10,23 @@
     .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum', {
-          url: '/',
-          virtual: true,
-//          abstract: true,
+         url: '/',
+          //virtual: true,
+          //abstract: true,
+//          resolve:{
+//            permissions:["permissionService", function(permissionService) {
+//              return permissionService.hasAllRequiredPermissions;
+//            }]
+//          },
+//          onEnter:['$state','permissionsService',function($state,permissionsService) {
+            //if (permissions===false) {
+ //           console.log("ASKING FOR PERMISSIONS...");
+//            if(permissionsService.hasAllRequiredPermissions!=true){
+//              console.log("You don't have permissions, rerouting!");
+//              $state.go('permissions');
+//            }
+            //}
+//          }],
           views: {
             'gaddum': {
               templateUrl: 'js/modules/main_ui/main_ui.html',
@@ -26,13 +40,5 @@
             }
           }
         });
-//        .state('home', {
-//          cache:true,
-//          url: '/'
-//        });
-/*        .state('groupsList', {
-          cache:true,
-          url: '/main/groups'
-        });*/
-    })
+    });
 })();
