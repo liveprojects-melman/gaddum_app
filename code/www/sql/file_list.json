@@ -171,7 +171,13 @@
             "setting_id": "homepage_url"
         }
     },
-
+    {
+        "name": "get_supported_music_providers()",
+        "function": "get_supported_music_providers",
+        "path": "www/sql/get_supported_music_providers.sql",
+        "default_parameters": {
+        }
+    },
     {
         "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",

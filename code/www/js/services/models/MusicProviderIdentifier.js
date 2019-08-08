@@ -14,20 +14,7 @@
   ) {
     function MusicProviderIdentifier(
       name,
-      id,
-      friendly_name,
-      homepage_url,
-
-      client_id,
-      redirect_url,
-      token_refresh_url,
-      token_exchange_url,
-
-      access_token,
-      refresh_token,
-      expires_at,
-
-      csv_genre_tags) {
+      id) {
 
       // Public properties, assigned to the instance ('this')
       this.name = name;

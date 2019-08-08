@@ -50,11 +50,11 @@
     }
 
 
-    function asyncGetSupportedServiceProviders() {
+    function asyncGetSupportedMusicProviders() {
       var deferred = $q.defer();
 
 
-      dataApiService.getSupportedMusicProviders().then(
+      dataApiService.asyncGetSupportedMusicProviders().then(
         function onSuccess(items){
           var results = [];
           if(items && items.length > 0){
@@ -73,13 +73,7 @@
         }
       );
 
-      $timeout(
-
-
-        function () {
-          deferred.resolve(buildMusicProviders());
-        }
-      );
+    
       return deferred.promise;
     }
 
@@ -227,7 +221,7 @@
 
       // funcs
       initialise: initialise,
-      asyncGetSupportedServiceProviders: asyncGetSupportedServiceProviders,
+      asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
       asyncSetServiceProvider: asyncSetServiceProvider,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,

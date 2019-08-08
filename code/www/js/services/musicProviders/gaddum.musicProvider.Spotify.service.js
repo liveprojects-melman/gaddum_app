@@ -7,6 +7,7 @@
 
   gaddumMusicProviderSpotifyService.$inject = [
     'allSettingsService',
+    'providerSettingsService',
     '$q',
     '$timeout',
     'SearchModifier',
@@ -42,37 +43,13 @@
 
     // ------ UTILITY
 
-    var AUTH_CONFIG = null;
+
     var PROVIDER_ID = null;
     var CACHED_ACCESS_CREDENTIALS = null;
 
-    var GENRES_LIST = [
-      "Afrobeat",
-      "Blues",
-      "Lo-fi",
-      "Mambo",
-      "Reggae",
-      "Rocksteady",
-      "Dancehall",
-      "Soca",
-      "Ska",
-      "Bluegrass",
-      "Country",
-      "K-pop",
-      "J-pop",
-      "Hiphop",
-      "Techno",
-      "Drill",
-      "Grime",
-      "House",
-      "Electronic",
-      "Hardbass",
-      "Funk",
-      "Disco",
-      "Soul",
-      "Motown",
-      "Jazz"]
+ 
 
+    var AUTH_CONFIG = null;
 
 
 
@@ -117,7 +94,7 @@
       // looks awful, but we know we are putting something in the database which is supported by TimeStamp.
       var accessToken = response.accessToken;
       var refreshToken = response.encryptedRefreshToken;
-      var expires_at = timeService.getTimeStamp(moment().add(response.expires_in, 'seconds').toDate).getJavaEpocS();
+      var expires_at = response.expiresAt;
 
 
 
@@ -265,11 +242,19 @@
 
     function asyncInit(musicProviderIdentifier) {
       PROVIDER_ID = musicProviderIdentifier;
+
+      AUTH_CONFIG = {
+        clientId: null,
+        encryptionSecret: null,
+        redirectUrl: null,
+        scopes: ["streaming"],
+        //scopes: ["streaming", "playlist-read-private", "user-read-email", "user-read-private"], // enable as needed
+        tokenExchangeUrl: null,
+        tokenRefreshUrl: null
+      }
+
       var deferred = $q.defer();
       var promises = [];
-
-
-
 
 
       promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'client_id').then(
@@ -291,6 +276,7 @@
 
       $q.all(promises).then(
         function (results) {
+          console.log("got AUTH_CONFIG");
           deferred.resolve(AUTH_CONFIG);
         },
         function (error) {
@@ -443,9 +429,15 @@
     function asyncGetGenres() {
       var deferred = $q.defer();
 
-      $timeout(
-        function () {
-          deferred.resolve(userGenres);
+
+      providerSettingsService.asyncGet(PROVIDER_ID, 'base64_csv_selected_genre_tags').then(
+        function (base64Enc) {
+          try {
+            deferred.resolve(base64ToTagArray(base64Enc));
+          } catch (e) {
+            deferred.resolve([]);
+          }
+
         });
 
 

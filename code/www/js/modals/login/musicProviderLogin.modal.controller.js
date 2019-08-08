@@ -40,15 +40,15 @@
 
     function asyncLogin() {
       ac.busy = true;
-      gaddumMusicProviderService.asyncSetServiceProvider(ac.selectedNamedIdentifier
-        .then(gaddumMusicProviderService.asyncLogin()
+      gaddumMusicProviderService.asyncSetServiceProvider(ac.selectedNamedIdentifier)
         .then(
           function () {
-            onLoginSuccess();
+            gaddumMusicProviderService.asyncLogin().then(
+              onLoginSuccess,
+              onLoginFail);
           },
-          function () {
-            onLoginFail();
-          }));
+          onLoginFail
+        );
     }
 
     function onSelectorResult(selectedNamedIdentifier) {
@@ -64,7 +64,7 @@
     function asyncPopulateSelector() {
       var deferred = $q.defer();
       ac.busy = true;
-      gaddumMusicProviderService.asyncGetSupportedServiceProviders().then(
+      gaddumMusicProviderService.asyncGetSupportedMusicProviders().then(
         function (result) {
           ac.serviceProviders = result;
           ac.busy = false;

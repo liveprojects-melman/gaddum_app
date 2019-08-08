@@ -10,7 +10,8 @@
         'mappingService',
         'utilitiesService',
         'PlaylistIdentifier',
-        'GenericTrack'
+        'GenericTrack',
+        'MusicProviderIdentifier'
     ];
 
     function dataApiService(
@@ -18,21 +19,39 @@
         mappingService,
         utilitiesService,
         PlaylistIdentifier,
-        GenericTrack
+        GenericTrack,
+        MusicProviderIdentifier
     ) {
 
-        function createError(code, message) {
-            return {
-                code: code,
-                message: message
-            };
-        }
 
-        function asString(arg) {
-            var result = "\"" + arg + "\"";
-            return result;
-        }
 
+
+        var asyncGetSupportedMusicProviders = function () {
+            var deferred = $q.defer();
+
+            mappingService.query("get_supported_music_providers", {},
+                function (result) {
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+
+                        var results = [];
+                        rows.forEach(function (row) {
+                            results.push(MusicProviderIdentifier.buildFromObject(row));
+                        });
+                        deferred.resolve(results);
+
+                    } else {
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "no music providers found."));
+                    }
+                }
+                ,
+                deferred.reject
+            );
+
+
+
+            return deferred.promise;
+        }
 
         var getBase64Resource = function (resource_id, success, fail) {
             if (resource_id) {
@@ -748,6 +767,7 @@
 
 
         var service = {
+            asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,
