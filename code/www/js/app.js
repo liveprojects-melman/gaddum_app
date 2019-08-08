@@ -66,7 +66,7 @@ angular.module('gaddum', [
           console.log("NO PERMISSIONS!",toState);
           if(toState.name!="permissions") {
             $state.go('permissions');
-          };
+          }
         }
         var baseStateName = toState.name.split(".")[1];
         if(angular.isDefined(baseStateName)===true) {
