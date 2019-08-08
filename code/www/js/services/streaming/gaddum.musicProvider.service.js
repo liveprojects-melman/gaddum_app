@@ -200,6 +200,7 @@
     }
 
     function initialise(returnsALoginPromise) {
+      console.log("gaddum.musicProvider.service.js:initialise() invoked");
       if (returnsALoginPromise) {
         service.returnsALoginPromise = returnsALoginPromise;
       } else {
