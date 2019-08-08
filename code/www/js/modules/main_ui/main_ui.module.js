@@ -10,7 +10,9 @@
     .config(function( $stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('gaddum', {
-         url: '/',
+          url: '/',
+          onEnter: ['startupSrvc',function(startupSrvc){
+            gaddumMusicProviderService.initialise(loginModal.promiseLogin);                     }],
           //virtual: true,
           //abstract: true,
 //          resolve:{
