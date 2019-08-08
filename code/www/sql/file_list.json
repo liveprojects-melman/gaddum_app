@@ -78,9 +78,9 @@
         }
     },
     {
-        "name": "get_supported_timeslots()",
-        "function": "get_supported_timeslots",
-        "path": "www/sql/get_supported_timeslots.sql",
+        "name": "get_supported_time_slots()",
+        "function": "get_supported_time_slots",
+        "path": "www/sql/get_supported_time_slots.sql",
         "default_parameters": {
         }
     },
@@ -119,15 +119,6 @@
         "name": "get_playlists(name, id)",
         "function": "get_playlists",
         "path": "www/sql/get_playlists.sql",
-        "default_parameters": {
-            "name" : "Queen",
-            "id": ""
-        }
-    },
-    {
-        "name": "create_playlist(id, name)",
-        "function": "create_playlist",
-        "path": "www/sql/create_playlist.sql",
         "default_parameters": {
             "name" : "Queen",
             "id": ""

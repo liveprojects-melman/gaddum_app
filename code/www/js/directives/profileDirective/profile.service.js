@@ -141,7 +141,7 @@
 
                         dataApiService.asyncSetSetting(SETTINGS.PROFILE_ID, utilitiesService.createUuid(), VALID_TYPES.string).then(
                             function onSuccess(profileId) {// asyncSetSetting returns the value which was set, as a convenience.
-                                resolve(profileId);
+                                deferred.resolve(profileId);
                             },
                             function onError(error) {
                                 deferred.reject(error);

@@ -9,7 +9,7 @@
   moodService.$inject = [
     'dataApiService',
     '$q',
-    'Moodidentifier'
+    'MoodIdentifier'
 
   ];
   function moodService(
@@ -29,9 +29,9 @@
 
 
       dataApiService.asyncGetSupportedMoodIds().then(
-        function (arryItems) {
+        function (arrayItems) {
           g_arraySupportedMoodIds = arrayItems;
-          arrayIds.forEach(function (item) {
+          arrayItems.forEach(function (item) {
             var moodId = MoodIdentifier.buildFromObject(item);
             g_dictSupportedMoodIds[moodId.id] = moodId;
           });
