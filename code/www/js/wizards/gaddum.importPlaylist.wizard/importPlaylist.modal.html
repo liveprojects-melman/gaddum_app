@@ -1,43 +1,41 @@
+<div class="modal importPlaylistModal" ng-controller="importPlaylistWizardController as mc">
 
-<div class="modal importPlaylistModal"  ng-controller="importPlaylistWizardController as mc" >
-  
-    <ion-content class="howAreYouModal">
-       
-      <div style="width:100%;">
-          
+  <ion-content class="howAreYouModal">
+
+    <div style="width:100%;">
+
       <h3 class="playlistImportTitle">Import Playlist</h3>
     </div>
     <div>
-<ion-content class="playlistImportList">
-  <ion-list class="playlistImportList">
-    <ion-item  ng-class-odd="'listodd'" ng-class-even="'listeven'" class="playlistListImport" ng-repeat="playlist in mc.playlistArray"  can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"  ng-click="mc.playlistSelected($index)" >
-      <img src="{{playlist.artwork}}" ng-click="mc.playlistSelected($index)" class="playlistArt">
-      <h2 class="playlistNameText">{{playlist.name}}</h2>
-      <label class="playlistCheckbox toggle toggle-assertive">
-        <input type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)" ></input>
-        <div class="track">
-          <div class="handle"></div>
-        </div>
-      </label>
-      
-       
-      <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
-      
-    </ion-item>
-    <ion-item ng-click="mc.more()" ng-hide="mc.hideMore">
-      <p ng-hide="!mc.hideSpinner" class="moreButtonImport">More...</p>
-      <ion-spinner class="importSpinner" ng-hide="mc.hideSpinner" paused="true" name="circles" ></ion-spinner>
-    </ion-item>
-  </ion-list>
-</ion-content>
-<button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button">{{mc.Importtext}}</button>
-<ion-spinner class="playlistImportButtonSpinner" ng-hide="!mc.importButtonHide" paused="true" name="circles" ></ion-spinner>
-</div>
-      
-        <!-- <button ng-disabled="!(mc.emotionSelected != '')" ng-click="mc.selectEmo()" class="howAreYouButton" ng-class="((mc.emotionSelected != '') ? 'selectedItemRed' : '')">That's me</button> -->
-      
-      
+      <ion-content class="playlistImportList">
+        <ion-list class="playlistImportList">
+          <ion-item ng-class-odd="'listodd'" ng-class-even="'listeven'" class="playlistListImport" ng-repeat="playlist in mc.playlistArray"
+            can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)"
+            ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"
+            ng-click="mc.playlistSelected($index)">
+            <img src="{{playlist.artwork}}" ng-click="mc.playlistSelected($index)" class="playlistArt">
+            <h2 class="playlistNameText">{{playlist.name}}</h2>
+            <input class="playlistCheckbox " type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)"></input>
+
+
+
+            <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
+
+          </ion-item>
+          <ion-item ng-click="mc.more()" ng-hide="mc.hideMore">
+            <p ng-hide="!mc.hideSpinner" class="moreButtonImport">More...</p>
+            <ion-spinner class="importSpinner" ng-hide="mc.hideSpinner" paused="true" name="circles"></ion-spinner>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+      <button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button">{{mc.Importtext}}</button>
+      <ion-spinner class="playlistImportButtonSpinner" ng-hide="!mc.importButtonHide" paused="true" name="circles"></ion-spinner>
+    </div>
+
+    <!-- <button ng-disabled="!(mc.emotionSelected != '')" ng-click="mc.selectEmo()" class="howAreYouButton" ng-class="((mc.emotionSelected != '') ? 'selectedItemRed' : '')">That's me</button> -->
+
+
   </ion-content>
-  </div>
-  </content>
+</div>
+</content>
 </div>

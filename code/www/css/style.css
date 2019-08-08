@@ -844,6 +844,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .playlistCheckbox{
     float: right;
     margin-top: 4px !important;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 .settingsCheckbox{
     float: right;
