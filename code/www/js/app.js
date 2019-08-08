@@ -63,9 +63,12 @@ angular.module('gaddum', [
         // update the slider delegate - is there a matching slide name?
         //     console.log("stateChangeStart", toState);
         if(permissionsService.hasAllRequiredPermissions!=true){
-          console.log("NO PERMISSIONS!",toState);
+          console.log("NO PERMISSIONS!",toState.name);
           if(toState.name!="permissions") {
-            $state.go('permissions');
+            event.preventDefault();
+            console.log(" -- going to permissions now");
+            $state.go('permissions',{},{location:false,notify:false,reload:true});
+            return;
           }
         }
         var baseStateName = toState.name.split(".")[1];
