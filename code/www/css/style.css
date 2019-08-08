@@ -1112,7 +1112,14 @@ margin:10px;
     width: 88%;
     height: 88%;
     position: absolute;
-    top: 5%;
+    top: 3%;
+}
+#canvas_grid{
+    position: absolute;
+    left: 0%;
+    top: 3%;
+    height: 88%;
+    width: 88%;
 }
 div#controls{
     position: absolute;
