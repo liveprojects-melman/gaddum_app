@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-var startState = 'gaddum.profile';
+var startState = 'gaddum';
 
 angular.module('gaddum', [
   'ionic',
@@ -51,7 +51,8 @@ angular.module('gaddum', [
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
-    function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, startupSrvc,loginModal,gaddumMusicProviderService) {
+    'permissionsService',
+    function($ionicPlatform, $state, $rootScope, $ionicSlideBoxDelegate, $window, startupSrvc,loginModal,gaddumMusicProviderService, permissionsService) {
       
       $rootScope.$on('slideChanged', function(a) {
         var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
@@ -60,7 +61,13 @@ angular.module('gaddum', [
 
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         // update the slider delegate - is there a matching slide name?
-  //     console.log("stateChangeStart", toState);
+        //     console.log("stateChangeStart", toState);
+        if(permissionsService.hasAllRequiredPermissions!=true){
+          console.log("NO PERMISSIONS!",toState);
+          if(toState.name!="permissions") {
+            $state.go('permissions');
+          };
+        }
         var baseStateName = toState.name.split(".")[1];
         if(angular.isDefined(baseStateName)===true) {
           var sliderState = false;
