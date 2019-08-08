@@ -28,7 +28,10 @@
 //              $state.go('permissions');
 //            }
             //}
-//          }],
+          //          }],
+          onEnter: ['startupSrvc','gaddumMusicProviderService','loginModal',function onEnterForMain(startupSrvc,gaddumMusicProviderService,loginModal){
+            gaddumMusicProviderService.initialise(loginModal.promiseLogin);
+          }],
           views: {
             'gaddum': {
               templateUrl: 'js/modules/main_ui/main_ui.html',
