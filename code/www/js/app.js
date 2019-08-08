@@ -124,8 +124,7 @@ angular.module('gaddum', [
         }
   */
         if($window.cordova) {
-          
-          
+
           console.log("invoking StartupSrvc.asyncInitialise...");
 
           startupSrvc.asyncInitialise().then(function(){
@@ -137,7 +136,6 @@ angular.module('gaddum', [
         } else {
           $state.go( startState );
         }
-        
-        //$state.go(getPermissionsState);
+         //$state.go(getPermissionsState);
       }/*]*/);
   }]);
