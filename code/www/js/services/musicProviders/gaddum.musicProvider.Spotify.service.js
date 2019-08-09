@@ -6,7 +6,7 @@
     .factory('gaddumMusicProviderSpotifyService', gaddumMusicProviderSpotifyService);
 
   gaddumMusicProviderSpotifyService.$inject = [
-    'allSettingsService',
+
     'providerSettingsService',
     '$q',
     '$timeout',
@@ -23,7 +23,7 @@
   ];
 
   function gaddumMusicProviderSpotifyService(
-    allSettingsService,
+
     providerSettingsService,
     $q,
     $timeout,

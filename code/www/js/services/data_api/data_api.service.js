@@ -51,6 +51,37 @@
 
 
             return deferred.promise;
+        };
+
+
+        function asyncGetSelectedMusicProvider(){
+            var deferred = $q.defer();
+            mappingService.query(
+                "get_selected_music_provider",
+                {},
+                function(result){
+                    var rows = mappingService.getResponses(result.rows);
+                    if (rows.length > 0) {
+                        deferred.resolve(MusicProviderIdentifier.buildFromObject(rows[0]));
+                    } else {
+                        deferred.resolve(null);
+                    }
+                }
+                ,
+                function (error) {
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncCreateProviderSetting: problem accessing db: " + error.message));
+                }
+            );
+
+            return deferred.promise;
+        }
+
+        function asyncSetSelectedMusicProvider(musicProviderIdentifier){
+            if(musicProviderIdentifier) {
+                return asyncSetSetting('music_provider_id',musicProviderIdentifier.getId(),'string');
+            }else{
+                return asyncClearSetting('music_provider_id', 'string');
+            } 
         }
 
         var getBase64Resource = function (resource_id, success, fail) {
@@ -768,6 +799,9 @@
 
         var service = {
             asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
+            asyncGetSelectedMusicProvider: asyncGetSelectedMusicProvider,
+            asyncSetSelectedMusicProvider: asyncSetSelectedMusicProvider,
+
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,

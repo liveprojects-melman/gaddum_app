@@ -24,6 +24,8 @@
     $q
   ) {
 
+    var DEFAULT_SELECTED_NAMED_IDENTIFIER = MusicProviderIdentifier.build("Select ...", "");
+  
 
     function onLoginSuccess() {
       ac.busy = false;
@@ -40,9 +42,12 @@
 
     function asyncLogin() {
       ac.busy = true;
-      gaddumMusicProviderService.asyncSetServiceProvider(ac.selectedNamedIdentifier)
+
+      console.log("setting music provider.");
+      gaddumMusicProviderService.asyncSetMusicProvider(ac.selectedNamedIdentifier)
         .then(
           function () {
+            console.log("requesting login.");
             gaddumMusicProviderService.asyncLogin().then(
               onLoginSuccess,
               onLoginFail);
@@ -64,6 +69,17 @@
     function asyncPopulateSelector() {
       var deferred = $q.defer();
       ac.busy = true;
+
+      ac.selectedNamedIdentifier = gaddumMusicProviderService.getMusicProvider();
+      ac.loginEnabled = false;
+
+      if(!ac.selectedNamedIdentifier){
+        ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
+        ac.loginEnabled = true;
+      }
+      
+        
+
       gaddumMusicProviderService.asyncGetSupportedMusicProviders().then(
         function (result) {
           ac.serviceProviders = result;
@@ -76,18 +92,15 @@
           deferred.reject()
         }
       );
-
+  
       return deferred.promise;
 
     }
 
 
 
-    function asyncShowSelector() {
-      asyncPopulateSelector().then(function (result) {
-        selectorModal.open(result, onSelectorResult, onSelectorCancelled);
-      });
-
+    function showSelector() {  
+        selectorModal.open(ac.serviceProviders, onSelectorResult, onSelectorCancelled);
     }
 
     var ac = angular.extend(this, {
@@ -97,9 +110,10 @@
       loginEnabled: false,
       namedIdentifiers: [],
       selectedNamedIdentifier: {},
+      serviceProviders:[],
       // funcs
       asyncLogin: asyncLogin,
-      asyncShowSelector: asyncShowSelector,
+      showSelector: showSelector,
       cancelLogin: cancelLogin
     });
 
@@ -111,7 +125,8 @@
     function init() {
       ac.busy = true;
       ac.loginEnabled = false;
-      ac.selectedNamedIdentifier = MusicProviderIdentifier.build("Select ...", "");
+      ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
+      asyncPopulateSelector();
     }
     init();
 

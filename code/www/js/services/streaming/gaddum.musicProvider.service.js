@@ -55,25 +55,83 @@
 
 
       dataApiService.asyncGetSupportedMusicProviders().then(
-        function onSuccess(items){
+        function onSuccess(items) {
           var results = [];
-          if(items && items.length > 0){
+          if (items && items.length > 0) {
 
-            items.forEach(function(item){
+            items.forEach(function (item) {
               results.push(MusicProviderIdentifier.buildFromObject(item));
             });
 
-          deferred.resolve(results);
-          }else{
+            deferred.resolve(results);
+          } else {
             deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "no music providers found!"));
           }
         },
-        function onFail(error){
+        function onFail(error) {
           deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "error looking for music providers: " + error.message));
         }
       );
 
-    
+
+      return deferred.promise;
+    }
+
+    function asyncSetMusicProvider(musicProviderIdentifier) {
+      // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
+
+      var deferred = $q.defer();
+      service.musicProviderIdentifier  = musicProviderIdentifier;
+      service.musicProvider = $injector.get(musicProviderIdentifier.getId());
+
+      dataApiService.asyncSetSelectedMusicProvider(musicProviderIdentifier).then(
+        function(){
+          console.log("initialising music provider: " + musicProviderIdentifier.getName());
+          service.musicProvider.asyncInit(musicProviderIdentifier).then(
+            deferred.resolve,
+            deferred.reject
+          );
+        },
+        deferred.reject
+        
+        );
+
+
+      return deferred.promise;
+    }
+
+
+    function getMusicProvider(){
+      return service.musicProviderIdentifier;
+    }
+
+
+
+    function asyncGetMusicProvider() {
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function () {
+          if (service.musicProviderIdentifier) {
+            deferred.resolve(service.musicProviderIdentifier);
+          } else {
+            dataApiService.asyncGetSelectedMusicProvider().then(
+              function(result){
+                deferred.resolve(result);
+              }
+              ,
+                deferred.reject
+              
+            );
+          }
+        }
+
+      );
+
+
+
       return deferred.promise;
     }
 
@@ -83,12 +141,6 @@
           return resolve(result);
         });
       });
-    }
-
-    function asyncSetServiceProvider(musicProviderIdentifier) {
-      // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
-      service.musicProvider = $injector.get(musicProviderIdentifier.getId());
-      return service.musicProvider.asyncInit(musicProviderIdentifier);
     }
 
 
@@ -205,24 +257,48 @@
         });
     }
 
-    function initialise(returnsALoginPromise) {
-      console.log("gaddum.musicProvider.service.js:initialise() invoked");
+    function asyncInitialise(returnsALoginPromise) {
+      
+      service.musicProvider = null;
+      service.musicProviderIdentifier = null;
+      service.asyncLoginResource =  null;
+
+      var deferred = $q.defer();
       if (returnsALoginPromise) {
         service.returnsALoginPromise = returnsALoginPromise;
       } else {
         throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle the update of its access credentials, calling MusicProviderService.asyncLogin()"))
       }
+
+      asyncGetMusicProvider().then(
+        function (musicProviderIdentifier) {
+          if (musicProviderIdentifier) {
+            asyncSetMusicProvider(musicProviderIdentifier).then(
+              deferred.resolve,
+              deferred.error
+            );
+          } else {
+            deferred.resolve(null);
+          }
+        }
+      );
+
+
+
+      return deferred.promise
     };
 
     var service = {
       // vars
-      musicProvider: undefined,
+      musicProvider: null,
+      musicProviderIdentifier: null,
       asyncLoginResource: null,
 
       // funcs
-      initialise: initialise,
+      asyncInitialise: asyncInitialise,
       asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
-      asyncSetServiceProvider: asyncSetServiceProvider,
+      asyncSetMusicProvider: asyncSetMusicProvider,
+      getMusicProvider: getMusicProvider,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
@@ -237,7 +313,7 @@
       asyncGetGenres: asyncGetGenres,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportTracks:asyncImportTracks
+      asyncImportTracks: asyncImportTracks
 
       /*,
 

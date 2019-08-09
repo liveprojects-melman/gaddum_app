@@ -179,6 +179,13 @@
         }
     },
     {
+        "name": "get_selected_music_provider()",
+        "function": "get_selected_music_provider",
+        "path": "www/sql/get_selected_music_provider.sql",
+        "default_parameters": {
+        }
+    },
+    {
         "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",
         "path": "www/sql/add_observation.sql",

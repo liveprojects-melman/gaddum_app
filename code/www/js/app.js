@@ -129,10 +129,16 @@ angular.module('gaddum', [
 
           startupSrvc.asyncInitialise().then(
             function () {
-              gaddumMusicProviderService.initialise(loginModal.promiseLogin);
-              permissionsListenerService.initialise(null);
-              $state.go('gaddum.profile');
-            }
+              gaddumMusicProviderService.asyncInitialise(loginModal.promiseLogin).then(
+                function(){
+                  permissionsListenerService.initialise(null);
+                  $state.go('gaddum.profile');
+                  deferred.resolve();
+                },
+                deferred.reject
+              );
+            },
+            deferred.reject
           )
 
           return deferred.promise;
