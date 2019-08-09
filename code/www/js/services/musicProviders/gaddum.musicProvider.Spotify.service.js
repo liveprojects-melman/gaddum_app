@@ -47,7 +47,7 @@
     var PROVIDER_ID = null;
     var CACHED_ACCESS_CREDENTIALS = null;
 
- 
+
 
     var AUTH_CONFIG = null;
 
@@ -342,29 +342,30 @@
 
     function base64ToTagArray(base64Enc) { // throws
       var result = [];
-
-      var csv = btoa(base64Enc);
-      var array = csv.split(',');
-      array.forEach(
-        function (item) {
-          result.push(item.trim());
-        });
-
+      if (base64Enc != null) {
+        var csv = atob(base64Enc);
+        var array = csv.split(',');
+        array.forEach(
+          function (item) {
+            result.push(item.trim());
+          });
+      }
       return result;
 
     }
 
     function tagArrayToBase64(tagArray) { //throws
-
+      var result = "";
       var trimmed = [];
+      if (tagArray != null) {
+        tagArray.forEach(
+          function (item) {
+            trimmed.push(item.trim());
+          }
+        );
+      }
 
-      tagArray.forEach(
-        function (item) {
-          result.push(item.trim());
-        }
-      );
-
-      result = atob(trimmed.join(','));
+      result = btoa(trimmed.join(','));
 
       return result;
 
@@ -408,7 +409,7 @@
               }
             );
           } catch (e) {
-            providerSettingsService.asyncClear(PROVIDER_ID, 'base64_csv_selected_genre_tags').then(
+            providerSettingsService.asyncSet(PROVIDER_ID, 'base64_csv_selected_genre_tags',null).then(
               function () {
                 deferred.resolve();
               },

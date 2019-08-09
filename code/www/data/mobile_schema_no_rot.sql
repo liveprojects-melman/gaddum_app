@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Thu Aug 8 17:23:26 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Aug 9 12:30:04 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -161,7 +161,7 @@ INSERT INTO music_provider_settings (
                                     VALUES (
                                         'gaddumMusicProviderSpotifyService',
                                         'base64_csv_genre_tags',
-                                        'IkFmcm9iZWF0IiwiQmx1ZXMiLCJMby1maSIsIk1hbWJvIiwiUmVnZ2FlIiwiUm9ja3N0ZWFkeSIsIkRhbmNlaGFsbCIsIlNvY2EiLCJTa2EiLCJCbHVlZ3Jhc3MiLCJDb3VudHJ5IiwiSy1wb3AiLCJKLXBvcCIsIkhpcGhvcCIsIlRlY2hubyIsIkRyaWxsIiwiR3JpbWUiLCJIb3VzZSIsIkVsZWN0cm9uaWMiLCJIYXJkYmFzcyIsIkZ1bmsiLCJEaXNjbyIsIlNvdWwiLCJNb3Rvd24iLCJKYXp6Ig==',
+                                        'QWZyb2JlYXQsQmx1ZXMsTG8tZmksTWFtYm8sUmVnZ2FlLFJvY2tzdGVhZHksRGFuY2VoYWxsLFNvY2EsU2thLEJsdWVncmFzcyxDb3VudHJ5LEstcG9wLEotcG9wLEhpcGhvcCxUZWNobm8sRHJpbGwsR3JpbWUsSG91c2UsRWxlY3Ryb25pYyxIYXJkYmFzcyxGdW5rLERpc2NvLFNvdWwsTW90b3duLEpheno=',
                                         'string'
                                     );
 
