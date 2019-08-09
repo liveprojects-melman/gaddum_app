@@ -53,6 +53,8 @@
 
   <!-- ADDED START -->
 
+
+
   <script src="js/modules/main_ui/main_ui.module.js"></script>
   <script src="js/modules/main_ui/main_ui.controller.js"></script>
   <script src="js/modules/main_ui/main_ui.header.directive.js" ></script>
@@ -129,6 +131,7 @@
   <script src="js/modules/permissions/permissions.service.js"></script>
   <script src="js/modules/permissions/permissions.directive.js"></script>
   <script src="js/modules/permissions/permissions.directive.controller.js"></script>
+  <script src="js/modules/permissions/permissions.listener.service.js"></script>
 <!--  <script src="js/modules/permissions/permissions.controller.js"></script> -->
   
   <script src="js/directives/main_menu/main_menu.controller.js"></script>
@@ -297,6 +300,7 @@
 </head>
 
 <body ng-app="gaddum" ng-animate-children="true">
+    <permissions_directive></permissions_directive>
 
   <div  class="bar bar-header" align-title="center">
     <h1 class="title">
@@ -323,3 +327,4 @@
 </body>
 
 </html>
+

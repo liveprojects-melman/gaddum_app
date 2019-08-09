@@ -11,6 +11,7 @@
       '$state',
       '$scope',
       'permissionsService',
+      'permissionsListenerService',
       '$ionicPlatform',
       '$window'
     ];
@@ -19,6 +20,7 @@
       $state,
       $scope,
       permissionsService,
+      permissionsListenerService,
       $ionicPlatform,
       $window
     ) {
@@ -53,6 +55,8 @@
           if(response.hasAllRequiredPermissions){
             console.log("has all permissions");
             vm.visible = false;
+            permissionsListenerService.controllerNotifyGranted();
+
           } else {
             vm.visible=true;
             console.log("hasnt all permissions",vm.visible);

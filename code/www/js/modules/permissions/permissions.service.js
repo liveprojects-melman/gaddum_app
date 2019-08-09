@@ -18,7 +18,6 @@
         $q,
         $ionicPlatform
     ) {
-        console.log("permissions service saying hello");
         var service = {
             permissions : {
                 "hasAllRequiredPermissions": true,
