@@ -37,23 +37,7 @@
 
       });
       var scale = 8;
-      vm.userProfile = {
-          "profile": {
-              "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
-              "avatar_name": "Lemon Jelly",
-              "avatar_graphic": [
-                  0,
-                  102,
-                  102,
-                  24,
-                  24,
-                  66,
-                  126,
-                  0
-              ],
-              device_id: "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
-          }
-      };
+
 
       var playlists={
         "playlists": {
@@ -1021,8 +1005,7 @@
 
 
       function init() {
-          createModalList();
-          gaddumShortcutBarService.setContextMenu(vm.conMenu);
+
           playlistService.asyncSeekPlaylists("").then(function(results){
 
           vm.playlistsToShow=results;
@@ -1037,22 +1020,7 @@
         });
       }
 
-      vm.profileEdit= function(){
-        //modal
-        var allGenres=profileService.getAllGenres();
-        var userGenres=profileService.getUserGenres();
-        var modalParams=[
-            {"allGenres":allGenres},
-            {"userGenres":userGenres},
-            {"userProfile":profileService.getUserProfile()}
-        ];
-        profileEditModal.open(modalParams,callback,refresh);
-        //var,ok,c
 
-        
-        vm.getUserGenres=profileService.getUserGenres().toString();
-        vm.genreScrollChecker();
-    };
 
 
 
@@ -1092,14 +1060,7 @@
 
 
 
-      function createModalList() {
-            var firstVariable = "Edit Profile";
-            var firstFunc = vm.profileEdit; 
-            var contextMenu = [];
-            contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
-            vm.conMenu = contextMenu;
-            console.log(vm.conMenu);
-        };
+
         function getPlaylist(){
 
           gaddumMusicProviderService.importAllPlaylists().then(function(result){
