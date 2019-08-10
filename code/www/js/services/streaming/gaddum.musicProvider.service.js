@@ -306,25 +306,18 @@
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
-      asyncImportPlaylists: asyncImportPlaylists,
-      asyncGetTrackInfo: asyncGetTrackInfo,
+
+
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
+
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportTracks: asyncImportTracks
+      asyncImportTracks: asyncImportTracks,
+      asyncImportPlaylists: asyncImportPlaylists,
+      asyncGetTrackInfo: asyncGetTrackInfo
 
-      /*,
-
-      state: {
-        ready: false,
-        playing: false
-      },
-      song: {
-        title: "THIS IS A TITLE",
-        artist: "THIS IS AN ARTIST"
-      }*/
     };
 
 

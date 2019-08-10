@@ -44,7 +44,7 @@
     // ------ UTILITY
 
 
-    var PROVIDER_ID = null;
+    var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
 
 
@@ -54,12 +54,7 @@
 
 
 
-    function getProviderId() {
-      return musicProviderId;
-    }
-    function setProviderId(uuid) {
-      musicProviderId = uuid;
-    }
+
 
     function createSpotifySearchModifiers() {
 
@@ -98,9 +93,9 @@
 
 
 
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'access_token', accessToken));
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'expires_at', expires_at));
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'refresh_token', refreshToken));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', accessToken));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expires_at));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token', refreshToken));
 
       CACHED_ACCESS_CREDENTIALS = AccessCredentials.build(accessToken, expiresAt, refreshToken);
 
@@ -203,9 +198,9 @@
     function asyncLookupAccessCredentials() {
       var deferred = $q.defer();
       var promises = [];
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'access_token'));
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'expires_at'));
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'refresh_token'));
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'access_token'));
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at'));
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token'));
 
       $q.all(promises).then(
         function (results) {
@@ -241,7 +236,7 @@
     // ------ PUBLIC
 
     function asyncInit(musicProviderIdentifier) {
-      PROVIDER_ID = musicProviderIdentifier;
+      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
 
       AUTH_CONFIG = {
         clientId: null,
@@ -257,19 +252,19 @@
       var promises = [];
 
 
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'client_id').then(
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'client_id').then(
         function (result) {
           AUTH_CONFIG.clientId = result;
         }));
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'redirect_url').then(
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'redirect_url').then(
         function (result) {
           AUTH_CONFIG.redirectUrl = result;
         }));
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'token_exchange_url').then(
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'token_exchange_url').then(
         function (result) {
           AUTH_CONFIG.tokenExchangeUrl = result;
         }));
-      promises.push(providerSettingsService.asyncGet(PROVIDER_ID, 'token_refresh_url').then(
+      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'token_refresh_url').then(
         function (result) {
           AUTH_CONFIG.tokenRefreshUrl = result;
         }));
@@ -320,9 +315,9 @@
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'access_token', null));
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'expires_at', null));
-      promises.push(providerSettingsService.asyncSet(PROVIDER_ID, 'encrypted_refresh_token', null));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', null));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', null));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'encrypted_refresh_token', null));
 
       CACHED_ACCESS_CREDENTIALS = null;
 
@@ -376,7 +371,7 @@
       var deferred = $q.defer();
 
 
-      providerSettingsService.asyncGet(PROVIDER_ID, 'base64_csv_genre_tags').then(
+      providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_genre_tags').then(
         function (base64Enc) {
           try {
             deferred.resolve(base64ToTagArray(base64Enc));
@@ -398,7 +393,7 @@
         function () {
           try {
             var value = tagArrayToBase64(candidates);
-            providerSettingsService.asyncSet(PROVIDER_ID, 'base64_csv_selected_genre_tags', value).then(
+            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags', value).then(
               function () {
                 deferred.resolve();
               },
@@ -409,7 +404,7 @@
               }
             );
           } catch (e) {
-            providerSettingsService.asyncSet(PROVIDER_ID, 'base64_csv_selected_genre_tags',null).then(
+            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags',null).then(
               function () {
                 deferred.resolve();
               },
@@ -431,7 +426,7 @@
       var deferred = $q.defer();
 
 
-      providerSettingsService.asyncGet(PROVIDER_ID, 'base64_csv_selected_genre_tags').then(
+      providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags').then(
         function (base64Enc) {
           try {
             deferred.resolve(base64ToTagArray(base64Enc));
@@ -523,12 +518,12 @@
           resolve, reject);
       })
     }
-    function asyncImportTracks(tracks) {
+    function asyncImportTracks(trackInfoArray) {
       return $q(function (resolve, reject) {
-        if (tracks) {
+        if (trackInfoArray) {
           var promises = [];
-          tracks.forEach(function (track) {
-            dataApiService.asyncImportTrackInfo(track).
+          trackInfoArray.forEach(function (trackInfo) {
+            dataApiService.asyncImportTrackInfo(trackInfo).
               then(
                 function (result) {
                   promises.push(result);
@@ -554,7 +549,7 @@
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             result.data.items.forEach(function (element) {
-              resultArray.push(TrackInfo.build(element.track.name, element.track.album.name, element.track.artists[0].name, element.track.duration_ms, element.track.album.images[0].url, element.track.id));
+              resultArray.push(TrackInfo.build(element.track.name, element.track.album.name, element.track.artists[0].name, element.track.duration_ms, element.track.album.images[0].url, element.track.id,MUSIC_PROVIDER_IDENTIFIER.getId() ));
             });
             return resolve(resultArray);
           });

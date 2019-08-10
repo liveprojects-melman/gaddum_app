@@ -12,12 +12,13 @@
   function GenericTrack(
 
   ) {
-    function GenericTrack(id, name, album, artist) {
+    function GenericTrack(id, name, album, artist, duration_s) {
       // Public properties, assigned to the instance ('this')
       this.id = id;
       this.name = name;
       this.album = album;
       this.artist = artist;
+      this.duration_s = duration_s;
 
       this.getId = function () {
         return this.id;
@@ -35,21 +36,26 @@
         return this.artist;
       }
 
+      this.getDuration_s = function(){
+        return this.duration_s;
+      }
+
     }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    GenericTrack.build = function (id, name, album, artist) {
+    GenericTrack.build = function (id, name, album, artist, duration_s) {
 
       if (!id) id = "";
       if (!name) name = "";
       if (!album) album = "";
       if (!artist) artist = "";
+      if(!duration_s) duration_s = 0;
 
       return new GenericTrack(
-        id, name, album, artist
+        id, name, album, artist, duration_s
       );
 
 
