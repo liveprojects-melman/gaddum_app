@@ -51,7 +51,7 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TrackReference.build = function (id, web_uri, player_uri, thumbnail_uri, provider_id) {
+    TrackReference.build = function (id, web_uri, player_uri, thumbnail_uri, provider_id, track_id) {
 
       if (!id) id = "";
       if (!web_uri) web_uri = "";

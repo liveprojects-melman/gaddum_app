@@ -11,7 +11,7 @@ WHERE
     [name]="replacement_parameter_name" AND
     [album]="replacement_parameter_album" AND
     [artist]="replacement_parameter_artist" AND
-    [duration]="replacement_parameter_duration_s";
+    [duration_s]="replacement_parameter_duration_s";
 INSERT INTO 
     tracks (
     [id],

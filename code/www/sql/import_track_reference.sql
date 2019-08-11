@@ -4,7 +4,7 @@ UPDATE track_references
 SET 
     [web_uri]="replacement_parameter_web_uri",
     [player_uri]="replacement_parameter_player_uri",
-    [thumbnail_uri]="replacement_parameter_thumbnail_uri",
+    [thumbnail_uri]="replacement_parameter_thumbnail_uri"
 WHERE
     [track_id] = "replacement_parameter_track_id" AND
     [provider_id] = "replacement_parameter_provider_id";

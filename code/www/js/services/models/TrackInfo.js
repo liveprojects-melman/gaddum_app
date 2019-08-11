@@ -12,14 +12,15 @@
   function TrackInfo(
 
   ) {
-    function TrackInfo(name, album, artist, duration_s, artwork_url, track_reference, service_provider) {
+    function TrackInfo(name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider) {
       // Public properties, assigned to the instance ('this')
       this.name = name;
       this.album = album;
       this.artist = artist;
       this.duration_s = duration_s;
-      this.artwork_url = artwork_url;
-      this.track_reference = track_reference;
+      this.web_uri = web_uri;
+      this.artwork_uri = artwork_uri;
+      this.player_uri = player_uri;
       this.service_provider = service_provider;
 
     this. getName = function(){
@@ -38,12 +39,16 @@
       return this.duration_s;
     }
 
-    this.getArtworkUrl = function(){
-      return this.artwork_url;
+    this.getWebUri = function(){
+      return this.web_uri;
     }
 
-    this.getTrackReference = function(){
-      return this.track_reference;
+    this.getArtworkUri = function(){
+      return this.artwork_uri;
+    }
+
+    this.getPlayerUri = function(){
+      return this.player_uri;
     }
 
     this.getServiceProvider = function(){
@@ -56,33 +61,24 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TrackInfo.build = function (name, album, artist, duration_s, artwork_url, track_reference, service_provider) {
+    TrackInfo.build = function (name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider) {
 
       
       if(!name) name = "";
       if(!album) album = "";
       if(!artist) artist = "";
       if(!duration_s) duration_s =0;
-      if(!artwork_url) artwork_url = "";
-      if(!track_reference) track_reference = "";
+      if(!web_uri) web_uri ="";
+      if(!artwork_uri) artwork_uri = "";
+      if(!player_uri) player_uri = "";
       if(!service_provider) service_provider = "";
 
         return new TrackInfo(
-          name, album, artist, duration_s, artwork_url, track_reference, service_provider
+          name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
         );
  
 
     };
-
-    TrackInfo.buildFromObject = function (incoming) {
-      var result = new TrackInfo();
-
-      result = angular.merge(result, incoming);
-
-      return result;
-
-    };
-
 
     /**
      * Return the constructor function

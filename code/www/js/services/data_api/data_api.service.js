@@ -11,6 +11,9 @@
         'utilitiesService',
         'PlaylistIdentifier',
         'GenericTrack',
+        'GenericImportTrack',
+        'TrackReference',
+        'CachedImage',
         'MusicProviderIdentifier'
     ];
 
@@ -20,6 +23,9 @@
         utilitiesService,
         PlaylistIdentifier,
         GenericTrack,
+        GenericImportTrack,        
+        TrackReference,
+        CachedImage,
         MusicProviderIdentifier
     ) {
 
@@ -509,7 +515,8 @@
                     artist: artist,
                     id: id
                 },
-                function (items) {
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
                     var results = [];
                     if (items) {
                         items.forEach(
@@ -538,9 +545,10 @@
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
                     duration_s: genericTrack.getDuration_s(),
-                    id: genericTrack.getId();
+                    id: genericTrack.getId()
                 },
-                function (items) {
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
                     var results = [];
                     if (items) {
                         items.forEach(
@@ -568,7 +576,8 @@
                     name: name,
                     id: id
                 },
-                function (items) {
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
                     var results = [];
                     if (items) {
                         items.forEach(
@@ -596,8 +605,8 @@
                     name: name,
                     id: id
                 },
-                function onSuccess(items) {
-                    var results = [];
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
                     if (items) {
                         items.forEach(
                             function (item) {
@@ -631,10 +640,10 @@
                             id: id
                         },
                         function (response) {
-
-                            if (response && (response.length > 0)) {
+                            var items = mappingService.getResponses(response.rows);
+                            if (items && (items.length > 0)) {
                                 // we rely on the default build to set flags like isGift and moodEnabled appropriately
-                                var result = PlaylistIdentifier.buildFromObject(response[0]);
+                                var result = PlaylistIdentifier.buildFromObject(items[0]);
                                 deferred.resolve(result);
                             } else {
                                 deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "failed to create playlist object"));
@@ -669,8 +678,6 @@
         function asyncDoImportGenericTrack(genericTrack) {
 
             var deferred = $q.defer();
-
-
 
             mappingService.query("import_generic_track", {
                 id: genericTrack.getId(),
@@ -730,7 +737,8 @@
                     provider_id: trackReference.getProviderId(),
                     track_id: trackReference.getTrackId()
                 },
-                function (items) {
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
                     var results = [];
                     if (items) {
                         items.forEach(
@@ -752,12 +760,13 @@
 
             var deferred = $q.defer();
 
-            mappingService.query("import_generic_track", {
+            mappingService.query("import_track_reference", {
                 id: trackReference.getId(),
-                web_uri: trackReference.getName(),
-                player_uri: trackReference.getAlbum(),
-                thumbnail_uri: trackReference.getArtist(),
-                track_id: trackReference.getDuration_s()
+                web_uri: trackReference.getWebUri(),
+                player_uri: trackReference.getPlayerUri(),
+                thumbnail_uri: trackReference.getThumbnailUri(),
+                track_id: trackReference.getTrackId(),
+                provider_id: trackReference.getProviderId() 
             },
                 function () {
                     deferred.resolve(trackReference);
@@ -788,7 +797,7 @@
                         trackReference.id = utilitiesService.createUuid();
                     }
                     // this allows us to replace any extra data other than what we searched on.  
-                    asyncDoImportGenericTrack(trackReference).then(
+                    asyncDoImportTrackReference(trackReference).then(
                         deferred.resolve,
                         deferred.reject
                     );
@@ -799,8 +808,29 @@
             return deferred.promise;
         }
 
-        function asyncImportArtwork(cachedImage) {
 
+        function asyncGetArtwork(url) {
+            var deferred = $q.defer();
+
+            mappingService.query("get_artwork", {
+                web_uri: url
+            },
+            function (response) {
+                var cachedImage = null;
+                var items = mappingService.getResponses(response.rows);
+
+                if(items && items.length > 0){
+                    cachedImage = CachedImage.buildFromObject(items[0]);
+                }
+                deferred.resolve(cachedImage);
+            },
+                deferred.reject
+            );
+
+            return deferred.promise;
+        }
+
+        function asyncImportArtwork(cachedImage) {
             var deferred = $q.defer();
 
             mappingService.query("import_artwork", {
@@ -820,15 +850,15 @@
 
 
         // beware! creates a generic track ready for inclusion in DB. It has no Id
-        function toGenericTrack(trackInfo){
+        function toGenericTrack(trackInfo) {
             var result = null;
-            if(trackInfo){ 
-            GenericTrack.build(
-                null, 
-                trackInfo.getName(), 
-                trackInfo.getAlbum(), 
-                trackInfo.getArtist(), 
-                trackInfo.getDuration_s()
+            if (trackInfo) {
+                result = GenericTrack.build(
+                    null,
+                    trackInfo.getName(),
+                    trackInfo.getAlbum(),
+                    trackInfo.getArtist(),
+                    trackInfo.getDuration_s()
                 );
             }
             return result;
@@ -836,37 +866,37 @@
 
         // beware! must use a generic track from the DB. This will have an Id.
         // beware! creates a TrackReference ready for inclusion in DB. It has no id.
-        function toTrackReference(genericTrack, trackInfo, musicProviderIdentifier){
+        function toTrackReference(genericTrack, trackInfo) {
             var result = null;
-            if(genericTrack && trackInfo && musicProviderIdentifier){
-                if(!genericTrack.id){
-                    throw("toTrackReference: generic track without id");
+            if (genericTrack && trackInfo) {
+                if (!genericTrack.id) {
+                    throw ("toTrackReference: generic track without id");
                 }
                 result = TrackReference.build(
                     null,
-                    trackInfo.getWebUri(), 
+                    trackInfo.getWebUri(),
                     trackInfo.getPlayerUri(),
-                    trackInfo.getThumbnailUri(), 
-                    musicProviderIdentifier.getId(), 
+                    trackInfo.getArtworkUri(),
+                    trackInfo.getServiceProvider(),
                     genericTrack.getId());
-            }else{
-                throw("toTrackReference: parameters are missing.");
+            } else {
+                throw ("toTrackReference: parameters are missing.");
             }
             return result;
         }
 
 
-        function toGenericImportTrack(genericTrack, trackReference){
+        function toGenericImportTrack(genericTrack, trackReference) {
             var result = null;
-            if(genericTrack && trackReference){
-            result =  GenericImportTrack.build(
-                genericTrack.getName(), 
-                genericTrack.getAlbum(), 
-                genericTrack,getArtist(),
-                trackReference.getPlayerUri(), 
-                trackReference.getThumbnailUri());
-            }else{
-                throw("toGenericImportTrack: parameters are missing.");
+            if (genericTrack && trackReference) {
+                result = GenericImportTrack.build(
+                    genericTrack.getName(),
+                    genericTrack.getAlbum(),
+                    genericTrack.getArtist(),
+                    trackReference.getPlayerUri(),
+                    trackReference.getThumbnailUri());
+            } else {
+                throw ("toGenericImportTrack: parameters are missing.");
             }
 
             return result;
@@ -876,49 +906,48 @@
         // imports the track info object associated with the music provider.
         // optionally associates a thumbnail image if one is included in the track info.
         // returns a GenericImportTrack.
-        function asyncImportTrackInfo(trackInfo,   musicProviderIdentifier, base64EncodedThumbnail) {
+        function asyncImportTrackInfo(trackInfo, base64EncodedThumbnail) {
 
             var deferred = $q.defer();
 
-            if(trackInfo && musicProviderIdentifier){
+            if (trackInfo) {
 
-            var genericTrack = toGenericTrack(trackInfo);
+                var genericTrack = toGenericTrack(trackInfo);
 
-            asyncImportGenericTrack(genericTrack).then(
-                function(storedGenericTrack){
-                    var trackReference = toTrackReference(
-                        storedGenericTrack,
-                        trackInfo,
-                        musicProviderIdentifier
-                    );
-                    asyncImportTrackReference(trackReference).then(
-                        function(storedTrackReference){
-                            var genericImportTrack = toGenericImportTrack(storedGenericTrack, storedTrackReference);
-                            var thumbnailUrl = trackInfo.getThumbnailUrl();
-                            if(base64EncodedThumbnail && thumbnailUrl){
-                                    asyncImportArtwork(CachedImage.build(thumbnailUrl,base64EncodedThumbnail)).then(
-                                        function(cachedImage){
+                asyncImportGenericTrack(genericTrack).then(
+                    function (storedGenericTrack) {
+                        var trackReference = toTrackReference(
+                            storedGenericTrack,
+                            trackInfo
+                        );
+                        asyncImportTrackReference(trackReference).then(
+                            function (storedTrackReference) {
+                                var genericImportTrack = toGenericImportTrack(storedGenericTrack, storedTrackReference);
+                                var thumbnailUrl = trackInfo.getArtworkUri();
+                                if (base64EncodedThumbnail && thumbnailUrl) {
+                                    asyncImportArtwork(CachedImage.build(thumbnailUrl, base64EncodedThumbnail)).then(
+                                        function (cachedImage) {
                                             deferred.resolve(genericImportTrack);
                                         },
                                         deferred.reject
                                     )
-                                
-                            }else{
-                                deferred.resolve(genericImportTrack);
-                            }
-                        },
-                        deferred.reject
-                    )
 
-                },
-                deferred.reject
-            );
+                                } else {
+                                    deferred.resolve(genericImportTrack);
+                                }
+                            },
+                            deferred.reject
+                        )
 
-            }else{
-                throw("asyncImportTrackInfo: parameters are missing.");
+                    },
+                    deferred.reject
+                );
+
+            } else {
+                throw ("asyncImportTrackInfo: parameters are missing.");
             }
 
-            return $q.deferred();
+            return deferred.promise;
 
         }
 
@@ -1061,7 +1090,8 @@
             asyncGetPlaylists: asyncGetPlaylists,
             asyncCreatePlaylist: asyncCreatePlaylist,
             asyncSetPlaylist: asyncSetPlaylist,
-            asyncImportTrackInfo: asyncImportTrackInfo
+            asyncImportTrackInfo: asyncImportTrackInfo,
+            asyncGetArtwork: asyncGetArtwork
 
         };
 

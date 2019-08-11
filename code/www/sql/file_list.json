@@ -85,7 +85,7 @@
         }
     },
     {
-        "name": "seek_tracs(name, album, artist, id)",
+        "name": "seek_tracks(name, album, artist, id)",
         "function": "seek_tracks",
         "path": "www/sql/seek_tracks.sql",
         "default_parameters": {
@@ -104,6 +104,57 @@
             "artist" : "Queen",
             "album": "Sheer Heart Attack",
             "id": ""
+        }
+    },
+    {
+        "name": "import_artwork(web_uri, base64_image)",
+        "function": "import_artwork",
+        "path": "www/sql/import_artwork.sql",
+        "default_parameters": {
+            "web_uri" : "https://i.scdn.co/image/fea7bab7f12fe247d5df5742a7dada672c2464c5",
+            "base64_image" : "VEhJUyBJUyBOT1QgQU4gSU1BR0U="
+        }
+    },
+    {
+        "name": "get_artwork(web_uri)",
+        "function": "get_artwork",
+        "path": "www/sql/get_artwork.sql",
+        "default_parameters": {
+            "web_uri" : "https://i.scdn.co/image/fea7bab7f12fe247d5df5742a7dada672c2464c5"
+        }
+    },  
+    {
+        "name": "import_track_reference(id,web_uri, player_uri, thumbnail_uri, track_id)",
+        "function": "import_track_reference",
+        "path": "www/sql/import_track_reference.sql",
+        "default_parameters": {
+            "id":"6224be31-5232-4e51-a8cb-12bf4b8a175d",
+            "web_uri":"https://api.spotify.com/v1/users/22bhgqdrsfa6mrjaouysa2hfi", 
+            "player_uri":"spotify:user:22bhgqdrsfa6mrjaouysa2hfi",
+            "thumbnail_uri":"https://mosaic.scdn.co/640/496d40dcbba375ede540bcda898b2d48a354d5838971a383560d1338f058e2c7fedea0f02a4e7047def4030d6ef6587c03e84902f9085d32f5ff5111df3b17e748de56e4ce78ac29b216d3f99afd0c5a", 
+            "track_id":"89172b7b-6ab0-4b38-a8b8-00a0d7bf5571"
+        }
+    },
+    {
+        "name": "get_track_references(id,provider_id, track_id)",
+        "function": "get_track_references",
+        "path": "www/sql/get_track_references.sql",
+        "default_parameters": {
+            "id":"6224be31-5232-4e51-a8cb-12bf4b8a175d",
+            "provider_id":"gaddumMusicProviderSpotifyService", 
+            "track_id":"89172b7b-6ab0-4b38-a8b8-00a0d7bf5571"
+        }
+    }, 
+    {
+        "name": "import_generic_track(id,name, album, artist, duration_s)",
+        "function": "import_generic_track",
+        "path": "www/sql/import_generic_track.sql",
+        "default_parameters": {
+            "id":"89172b7b-6ab0-4b38-a8b8-00a0d7bf5571",
+            "name":"There Comes A Time", 
+            "album":"Gladsome, Humour & Blue",
+            "artist":"Martin Stephenson", 
+            "duration_s":248
         }
     },    
     {

@@ -529,6 +529,7 @@
                   promises.push(result);
                 },
                 function (error) {
+
                   return reject(error);
                 }
               );
@@ -549,7 +550,16 @@
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             result.data.items.forEach(function (element) {
-              resultArray.push(TrackInfo.build(element.track.name, element.track.album.name, element.track.artists[0].name, element.track.duration_ms, element.track.album.images[0].url, element.track.id,MUSIC_PROVIDER_IDENTIFIER.getId() ));
+              //name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
+              resultArray.push(TrackInfo.build(
+                element.track.name, 
+                element.track.album.name, 
+                element.track.artists[0].name, 
+                element.track.duration_ms / 1000,
+                element.track.href, 
+                element.track.album.images[0].url, 
+                element.track.id,
+                MUSIC_PROVIDER_IDENTIFIER.getId() ));
             });
             return resolve(resultArray);
           });
@@ -701,7 +711,17 @@
                     }
                   });
                   if (!isntIn) {
-                    trackList.push(TrackInfo.build(track.name, track.album.name, track.artists[0].name, track.duration_ms, track.album.images[0].url, track.id));
+                    // name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
+                    trackList.push(TrackInfo.build(
+                      track.name, 
+                      track.album.name, 
+                      track.artists[0].name, 
+                      track.duration_ms,
+                      track.href, 
+                      track.album.images[0].url, 
+                      track.id,
+                      MUSIC_PROVIDER_IDENTIFIER.getId() 
+                      ));
                   }
                 });
               });
@@ -732,8 +752,7 @@
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
       asyncImportPlaylists: asyncImportPlaylists,
       asyncSeekTracks: asyncSeekTracks,
-      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
-      setProviderId: setProviderId
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
     };
 
     return service;
