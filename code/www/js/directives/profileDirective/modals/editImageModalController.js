@@ -170,7 +170,7 @@
 //        clear.addEventListener('mouseup', handle_clear, false);
 //        invert.addEventListener('mouseup', handle_invert, false);
 
-        var body = document.getElementById('profileImageEditModal')[0];
+        var body = document.getElementById('profileImageEditModal');
         body.addEventListener('touchmove', clickMove, {passive:true} );
         body.addEventListener('mousemove', clickMove, {passive:true} );
 
