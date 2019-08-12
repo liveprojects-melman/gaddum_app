@@ -261,7 +261,7 @@
     };
 
     var handle_clear = function handle_clear() {
-      alert("clear!");
+      console.log("clear!");
       do_clear();
 //      updateThumb();
     };
@@ -333,6 +333,7 @@
     };
 
     var handle_invert = function handle_invert() {
+      console.log("handle_invert called");
       try	{
         var x = evt.targetTouches[0].pageX;
         return;
@@ -343,7 +344,7 @@
             setPixel(canvas, x, y , pixel_colours[draw_colour]);
           }
         }
-        updateThumb();
+//        updateThumb();
       }
     };
 
