@@ -366,7 +366,7 @@
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
-//          updateThumb();
+          updateThumb();
         }
       } else {
         clickEnd(event);
@@ -378,7 +378,7 @@
 
     var clickEnd = function clickEnd(event) {
       draw_colour = undefined;
-      if ( (event.target == canvas_grid) /*&&(event.cancellable)*/ ) {
+      if ( (event.target == canvas_grid) &&(event.cancellable) ) {
         event.preventDefault();
       }
     };
