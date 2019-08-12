@@ -261,6 +261,7 @@
     };
 
     var handle_clear = function handle_clear() {
+      alert("clear!");
       do_clear();
 //      updateThumb();
     };
