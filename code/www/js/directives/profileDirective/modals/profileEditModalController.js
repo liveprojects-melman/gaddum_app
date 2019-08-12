@@ -222,11 +222,11 @@
       setTimeout(function () {
         //console.log("profile", profile);
         //console.log(document.getElementsByClassName("editPageProfileCanvas"));
-        var canvas = document.getElementsByClassName("editPageProfileCanvas");
+        var canvas = document.getElementsByClassName("editPageProfileCanvas")[0];
 
         //        console.log(canvas.length);
-        console.log("createProfileGraphic: canvas = ",canvas);
-        canvas = canvas[canvas.length - 1];
+//        console.log("createProfileGraphic: canvas = ",canvas);
+//        canvas = canvas[canvas.length - 1];
         var ctx = canvas.getContext('2d');
         var nx = Math.floor(canvas.width / scale);
         var ny = Math.floor(canvas.height / scale);
