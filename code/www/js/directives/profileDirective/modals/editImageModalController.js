@@ -376,7 +376,7 @@
 
     var clickEnd = function clickEnd(event) {
       draw_colour = undefined;
-      if (event.target == canvas_grid) {
+      if ( (event.target == canvas_grid)&&(event.cancellable) ) {
         event.preventDefault();
       }
     };
