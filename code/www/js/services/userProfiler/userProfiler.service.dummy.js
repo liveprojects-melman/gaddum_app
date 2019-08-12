@@ -95,7 +95,7 @@
 
         function asyncLoadMoodedPlaylists(arrayMoodedPlaylists) {
 
-            console.log("Mooded Playlist",moodedPlaylist);
+            console.log("Mooded Playlist",arrayMoodedPlaylists);
 
 
         }
