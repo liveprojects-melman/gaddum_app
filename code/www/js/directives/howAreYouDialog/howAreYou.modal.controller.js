@@ -28,17 +28,18 @@
     var moodIdDict = {};
     var mc = angular.extend(this, {
       itemSelected: false,
-      emotionSelected: ''
+      emotionSelected: '',
+      loading: false
     });
     $scope.howAreYouModal = howAreYouModal;
     function init() {
+      mc.loading = true;
       moodService.asyncGetSupportedMoodIds().then(function (supportedMoods) {
-        mc.allEmotions = supportedMoods
-        console.log("start", mc.allEmotions);
+        mc.allEmotions = supportedMoods;
         mc.allEmotionsSave = mc.allEmotions;
         asyncPopulateMoodResourceDict(mc.allEmotions, moodIdDict).then(function () {
           mc.allEmotions = moodIdDict;
-          console.log("heya", mc.allEmotions);
+          mc.loading=false;
         });
 
         mc.params = howAreYouModal.getParams();
@@ -90,6 +91,14 @@
 
       });
       console.log("result",result);
+      var antiMood = null;
+      if(result.mood_hot === result.name){
+        antiMood = result.mood_cold;
+      }
+      else{
+        antiMood = result.mood_hot;
+      }
+      result = MoodIdentifier.build(result.id,result.name,antiMood);
       howAreYouModal.callback(result);
       howAreYouModal.close();
     }
