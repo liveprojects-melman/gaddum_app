@@ -110,6 +110,9 @@
       vm.avimg=vm.params[0].avatar_image;
       console.log("avimg",vm.avimg);
       loadEditor();
+      vm.doClear=handle_clear;
+      vm.doSave=handle_save;
+      vm.doInvert=handle_invert;
     }
 
     window.onload=init();
@@ -162,17 +165,17 @@
         canvas_grid.addEventListener('touchend', clickEnd, false);
         canvas_grid.addEventListener('mouseup', clickEnd, false);
 
-        var clear = document.getElementById('clear');
-        var invert = document.getElementById('invert');
-        clear.addEventListener('mouseup', handle_clear, false);
-        invert.addEventListener('mouseup', handle_invert, false);
+//        var clear = document.getElementById('clear');
+//        var invert = document.getElementById('invert');
+//        clear.addEventListener('mouseup', handle_clear, false);
+//        invert.addEventListener('mouseup', handle_invert, false);
 
         var body = document.getElementsByTagName('body')[0];
         body.addEventListener('touchmove', clickMove, false);
         body.addEventListener('mousemove', clickMove, false);
 
-        var save = document.getElementById('save');
-        save.addEventListener('mouseup', handle_save, false);
+//        var save = document.getElementById('save');
+//        save.addEventListener('mouseup', handle_save, false);
 
 //        window.onpopstate = function(event) {
 //          restoreHash();

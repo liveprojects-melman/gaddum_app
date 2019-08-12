@@ -103,10 +103,11 @@
     <body>
       <div id="canvas_holder">
       </div>
-      <div id="controls">
-        <div id="clear" class="button"><span class="pad">clear</span></div>
-        <div id="invert" class="button"><span class="pad">invert</span></div>
-        <div id="save" class="button"><span>save</span><!-- <img id="img" width="36" height="36"/> --></a></div>
+
+      <div class="button-bar button-small">
+        <a class="button button-small" ng-press="vm.doClear()">clear</a>
+        <a class="button button-small" ng-press="vm.doInvert()">invert</a>
+        <a class="button button-small button-positive" ng-press=vm.doSave()"">save <img id="img" width="36" height="36"/></a>
       </div>
     </body>
 </div>
