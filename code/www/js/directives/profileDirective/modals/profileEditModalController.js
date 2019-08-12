@@ -224,7 +224,8 @@
         //console.log(document.getElementsByClassName("editPageProfileCanvas"));
         var canvas = document.getElementsByClassName("editPageProfileCanvas");
 
-//        console.log(canvas.length);
+        //        console.log(canvas.length);
+        console.log("createProfileGraphic: canvas = ",canvas);
         canvas = canvas[canvas.length - 1];
         var ctx = canvas.getContext('2d');
         var nx = Math.floor(canvas.width / scale);
