@@ -159,11 +159,11 @@
         canvas_holder.appendChild(canvas_grid);
 
         canvas_grid.addEventListener('touchstart', clickDown, {passive:false} );
-        canvas_grid.addEventListener('mousedown', clickDown, {passive:true} );
-        canvas_grid.addEventListener('touchmove', clickMove, {passive:true} );
-        canvas_grid.addEventListener('mousemove', clickMove, {passive:true} );
-        canvas_grid.addEventListener('touchend', clickEnd, {passive:true} );
-        canvas_grid.addEventListener('mouseup', clickEnd, {passive:true} );
+        canvas_grid.addEventListener('mousedown', clickDown, {passive:false} );
+        canvas_grid.addEventListener('touchmove', clickMove, {passive:false} );
+        canvas_grid.addEventListener('mousemove', clickMove, {passive:false} );
+        canvas_grid.addEventListener('touchend', clickEnd, {passive:false} );
+        canvas_grid.addEventListener('mouseup', clickEnd, {passive:false} );
 
 //        var clear = document.getElementById('clear');
 //        var invert = document.getElementById('invert');
