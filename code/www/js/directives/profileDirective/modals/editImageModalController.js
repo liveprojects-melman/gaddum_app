@@ -224,10 +224,11 @@
       updateThumb();*/
     };
 
-    var handle_save = function handle_save() {
+    vm.handle_save = function handle_save() {
       console.log("this is the save");
+      saveHash();
       //console.log("Returning img in callback",encodedImg);
-      editImageModal.callback(encodedImg);
+      editImageModal.imgUpdate(encodedImg);
         editImageModal.close();
 /*
         var save_canvas = document.createElement('canvas');
@@ -268,13 +269,13 @@
     };
 
     var saveHash = function saveHash() {
-/*      var newHash = [];
+     var newHash = [];
       for (var y = 0; y<canvas_wh[1]; y++) {
         for (var x = 0; x<canvas_wh[0]; x++) {
           newHash.push( findMatchingColour(getPixelColour(canvas, x, y)) );
         }
       }
-      window.location.hash = String(canvas_wh[0])+','+String(canvas_wh[1])+':'+newHash.join(",");
+      //window.location.hash = String(canvas_wh[0])+','+String(canvas_wh[1])+':'+newHash.join(",");
       encodedImg=[];
       var tempArray=[];
       var j=1;
@@ -294,7 +295,7 @@
           tempArray=[];
         }
       }
-      editImageModal.imgUpdate(encodedImg);*/
+      editImageModal.imgUpdate(encodedImg);
     };
 
     var render_canvas = function render_canvas( source, destination ) {
