@@ -171,8 +171,8 @@
 //        invert.addEventListener('mouseup', handle_invert, false);
 
         var body = document.getElementById('profileImageEditModal');
-        body.addEventListener('touchmove', clickMove, {passive:true} );
-        body.addEventListener('mousemove', clickMove, {passive:true} );
+//        body.addEventListener('touchmove', clickMove, {passive:true} );
+//        body.addEventListener('mousemove', clickMove, {passive:true} );
 
 //        var save = document.getElementById('save');
 //        save.addEventListener('mouseup', handle_save, false);
