@@ -100,13 +100,13 @@
 
     function init() {
       vm.params = profileEditModal.getParams();
-      console.log("params!",vm.params);
+//      console.log("params!",vm.params);
       initialiseGenres();
       vm.fullName = vm.params[2].userProfile.avatar_name;
       newGenres = vm.params[1].userGenres;
       profile = vm.params[2].userProfile;
       vm.displayImage=profile.avatar_graphic.values;
-      console.log("disp img",vm.displayImage);
+//      console.log("disp img",vm.displayImage);
       if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null) {
         vm.displayImage=[128,128,128,128,128,128,128,128];
       }
