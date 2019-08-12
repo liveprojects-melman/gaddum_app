@@ -1,104 +1,105 @@
 <div class="modal profileImageEditModal" id="profileImageEditModal" ng-controller="editImageModalController as vm">
   <style>
-	 html, body {
+   /*	 html, body { */
+   div#profileImageEditModal {
 		 overflow:hidden;
 	 }
-	 #canvas_holder {
-		 width:700px;
-		 height:700px;
-		 margin-right:auto;
-		 margin-left: auto;
-		 cursor: hand;
-		 position:relative;
-	 }
-	 #canvas_grid {
-		 /*margin-top: -100%;*/
-		 position:absolute;
-		 left:0;top:0;
-	 }
-	 #edit {
-		 width:100%;
-		 height:100%;
-		 position:absolute;
-		 left:0;top:0;
-	 }
-	 #canvasholder * canvas,#canvasholder * img {
-		 image-rendering: optimizeSpeed;             /* Older versions of FF          */
-		 image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
-		 image-rendering: -webkit-optimize-contrast; /* Safari                        */
-		 image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
-		 image-rendering: pixelated;                 /* Awesome future-browsers       */
-		 -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
-	 }
+	   #canvas_holder {
+		   width:700px;
+		   height:700px;
+		   margin-right:auto;
+		   margin-left: auto;
+		   cursor: hand;
+		   position:relative;
+	   }
+	   #canvas_grid {
+		   /*margin-top: -100%;*/
+		   position:absolute;
+		   left:0;top:0;
+	   }
+	   #edit {
+		   width:100%;
+		   height:100%;
+		   position:absolute;
+		   left:0;top:0;
+	   }
+	   #canvasholder * canvas,#canvasholder * img {
+		   image-rendering: optimizeSpeed;             /* Older versions of FF          */
+		   image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+		   image-rendering: -webkit-optimize-contrast; /* Safari                        */
+		   image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+		   image-rendering: pixelated;                 /* Awesome future-browsers       */
+		   -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+	   }
 
-   /* 			@media (hover:none) and (orientation: landscape) { */
-	 @media only screen and (orientation: landscape) { 
-		 div#controls {
-			 clear:none !important;
-			 top:1em !important;
-			 right:1em;
-			 float:right !important;
-			 width:10em !important;
-			 position:fixed !important;
-		 }
-	 }
+     /* 			@media (hover:none) and (orientation: landscape) { */
+	   @media only screen and (orientation: landscape) { 
+		   div#controls {
+			   clear:none !important;
+			   top:1em !important;
+			   right:1em;
+			   float:right !important;
+			   width:10em !important;
+			   position:fixed !important;
+		   }
+	   }
 
-	 @media (max-width: 320px) /*and (orientation: portrait)*/{
-		 html { 
-		   x-max-width: 480px;
-		   background-color:orange;
-		 }
-		 #canvas_holder {
-			 width:300px !important;
-			 height:300px !important;
-		 }
-		 div.button {
-			 width:30% !important;
-		 }
-		 div.button>span {
-			 font-size:.5em !important;
-			 padding-left:0 !important;
-		 }
-		 div.button>span.pad {
-			 margin-left:0 !important;
-		 }
+	   @media (max-width: 320px) /*and (orientation: portrait)*/{
+		   html { 
+		     x-max-width: 480px;
+		     background-color:orange;
+		   }
+		   #canvas_holder {
+			   width:300px !important;
+			   height:300px !important;
+		   }
+		   div.button {
+			   width:30% !important;
+		   }
+		   div.button>span {
+			   font-size:.5em !important;
+			   padding-left:0 !important;
+		   }
+		   div.button>span.pad {
+			   margin-left:0 !important;
+		   }
 
-	 }
-	 
-	 div#controls {
-		 margin-top:.5em;
-		 clear:both;
-		 float:none;
-		 position:relative;
-		 top:auto;
-		 width:auto;
-		 user-select:none;
-	 }
-	 div.button {
-		 border:2px solid #777;
-		 border-radius:4px;
-		 padding:4px;
-		 background-color:#999;
-		 color:#fff;
-		 font-family: sans-serif;
-		 margin-bottom:4px;
-		 cursor: pointer;
-	 }
-	 div.button:hover {
-		 background-color:#666;
-		 color:#eee;
-	 }
-	 div.button>span {
-		 padding-left:20px;
-		 user-select:none;
-		 font-size:2em;
-	 }
-	 div.button>img {
-		 float:left;
-	 }
-	 span.pad {
-		 margin-left:40px;
-	 }
+	   }
+	   
+	   div#controls {
+		   margin-top:.5em;
+		   clear:both;
+		   float:none;
+		   position:relative;
+		   top:auto;
+		   width:auto;
+		   user-select:none;
+	   }
+	   div.button {
+		   border:2px solid #777;
+		   border-radius:4px;
+		   padding:4px;
+		   background-color:#999;
+		   color:#fff;
+		   font-family: sans-serif;
+		   margin-bottom:4px;
+		   cursor: pointer;
+	   }
+	   div.button:hover {
+		   background-color:#666;
+		   color:#eee;
+	   }
+	   div.button>span {
+		   padding-left:20px;
+		   user-select:none;
+		   font-size:2em;
+	   }
+	   div.button>img {
+		   float:left;
+	   }
+	   span.pad {
+		   margin-left:40px;
+	   }
 	</style>
     <id="profileEditWrapper">
       <div id="canvas_holder">
