@@ -1580,7 +1580,7 @@ div#scroller.ng-hide {
 		   position:absolute;
 		   left:0;top:0;
 	   }
-	   #canvasholder, #canvasholder img {
+	   #canvas_holder, #canvas_holder img {
 		   image-rendering: optimizeSpeed;             /* Older versions of FF          */
 		   image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
 		   image-rendering: -webkit-optimize-contrast; /* Safari                        */
