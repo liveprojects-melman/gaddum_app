@@ -170,7 +170,7 @@
 //        clear.addEventListener('mouseup', handle_clear, false);
 //        invert.addEventListener('mouseup', handle_invert, false);
 
-        var body = document.getElementsById('profileImageEditModal')[0];
+        var body = document.getElementById('profileImageEditModal')[0];
         body.addEventListener('touchmove', clickMove, {passive:true} );
         body.addEventListener('mousemove', clickMove, {passive:true} );
 
@@ -362,7 +362,7 @@
     };
 
     var clickMove = function clickMove(event) {
-      if((event.target.id==="canvas_grid")&&(cancellable) ) {
+      if((event.target.id==="canvas_grid")&&(cancelable) ) {
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
