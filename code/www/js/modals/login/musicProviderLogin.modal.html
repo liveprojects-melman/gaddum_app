@@ -12,6 +12,7 @@
     <div style="margin-top:100px; text-align:center;">
       <button class="button selectButtonLogin" ng-click="ac.asyncLogin()">login</button>
    </div>
+   <ion-spinner class="loginSpinner" ng-hide="!ac.busy" paused="true" name="circles" ></ion-spinner>
     </div>
   </ion-content>
   </div>

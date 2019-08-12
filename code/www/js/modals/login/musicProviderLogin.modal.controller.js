@@ -49,8 +49,8 @@
           function () {
             console.log("requesting login.");
             gaddumMusicProviderService.asyncLogin().then(
-              onLoginSuccess,
-              onLoginFail);
+              onLoginSuccess(),
+              onLoginFail());
           },
           onLoginFail
         );
