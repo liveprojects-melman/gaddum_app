@@ -1101,6 +1101,7 @@ margin:10px;
     top: 40%; */
 }
 .profileImageEditModal{
+  padding:4px;
     width: 85%;
     position: absolute;
     left: 7.5%;
@@ -1109,7 +1110,6 @@ margin:10px;
 
 }
 #canvas_holder #edit{
-    
     width: 88%;
     height: 88%;
     position: absolute;
@@ -1580,7 +1580,7 @@ div#scroller.ng-hide {
 		   position:absolute;
 		   left:0;top:0;
 	   }
-	   #canvasholder canvas, #canvasholder img {
+	   #canvasholder, #canvasholder img {
 		   image-rendering: optimizeSpeed;             /* Older versions of FF          */
 		   image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
 		   image-rendering: -webkit-optimize-contrast; /* Safari                        */

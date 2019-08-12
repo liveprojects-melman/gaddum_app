@@ -111,9 +111,9 @@
       vm.avimg=vm.params[0].avatar_image;
 //      console.log("avimg",vm.avimg);
       loadEditor();
-      vm.doClear=handle_clear;
-      vm.doSave=handle_save;
-      vm.doInvert=vm.handle_invert;
+      //vm.doClear=handle_clear;
+      //vm.doSave=handle_save;
+      //vm.doInvert=vm.handle_invert;
     }
 
     init();
@@ -225,7 +225,7 @@
     };
 
     var handle_save = function handle_save() {
-      //console.log("this is the save");
+      console.log("this is the save");
       //console.log("Returning img in callback",encodedImg);
       editImageModal.callback(encodedImg);
         editImageModal.close();
@@ -261,7 +261,7 @@
       ctx.fillRect(0, 0, canvas_wh[0], canvas_wh[1]);
     };
 
-    var handle_clear = function handle_clear() {
+    vm.handle_clear = function handle_clear() {
       console.log("clear!");
       do_clear();
       updateThumb();
