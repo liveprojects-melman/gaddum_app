@@ -237,6 +237,34 @@
         }
     },
     {
+        "name": "associate_playlist_track()",
+        "function": "associate_playlist_track",
+        "path": "www/sql/associate_playlist_track.sql",
+        "default_parameters": {
+            "id": "ed9624d7-70ac-48e9-a218-f9e5b1c05433",
+            "playlist_id":"acaa6e9c-b09a-44dc-8a0e-9d6dd7a9804b",
+            "track_id":"3656f209-f021-44de-9430-c9aeb219a0a3",
+            "order": "0"
+        }
+    }, 
+    {
+        "name": "remove_playlist()",
+        "function": "remove_playlist",
+        "path": "www/sql/remove_playlist.sql",
+        "default_parameters": {
+            "id": "ed9624d7-70ac-48e9-a218-f9e5b1c05433"
+        }
+    },
+   
+    {
+        "name": "get_tracks_in_playlist()",
+        "function": "get_tracks_in_playlist",
+        "path": "www/sql/get_tracks_in_playlist.sql",
+        "default_parameters": {
+            "playlist_id":"acaa6e9c-b09a-44dc-8a0e-9d6dd7a9804b"
+        }
+    }, 
+    {
         "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",
         "path": "www/sql/add_observation.sql",

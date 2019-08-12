@@ -7,6 +7,7 @@
 
     dataApiService.$inject = [
         '$q',
+        '$timeout',
         'mappingService',
         'utilitiesService',
         'PlaylistIdentifier',
@@ -19,11 +20,12 @@
 
     function dataApiService(
         $q,
+        $timeout,
         mappingService,
         utilitiesService,
         PlaylistIdentifier,
         GenericTrack,
-        GenericImportTrack,        
+        GenericImportTrack,
         TrackReference,
         CachedImage,
         MusicProviderIdentifier
@@ -535,6 +537,9 @@
         }
 
 
+
+
+
         function asyncGetTracks(genericTrack) {
             var deferred = $q.defer();
 
@@ -600,7 +605,7 @@
             var deferred = $q.defer();
 
             mappingService.query(
-                "get_playlist",
+                "get_playlists",
                 {
                     name: name,
                     id: id
@@ -623,56 +628,23 @@
 
         }
 
-        // update / create a playlist
-        function asyncDoSetPlaylist(name, id) {
-            var deferred = $q.defer();
 
-            mappingService.query("create_playlist", {
-                name: name,
-                id: id
-            },
-                function () {
-                    // cannot return the result of an insert, like Postgres, so have to search for the id of the object we created.
-                    mappingService.query(
-                        "set_playlist",
-                        {
-                            name: name,
-                            id: id
-                        },
-                        function (response) {
-                            var items = mappingService.getResponses(response.rows);
-                            if (items && (items.length > 0)) {
-                                // we rely on the default build to set flags like isGift and moodEnabled appropriately
-                                var result = PlaylistIdentifier.buildFromObject(items[0]);
-                                deferred.resolve(result);
-                            } else {
-                                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "failed to create playlist object"));
-                            }
-                        },
-                        deferred.reject
-                    );
-                },
-                deferred.reject
-            );
-
-            return deferred.promise;
-        }
 
 
         function asyncCreatePlaylist(name) {
-            return asyncDoSetPlaylist(
+
+
+            var playlist = PlaylistIdentifier.build(
+                utilitiesService.createUuid(),
                 name,
-                utilitiesService.createUuid()
+                null,
+                null);
+            return asyncUpdatePlaylist(
+                playlist
             );
         }
 
-        function asyncSetPlaylist(playlistIndentifier) {
-            //TODO:  Handle other flags in playlist identifier, which handle gifts and moodenable
-            return asyncDoSetPlaylist(
-                playlistIdentifier.getName(),
-                playlistIdentifier.getId()
-            );
-        }
+
 
 
         function asyncDoImportGenericTrack(genericTrack) {
@@ -766,7 +738,7 @@
                 player_uri: trackReference.getPlayerUri(),
                 thumbnail_uri: trackReference.getThumbnailUri(),
                 track_id: trackReference.getTrackId(),
-                provider_id: trackReference.getProviderId() 
+                provider_id: trackReference.getProviderId()
             },
                 function () {
                     deferred.resolve(trackReference);
@@ -815,15 +787,15 @@
             mappingService.query("get_artwork", {
                 web_uri: url
             },
-            function (response) {
-                var cachedImage = null;
-                var items = mappingService.getResponses(response.rows);
+                function (response) {
+                    var cachedImage = null;
+                    var items = mappingService.getResponses(response.rows);
 
-                if(items && items.length > 0){
-                    cachedImage = CachedImage.buildFromObject(items[0]);
-                }
-                deferred.resolve(cachedImage);
-            },
+                    if (items && items.length > 0) {
+                        cachedImage = CachedImage.buildFromObject(items[0]);
+                    }
+                    deferred.resolve(cachedImage);
+                },
                 deferred.reject
             );
 
@@ -890,6 +862,7 @@
             var result = null;
             if (genericTrack && trackReference) {
                 result = GenericImportTrack.build(
+                    genericTrack.getId(),
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
@@ -910,46 +883,231 @@
 
             var deferred = $q.defer();
 
-            if (trackInfo) {
+            $timeout(
+                function(){
+                    if(trackInfo){
 
-                var genericTrack = toGenericTrack(trackInfo);
+                        var genericTrack = toGenericTrack(trackInfo);
 
-                asyncImportGenericTrack(genericTrack).then(
-                    function (storedGenericTrack) {
-                        var trackReference = toTrackReference(
-                            storedGenericTrack,
-                            trackInfo
-                        );
-                        asyncImportTrackReference(trackReference).then(
-                            function (storedTrackReference) {
-                                var genericImportTrack = toGenericImportTrack(storedGenericTrack, storedTrackReference);
-                                var thumbnailUrl = trackInfo.getArtworkUri();
-                                if (base64EncodedThumbnail && thumbnailUrl) {
-                                    asyncImportArtwork(CachedImage.build(thumbnailUrl, base64EncodedThumbnail)).then(
-                                        function (cachedImage) {
+                        asyncImportGenericTrack(genericTrack).then(
+                            function (storedGenericTrack) {
+                                var trackReference = toTrackReference(
+                                    storedGenericTrack,
+                                    trackInfo
+                                );
+                                asyncImportTrackReference(trackReference).then(
+                                    function (storedTrackReference) {
+                                        var genericImportTrack = toGenericImportTrack(storedGenericTrack, storedTrackReference);
+                                        var thumbnailUrl = trackInfo.getArtworkUri();
+                                        if (base64EncodedThumbnail && thumbnailUrl) {
+                                            asyncImportArtwork(CachedImage.build(thumbnailUrl, base64EncodedThumbnail)).then(
+                                                function (cachedImage) {
+                                                    deferred.resolve(genericImportTrack);
+                                                },
+                                                deferred.reject
+                                            )
+        
+                                        } else {
                                             deferred.resolve(genericImportTrack);
-                                        },
-                                        deferred.reject
-                                    )
-
-                                } else {
-                                    deferred.resolve(genericImportTrack);
-                                }
+                                        }
+                                    },
+                                    function(){deferred.resolve(null);} // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                                )
+        
                             },
-                            deferred.reject
-                        )
+                            function(){deferred.resolve(null);} // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                        );
 
-                    },
-                    deferred.reject
-                );
 
-            } else {
-                throw ("asyncImportTrackInfo: parameters are missing.");
-            }
+                    }else{
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncImportTrackInfo: parameters are missing." ));
+                    }
+
+                }
+
+
+            );
+
+         
+
+
+
+ 
 
             return deferred.promise;
 
         }
+
+        function asyncGetGenericTracksInPlaylist(playlistIdentifier) {
+            var deferred = $q.defer();
+            console.log("----------");
+            console.log("looking for playlist: " + playlistIdentifier.getId());
+            mappingService.query("get_tracks_in_playlist", {
+                playlist_id: playlistIdentifier.getId()
+            },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                }
+                ,
+                deferred.reject
+            );
+
+            return deferred.promise;
+        }
+
+
+        function asyncAssociatePlaylistAndTrack(namedIdentifierPlaylist, namedIdentifierTrack, order) {
+            var deferred = $q.defer();
+
+            var args = {
+                id: utilitiesService.createUuid(),
+                playlist_id: namedIdentifierPlaylist.getId(),
+                track_id: namedIdentifierTrack.getId(),
+                order: order
+            }
+
+            mappingService.query("associate_playlist_track", args,
+                function(){
+                    deferred.resolve(
+                        args
+                    );
+                },
+                function(error){
+                    deferred.reject(error);//TODO: Better handling of this, without stopping parallel promise chain
+                }
+  
+            );
+
+            return deferred.promise;
+        }
+
+        function asyncAssociatePlaylistAndTracks(namedIdentifierPlaylist, namedIdentifierTracks) {
+            var deferred = $q.defer();
+            var promises = [];
+            $timeout(
+                function () {
+                    if (namedIdentifierPlaylist && namedIdentifierTracks && namedIdentifierTracks.length > 0) {
+
+                        for (var i = 0; i < namedIdentifierTracks.length; i++) {
+                            var namedIdTrack = namedIdentifierTracks[i];
+                            promises.push(asyncAssociatePlaylistAndTrack(namedIdentifierPlaylist, namedIdTrack, i));
+                        }
+
+                        $q.all(promises).then(
+                            deferred.resolve,
+                            deferred.reject
+                        );
+                    } else {
+                        deferred.resolve(null);
+                    }
+
+                });
+
+            return deferred.promise;
+        }
+
+
+
+        function asyncRemovePlaylist(playlistIdentifier) {
+            var deferred = $q.defer();
+
+            $timeout(
+                function () {
+
+                    if (playlistIdentifier) {
+                        mappingService.query("remove_playlist", {
+                            id: playlistIdentifier.getId()
+                        },
+                            deferred.resolve,
+                            deferred.reject
+                        );
+                    } else {
+                        deferred.resolve();
+                    }
+
+                }
+            );
+
+
+
+            return deferred.promise;
+
+        }
+
+
+        function asyncUpdatePlaylist(playlistIdentifier) {
+            var deferred = $q.defer();
+
+            $timeout(
+
+                function () {
+                    if (playlistIdentifier && playlistIdentifier.getName() && playlistIdentifier.getId()) {
+
+                        mappingService.query("set_playlist", {
+                            id: playlistIdentifier.getId(),
+                            name: playlistIdentifier.getName()
+                        },
+                            function () {
+                                deferred.resolve(playlistIdentifier);
+                            },
+                            deferred.reject
+                        );
+
+
+                    } else {
+                        deferred.resolve(playlistIdentifier);
+                    }
+
+                }
+
+            );
+
+
+            return deferred.promise;
+        }
+
+        function asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks) {
+
+            var deferred = $q.defer();
+
+            $timeout(
+                function () {
+                    if(playlistIdentifier && arrayGenericTracks && arrayGenericTracks.length > 0){
+                        asyncRemovePlaylist(playlistIdentifier).then(
+                            function(){
+                                asyncUpdatePlaylist(playlistIdentifier).then( // take advantage of upsert-type function here
+                                    function(){
+                                        asyncAssociatePlaylistAndTracks(playlistIdentifier, arrayGenericTracks);
+                                    },
+                                    deferred.resolve(playlistIdentifier)
+                                );
+                            },
+                            deferred.resolve(playlistIdentifier)
+                        );
+
+                    }else{
+                        deferred.resolve(playlistIdentifier)
+                    }
+                }
+
+            );
+
+
+
+
+            return deferred.promise;
+
+        }
+
 
 
         // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
@@ -1057,7 +1215,6 @@
         }
 
 
-
         var service = {
             asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
             asyncGetSelectedMusicProvider: asyncGetSelectedMusicProvider,
@@ -1085,14 +1242,20 @@
 
             asyncAddObservation: asyncAddObservation,
             asyncSeekTracks: asyncSeekTracks,
-            asyncSeekPlaylists: asyncSeekPlaylists,
             asyncGetTracks: asyncGetTracks,
-            asyncGetPlaylists: asyncGetPlaylists,
-            asyncCreatePlaylist: asyncCreatePlaylist,
-            asyncSetPlaylist: asyncSetPlaylist,
-            asyncImportTrackInfo: asyncImportTrackInfo,
-            asyncGetArtwork: asyncGetArtwork
 
+            asyncAssociatePlaylistAndTracks: asyncAssociatePlaylistAndTracks,
+
+
+            asyncImportTrackInfo: asyncImportTrackInfo,
+            asyncGetArtwork: asyncGetArtwork,
+
+            asyncCreatePlaylist: asyncCreatePlaylist,
+            asyncUpdatePlaylist: asyncUpdatePlaylist,
+            asyncRemovePlaylist: asyncRemovePlaylist,
+            asyncSeekPlaylists: asyncSeekPlaylists,
+            asyncGetGenericTracksInPlaylist: asyncGetGenericTracksInPlaylist,
+            asyncSetGenericTracksInPlaylist: asyncSetGenericTracksInPlaylist,
         };
 
 

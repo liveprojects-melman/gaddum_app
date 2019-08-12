@@ -28,16 +28,16 @@
       return dataApiService.asyncSeekPlaylists(searchName);
     }
 
-    function asyncSetPlayList(playlistIdentifier){
-      return dataApiService.asyncSetPlayList(playlistIdentifier);
+    function asyncUpdatePlaylist(playlistIdentifier){
+      return dataApiService.asyncUpdatePlaylist(playlistIdentifier);
     }
     
     function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
-      return dataApiService.asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks);
+      return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks);
     }
 
     function asyncGetPlaylistTracks(playlistIdentifier){
-      return dataApiService.asyncGetPlaylistTracks(playlistIdentifier);
+      return dataApiService.asyncGetGenericTracksInPlaylist(playlistIdentifier);
     }
 
     function asyncRemovePlaylist(playlistIdentifier){
@@ -49,7 +49,7 @@
     var service = {
       asyncCreatePlaylist:asyncCreatePlaylist,
       asyncSeekPlaylists:asyncSeekPlaylists,
-      asyncSetPlayList: asyncSetPlayList,
+      asyncUpdatePlaylist: asyncUpdatePlaylist,
       asyncSetPlaylistTracks:asyncSetPlaylistTracks,
       asyncGetPlaylistTracks:asyncGetPlaylistTracks,
       asyncRemovePlaylist:asyncRemovePlaylist

@@ -4,7 +4,7 @@ SET
 WHERE
     id="replacement_parameter_id";
 INSERT INTO 
-    playlist (
+    playlists (
     id,
     [name]
     )

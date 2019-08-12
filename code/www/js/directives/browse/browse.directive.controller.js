@@ -197,7 +197,7 @@
       var mooded= null;
       var moodedArray =[];
       arrayTrack.push(currentTrack);
-      playlist = Playlist.build(arrayTrack);
+      playlist = Playlist.build(null, null, arrayTrack);
       mooded = MoodedPlaylist.build(emotion,playlist);
       moodedArray.push(mooded);
       userProfilerService.loader.asyncLoadMoodedPlaylists(moodedArray);

@@ -144,6 +144,9 @@
                 function_name,
                 parameters,
                 function (sql) {
+                    //  console.log("----SQL--");
+                    //  console.log(sql);
+                    //  console.log("--- END SQL ---");
                     service.private.executeSql(sql, success, fail);
                 },
                 fail);
@@ -288,10 +291,10 @@
 
             try {
                 var replaceWith = null;
-                if(object){
-                    replaceWith = object.toString();
-                }else{
+                if(object == null){
                     replaceWith = 'null';
+                }else{
+                    replaceWith = object.toString();
                 }
                 var _searchFor = service.private.applyPrefix(service.private.PARAMETER_PREFIX, searchFor);
                 var expression = "\\b(" + _searchFor + ")\\b";

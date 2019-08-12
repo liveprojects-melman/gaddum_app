@@ -101,7 +101,7 @@
       var importArray = [];
       mc.playlistArray.forEach(function(element) {
         if (element.value === true) {
-          importArray.push(ImportPlaylist.build(element.name,element.id,element.artwork,element.display_name));
+          importArray.push(ImportPlaylist.build(null, element.name,element.id,element.artwork,element.display_name));
         }
       });
       gaddumMusicProviderService.asyncImportPlaylists(importArray)

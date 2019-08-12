@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Sun Aug 11 13:53:30 2019
+-- File generated with SQLiteStudio v3.0.7 on Mon Aug 12 17:25:32 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -1815,17 +1815,18 @@ INSERT INTO music_providers (
 DROP TABLE IF EXISTS playlists_to_tracks;
 
 CREATE TABLE playlists_to_tracks (
-    id          TEXT PRIMARY KEY
-                     UNIQUE
-                     NOT NULL,
-    playlist_id TEXT REFERENCES playlists (id) ON DELETE CASCADE
+    id          TEXT    PRIMARY KEY
+                        UNIQUE
+                        NOT NULL,
+    playlist_id TEXT    REFERENCES playlists (id) ON DELETE CASCADE
+                                                  ON UPDATE CASCADE
+                                                  MATCH SIMPLE
+                        NOT NULL,
+    track_id    TEXT    REFERENCES tracks (id) ON DELETE CASCADE
                                                ON UPDATE CASCADE
                                                MATCH SIMPLE
-                     NOT NULL,
-    track_id    TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                     NOT NULL
+                        NOT NULL,
+    [order]     INTEGER NOT NULL
 );
 
 

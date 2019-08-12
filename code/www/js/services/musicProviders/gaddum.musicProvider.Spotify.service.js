@@ -19,7 +19,9 @@
     'TrackInfo',
     'GenericImportTrack',
     'dataApiService',
-    'ImportPlaylist'
+    'ImportPlaylist',
+    'PlaylistIdentifier',
+    'Playlist'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -36,7 +38,9 @@
     TrackInfo,
     GenericImportTrack,
     dataApiService,
-    ImportPlaylist
+    ImportPlaylist,
+    PlaylistIdentifier,
+    Playlist
 
   ) {
 
@@ -404,7 +408,7 @@
               }
             );
           } catch (e) {
-            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags',null).then(
+            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags', null).then(
               function () {
                 deferred.resolve();
               },
@@ -490,57 +494,248 @@
           console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
           $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
             results.data.items.forEach(function (element) {
-              resultArray.push(ImportPlaylist.build(element.name, element.id, element.images[0].url, element.owner.display_name));
+              resultArray.push(ImportPlaylist.build(null, element.name, element.id, element.images[0].url, element.owner.display_name));
             });
             return resolve(resultArray);
           });
         });
       });
     }
-    function asyncImportPlaylists(playlists) {
-      return $q(function (resolve, reject) {
-        if (playlists) {
-          var promises = [];
-          playlists.forEach(function (playlist) {
-            promises.push(asyncGetPlaylistTracks(playlist.provider_playlist_ref)
-              .then(
-                function (results) {
-                  console.log("tracks", results);
-                  asyncImportTracks(results).then(resolve, reject);
-                },
-                function (error) {
-                  console.log(error);
-                  return reject(error);
-                }));
-          });
-        }
-        $q.all(promises).then(
-          resolve, reject);
-      })
+
+
+
+
+
+
+    function asyncImportPlaylistTracks(importPlaylist) {
+      var deferred = $q.defer();
+
+      // importPlaylist is now populated with an id
+
+      asyncGetPlaylistTracks(importPlaylist.provider_playlist_ref)
+        .then(
+          function (trackInfoArray) {
+            asyncImportTracks(trackInfoArray).then(
+              function (genericImportTrackArray) {
+                deferred.resolve(genericImportTrackArray);
+              }
+              ,
+              deferred.reject
+            );
+          },
+          deferred.reject
+        );
+
+
+      return deferred.promise;
     }
+
+
+    function asyncAssociatePlaylistAndTracks(playlist, genericTrackArray) {
+      var deferred = $q.defer();
+
+      dataApiService.asyncAssociatePlaylistAndTracks(
+        playlist,
+        genericTrackArray).then(
+          function (responses) {
+            console.log("imported associations: ------");
+            responses.forEach(function (item) {
+              console.log("playlist: " + item.playlist_id + "  track: " + item.track_id);
+            });
+            console.log("end imported associations: ------");
+            deferred.resolve(responses);
+          }
+          ,
+          deferred.reject
+
+        );
+
+      return deferred.promise;
+    }
+
+
+    function asyncGetPlaylist(playlistIdentifier) {
+      var deferred = $q.defer();
+
+      dataApiService.asyncGetGenericTracksInPlaylist(playlistIdentifier)
+        .then(
+          function (genericTracks) {
+            var result = Playlist.build(playlistIdentifier.getId(), playlistIdentifier.getName(), genericTracks);
+            deferred.resolve(result);
+          }
+          ,
+          deferred.reject
+
+        );
+
+      return deferred.promise;
+    }
+
+
+
+
+
+
+
+
+    function asyncImportPlaylistIdentifier(importPlaylist) {
+      var deferred = $q.defer();
+
+      dataApiService.asyncCreatePlaylist(importPlaylist.getName()).then(
+        function playlistIdentifier(playlistIdentifier) {
+          importPlaylist.id = playlistIdentifier.getId();
+
+          console.log("imported playlist: id: " + importPlaylist.getId() + " name: " + importPlaylist.getName());
+          console.log("-----------------");
+
+          deferred.resolve(importPlaylist);
+        },
+        deferred.reject
+      );
+
+
+      return deferred.promise;
+    }
+
+
+    function asyncImportPlaylist(importPlaylist) {
+      var deferred = $q.defer();
+
+      // creates an identifier in the DB for the new playlist
+      asyncImportPlaylistIdentifier(importPlaylist).then(
+
+        // importPlaylist is now populated with an id
+        function (importPlaylist) {
+
+
+
+          // import all the tracks identified in the playlist
+          asyncImportPlaylistTracks(importPlaylist).then(
+            // returns an array of GenericImportTrack objects
+            function (genericImportTrackArray) {
+
+              // link together playlist and tracks in the DB
+              asyncAssociatePlaylistAndTracks(
+                PlaylistIdentifier.build(importPlaylist.getId(), importPlaylist.getName(), null, null),
+                genericImportTrackArray).then(
+                  function () {
+
+                    // now return a Playlist object for confirmation
+                    asyncGetPlaylist(
+                      PlaylistIdentifier.build(importPlaylist.getId(), importPlaylist.getName(), null, null)
+                    ).then(
+                      deferred.resolve
+                      ,
+                      deferred.reject
+                    );
+                  }
+                  ,
+                  deferred.reject
+                );
+            },
+            deferred.reject
+          );
+        },
+        deferred.resolve
+
+      );
+
+      return deferred.promise;
+
+    }
+
+    function asyncImportPlaylists(importPlaylists) {
+      var deferred = $q.defer();
+      $timeout(
+        function () {
+          if (importPlaylists) {
+            var promises = [];
+            importPlaylists.forEach(function (playlist) {
+              promises.push(asyncImportPlaylist(playlist));
+            });
+
+            $q.all(promises).then(
+              deferred.resolve,
+              deferred.reject
+            );
+          } else {
+            deferred.resolve(null);
+          }
+        });
+      return deferred.promise;
+    }
+
+
+
+
+    // function asyncImportPlaylists(importPlaylists) {
+    //   return $q(function (resolve, reject) {
+    //     if (importPlaylists) {
+    //       var promises = [];
+    //       importPlaylists.forEach(function (playlist) {
+    //         promises.push(asyncGetPlaylistTracks(playlist.provider_playlist_ref)
+    //           .then(
+    //             function (results) {
+    //               console.log("tracks", results);
+    //               asyncImportTracks(results).then(resolve, reject);
+    //             },
+    //             function (error) {
+    //               console.log(error);
+    //               return reject(error);
+    //             }));
+    //       });
+    //     }
+    //     $q.all(promises).then(
+    //       resolve, reject);
+    //   })
+    // }
+
+
     function asyncImportTracks(trackInfoArray) {
-      return $q(function (resolve, reject) {
-        if (trackInfoArray) {
-          var promises = [];
-          trackInfoArray.forEach(function (trackInfo) {
-            dataApiService.asyncImportTrackInfo(trackInfo).
-              then(
-                function (result) {
-                  promises.push(result);
-                },
-                function (error) {
 
-                  return reject(error);
-                }
-              );
+      var deferred = $q.defer();
 
-          });
-          return resolve(promises);
+      $timeout(
+        function () {
+
+          if (trackInfoArray) {
+
+            var promises = [];
+
+            trackInfoArray.forEach(
+              function (trackInfo) {
+                promises.push(dataApiService.asyncImportTrackInfo(trackInfo));
+              }
+            );
+
+            $q.all(promises).then(
+              function (responses) {
+                var results = [];
+                responses.forEach(function (response) {
+                  if (!!response) {
+                    results.push(response);
+                  }
+                });
+                console.log("imported tracks: ------");
+                results.forEach(function (item) {
+                  console.log("id: " + item.getId() + "  name: " + item.getName());
+                });
+                console.log("end imported tracks: ------");
+
+
+                deferred.resolve(results);
+              }
+
+            );
+
+          } else {
+            deferred.resolve([]);
+          }
         }
-        else {
-          return reject();
-        }
-      });
+      );
+
+
+      return deferred.promise;
 
     }
     function asyncGetPlaylistTracks(PID) {
@@ -552,14 +747,14 @@
             result.data.items.forEach(function (element) {
               //name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
               resultArray.push(TrackInfo.build(
-                element.track.name, 
-                element.track.album.name, 
-                element.track.artists[0].name, 
+                element.track.name,
+                element.track.album.name,
+                element.track.artists[0].name,
                 element.track.duration_ms / 1000,
-                element.track.href, 
-                element.track.album.images[0].url, 
+                element.track.href,
+                element.track.album.images[0].url,
                 element.track.id,
-                MUSIC_PROVIDER_IDENTIFIER.getId() ));
+                MUSIC_PROVIDER_IDENTIFIER.getId()));
             });
             return resolve(resultArray);
           });
@@ -713,15 +908,15 @@
                   if (!isntIn) {
                     // name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
                     trackList.push(TrackInfo.build(
-                      track.name, 
-                      track.album.name, 
-                      track.artists[0].name, 
+                      track.name,
+                      track.album.name,
+                      track.artists[0].name,
                       track.duration_ms,
-                      track.href, 
-                      track.album.images[0].url, 
+                      track.href,
+                      track.album.images[0].url,
                       track.id,
-                      MUSIC_PROVIDER_IDENTIFIER.getId() 
-                      ));
+                      MUSIC_PROVIDER_IDENTIFIER.getId()
+                    ));
                   }
                 });
               });
@@ -749,10 +944,13 @@
       asyncGetGenres: asyncGetGenres,
       playTrack: playTrack,
       pause: pause,
-      asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportPlaylists: asyncImportPlaylists,
+      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncSeekTracks: asyncSeekTracks,
-      asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier
+
+      asyncGetProfilePlaylist: asyncGetProfilePlaylist,
+      asyncImportPlaylists: asyncImportPlaylists
+
+
     };
 
     return service;

@@ -1,0 +1,1 @@
+DELETE from playlists  WHERE playlists.id = "replacement_parameter_id";
