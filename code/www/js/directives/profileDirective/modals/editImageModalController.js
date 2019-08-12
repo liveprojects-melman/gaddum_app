@@ -181,7 +181,7 @@
 //        window.onpopstate = function(event) {
 //          restoreHash();
 //        };
-//        do_clear();
+        do_clear();
 //        restoreHash();
 //        console.log("finish");
         loadImg();
@@ -264,7 +264,7 @@
     var handle_clear = function handle_clear() {
       console.log("clear!");
       do_clear();
-//      updateThumb();
+      updateThumb();
     };
 
     var saveHash = function saveHash() {
@@ -354,7 +354,7 @@
     };
 
     var clickDown = function clickDown(event) {
-      if ( (event.target == canvas_grid)  /* && (event.cancellable)*/ ) {
+      if ( (event.target == canvas_grid) && (event.cancellable!==true)  ) {
         event.preventDefault();
       }
       var p = getScaledPosition(canvas, event);
@@ -363,7 +363,7 @@
     };
 
     var clickMove = function clickMove(event) {
-      if((event.target.id==="canvas_grid")&&(event.cancellable) ) {
+      if((event.target.id==="canvas_grid")/*&&(event.cancellable===false)*/ ) {
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
@@ -379,7 +379,7 @@
 
     var clickEnd = function clickEnd(event) {
       draw_colour = undefined;
-      if ( (event.target == canvas_grid) &&(event.cancellable) ) {
+      if ( (event.target == canvas_grid) &&(event.cancellable===true) ) {
         event.preventDefault();
       }
     };
