@@ -113,7 +113,7 @@
       loadEditor();
       vm.doClear=handle_clear;
       vm.doSave=handle_save;
-      vm.doInvert=handle_invert;
+      vm.doInvert=vm.handle_invert;
     }
 
     init();
@@ -333,7 +333,7 @@
       }
     };
 
-    var handle_invert = function handle_invert() {
+    vm.handle_invert = function handle_invert() {
       console.log("handle_invert called");
       try	{
         var x = evt.targetTouches[0].pageX;
