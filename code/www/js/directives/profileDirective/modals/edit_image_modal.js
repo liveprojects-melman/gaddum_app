@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('editImageModalModule', [])
+        .module('editImageModalModule', ['colorpicker'])
         .factory('editImageModal', editImageModal);
         editImageModal.$inject = ['$ionicModal', '$rootScope'];
     function editImageModal($ionicModal, $rootScope) {
