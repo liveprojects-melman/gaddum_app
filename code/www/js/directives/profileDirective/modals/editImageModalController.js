@@ -353,7 +353,7 @@
     };
 
     var clickDown = function clickDown(event) {
-      if ( (event.target == canvas_grid) && /* (event.cancellable)*/ ) {
+      if ( (event.target == canvas_grid)  /* && (event.cancellable)*/ ) {
         event.preventDefault();
       }
       var p = getScaledPosition(canvas, event);
