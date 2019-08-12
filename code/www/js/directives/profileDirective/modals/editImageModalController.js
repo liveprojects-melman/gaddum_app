@@ -362,7 +362,7 @@
     };
 
     var clickMove = function clickMove(event) {
-      if((event.target.id==="canvas_grid")&&(cancelable) ) {
+      if((event.target.id==="canvas_grid")&&(event.cancellable) ) {
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
