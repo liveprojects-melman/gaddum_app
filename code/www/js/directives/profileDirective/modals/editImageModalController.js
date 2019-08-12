@@ -105,10 +105,10 @@
     $scope.editImageModal = editImageModal;
     function init() {
       vm.params = editImageModal.getParams();
-      console.log(vm.params);
-      console.log("paramarams",vm.params);
+//      console.log(vm.params);
+//      console.log("paramarams",vm.params);
       vm.avimg=vm.params[0].avatar_image;
-      console.log("avimg",vm.avimg);
+//      console.log("avimg",vm.avimg);
       loadEditor();
       vm.doClear=handle_clear;
       vm.doSave=handle_save;
@@ -122,7 +122,7 @@
       setTimeout(function()  {
 
         getCanvasSize();
-        console.log(document.getElementById("canvas_holder"));
+//        console.log(document.getElementById("canvas_holder"));
         document.getElementById("canvas_holder").style.width  = String( canvas_wh[0] * 42 )+"px";
         document.getElementById("canvas_holder").style.height = String( canvas_wh[1] * 42 )+"px";
 
@@ -182,7 +182,7 @@
 //        };
 //        do_clear();
 //        restoreHash();
-        console.log("finish");
+//        console.log("finish");
         loadImg();
       }, 0);
     }
