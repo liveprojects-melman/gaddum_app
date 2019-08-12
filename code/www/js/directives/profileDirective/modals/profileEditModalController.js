@@ -100,28 +100,28 @@
 
     function init() {
       vm.params = profileEditModal.getParams();
-      console.log("params!",vm.params);
+//      console.log("params!",vm.params);
       initialiseGenres();
       vm.fullName = vm.params[2].userProfile.avatar_name;
       newGenres = vm.params[1].userGenres;
       profile = vm.params[2].userProfile;
       vm.displayImage=profile.avatar_graphic.values;
-      console.log("disp img",vm.displayImage);
-      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage==null) {
+//      console.log("disp img",vm.displayImage);
+      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null) {
         vm.displayImage=[128,128,128,128,128,128,128,128];
-      };
-      if (vm.fullName==null||vm.fullName=="") {
+      }
+      if (vm.fullName===null||vm.fullName==="") {
         vm.fullName="Defaulthony Nameson";
-      };
+      }
       vm.genresAsString=vm.params[1].userGenres.join(", ");
-      console.log(vm.params);
+//      console.log(vm.params);
       genresCheck();
     }
     function emptyArrayCheck(item){
-        return item==0;
-    };
+        return item===0;
+    }
     function initialiseGenres() {
-      console.log("init genres", vm.params[0].allGenres);
+//      console.log("init genres", vm.params[0].allGenres);
       vm.params[0].allGenres.forEach(function (element) {
         if (newGenres.includes(element)) {
           vm.allGenres.push({ "Name": element, "Value": true });
@@ -129,8 +129,8 @@
           vm.allGenres.push({ "Name": element, "Value": false });
         }
       });
-      console.log("all G", vm.allGenres);
-    };
+//      console.log("all G", vm.allGenres);
+    }
 
     init();
 
@@ -154,15 +154,15 @@
       newGenres = [];
       vm.params[0].allGenres.forEach(function (genre) {
         label = document.getElementById("checkbox_" + genre).querySelector("input");
-        console.log(label.checked);
+//        console.log(label.checked);
         if (label.checked === true) {
           newGenres.push(genre);
         }
       });
-      console.log("new");
-      console.log(newGenres);
-      console.log("old");
-      console.log(vm.params[1].userGenres);
+//      console.log("new");
+//      console.log(newGenres);
+//      console.log("old");
+//      console.log(vm.params[1].userGenres);
 
       vm.params[1].userGenres = newGenres;
     };
@@ -171,20 +171,20 @@
 
     vm.getGenresAsString = function getGenresAsString() {
       //console.log("updg",vm.updateGenres);
-      if (vm.updatedGenres != null) {
+      if (vm.updatedGenres !== null) {
         newGenres = vm.updatedGenres;
         vm.genresAsString= vm.updatedGenres.join(", ");
       } else {
         newGenres = vm.params[1].userGenres;
         vm.genresAsString=vm.params[1].userGenres.join(", ");
-        if (vm.genresAsString=="") {
-          vm.genresAsString="No Music"
+        if (vm.genresAsString==="") {
+          vm.genresAsString="No Music";
         }
       }
     };
     function genresCheck(){
-      if (vm.genresAsString==null||vm.genresAsString=="") {
-        console.log("!!");
+      if (vm.genresAsString==null||vm.genresAsString==="") {
+//        console.log("!!");
         vm.genresAsString="No Music";
       }
     };
@@ -193,7 +193,7 @@
       var label;
       vm.params[0].allGenres.forEach(function(genre) {
         label = document.getElementById("checkbox_" + genre).querySelector("input");
-        console.log(label.checked);
+//        console.log(label.checked);
         if (vm.params[1].userGenres.includes(genre)) {
           label.checked = true;
         } else {
@@ -208,7 +208,7 @@
         "genres": newGenres,
         "avatar_image":vm.displayImage//edit image 3/?
       };
-      console.log(newData);
+//      console.log(newData);
       profileEditModal.callback(newData);
       profileEditModal.close();
     };
@@ -222,23 +222,24 @@
       setTimeout(function () {
         //console.log("profile", profile);
         //console.log(document.getElementsByClassName("editPageProfileCanvas"));
-        var canvas = document.getElementsByClassName("editPageProfileCanvas");
+        var canvas = document.getElementsByClassName("editPageProfileCanvas")[0];
 
-        console.log(canvas.length);
-        canvas = canvas[canvas.length - 1];
+        //        console.log(canvas.length);
+//        console.log("createProfileGraphic: canvas = ",canvas);
+//        canvas = canvas[canvas.length - 1];
         var ctx = canvas.getContext('2d');
         var nx = Math.floor(canvas.width / scale);
         var ny = Math.floor(canvas.height / scale);
         var bin;
-        console.log(id);
-        console.log(vm.friends);
+//        console.log(id);
+//        console.log(vm.friends);
 
         for (var j = 0; j < vm.displayImage.length; j++) {
           bin = vm.displayImage[j].toString(2);
           for (var x = bin.length; x < 8; x++) {
             bin = "0" + bin;
           }
-          console.log(bin);
+//          console.log(bin);
           for (var k = 0; k < bin.length; k++) {
             if (bin[k] == "1") {
               rect(k, j, nx, ny, '#000000', ctx);
@@ -259,7 +260,7 @@
       var modalParams = [
         {"avatar_image":vm.displayImage}
       ];
-      console.log("displat img",vm.displayImage);
+//      console.log("displat img",vm.displayImage);
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
       //var,ok,c
       profileEditModal.closeCheckFalse();
@@ -273,14 +274,14 @@
 
     vm.imgUpdateCancel = function imgUpdateCancel(image){
       //JJJJJ
-      console.log(image);
+//      console.log(image);
       vm.displayImage=image;
       vm.createProfileGraphic();
     };
 
     vm.showGenreCheckboxModal = function showGenreCheckboxModal() {
       //var checkboxPosition=document.getElementById('genreToggle').style;
-      console.log("new genres",newGenres);
+//      console.log("new genres",newGenres);
       var modalParams = [
         {"allGenres":/* vm.params[0]. */vm.allGenres},
         {"userGenres":newGenres}
@@ -292,24 +293,23 @@
     };
 
     vm.updateGenres = function updateGenres(genresData){
-      console.log("newg",genresData);
+//      console.log("newg",genresData);
       vm.updatedGenres=genresData.genres;
     };
 
     vm.genresUpdateCancel=function genresUpdateCancel(genres){
-      console.log(genres);
-      if (genres!=null) {
+//      console.log(genres);
+      if (genres!==null) {
         var gArray =[];
-      genres.forEach(function (element) {
-        if (element.Value) {
-          gArray.push(element.Name);
-        }
-      });
-      console.log("ga",gArray);
-      vm.updatedGenres=gArray;
-      vm.getGenresAsString();
-      };
-      
+        genres.forEach(function (element) {
+          if (element.Value) {
+            gArray.push(element.Name);
+          }
+        });
+//        console.log("ga",gArray);
+        vm.updatedGenres=gArray;
+        vm.getGenresAsString();
+      }
     };
   }
 })();

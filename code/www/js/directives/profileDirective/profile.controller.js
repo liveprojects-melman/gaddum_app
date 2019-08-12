@@ -50,7 +50,7 @@
                     126,
                     0
                 ],
-                device_id: "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
+                "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
             }
         };
 
@@ -79,7 +79,7 @@
                 });
             setTimeout(function () {
                 vm.name = profileService.asyncGetAvatarName();//change
-                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
+                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), device_id: vm.userProfile.push_device_id}) + "}");
             }, 0);
         };
 
@@ -94,7 +94,7 @@
             console.log("genres test2",profileService.asyncGetGenres());
             setTimeout(function () {
                 vm.userGenres = genres;
-                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
+                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), device_id: vm.userProfile.push_device_id}) + "}");
                 vm.genreScrollChecker();
             }, 0);
         }
@@ -136,7 +136,7 @@
                 function success(result) {
                     vm.userProfile = result;
                     vm.name=result.avatar_name;
-                    vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
+                    vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), device_id: vm.userProfile.push_device_id}) + "}");
                     deferred.resolve();
                 },
                 function fail(error) {

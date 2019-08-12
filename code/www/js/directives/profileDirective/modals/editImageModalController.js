@@ -16,7 +16,7 @@
     editImageModal
   ) {
     var vm = angular.extend(this, {
-      showGenres: false,
+      showGenres: false
     });
     var encodedImg=[];
     var scale = 8;
@@ -98,28 +98,34 @@
     ];
 
     var canvas_grid;
+    var canvas_colour;
+    var canvas_colour_ctx;
     var grid_colours = [
       'rgb(255,255,255);', 'rgba(128,128,192,50%)'
     ];
 
     $scope.editImageModal = editImageModal;
     function init() {
+      console.log("editImageModalController: init!");
       vm.params = editImageModal.getParams();
-      console.log(vm.params);
-      console.log("paramarams",vm.params);
+//      console.log(vm.params);
+//      console.log("paramarams",vm.params);
       vm.avimg=vm.params[0].avatar_image;
-      console.log("avimg",vm.avimg);
+//      console.log("avimg",vm.avimg);
       loadEditor();
+      //vm.doClear=handle_clear;
+      //vm.doSave=handle_save;
+      //vm.doInvert=vm.handle_invert;
     }
 
-    window.onload=init();
+    init();
 
     function loadEditor(){
       //console.log("runnung");
       setTimeout(function()  {
 
         getCanvasSize();
-        console.log(document.getElementById("canvas_holder"));
+//        console.log(document.getElementById("canvas_holder"));
         document.getElementById("canvas_holder").style.width  = String( canvas_wh[0] * 42 )+"px";
         document.getElementById("canvas_holder").style.height = String( canvas_wh[1] * 42 )+"px";
 
@@ -130,6 +136,19 @@
         canvas.id = 'edit';
         canvas.width = canvas_wh[0];
         canvas.height = canvas_wh[1];
+
+        canvas_colour = document.createElement('canvas');
+        canvas_colour.id = 'canvas_colour';
+        var canvas_colour_img = document.getElementById('canvas_colour_img');
+        canvas_colour.width = canvas_colour_img.offsetWidth;
+        canvas_colour.height = canvas_colour_img.offsetHeight;
+        canvas_colour_ctx = canvas_colour.getContext('2d');
+        canvas_colour_ctx.drawImage( canvas_colour_img,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight );
+        document.getElementById('canvas_colour_holder').appendChild(canvas_colour);
+        canvas_colour_img.style.visiblity = "hidden";
+        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
+        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
+        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
 
         canvas_grid = document.createElement('canvas');
         canvas_grid.id = 'canvas_grid';
@@ -155,37 +174,37 @@
         canvas_holder.appendChild(canvas);
         canvas_holder.appendChild(canvas_grid);
 
-        canvas_grid.addEventListener('touchstart', clickDown, false);
-        canvas_grid.addEventListener('mousedown', clickDown, false);
-        canvas_grid.addEventListener('touchmove', clickMove, false);
-        canvas_grid.addEventListener('mousemove', clickMove, false);
-        canvas_grid.addEventListener('touchend', clickEnd, false);
-        canvas_grid.addEventListener('mouseup', clickEnd, false);
+        canvas_grid.addEventListener('touchstart', clickDown, {passive:false} );
+        //canvas_grid.addEventListener('mousedown', clickDown, {passive:false} );
+        canvas_grid.addEventListener('touchmove', clickMove, {passive:true} );
+        //canvas_grid.addEventListener('mousemove', clickMove, {passive:false} );
+        canvas_grid.addEventListener('touchend', clickEnd, {passive:true} );
+        //canvas_grid.addEventListener('mouseup', clickEnd, {passive:false} );
 
-        var clear = document.getElementById('clear');
-        var invert = document.getElementById('invert');
-        clear.addEventListener('mouseup', handle_clear, false);
-        invert.addEventListener('mouseup', handle_invert, false);
+//        var clear = document.getElementById('clear');
+//        var invert = document.getElementById('invert');
+//        clear.addEventListener('mouseup', handle_clear, false);
+//        invert.addEventListener('mouseup', handle_invert, false);
 
-        var body = document.getElementsByTagName('body')[0];
-        body.addEventListener('touchmove', clickMove, false);
-        body.addEventListener('mousemove', clickMove, false);
+        var body = document.getElementById('profileImageEditModal');
+//        body.addEventListener('touchmove', clickMove, {passive:true} );
+//        body.addEventListener('mousemove', clickMove, {passive:true} );
 
-        var save = document.getElementById('save');
-        save.addEventListener('mouseup', handle_save, false);
+//        var save = document.getElementById('save');
+//        save.addEventListener('mouseup', handle_save, false);
 
-        window.onpopstate = function(event) {
-          restoreHash();
-        };
+//        window.onpopstate = function(event) {
+//          restoreHash();
+//        };
         do_clear();
-        restoreHash();
-        console.log("finish");
+//        restoreHash();
+//        console.log("finish");
         loadImg();
       }, 0);
     }
 
     var loadImg = function loadImg(imgArry) {
-      var imgAsHash="";
+/*      var imgAsHash="";
       imgAsHash+=canvas_size+",";
       imgAsHash+=canvas_size+":";
       vm.avimg.forEach(function(rowdata) {
@@ -217,15 +236,16 @@
           pixel_index = pixel_index + 1;
         }
       }
-      updateThumb();
+      updateThumb();*/
     };
 
-    var handle_save = function handle_save() {
-      //console.log("this is the save");
+    vm.handle_save = function handle_save() {
+      console.log("this is the save");
+      saveHash();
       //console.log("Returning img in callback",encodedImg);
-      editImageModal.callback(encodedImg);
+      editImageModal.imgUpdate(encodedImg);
         editImageModal.close();
-
+/*
         var save_canvas = document.createElement('canvas');
         save_canvas.id = 'save';
         save_canvas.width = canvas_wh[0] * 100;
@@ -243,7 +263,7 @@
             lnk.dispatchEvent(e);
         } else if (lnk.fireEvent) {
             lnk.fireEvent("onclick");
-        }
+        }*/
     };
 
     var do_clear = function do_clear() {
@@ -257,19 +277,20 @@
       ctx.fillRect(0, 0, canvas_wh[0], canvas_wh[1]);
     };
 
-    var handle_clear = function handle_clear() {
+    vm.handle_clear = function handle_clear() {
+      console.log("clear!");
       do_clear();
       updateThumb();
     };
 
     var saveHash = function saveHash() {
-      var newHash = [];
+     var newHash = [];
       for (var y = 0; y<canvas_wh[1]; y++) {
         for (var x = 0; x<canvas_wh[0]; x++) {
           newHash.push( findMatchingColour(getPixelColour(canvas, x, y)) );
         }
       }
-      window.location.hash = String(canvas_wh[0])+','+String(canvas_wh[1])+':'+newHash.join(",");
+      //window.location.hash = String(canvas_wh[0])+','+String(canvas_wh[1])+':'+newHash.join(",");
       encodedImg=[];
       var tempArray=[];
       var j=1;
@@ -328,7 +349,8 @@
       }
     };
 
-    var handle_invert = function handle_invert() {
+    vm.handle_invert = function handle_invert() {
+      console.log("handle_invert called");
       try	{
         var x = evt.targetTouches[0].pageX;
         return;
@@ -339,16 +361,27 @@
             setPixel(canvas, x, y , pixel_colours[draw_colour]);
           }
         }
-        updateThumb();
+//        updateThumb();
       }
     };
 
     var updateThumb = function updateThumb() {
-      saveHash();
+//      saveHash();
+    };
+
+    var changeColour = function changeColour(event) {
+      if ( (event.target == canvas_grid) && (event.cancellable!==true)  ) {
+        event.preventDefault();
+      }
+      var p = getScaledPosition(canvas_colour, event);
+      var pixel = canvas_colour_ctx.getImageData(p.x, p.y, 1, 1).data;
+      console.log("r,g,b: ",pixel);
+      //draw_colour = (pixel_colours.length-1) - findMatchingColour(getPixelColour(canvas,p.x, p.y));
+      //clickMove(event);
     };
 
     var clickDown = function clickDown(event) {
-      if (event.target == canvas_grid) {
+      if ( (event.target == canvas_grid) && (event.cancellable!==true)  ) {
         event.preventDefault();
       }
       var p = getScaledPosition(canvas, event);
@@ -357,7 +390,7 @@
     };
 
     var clickMove = function clickMove(event) {
-      if(event.target.id==="canvas_grid") {
+      if((event.target.id==="canvas_grid")/*&&(event.cancellable===false)*/ ) {
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
@@ -366,14 +399,14 @@
       } else {
         clickEnd(event);
       }
-      if (event.target == canvas_grid) {
+      if ( (event.target == canvas_grid) && (event.cancellable) ) {
         event.preventDefault();
       }
     };
 
     var clickEnd = function clickEnd(event) {
       draw_colour = undefined;
-      if (event.target == canvas_grid) {
+      if ( (event.target == canvas_grid) &&(event.cancellable===true) ) {
         event.preventDefault();
       }
     };
