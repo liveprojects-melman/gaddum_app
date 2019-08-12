@@ -71,10 +71,12 @@
                     modalSave.remove();
                 }
             }
-            if(!isClosing){
-                loginSuccessful = false;
-                isWorking = false;
-                $scope.fnCallbackCancel();
+            if(modalSave){
+                if(!isClosing){
+                    loginSuccessful = false;
+                    isWorking = false;
+                    $scope.fnCallbackCancel();
+                }
             }
         }
 
