@@ -99,6 +99,7 @@
 
     var canvas_grid;
     var canvas_colour;
+    var canvas_colour_ctx;
     var grid_colours = [
       'rgb(255,255,255);', 'rgba(128,128,192,50%)'
     ];
@@ -141,10 +142,13 @@
         var canvas_colour_img = document.getElementById('canvas_colour_img');
         canvas_colour.width = canvas_colour_img.width;
         canvas_colour.height = canvas_colour_img.height;
-        var canvas_colour_ctx = canvas_colour.getContext('2d');
+        canvas_colour_ctx = canvas_colour.getContext('2d');
         canvas_colour_ctx.drawImage( canvas_colour_img,canvas_colour_img.width, canvas_colour_img.height );
-        document.getElementbyId('canvas_colour_holder').appendChild(canvas_colour);
+        document.getElementById('canvas_colour_holder').appendChild(canvas_colour);
         canvas_colour_img.style.visiblity = "hidden";
+        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
+        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
+        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
 
         canvas_grid = document.createElement('canvas');
         canvas_grid.id = 'canvas_grid';
@@ -362,6 +366,17 @@
 
     var updateThumb = function updateThumb() {
 //      saveHash();
+    };
+
+    var changeColour = function changeColour(event) {
+      if ( (event.target == canvas_grid) && (event.cancellable!==true)  ) {
+        event.preventDefault();
+      }
+      var p = getScaledPosition(canvas_colour, event);
+      var pixel = canvas_colour_ctx.getImageData(p.x, p.y, 1, 1).data;
+      console.log("r,g,b: ",pixel);
+      //draw_colour = (pixel_colours.length-1) - findMatchingColour(getPixelColour(canvas,p.x, p.y));
+      //clickMove(event);
     };
 
     var clickDown = function clickDown(event) {
