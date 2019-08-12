@@ -144,6 +144,7 @@
         var canvas_colour_ctx = canvas_colour.getContext('2d');
         canvas_colour_ctx.drawImage( canvas_colour_img,canvas_colour_img.width, canvas_colour_img.height );
         document.getElementbyId('canvas_colour_holder').appendChild(canvas_colour);
+        canvas_colour_img.style.visiblity = "hidden";
 
         canvas_grid = document.createElement('canvas');
         canvas_grid.id = 'canvas_grid';
