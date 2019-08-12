@@ -104,6 +104,7 @@
 
     $scope.editImageModal = editImageModal;
     function init() {
+      console.log("editImageModalController: init!");
       vm.params = editImageModal.getParams();
 //      console.log(vm.params);
 //      console.log("paramarams",vm.params);
@@ -115,7 +116,7 @@
       vm.doInvert=handle_invert;
     }
 
-    window.onload=init();
+    init();
 
     function loadEditor(){
       //console.log("runnung");
@@ -158,7 +159,7 @@
         canvas_holder.appendChild(canvas);
         canvas_holder.appendChild(canvas_grid);
 
-        canvas_grid.addEventListener('touchstart', clickDown, {passive:true} );
+        canvas_grid.addEventListener('touchstart', clickDown, {passive:false} );
         //canvas_grid.addEventListener('mousedown', clickDown, {passive:false} );
         canvas_grid.addEventListener('touchmove', clickMove, {passive:true} );
         //canvas_grid.addEventListener('mousemove', clickMove, {passive:false} );
