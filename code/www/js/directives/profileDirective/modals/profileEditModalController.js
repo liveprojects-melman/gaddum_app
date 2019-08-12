@@ -107,19 +107,19 @@
       profile = vm.params[2].userProfile;
       vm.displayImage=profile.avatar_graphic.values;
       console.log("disp img",vm.displayImage);
-      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage==null) {
+      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null) {
         vm.displayImage=[128,128,128,128,128,128,128,128];
-      };
-      if (vm.fullName==null||vm.fullName=="") {
+      }
+      if (vm.fullName===null||vm.fullName==="") {
         vm.fullName="Defaulthony Nameson";
-      };
+      }
       vm.genresAsString=vm.params[1].userGenres.join(", ");
       console.log(vm.params);
       genresCheck();
     }
     function emptyArrayCheck(item){
-        return item==0;
-    };
+        return item===0;
+    }
     function initialiseGenres() {
       console.log("init genres", vm.params[0].allGenres);
       vm.params[0].allGenres.forEach(function (element) {
@@ -130,7 +130,7 @@
         }
       });
       console.log("all G", vm.allGenres);
-    };
+    }
 
     init();
 
@@ -171,20 +171,20 @@
 
     vm.getGenresAsString = function getGenresAsString() {
       //console.log("updg",vm.updateGenres);
-      if (vm.updatedGenres != null) {
+      if (vm.updatedGenres !== null) {
         newGenres = vm.updatedGenres;
         vm.genresAsString= vm.updatedGenres.join(", ");
       } else {
         newGenres = vm.params[1].userGenres;
         vm.genresAsString=vm.params[1].userGenres.join(", ");
-        if (vm.genresAsString=="") {
-          vm.genresAsString="No Music"
+        if (vm.genresAsString==="") {
+          vm.genresAsString="No Music";
         }
       }
     };
     function genresCheck(){
-      if (vm.genresAsString==null||vm.genresAsString=="") {
-        console.log("!!");
+      if (vm.genresAsString==null||vm.genresAsString==="") {
+//        console.log("!!");
         vm.genresAsString="No Music";
       }
     };

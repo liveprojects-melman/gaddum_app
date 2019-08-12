@@ -16,7 +16,7 @@
     editImageModal
   ) {
     var vm = angular.extend(this, {
-      showGenres: false,
+      showGenres: false
     });
     var encodedImg=[];
     var scale = 8;
@@ -174,18 +174,18 @@
         var save = document.getElementById('save');
         save.addEventListener('mouseup', handle_save, false);
 
-        window.onpopstate = function(event) {
-          restoreHash();
-        };
-        do_clear();
-        restoreHash();
+//        window.onpopstate = function(event) {
+//          restoreHash();
+//        };
+//        do_clear();
+//        restoreHash();
         console.log("finish");
         loadImg();
       }, 0);
     }
 
     var loadImg = function loadImg(imgArry) {
-      var imgAsHash="";
+/*      var imgAsHash="";
       imgAsHash+=canvas_size+",";
       imgAsHash+=canvas_size+":";
       vm.avimg.forEach(function(rowdata) {
@@ -217,7 +217,7 @@
           pixel_index = pixel_index + 1;
         }
       }
-      updateThumb();
+      updateThumb();*/
     };
 
     var handle_save = function handle_save() {
@@ -225,7 +225,7 @@
       //console.log("Returning img in callback",encodedImg);
       editImageModal.callback(encodedImg);
         editImageModal.close();
-
+/*
         var save_canvas = document.createElement('canvas');
         save_canvas.id = 'save';
         save_canvas.width = canvas_wh[0] * 100;
@@ -243,7 +243,7 @@
             lnk.dispatchEvent(e);
         } else if (lnk.fireEvent) {
             lnk.fireEvent("onclick");
-        }
+        }*/
     };
 
     var do_clear = function do_clear() {
@@ -259,11 +259,11 @@
 
     var handle_clear = function handle_clear() {
       do_clear();
-      updateThumb();
+//      updateThumb();
     };
 
     var saveHash = function saveHash() {
-      var newHash = [];
+/*      var newHash = [];
       for (var y = 0; y<canvas_wh[1]; y++) {
         for (var x = 0; x<canvas_wh[0]; x++) {
           newHash.push( findMatchingColour(getPixelColour(canvas, x, y)) );
@@ -289,7 +289,7 @@
           tempArray=[];
         }
       }
-      editImageModal.imgUpdate(encodedImg);
+      editImageModal.imgUpdate(encodedImg);*/
     };
 
     var render_canvas = function render_canvas( source, destination ) {
@@ -344,7 +344,7 @@
     };
 
     var updateThumb = function updateThumb() {
-      saveHash();
+//      saveHash();
     };
 
     var clickDown = function clickDown(event) {
@@ -361,7 +361,7 @@
         if(draw_colour!=undefined) {
           var p = getScaledPosition(canvas, event);
           setPixel(canvas, p.x, p.y, pixel_colours[draw_colour]);
-          updateThumb();
+//          updateThumb();
         }
       } else {
         clickEnd(event);
