@@ -98,6 +98,7 @@
     ];
 
     var canvas_grid;
+    var canvas_colour;
     var grid_colours = [
       'rgb(255,255,255);', 'rgba(128,128,192,50%)'
     ];
@@ -134,6 +135,15 @@
         canvas.id = 'edit';
         canvas.width = canvas_wh[0];
         canvas.height = canvas_wh[1];
+
+        canvas_colour = document.createElement('canvas');
+        canvas_colour.id = 'canvas_colour';
+        var canvas_colour_img = document.getElementById('canvas_colour_img');
+        canvas_colour.width = canvas_colour_img.width;
+        canvas_colour.height = canvas_colour_img.height;
+        var canvas_colour_ctx = canvas_colour.getContext('2d');
+        canvas_colour_ctx.drawImage( canvas_colour_img,canvas_colour_img.width, canvas_colour_img.height );
+        document.getElementbyId('canvas_colour_holder').appendChild(canvas_colour);
 
         canvas_grid = document.createElement('canvas');
         canvas_grid.id = 'canvas_grid';
