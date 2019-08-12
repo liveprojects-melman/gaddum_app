@@ -158,12 +158,12 @@
         canvas_holder.appendChild(canvas);
         canvas_holder.appendChild(canvas_grid);
 
-        canvas_grid.addEventListener('touchstart', clickDown, {passive:false} );
-        canvas_grid.addEventListener('mousedown', clickDown, {passive:false} );
-        canvas_grid.addEventListener('touchmove', clickMove, {passive:false} );
-        canvas_grid.addEventListener('mousemove', clickMove, {passive:false} );
-        canvas_grid.addEventListener('touchend', clickEnd, {passive:false} );
-        canvas_grid.addEventListener('mouseup', clickEnd, {passive:false} );
+        canvas_grid.addEventListener('touchstart', clickDown, {passive:true} );
+        //canvas_grid.addEventListener('mousedown', clickDown, {passive:false} );
+        canvas_grid.addEventListener('touchmove', clickMove, {passive:true} );
+        //canvas_grid.addEventListener('mousemove', clickMove, {passive:false} );
+        canvas_grid.addEventListener('touchend', clickEnd, {passive:true} );
+        //canvas_grid.addEventListener('mouseup', clickEnd, {passive:false} );
 
 //        var clear = document.getElementById('clear');
 //        var invert = document.getElementById('invert');
@@ -353,7 +353,7 @@
     };
 
     var clickDown = function clickDown(event) {
-      if ( (event.target == canvas_grid) && (event.cancellable) ) {
+      if ( (event.target == canvas_grid) && /* (event.cancellable)*/ ) {
         event.preventDefault();
       }
       var p = getScaledPosition(canvas, event);
@@ -378,7 +378,7 @@
 
     var clickEnd = function clickEnd(event) {
       draw_colour = undefined;
-      if ( (event.target == canvas_grid)&&(event.cancellable) ) {
+      if ( (event.target == canvas_grid) /*&&(event.cancellable)*/ ) {
         event.preventDefault();
       }
     };
