@@ -16,11 +16,11 @@
     $ionicSlideBoxDelegate,
     gaddumStreamingService
   ) {
-    var vm = angular.extend(this, {
+    var mlc = angular.extend(this, {
 
     });
 
-    vm.playeropen = "";//gaddumStreamingService.state;
+    mlc.playeropen = "playeropen";//gaddumStreamingService.state;
 
     $scope.$on('player:ready', function(event,data) {
       console.log("BroadcastGot: ",data);
