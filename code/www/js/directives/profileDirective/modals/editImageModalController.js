@@ -142,9 +142,9 @@
       vm.avimg=vm.params[0].avatar_image;
 //      console.log("avimg",vm.avimg);
       loadEditor();
-      //vm.doClear=handle_clear;
-      //vm.doSave=handle_save;
-      //vm.doInvert=vm.handle_invert;
+      vm.doClear=handle_clear;
+      vm.doSave=handle_save;
+      vm.doInvert=vm.handle_invert;
     }
 
     init();
@@ -161,32 +161,32 @@
         //document.getElementById("img").style.width  = String( canvas_wh[0] * 3 )+"px";
         //document.getElementById("img").style.height = String( canvas_wh[1] * 3 )+"px";
 
-        canvas = document.createElement('canvas');
-        canvas.id = 'edit';
-        canvas.width = canvas_wh[0];
-        canvas.height = canvas_wh[1];
+//        canvas = document.createElement('canvas');
+//        canvas.id = 'edit';
+//        canvas.width = canvas_wh[0];
+//        canvas.height = canvas_wh[1];
 
-        canvas_colour = document.createElement('canvas');
-        canvas_colour.id = 'canvas_colour';
-        var canvas_colour_img = document.getElementById('canvas_colour_img');
-        canvas_colour.width = canvas_colour_img.offsetWidth;
-        canvas_colour.height = canvas_colour_img.offsetHeight;
-        canvas_colour_ctx = canvas_colour.getContext('2d');
+//        canvas_colour = document.createElement('canvas');
+//        canvas_colour.id = 'canvas_colour';
+//        var canvas_colour_img = document.getElementById('canvas_colour_img');
+//        canvas_colour.width = canvas_colour_img.offsetWidth;
+//        canvas_colour.height = canvas_colour_img.offsetHeight;
+//        canvas_colour_ctx = canvas_colour.getContext('2d');
 
 //        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
         //dbg
-        canvas_colour_ctx.fillStyle="rgb(255,255,128);"
-        canvas_colour_ctx.beginPath();
-        canvas_colour_ctx.moveTo(0, 0);
-        canvas_colour_ctx.lineTo(200,200);
-        canvas_colour_ctx.stroke();
+//        canvas_colour_ctx.fillStyle="rgb(255,255,128);"
+//        canvas_colour_ctx.beginPath();
+//        canvas_colour_ctx.moveTo(0, 0);
+//        canvas_colour_ctx.lineTo(200,200);
+//        canvas_colour_ctx.stroke();
         //end dng
-        canvas_colour_ctx.drawImage( canvas_colour_img,0,0/*,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight*/ );
-        canvas_colour_img.style.display = "none";
-        var canvas_colour_holder = document.getElementById('canvas_colour_holder');
-        canvas_colour_holder.appendChild(canvas_colour);
+//        canvas_colour_ctx.drawImage( canvas_colour_img,0,0/*,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight*/ );
+//        canvas_colour_img.style.display = "none";
+//        var canvas_colour_holder = document.getElementById('canvas_colour_holder');
+//        canvas_colour_holder.appendChild(canvas_colour);
 
 
         canvas_grid = document.createElement('canvas');
