@@ -150,7 +150,7 @@
         canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
         canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
         //dbg
-        canvas_colour_ctx.fillStyle(grid_colours[0]);
+        canvas_colour_ctx.fillStyle=grid_colours[0];
         canvas_colour_ctx.beginPath();
         canvas_colour_ctx.moveTo(0, 0);
         canvas_colour_ctx.lineTo(canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight);
