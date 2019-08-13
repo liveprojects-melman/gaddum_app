@@ -50,12 +50,12 @@
       console.log(vm.tracks);
     };
     vm.textChange = function(){
-      console.log("textChanged");
       playlistEditModal.nameData(vm.params.name);
     }
 
     vm.deleteSong=function(index){
       vm.tracks.splice(index,1);
+      playlistEditModal.trackData(vm.tracks);
     }
 
     vm.showDeleteToggle=function(){
