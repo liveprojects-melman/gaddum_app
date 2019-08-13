@@ -7,14 +7,16 @@
   playlistViewModalController.$inject = [
     '$scope',
     'playlistViewModal',
-    'playlistEditModal'
+    'playlistEditModal',
+    'playlistService'
 
   ];
 
   function playlistViewModalController(
     $scope,
     playlistViewModal,
-    playlistEditModal
+    playlistEditModal,
+    playlistService
   ) {
     var vm = angular.extend(this, {
       params:null,
@@ -24,9 +26,8 @@
     $scope.playlistViewModal = playlistViewModal;
     function init() {
       vm.params = playlistViewModal.getParams();
-      vm.playlist=vm.params.tracks;
-      console.log("playlist",vm.playlist);
-      console.log("params!",vm.params);
+      vm.tracks=vm.params.tracks;
+      console.log("params!!",vm.params);
     };
     init();
     
@@ -45,7 +46,7 @@
       //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
       console.log("p2g",vm.params);;
       var modalParams=vm.params;
-      ;
+      playlistViewModal.closeCheckFalse();
       playlistEditModal.open(modalParams,saveChanges,refresh);
       //var,ok,c
   };
@@ -54,7 +55,10 @@
     console.log(editedPlaylist);
   };
 
-  function refresh(){
+  function refresh(tracks,name){
+    vm.tracks = tracks;
+    vm.params.playlist.setName(name);
+    playlistService.asyncSetPlaylistTracks(vm.params.playlist,vm.tracks);
     console.log("no changes");
   }
 

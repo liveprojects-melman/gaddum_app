@@ -20,6 +20,8 @@
         var modalSave = null;
         var parmeter = null;
         var closeCheck = null;
+        var trackList = null;
+        var playlistName = null;
 
         var myModal = {
             open: open,
@@ -27,7 +29,9 @@
             getParams:getParams,
             callback:callback,
             cancel:cancel,
-            closeCheckFalse:closeCheckFalse
+            closeCheckFalse:closeCheckFalse,
+            trackData:trackData,
+            nameData:nameData
         };
         return myModal;
 
@@ -60,7 +64,7 @@
             if(modalSave){
                 if(modalSave._isShown){
                     modalSave.remove();
-                    $scope.fnCallbackCancel();
+                    $scope.fnCallbackCancel(trackList, playlistName);
                 }
             }
             closeCheck = true;
@@ -74,7 +78,12 @@
                     return modalInstance.remove();
                 });
         };
-
+        function trackData(tracks){
+            trackList = tracks;
+        }
+        function nameData(name){
+            playlistName = name;
+        }
         function callback(newData){
             $scope.fnCallbackOk(newData);
         };

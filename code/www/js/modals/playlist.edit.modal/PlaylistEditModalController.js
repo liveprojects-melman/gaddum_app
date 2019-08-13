@@ -7,12 +7,14 @@
   playlistEditModalController.$inject = [
     '$scope',
     'playlistEditModal'
+    
 
   ];
 
   function playlistEditModalController(
     $scope,
     playlistEditModal
+    
   ) {
     var vm = angular.extend(this, {
       params:null,
@@ -24,9 +26,9 @@
     $scope.playlistEditModal = playlistEditModal;
     function init() {
       vm.params = playlistEditModal.getParams();
-      vm.playlist=vm.params.tracks;
-      console.log("playlist",vm.playlist);
-      console.log("params!",vm.params);
+      vm.tracks=vm.params.tracks;
+      console.log("tracks",vm.tracks);
+      console.log("params22!",vm.params);
     };
     init();
     
@@ -42,13 +44,18 @@
 
     vm.reorderlog=function(song, fromIndex,toIndex){
       console.log(song, fromIndex,toIndex);
-      vm.playlist.items.splice(fromIndex, 1);
-      vm.playlist.items.splice(toIndex, 0, song);
-      console.log(vm.playlist.items);
+      vm.tracks.splice(fromIndex, 1);
+      vm.tracks.splice(toIndex, 0, song);
+      playlistEditModal.trackData(vm.tracks);
+      console.log(vm.tracks);
     };
+    vm.textChange = function(){
+      console.log("textChanged");
+      playlistEditModal.nameData(vm.params.name);
+    }
 
     vm.deleteSong=function(index){
-      vm.playlist.items.splice(index,1);
+      vm.tracks.splice(index,1);
     }
 
     vm.showDeleteToggle=function(){

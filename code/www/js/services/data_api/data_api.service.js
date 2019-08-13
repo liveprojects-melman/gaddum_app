@@ -942,9 +942,11 @@
             var deferred = $q.defer();
             console.log("----------");
             console.log("looking for playlist: " + playlistIdentifier.getId());
-            mappingService.query("get_tracks_in_playlist", {
-                playlist_id: playlistIdentifier.getId()
-            },
+            mappingService.query(
+                "get_tracks_in_playlist", 
+                {
+                    playlist_id: playlistIdentifier.getId()
+                },
                 function (response) {
                     var items = mappingService.getResponses(response.rows);
                     var results = [];
@@ -956,8 +958,7 @@
                         );
                     }
                     deferred.resolve(results);
-                }
-                ,
+                },
                 deferred.reject
             );
 

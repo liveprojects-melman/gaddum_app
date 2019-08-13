@@ -1595,3 +1595,99 @@ div#scroller.ng-hide {
    }
 
 /* end of profile edit modal css */
+/* this is for the scroll in playlist*/
+
+.playlistTracksList{
+    margin-top: 1.5rem;
+}
+.playlistRemoveDivInButton{
+    position: absolute;
+    bottom: -5%;
+    left: 5%;
+    /* columns: #000000; */
+    text-align: left;
+    
+}
+.playlistRemoveTextInButton{
+    font-size: 75%!important;
+    color:black!important;
+}
+.playlistTextInButton{
+    position: absolute;
+    bottom: -5%;
+    left: 25%;
+    /* columns: #000000; */
+    text-align: left;
+    color:black!important;
+}
+.playlistTextInButton p{
+    color:black!important;
+    font-size: 75%!important;
+}
+.playlistPageListContent{
+    height: 76%;
+    position: absolute;
+    top: 5%;
+}
+.playlistPageItemRepeat{
+    height: 70px;
+}
+.playlistsSearch{
+    height: 7%;
+}
+#searchPlaylistsBox{
+    position: absolute;
+    top: 17%;
+    width: 80%;
+    padding: 0%;
+}
+.modalPlaylistView{
+    position: absolute;
+    left: 5%;
+    height: 73%;
+    top: 10%;
+    width: 90%;
+}
+.viewPlaylistEditList{
+    position: absolute;
+    top: 10%;
+    height: 75%;
+}
+.playlistTitle{
+    text-align: center;
+}
+#addToPlaylistIcon{
+    filter: invert(1);
+    position: relative;
+    left: 0%;
+    /* top: 40%; */
+    width: 41%;
+}
+.playlistViewButton{
+    width: 25%;
+}
+.playlistViewButtonsDiv{
+    width: 100%;
+}
+.modalPlaylistEdit{
+    position: absolute;
+    left: 5%;
+    height: 73%;
+    top: 10%;
+    width: 90%;
+}
+.editPlaylistSongsList{
+    top: 5.5rem;
+    height: 80%;
+}
+.playlistTitleEdit{
+    font-size: 28px;
+    width: 100%;
+    text-overflow: ellipsis;
+    
+}
+.playlistEditTitlediv{
+    position: absolute;
+    top: 44px;
+    width: 100%;
+}
