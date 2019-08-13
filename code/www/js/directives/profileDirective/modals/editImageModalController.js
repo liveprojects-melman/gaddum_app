@@ -142,13 +142,15 @@
         var canvas_colour_img = document.getElementById('canvas_colour_img');
         canvas_colour.width = canvas_colour_img.offsetWidth;
         canvas_colour.height = canvas_colour_img.offsetHeight;
+          canvas_colour_img.style.height = "50px";
+        //canvas_colour_img.style.visiblity = "hidden";
+        var canvas_colour_holder = document.getElementById('canvas_colour_holder');
+        canvas_colour_holder.appendChild(canvas_colour);
         canvas_colour_ctx = canvas_colour.getContext('2d');
         canvas_colour_ctx.drawImage( canvas_colour_img,0,0,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight );
-        document.getElementById('canvas_colour_holder').appendChild(canvas_colour);
-        canvas_colour_img.style.visiblity = "hidden";
-        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
-        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
-        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
+//        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
+//        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
+//        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
         //dbg
         canvas_colour_ctx.fillStyle=grid_colours[0];
         canvas_colour_ctx.beginPath();
