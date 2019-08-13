@@ -97,6 +97,35 @@
       { r: 0, g: 0, b: 0, a: 1 }
     ];
 
+    var colours = [
+      ["Graphite", '#111'],
+      ["Peach", '#F97'],
+      ["Taupe", "#197"],
+      ["Deep Ocean", "#159"],
+      ["Advocat", "#FF7"],
+      ["Letterbox", "#F43"],
+      ["Teastain",  "#BA8"],
+      ["Burgundy", "#534"],
+      ["Orange", "#D63"],
+      ["Comback", "#463"],
+      ["Babluey","#A9F"],
+      ["Aqua", "#ADF"],
+      ["Blush", "#F68"]
+    ];
+    vm.colourChoices = colours;
+    vm.colourChoice = 0; // SET TO PROFILE CHOICE!
+    vm.colourStyle = {'font-weight':900,
+                      'color':vm.colourChoices[vm.colourChoice][1]
+                     };
+    vm.nextColour = function(){
+      vm.colourChoice=(vm.colourChoice+1)%(colours.length-1);
+      vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+    };
+    vm.prevColour = function(){
+      vm.colourChoice=(vm.colourChoice-1)%(colours.length-1);
+      vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+    };
+
     var canvas_grid;
     var canvas_colour;
     var canvas_colour_ctx;

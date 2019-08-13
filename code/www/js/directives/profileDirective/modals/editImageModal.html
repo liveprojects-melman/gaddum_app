@@ -11,8 +11,11 @@
     <a class="button button-small button-positive" ng-click="vm.handle_save()">save</a>
   </div>
 
-  <div id="canvas_colour_holder" >
+  <div id="colour-picker">
+    <button class="button icon-left ion-chevron-left button-clear button-dark" ng-click="vm.prevColour();"></button>
+    <span id="colour-name" ng-style="vm.colourStyle"{{vm.colourChoices[vm.colourChoice][0]}}</span>
+    <button class="button icon-right ion-chevron-right button-clear button-dark" ng-click="vm.nextColour();"></button>
   </div>
-  <img src="img/colours.png" id="canvas_colour_img" />
+
 
 </div>
