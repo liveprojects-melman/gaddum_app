@@ -1623,21 +1623,23 @@ div#scroller.ng-hide {
 .playlistTextInButton p{
     color:black!important;
     font-size: 75%!important;
+    bottom: -10px;
+    position: absolute;
 }
 .playlistPageListContent{
     height: 76%;
     position: absolute;
-    top: 5%;
+    top: 5.5rem;
 }
 .playlistPageItemRepeat{
     height: 70px;
 }
 .playlistsSearch{
-    height: 7%;
+    height: 3rem;
 }
 #searchPlaylistsBox{
     position: absolute;
-    top: 17%;
+    top: 33%;
     width: 80%;
     padding: 0%;
 }
