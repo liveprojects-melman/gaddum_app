@@ -142,9 +142,9 @@
       vm.avimg=vm.params[0].avatar_image;
 //      console.log("avimg",vm.avimg);
       loadEditor();
-      vm.doClear=handle_clear;
-      vm.doSave=handle_save;
-      vm.doInvert=vm.handle_invert;
+//      vm.doClear=handle_clear;
+//      vm.doSave=handle_save;
+//      vm.doInvert=vm.handle_invert;
     }
 
     init();
