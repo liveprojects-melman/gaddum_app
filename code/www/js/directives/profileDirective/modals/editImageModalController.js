@@ -147,7 +147,6 @@
         
         var canvas_colour_holder = document.getElementById('canvas_colour_holder');
         canvas_colour_holder.appendChild(canvas_colour);
-        canvas_colour_ctx.drawImage( canvas_colour_img,0,0/*,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight*/ );
 //        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
@@ -158,6 +157,7 @@
         canvas_colour_ctx.lineTo(200,200);
         canvas_colour_ctx.stroke();
         //end dng
+        canvas_colour_ctx.drawImage( canvas_colour_img,0,0,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight );
         canvas_colour_img.style.display = "none";
 
         canvas_grid = document.createElement('canvas');
