@@ -123,7 +123,7 @@
       vm.updatePixelColour();
     };
     vm.prevColour = function prevColour(){
-      vm.colourChoice=(vm.colourChoice+vm.colourChoices.length-2)%(vm.colourChoices.length);
+      vm.colourChoice=(vm.colourChoice+vm.colourChoices.length-1)%(vm.colourChoices.length);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
       vm.updatePixelColour();
     };
