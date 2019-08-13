@@ -129,7 +129,7 @@
     };
     vm.updatePixelColour = function updatePixelColour(){
       var colourMapping = ["none","r","g","b"];
-      for (var i = 1; i++; i<4) {
+      for (var i = 1; i<4; i++) {
         pixel_colours[1][ colourMapping[ i ] ]  =
           (vm.colourChoices[vm.colourChoice][1].charCodeAt(i)<58?
            vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-48 :
