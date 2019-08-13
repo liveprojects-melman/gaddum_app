@@ -145,6 +145,7 @@
             setPixel(canvas, x, y , pixel_colours[draw_colour]);
           }
         }
+      }
     };
 
     var canvas_grid;
