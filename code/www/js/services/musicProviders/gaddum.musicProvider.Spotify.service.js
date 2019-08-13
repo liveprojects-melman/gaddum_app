@@ -87,10 +87,12 @@
     // PRIVATE
 
     function asyncAuthSuccess(response) {
+
+      console.log("asyncAuthSuccess");
+
       var deferred = $q.defer();
       var promises = [];
 
-      // looks awful, but we know we are putting something in the database which is supported by TimeStamp.
       var accessToken = response.accessToken;
       var refreshToken = response.encryptedRefreshToken;
       var expires_at = response.expiresAt;
@@ -118,13 +120,16 @@
 
 
     function asyncLogin() {
-      console.log("attempting login ... ");
+      console.log("asyncAuthLogin");
+
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
           function (result) {
             asyncAuthSuccess(result);
           },
           function (error) {
+            console.log("asyncAuthLogin: error: " + error.message);
+
             console.log(error);
           }
         )
@@ -133,6 +138,8 @@
 
 
     function asyncRefresh() {
+      console.log("asyncRefresh");
+
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
           function (result) {

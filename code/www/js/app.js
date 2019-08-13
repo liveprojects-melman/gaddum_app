@@ -57,6 +57,7 @@ angular.module('gaddum', [
     'gaddumMusicProviderService',
     'permissionsService',
     'permissionsListenerService',
+    'playerService',
     function (
       $ionicPlatform,
       $state,
@@ -68,7 +69,9 @@ angular.module('gaddum', [
       loginModal,
       gaddumMusicProviderService,
       permissionsService,
-      permissionsListenerService) {
+      permissionsListenerService,
+      playerService
+      ) {
 
       $rootScope.$on('slideChanged', function (a) {
         var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
@@ -129,7 +132,10 @@ angular.module('gaddum', [
 
           startupSrvc.asyncInitialise().then(
             function () {
-              gaddumMusicProviderService.asyncInitialise(loginModal.promiseLogin).then(
+              gaddumMusicProviderService.asyncInitialise(
+                loginModal.promiseLogin,
+                playerService.promiseHandleEvent
+              ).then(
                 function(){
                   permissionsListenerService.initialise(null);
                   $state.go('gaddum.profile');

@@ -257,11 +257,14 @@
         });
     }
 
-    function asyncInitialise(returnsALoginPromise) {
+    function asyncInitialise(returnsALoginPromise, returnsAnEventHandlingPromise ) {
+      
       
       service.musicProvider = null;
       service.musicProviderIdentifier = null;
       service.asyncLoginResource =  null;
+      service.asyncEventResource = null;
+
 
       var deferred = $q.defer();
       if (returnsALoginPromise) {
@@ -269,6 +272,13 @@
       } else {
         throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle the update of its access credentials, calling MusicProviderService.asyncLogin()"))
       }
+
+      if (returnsAnEventHandlingPromise) {
+        service.returnsAnEventHandlingPromise = returnsAnEventHandlingPromise;
+      } else {
+        throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle events from the player. See EventIdentifier"))
+      }    
+
 
       asyncGetMusicProvider().then(
         function (musicProviderIdentifier) {
