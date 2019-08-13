@@ -1,13 +1,13 @@
 <div class="modal modalPlaylistView" ng-controller="playlistViewModalController as vm">
   <ion-content has-header="true" padding="true" scroll="false">
-    <h1 class="playlistTitle">{{vm.params.name }}</h1>
+    <h4 class="playlistTitle">{{vm.params.name }}</h1>
 
-    <ion-content class="viewPlaylistEditList">
+    <ion-content class="viewPlaylistEditList playlistTracksList">
 
       <ion-list>
-        <ion-item ng-repeat="song in vm.playlist.items" class="">
+        <ion-item ng-repeat="song in vm.tracks">
           <!-- <img ng-src="{{.img}}"> -->
-          <h2>{{song.track.name}}</h2>
+          <h2>{{song.name}}</h2>
           <!-- <p>{{.description}}</p> -->
           <!-- <ion-option-button class="button-positive" ng-click="action1()">
             Action 1

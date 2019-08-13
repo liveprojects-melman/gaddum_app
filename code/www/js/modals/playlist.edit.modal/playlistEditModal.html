@@ -9,22 +9,25 @@
         <button class="button" ng-click="vm.showReorderToggle()">Show Reorder</button>
       </div>
     </ion-header-bar>
-    
-    
-    
+
+
+
     <div class="playlistEditTitlediv">
-      <input class="playlistTitleEdit" value="{{vm.params.name}}"></input>
+
+      <input type="text" class="playlistTitleEdit" ng-Model="vm.params.name" value="vm.params.name" id="searchBox"
+        ng-change="vm.textChange()"></ion-input>
+
     </div>
 
     <ion-content class="editPlaylistSongsList" overflow-scroll="false">
       <ion-list can-swipe="true" show-delete="vm.showDelete" show-reorder="vm.showReorder" can-reorder="true">
-        <ion-item ng-repeat="song in vm.playlist.items" >
+        <ion-item ng-repeat="song in vm.tracks">
           <!-- <img ng-src="{{.img}}"> -->
-          <h2>{{song.track.name}}</h2>
+          <h2>{{song.name}}</h2>
 
           <ion-delete-button class="ion-minus-circled" ng-click="vm.deleteSong($index)">
           </ion-delete-button>
-          <ion-reorder-button class="ion-navicon" on-reorder="vm.reorderlog(song,$fromIndex,$toIndex);";>
+          <ion-reorder-button class="ion-navicon" on-reorder="vm.reorderlog(song,$fromIndex,$toIndex);" ;>
           </ion-reorder-button>
         </ion-item>
       </ion-list>

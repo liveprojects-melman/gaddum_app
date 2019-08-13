@@ -71,14 +71,15 @@
 
       //modal
       //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
-      console.log("Veiwing: ", playlist.getName());
+      console.log("Veiwing: ", playlist);
       playlistService.asyncGetPlaylistTracks(playlist).then(function (tracks) {
+        console.log("tracks", tracks);
         var modalParams =
-          { "playlist": playlist.getProviderPlaylistRef(), "name": playlist.getName(), "tracks": tracks }
+          { "playlist": playlist, "name": playlist.getName(), "tracks": tracks }
           /*  {"userGenres":userGenres},
            {"userProfile":profileService.getUserProfile()} */
           ;
-        playlistViewModal.open(modalParams, deletePlaylist, refresh);
+        playlistViewModal.open(modalParams, vm.removePlaylist, refresh);
       });
       //var,ok,c
     };
@@ -155,6 +156,7 @@
 
     function onNewPlaylists(playlists){
       vm.searching = false;
+      console.log("playlist",playlists);
       vm.playlistsToShow = playlists;
     }
 
