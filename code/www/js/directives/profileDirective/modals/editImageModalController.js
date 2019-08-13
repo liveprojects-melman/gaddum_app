@@ -117,13 +117,35 @@
     vm.colourStyle = {'font-weight':900,
                       'color':vm.colourChoices[vm.colourChoice][1]
                      };
-    vm.nextColour = function(){
-      vm.colourChoice=(vm.colourChoice+1)%(colours.length-1);
+    vm.nextColour = function nextColour(){
+      vm.colourChoice=(vm.colourChoice+1)%(vm.colourChoices.length);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.updatePixelColour();
     };
-    vm.prevColour = function(){
-      vm.colourChoice=(vm.colourChoice-1)%(colours.length-1);
+    vm.prevColour = function prevColour(){
+      vm.colourChoice=(vm.colourChoice+vm.colourChoices.length-1)%(vm.colourChoices.length);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.updatePixelColour();
+    };
+    vm.updatePixelColour = function updatePixelColour(){
+      var colourMapping = ["none","r","g","b"];
+      for (var i = 1; i<4; i++) {
+        pixel_colours[1][ colourMapping[ i ] ]  =
+          (vm.colourChoices[vm.colourChoice][1].charCodeAt(i)<58?
+           vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-48 :
+           vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-55 )*(1/16);
+      }
+      try	{
+        var x = evt.targetTouches[0].pageX;
+        return;
+      } catch(e) {
+        for (var x = 0; x<canvas_wh[0]; x++) {
+          for (var y = 0; y<canvas_wh[1]; y++) {
+            var draw_colour = findMatchingColour(getPixelColour(canvas, x, y));
+            setPixel(canvas, x, y , pixel_colours[draw_colour]);
+          }
+        }
+      }
     };
 
     var canvas_grid;
@@ -142,9 +164,9 @@
       vm.avimg=vm.params[0].avatar_image;
 //      console.log("avimg",vm.avimg);
       loadEditor();
-      //vm.doClear=handle_clear;
-      //vm.doSave=handle_save;
-      //vm.doInvert=vm.handle_invert;
+//      vm.doClear=handle_clear;
+//      vm.doSave=handle_save;
+//      vm.doInvert=vm.handle_invert;
     }
 
     init();
@@ -166,27 +188,27 @@
         canvas.width = canvas_wh[0];
         canvas.height = canvas_wh[1];
 
-        canvas_colour = document.createElement('canvas');
-        canvas_colour.id = 'canvas_colour';
-        var canvas_colour_img = document.getElementById('canvas_colour_img');
-        canvas_colour.width = canvas_colour_img.offsetWidth;
-        canvas_colour.height = canvas_colour_img.offsetHeight;
-        canvas_colour_ctx = canvas_colour.getContext('2d');
+//        canvas_colour = document.createElement('canvas');
+//        canvas_colour.id = 'canvas_colour';
+//        var canvas_colour_img = document.getElementById('canvas_colour_img');
+//        canvas_colour.width = canvas_colour_img.offsetWidth;
+//        canvas_colour.height = canvas_colour_img.offsetHeight;
+//        canvas_colour_ctx = canvas_colour.getContext('2d');
 
 //        canvas_colour.addEventListener('touchstart', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchmove', changeColour, {passive:false});
 //        canvas_colour.addEventListener('touchstop', changeColour, {passive:false});
         //dbg
-        canvas_colour_ctx.fillStyle="rgb(255,255,128);"
-        canvas_colour_ctx.beginPath();
-        canvas_colour_ctx.moveTo(0, 0);
-        canvas_colour_ctx.lineTo(200,200);
-        canvas_colour_ctx.stroke();
+//        canvas_colour_ctx.fillStyle="rgb(255,255,128);"
+//        canvas_colour_ctx.beginPath();
+//        canvas_colour_ctx.moveTo(0, 0);
+//        canvas_colour_ctx.lineTo(200,200);
+//        canvas_colour_ctx.stroke();
         //end dng
-        canvas_colour_ctx.drawImage( canvas_colour_img,0,0/*,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight*/ );
-        canvas_colour_img.style.display = "none";
-        var canvas_colour_holder = document.getElementById('canvas_colour_holder');
-        canvas_colour_holder.appendChild(canvas_colour);
+//        canvas_colour_ctx.drawImage( canvas_colour_img,0,0/*,canvas_colour_img.offsetWidth, canvas_colour_img.offsetHeight*/ );
+//        canvas_colour_img.style.display = "none";
+//        var canvas_colour_holder = document.getElementById('canvas_colour_holder');
+//        canvas_colour_holder.appendChild(canvas_colour);
 
 
         canvas_grid = document.createElement('canvas');

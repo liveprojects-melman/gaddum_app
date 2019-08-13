@@ -104,15 +104,7 @@
           importArray.push(ImportPlaylist.build(null, element.name,element.id,element.artwork,element.display_name));
         }
       });
-      gaddumMusicProviderService.asyncImportPlaylists(importArray)
-      .then(function(result){
-        importPlaylistWizard.close();
-        
-      },function(error){
-        importPlaylistWizard.close();
-        alertModal.open("failed to Import",null,null);
-      });
-      
+      importPlaylistWizard.callback(importArray);
       
     }
     mc.more = more;

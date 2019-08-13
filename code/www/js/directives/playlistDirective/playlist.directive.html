@@ -27,14 +27,14 @@
             <p>Play</p>
           </div>
         </ion-option-button>
-        <ion-option-button class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
+        <ion-option-button ng-disabled="vm.searching" class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p>View</p>
           </div>
         </ion-option-button>
         <ion-option-button class="button-info icon-bottom ion-trash-b" ng-click="vm.removePlaylist({{$index}})">
-          <div class="playlistRemoveDivInButton">
-            <p class="playlistRemoveTextInButton">Remove</p>
+          <div class="playlistTextInButton">
+            <p style="left:-8px">Remove</p>
           </div>
         </ion-option-button>
 

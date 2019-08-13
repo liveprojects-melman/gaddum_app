@@ -13,6 +13,7 @@
         gaddumContextMenuModal
     ) {
         var modalList= [];
+        var disable = false;
         var shortcutCallBack = null;
         function registerContextMenuReadyCallback(fnCallback){
             shortcutCallBack = fnCallback;
@@ -30,16 +31,37 @@
           }
         function setContextMenu(list){
             modalList= list;
+            disable = false;
             console.log(modalList);
             if(shortcutCallBack){
                 shortcutCallBack();
             }
         }
         function hasMenu(){
-            return (modalList != null);
+            if(!disable){
+                return (modalList != null);
+            }
+            else{
+                return false;
+            }
         }
         function clearContextMenu(){
             modalList = null;
+            disable= true;
+            if(shortcutCallBack){
+                console.log("list");
+                shortcutCallBack();
+            }
+        }
+        function disableContext(){
+            disable = true;
+            if(shortcutCallBack){
+                console.log("list");
+                shortcutCallBack();
+            }
+        }
+        function enableContext(){
+            disable = false;
             if(shortcutCallBack){
                 console.log("list");
                 shortcutCallBack();
@@ -50,7 +72,9 @@
             registerContextMenuReadyCallback:registerContextMenuReadyCallback,
             showShortcutMenuModal:showShortcutMenuModal,
             setContextMenu:setContextMenu,
-            clearContextMenu:clearContextMenu
+            clearContextMenu:clearContextMenu,
+            enableContext:enableContext,
+            disableContext:disableContext
           };
           return service;
       

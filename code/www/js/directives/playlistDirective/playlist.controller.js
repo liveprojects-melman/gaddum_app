@@ -14,7 +14,8 @@
     'gaddumMusicProviderService',
     'playlistService',
     '$ionicSlideBoxDelegate',
-    'playlistViewModal'
+    'playlistViewModal',
+    'importPlaylistWizard'
   ];
 
   function control(
@@ -26,7 +27,8 @@
     gaddumMusicProviderService,
     playlistService,
     $ionicSlideBoxDelegate,
-    playlistViewModal
+    playlistViewModal,
+    importPlaylistWizard
 
   ) {
     var vm = angular.extend(this, {
@@ -34,8 +36,8 @@
       genresFontStyle: false,
       firstSearch: true,
       playlistsToShow: {},
-      searching:false,
-      searchTerm:""
+      searching: false,
+      searchTerm: ""
 
     });
     var scale = 8;
@@ -49,22 +51,56 @@
 
     function init() {
       onNewSearch("");
+      createModalList();
+      if(playlistService.getIsBusy()){
+        vm.searching = true;
+        contextMenuDisable();
+      }
     };
+    function createModalList() {
+      var firstVariable = "Import Playlists";
+      var firstFunc = importPlaylist; 
+      var contextMenu = [];
+      contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
+      vm.conMenu = contextMenu;
+      gaddumShortcutBarService.setContextMenu(vm.conMenu);
+  }
+  function contextMenuDisable(){
+    gaddumShortcutBarService.disableContext();
+  }
+  function contextMenuEnable(){
+    gaddumShortcutBarService.enableContext();
+  }
+  function importPlaylist(){
+    importPlaylistWizard.open(null,importRefresh,null);
+  }
+  function importRefresh(playlistArray){
+    vm.searching=true;
+    contextMenuDisable();
+    playlistService.asyncImportPlaylist(playlistArray)
+      .then(function(result){
+        vm.searching=false;
+        onNewSearch("");
+      });
+  }
 
-    vm.removePlaylist = function(index) {
+    vm.removePlaylist = function (index) {
+      vm.searching = true;
+      contextMenuDisable();
       var playlist = vm.playlistsToShow[index];
       console.log("removing: " + playlist.getName());
       playlistService.asyncRemovePlaylist(playlist).then(
-        function(){
+        function () {
           onNewSearch(vm.searchTerm);
+          vm.searching= false;
         },
         onError
       );
 
-      
+
     }
 
-  
+
 
     vm.viewPlaylist = function (index) {
       var playlist = vm.playlistsToShow[index];
@@ -91,9 +127,21 @@
       console.log("playPlaylist: Not yet implemented...");
     }
 
-    function refresh() {
-      onNewSearch("");
-      
+    function refresh(tracks, playlist) {
+      if (tracks) {
+        vm.searching = true;
+        contextMenuDisable();
+        playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {
+          onNewSearch("");
+          vm.searching = false;
+          contextMenuEnable();
+        });
+      }
+      else{
+        onNewSearch("");
+      }
+
+
     };
 
 
@@ -154,20 +202,23 @@
     };
 
 
-    function onNewPlaylists(playlists){
+    function onNewPlaylists(playlists) {
       vm.searching = false;
-      console.log("playlist",playlists);
+      contextMenuEnable();
+      console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
     }
 
 
-    function onError(error){
+    function onError(error) {
       vm.searching = false;
+      contextMenuEnable();
       console.log("playlistController: " + error.message);
     }
 
-    function onNewSearch(searchTerm){
+    function onNewSearch(searchTerm) {
       vm.searching = true;
+      contextMenuDisable();
       vm.searchTerm = searchTerm;
       playlistService.asyncSeekPlaylists(searchTerm).then(
         onNewPlaylists,
@@ -178,7 +229,7 @@
 
     vm.searchPlaylists = function () {
       var searchTerm = document.getElementById("searchPlaylistsBox").value;
-      
+
       onNewSearch(searchTerm);
 
     };

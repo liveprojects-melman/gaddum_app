@@ -11,10 +11,10 @@
     <a class="button button-small button-positive" ng-click="vm.handle_save()">save</a>
   </div>
 
-  <div id="colour-picker">
-    <button class="button icon-left ion-chevron-left button-clear button-dark" ng-click="vm.prevColour();"></button>
-    <span id="colour-name" ng-style="vm.colourStyle"{{vm.colourChoices[vm.colourChoice][0]}}</span>
-    <button class="button icon-right ion-chevron-right button-clear button-dark" ng-click="vm.nextColour();"></button>
+  <div id="colour-picker" style="background-color:silver;" class="row">
+    <button class="button button-small icon-left ion-chevron-left button-clear button-dark col-10 col" ng-click="vm.prevColour();"></button>
+    <div id="colour-name" class="col-60 col" ng-style="vm.colourStyle">Colour: {{vm.colourChoices[vm.colourChoice][0]}}</div>
+    <button class="button button-small icon-right ion-chevron-right button-clear button-dark col-10 col" ng-click="vm.nextColour();"></button>
   </div>
 
 

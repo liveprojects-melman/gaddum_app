@@ -52,15 +52,13 @@
         function getParams(){
             return parmeter;
         }
-        function callback(emotion){
-            $scope.fnCallbackOk(emotion);
-            
+        function callback(arrayPlaylist){
+            $scope.fnCallbackOk(arrayPlaylist);
+            close();
         }
         function close() {
             if (modalSave){
-                if(!modalSave._isShown){
-                    modalSave.remove();
-                }
+                modalSave.remove();
             }
             
         }

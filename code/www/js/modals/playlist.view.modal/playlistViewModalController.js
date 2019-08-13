@@ -41,10 +41,7 @@
       playlistViewModal.close();
     };
 
-    vm.editPlaylist= function(PlaylistToEdit){
-      //modal
-      //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
-      console.log("p2g",vm.params);;
+    vm.editPlaylist= function(){
       var modalParams=vm.params;
       playlistViewModal.closeCheckFalse();
       playlistEditModal.open(modalParams,saveChanges,refresh);
@@ -58,8 +55,7 @@
   function refresh(tracks,name){
     vm.tracks = tracks;
     vm.params.playlist.setName(name);
-    playlistService.asyncSetPlaylistTracks(vm.params.playlist,vm.tracks);
-    console.log("no changes");
+    playlistViewModal.data(vm.tracks, vm.params.playlist);
   }
 
 

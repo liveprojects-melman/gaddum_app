@@ -10,16 +10,20 @@
     'dataApiService',
     'PlaylistIdentifier',
     'GenericTrack',
-    '$q'
+    '$q',
+    'gaddumMusicProviderService'
   ];
   function playlistService(
     dataApiService,
     PlaylistIdentifier,
     GenericTrack,
-    $q
+    $q,
+    gaddumMusicProviderService
   ) {
-
-
+    var isBusy = false;
+    function getIsBusy(){
+      return isBusy;
+    }
     function asyncCreatePlaylist(name){
       return dataApiService.asyncCreatePlaylist(name);
     }
@@ -33,7 +37,10 @@
     }
     
     function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
-      return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks);
+      isBusy = true;
+      return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks).then(function(result){
+        isBusy = false;
+      });
     }
 
     function asyncGetPlaylistTracks(playlistIdentifier){
@@ -42,6 +49,12 @@
 
     function asyncRemovePlaylist(playlistIdentifier){
       return dataApiService.asyncRemovePlaylist(playlistIdentifier);
+    }
+    function asyncImportPlaylist(playlistArray){
+      isBusy = true;
+      return gaddumMusicProviderService.asyncImportPlaylists(playlistArray).then(function (result) {
+        isBusy = false;
+      });
     }
 
 
@@ -52,7 +65,9 @@
       asyncUpdatePlaylist: asyncUpdatePlaylist,
       asyncSetPlaylistTracks:asyncSetPlaylistTracks,
       asyncGetPlaylistTracks:asyncGetPlaylistTracks,
-      asyncRemovePlaylist:asyncRemovePlaylist
+      asyncRemovePlaylist:asyncRemovePlaylist,
+      getIsBusy:getIsBusy,
+      asyncImportPlaylist:asyncImportPlaylist
 
     };
 
