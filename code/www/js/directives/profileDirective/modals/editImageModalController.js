@@ -135,6 +135,16 @@
            vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-48 :
            vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-55 )*(1/16);
       }
+      try	{
+        var x = evt.targetTouches[0].pageX;
+        return;
+      } catch(e) {
+        for (var x = 0; x<canvas_wh[0]; x++) {
+          for (var y = 0; y<canvas_wh[1]; y++) {
+            var draw_colour = findMatchingColour(getPixelColour(canvas, x, y));
+            setPixel(canvas, x, y , pixel_colours[draw_colour]);
+          }
+        }
     };
 
     var canvas_grid;
