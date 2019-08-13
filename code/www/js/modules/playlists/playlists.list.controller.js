@@ -40,8 +40,6 @@
     vm.groupsList = playlistsServiceSlideBox.playlistsList;
 
     function init() {
-          createModalList();
-          gaddumShortcutBarService.setContextMenu(vm.conMenu);
 
 
           /* setInterval(function() {
@@ -49,17 +47,7 @@
           }, 100); */
       };
       init();
-      function createModalList() {
-            var firstVariable = "Import Playlists";
-            var firstFunc = importPlaylist; 
-            var contextMenu = [];
-            contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
-            vm.conMenu = contextMenu;
-            console.log(vm.conMenu);
-        }
-        function importPlaylist(){
-          importPlaylistWizard.open(null,null,null);
-        }
+      
 
   }
 })();

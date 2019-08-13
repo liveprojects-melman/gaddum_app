@@ -55,7 +55,7 @@
   function refresh(tracks,name){
     vm.tracks = tracks;
     vm.params.playlist.setName(name);
-    playlistService.asyncSetPlaylistTracks(vm.params.playlist,vm.tracks);
+    playlistViewModal.data(vm.tracks, vm.params.playlist);
   }
 
 
