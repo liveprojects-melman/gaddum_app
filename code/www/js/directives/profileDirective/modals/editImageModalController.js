@@ -118,11 +118,11 @@
                       'color':vm.colourChoices[vm.colourChoice][1]
                      };
     vm.nextColour = function nextColour(){
-      vm.colourChoice=(vm.colourChoice+1)%(colours.length-1);
+      vm.colourChoice=(vm.colourChoice+1)%(vm.colourChoices.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
     };
     vm.prevColour = function prevColour(){
-      vm.colourChoice=(vm.colourChoice-1)%(colours.length-1);
+      vm.colourChoice=(vm.colourChoice+vm.colourChoices.length-2)%(vm.colourChoices.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
     };
 
