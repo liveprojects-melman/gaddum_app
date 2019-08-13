@@ -161,10 +161,10 @@
         //document.getElementById("img").style.width  = String( canvas_wh[0] * 3 )+"px";
         //document.getElementById("img").style.height = String( canvas_wh[1] * 3 )+"px";
 
-//        canvas = document.createElement('canvas');
-//        canvas.id = 'edit';
-//        canvas.width = canvas_wh[0];
-//        canvas.height = canvas_wh[1];
+        canvas = document.createElement('canvas');
+        canvas.id = 'edit';
+        canvas.width = canvas_wh[0];
+        canvas.height = canvas_wh[1];
 
 //        canvas_colour = document.createElement('canvas');
 //        canvas_colour.id = 'canvas_colour';
