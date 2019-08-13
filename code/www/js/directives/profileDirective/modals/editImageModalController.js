@@ -120,10 +120,21 @@
     vm.nextColour = function nextColour(){
       vm.colourChoice=(vm.colourChoice+1)%(vm.colourChoices.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.updatePixelColour();
     };
     vm.prevColour = function prevColour(){
       vm.colourChoice=(vm.colourChoice+vm.colourChoices.length-2)%(vm.colourChoices.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.updatePixelColour();
+    };
+    vm.updatePixelColour = function updatePixelColour(){
+      var colourMapping = ["none","r","g","b"];
+      for (var i = 1; i++; i<4) {
+        pixel_colours[0][ colourMapping[ i ] ]  =
+          (vm.colourChoices[vm.colourChoice][1].charCodeAt(i)<58?
+           vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-48 :
+           vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-55 )*(1/16);
+      }
     };
 
     var canvas_grid;
