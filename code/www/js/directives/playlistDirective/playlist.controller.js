@@ -175,9 +175,6 @@
 
 
     vm.searchPlaylists = function () {
-      console.log("true Origional", playlists);
-      console.log("origional", vm.savep);
-      console.log("copy", vm.playlistsToShow.playlists);
       var searchTerm = document.getElementById("searchPlaylistsBox").value;
       
       onNewSearch(searchTerm);
