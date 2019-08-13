@@ -34,7 +34,8 @@
       genresFontStyle: false,
       firstSearch: true,
       playlistsToShow: {},
-      searching:false
+      searching:false,
+      searchTerm:""
 
     });
     var scale = 8;
@@ -47,32 +48,33 @@
 
 
     function init() {
-      vm.searching = true;
-      playlistService.asyncSeekPlaylists("").then(function (results) {
-        vm.searching = false;
-        vm.playlistsToShow = results;
-      });
-      //save();
-
+      onNewSearch("");
     };
-    init();
-    function save() {
-      playlists.playlists.items.forEach(function (element) {
-        vm.playlistsToShow.push(element);
-      });
+
+    vm.removePlaylist = function(index) {
+      var playlist = vm.playlistsToShow[index];
+      console.log("removing: " + playlist.getName());
+      playlistService.asyncRemovePlaylist(playlist).then(
+        function(){
+          onNewSearch(vm.searchTerm);
+        },
+        onError
+      );
+
+      
     }
 
+  
 
+    vm.viewPlaylist = function (index) {
+      var playlist = vm.playlistsToShow[index];
 
-
-
-    vm.viewPlaylist = function (playlist) {
       //modal
       //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
-      console.log("p2g", playlist);
-      playlistService.asyncGetPlaylistTracks(playlist.id).then(function (tracks) {
+      console.log("Veiwing: ", playlist.getName());
+      playlistService.asyncGetPlaylistTracks(playlist).then(function (tracks) {
         var modalParams =
-          { "playlist": playlist.getProviderPlaylistRef(), "name": playlists.getName(), "tracks": tracks }
+          { "playlist": playlist.getProviderPlaylistRef(), "name": playlist.getName(), "tracks": tracks }
           /*  {"userGenres":userGenres},
            {"userProfile":profileService.getUserProfile()} */
           ;
@@ -81,17 +83,16 @@
       //var,ok,c
     };
 
-    function deletePlaylist() {
-      //playlistService.deletePlaylist(playlistToDelete)
-      console.log("delete");
-    };
+
+    vm.playPlaylist = function (index) {
+      var playlist = vm.playlistsToShow[index];
+      console.log("Playing: " + playlist.getName());
+      console.log("playPlaylist: Not yet implemented...");
+    }
 
     function refresh() {
-      vm.searching = true;
-      playlistService.asyncSeekPlaylists("").then(function (results) {
-        vm.searching = false;
-        vm.playlistsToShow = results;
-      });
+      onNewSearch("");
+      
     };
 
 
@@ -151,23 +152,39 @@
       };
     };
 
+
+    function onNewPlaylists(playlists){
+      vm.searching = false;
+      vm.playlistsToShow = playlists;
+    }
+
+
+    function onError(error){
+      vm.searching = false;
+      console.log("playlistController: " + error.message);
+    }
+
+    function onNewSearch(searchTerm){
+      vm.searching = true;
+      vm.searchTerm = searchTerm;
+      playlistService.asyncSeekPlaylists(searchTerm).then(
+        onNewPlaylists,
+        onError
+      );
+    }
+
+
     vm.searchPlaylists = function () {
       console.log("true Origional", playlists);
       console.log("origional", vm.savep);
       console.log("copy", vm.playlistsToShow.playlists);
       var searchTerm = document.getElementById("searchPlaylistsBox").value;
-      var tempArray = [];
-      //vm.playlistsToShow=playlists;
-      playlists.playlists.items.forEach(function (playlist) {
-        //console.log(playlist.name,searchTerm);
-        if (playlist.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-          console.log("pushing" + playlist.name);
-          tempArray.push(playlist);
-        }
-      });
-      vm.playlistsToShow = tempArray;
-      //console.log(vm.playlistsToShow.playlists.items);
+      
+      onNewSearch(searchTerm);
+
     };
+
+    init();
 
   }
 })();
