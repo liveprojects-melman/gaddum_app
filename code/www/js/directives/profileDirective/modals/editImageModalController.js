@@ -117,11 +117,11 @@
     vm.colourStyle = {'font-weight':900,
                       'color':vm.colourChoices[vm.colourChoice][1]
                      };
-    vm.nextColour = function(){
+    vm.nextColour = function nextColour(){
       vm.colourChoice=(vm.colourChoice+1)%(colours.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
     };
-    vm.prevColour = function(){
+    vm.prevColour = function prevColour(){
       vm.colourChoice=(vm.colourChoice-1)%(colours.length-1);
       vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
     };

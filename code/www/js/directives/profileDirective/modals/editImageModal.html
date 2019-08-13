@@ -13,7 +13,7 @@
 
   <div id="colour-picker">
     <button class="button icon-left ion-chevron-left button-clear button-dark" ng-click="vm.prevColour();"></button>
-    <span id="colour-name" ng-style="vm.colourStyle"{{vm.colourChoices[vm.colourChoice][0]}}</span>
+    <span id="colour-name" ng-style="vm.colourStyle" ng-content="vm.colourChoices[vm.colourChoice][0]></span>
     <button class="button icon-right ion-chevron-right button-clear button-dark" ng-click="vm.nextColour();"></button>
   </div>
 
