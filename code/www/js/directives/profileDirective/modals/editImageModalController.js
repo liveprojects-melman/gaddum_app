@@ -496,7 +496,7 @@
           return i;
         }
       }
-      return 1;
+      return 0;
     };
 
     var setPixel = function setPixel(destination_canvas,x,y,rgb) {
