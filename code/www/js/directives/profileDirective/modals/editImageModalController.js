@@ -130,7 +130,7 @@
     vm.updatePixelColour = function updatePixelColour(){
       var colourMapping = ["none","r","g","b"];
       for (var i = 1; i++; i<4) {
-        pixel_colours[0][ colourMapping[ i ] ]  =
+        pixel_colours[1][ colourMapping[ i ] ]  =
           (vm.colourChoices[vm.colourChoice][1].charCodeAt(i)<58?
            vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-48 :
            vm.colourChoices[vm.colourChoice][1].charCodeAt(i)-55 )*(1/16);
@@ -496,7 +496,7 @@
           return i;
         }
       }
-      return 0;
+      return 1;
     };
 
     var setPixel = function setPixel(destination_canvas,x,y,rgb) {
