@@ -252,7 +252,7 @@
         function callback(profileDetails) {
             //update everything on screen
             vm.setName(profileDetails.name);
-            vm.setAvatar_image(profileDetails.avatar_image);
+            vm.setAvatar_image(profileDetails.avatar_image,profileDetails.avatar_image_colour);
             vm.setGenres(profileDetails.genres);
             vm.genreScrollChecker();
 
@@ -261,9 +261,9 @@
             //refresh all the things
         };
 
-        vm.setAvatar_image = function (avatar_image) {
+        vm.setAvatar_image = function (avatar_image,image_colour) {
             console.log("aimg", avatar_image);
-            avatar_image=AvatarGraphic.build("#FF00FF",avatar_image);
+            avatar_image=AvatarGraphic.build(image_colour,avatar_image);
             //profileService.asyncSetAvatarGraphic(avatar_image);
             setTimeout(function () {
                 profileService.asyncSetAvatarGraphic(avatar_image).then(
