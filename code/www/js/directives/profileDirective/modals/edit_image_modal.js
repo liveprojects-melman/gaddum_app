@@ -25,7 +25,8 @@
             getParams:getParams,
             callback:callback,
             cancel:cancel,
-            imgUpdate:imgUpdate
+            imgUpdate:imgUpdate,
+            getEncodedImage:getEncodedImage
         };
         return myModal;
 
@@ -69,12 +70,15 @@
             $scope.fnCallbackOk(newData);
         }
 
-        function imgUpdate(modalImage){
-            encodedImage=modalImage;
+        function imgUpdate(modalImage,modalColor){
+            encodedImage=[modalImage,modalColor];
         }
 
         function cancel(){
             $scope.fnCallbackCancel();
+        }
+        function getEncodedImage(){
+            return encodedImage;
         }
     }
 })();

@@ -22,7 +22,8 @@
     var vm = angular.extend(this, {
       showGenres: false,
       updateGenres:[],
-      allGenres:[]
+      allGenres:[],
+      pictureColor:"#000000"
     });
     var scale = 8;
     var fnames = [
@@ -105,7 +106,10 @@
       vm.fullName = vm.params[2].userProfile.avatar_name;
       newGenres = vm.params[1].userGenres;
       profile = vm.params[2].userProfile;
-      vm.displayImage=profile.avatar_graphic.values;
+      vm.displayImage = profile.avatar_graphic.values;
+      if (profile.avatar_graphic.colour != null) {
+        vm.pictureColor = profile.avatar_graphic.colour;
+      };
 //      console.log("disp img",vm.displayImage);
       if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null) {
         vm.displayImage=[128,128,128,128,128,128,128,128];
@@ -206,7 +210,8 @@
       var newData = {
         "name": vm.fullName,
         "genres": newGenres,
-        "avatar_image":vm.displayImage//edit image 3/?
+        "avatar_image":vm.displayImage,//edit image 3/?
+        "avatar_image_colour":vm.pictureColor
       };
 //      console.log(newData);
       profileEditModal.callback(newData);
@@ -242,7 +247,7 @@
 //          console.log(bin);
           for (var k = 0; k < bin.length; k++) {
             if (bin[k] == "1") {
-              rect(k, j, nx, ny, '#000000', ctx);
+              rect(k, j, nx, ny, vm.pictureColor, ctx);
             } else {
               rect(k, j, nx, ny, '#ffffff', ctx);
             }
@@ -258,7 +263,8 @@
 
     vm.profileImageEdit = function profileImageEdit() {
       var modalParams = [
-        {"avatar_image":vm.displayImage}
+        {"avatar_image":vm.displayImage},
+        {"avatar_image_colour":vm.pictureColor}
       ];
 //      console.log("displat img",vm.displayImage);
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
@@ -268,14 +274,16 @@
 
     vm.updateImage = function updateImage(newImage){
       //edit image 4/?
-      vm.displayImage=newImage;
+      vm.displayImage=newImage[0];
+      vm.pictureColor=newImage[1];
       vm.createProfileGraphic();
     };
 
     vm.imgUpdateCancel = function imgUpdateCancel(image){
       //JJJJJ
 //      console.log(image);
-      vm.displayImage=image;
+      vm.displayImage=image[0];
+      vm.pictureColor=image[1];
       vm.createProfileGraphic();
     };
 
