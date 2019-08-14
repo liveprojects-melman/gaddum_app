@@ -28,7 +28,6 @@
             close: close,
             getParams:getParams,
             callback:callback,
-            cancel:cancel,
             closeCheckFalse:closeCheckFalse,
             data:data
         };
@@ -83,10 +82,6 @@
         }
         function callback(newData){
             $scope.fnCallbackOk(newData);
-        };
-
-        function cancel(){
-            $scope.fnCallbackCancel();
         };
     }
 })();

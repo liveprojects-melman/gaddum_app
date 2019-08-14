@@ -36,11 +36,6 @@
       console.log("?");
     };
 
-    vm.cancel = function () {
-      playlistViewModal.cancel();
-      playlistViewModal.close();
-    };
-
     vm.editPlaylist= function(){
       var modalParams=vm.params;
       playlistViewModal.closeCheckFalse();

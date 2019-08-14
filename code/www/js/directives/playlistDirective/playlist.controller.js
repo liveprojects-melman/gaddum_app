@@ -80,6 +80,7 @@
     playlistService.asyncImportPlaylist(playlistArray)
       .then(function(result){
         vm.searching=false;
+        contextMenuEnable();
         onNewSearch("");
       });
   }
@@ -92,6 +93,7 @@
       playlistService.asyncRemovePlaylist(playlist).then(
         function () {
           onNewSearch(vm.searchTerm);
+          contextMenuEnable();
           vm.searching= false;
         },
         onError
@@ -115,7 +117,7 @@
           /*  {"userGenres":userGenres},
            {"userProfile":profileService.getUserProfile()} */
           ;
-        playlistViewModal.open(modalParams, vm.removePlaylist, refresh);
+        playlistViewModal.open(modalParams, vm.removePlaylist, refreshPlaylist);
       });
       //var,ok,c
     };
@@ -127,8 +129,9 @@
       console.log("playPlaylist: Not yet implemented...");
     }
 
-    function refresh(tracks, playlist) {
-      if (tracks) {
+    function refreshPlaylist(tracks, playlist) {
+      if (tracks && playlist) {
+        console.log("refresh Playlist",playlist);
         vm.searching = true;
         contextMenuDisable();
         playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {
@@ -139,6 +142,7 @@
       }
       else{
         onNewSearch("");
+        contextMenuEnable();
       }
 
 
@@ -204,7 +208,6 @@
 
     function onNewPlaylists(playlists) {
       vm.searching = false;
-      contextMenuEnable();
       console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
     }
@@ -218,7 +221,6 @@
 
     function onNewSearch(searchTerm) {
       vm.searching = true;
-      contextMenuDisable();
       vm.searchTerm = searchTerm;
       playlistService.asyncSeekPlaylists(searchTerm).then(
         onNewPlaylists,
