@@ -36,7 +36,7 @@
       genresFontStyle: false,
       firstSearch: true,
       playlistsToShow: {},
-      searching: false,
+      busy: false,
       searchTerm: ""
 
     });
@@ -53,7 +53,7 @@
       onNewSearch("");
       createModalList();
       if(playlistService.getIsBusy()){
-        vm.searching = true;
+        vm.busy = true;
         contextMenuDisable();
       }
     };
@@ -75,18 +75,18 @@
     importPlaylistWizard.open(null,importRefresh,null);
   }
   function importRefresh(playlistArray){
-    vm.searching=true;
+    vm.busy=true;
     contextMenuDisable();
     playlistService.asyncImportPlaylist(playlistArray)
       .then(function(result){
-        vm.searching=false;
+        vm.busy=false;
         contextMenuEnable();
         onNewSearch("");
       });
   }
 
     vm.removePlaylist = function (index) {
-      vm.searching = true;
+      vm.busy = true;
       contextMenuDisable();
       var playlist = vm.playlistsToShow[index];
       console.log("removing: " + playlist.getName());
@@ -94,7 +94,7 @@
         function () {
           onNewSearch(vm.searchTerm);
           contextMenuEnable();
-          vm.searching= false;
+          vm.busy= false;
         },
         onError
       );
@@ -132,11 +132,11 @@
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
         console.log("refresh Playlist",playlist);
-        vm.searching = true;
+        vm.busy = true;
         contextMenuDisable();
         playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {
           onNewSearch("");
-          vm.searching = false;
+          vm.busy = false;
           contextMenuEnable();
         });
       }
@@ -207,20 +207,20 @@
 
 
     function onNewPlaylists(playlists) {
-      vm.searching = false;
+      vm.busy = false;
       console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
     }
 
 
     function onError(error) {
-      vm.searching = false;
+      vm.busy = false;
       contextMenuEnable();
       console.log("playlistController: " + error.message);
     }
 
     function onNewSearch(searchTerm) {
-      vm.searching = true;
+      vm.busy = true;
       vm.searchTerm = searchTerm;
       playlistService.asyncSeekPlaylists(searchTerm).then(
         onNewPlaylists,
