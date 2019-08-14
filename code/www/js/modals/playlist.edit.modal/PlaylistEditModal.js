@@ -28,7 +28,6 @@
             close: close,
             getParams: getParams,
             callback: callback,
-            cancel: cancel,
             trackData: trackData,
             nameData: nameData
         };
@@ -37,6 +36,8 @@
         function open(params, fnCallbackOk, fnCallbackCancel) {
             var service = this;
             parmeter = params;
+            trackList = null;
+            playlistName = null;
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel = fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
@@ -81,9 +82,7 @@
             $scope.fnCallbackOk(newData);
         };
 
-        function cancel() {
-            $scope.fnCallbackCancel();
-        };
+
     }
 })();
 

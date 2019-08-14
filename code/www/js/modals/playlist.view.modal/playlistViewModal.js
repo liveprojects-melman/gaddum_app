@@ -36,6 +36,8 @@
         function open(params, fnCallbackOk, fnCallbackCancel) {
             var service = this;
             closeCheck=true;
+            dataPlaylist = null;
+            dataTracks = null;
             parmeter = params;
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel=fnCallbackCancel;
@@ -62,7 +64,10 @@
             if(closeCheck){
                 if(modalSave){
                     modalSave.remove();
+                    modalSave = null;
                     $scope.fnCallbackCancel(dataTracks,dataPlaylist);
+                    dataTracks = null;
+                    dataPlaylist = null;
                 }
             }
             closeCheck = true;

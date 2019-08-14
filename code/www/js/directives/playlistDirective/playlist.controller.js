@@ -132,6 +132,7 @@
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
         console.log("refresh Playlist",playlist);
+        console.log("refresh tracks",tracks);
         vm.busy = true;
         contextMenuDisable();
         playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {

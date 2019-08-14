@@ -21,7 +21,7 @@
 
     <ion-content class="editPlaylistSongsList" overflow-scroll="false">
       <ion-list can-swipe="true" show-delete="vm.showDelete" show-reorder="vm.showReorder" can-reorder="true">
-        <ion-item ng-repeat="song in vm.tracks">
+        <ion-item ng-repeat="song in vm.params.tracks">
           <!-- <img ng-src="{{.img}}"> -->
           <h2>{{song.name}}</h2>
 

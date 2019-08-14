@@ -18,7 +18,6 @@
   ) {
     var vm = angular.extend(this, {
       params:null,
-      tracks:[],
       playlist:[],
       showDelete:false,
       showReorder:false
@@ -26,8 +25,6 @@
     $scope.playlistEditModal = playlistEditModal;
     function init() {
       vm.params = playlistEditModal.getParams();
-      vm.tracks=vm.params.tracks;
-      console.log("tracks",vm.tracks);
       console.log("params22!",vm.params);
     };
     init();
@@ -37,25 +34,21 @@
       console.log("?");
     };
 
-    vm.cancel = function () {
-      playlistEditModal.cancel();
-      playlistEditModal.close();
-    };
 
     vm.reorderlog=function(song, fromIndex,toIndex){
       console.log(song, fromIndex,toIndex);
-      vm.tracks.splice(fromIndex, 1);
-      vm.tracks.splice(toIndex, 0, song);
-      playlistEditModal.trackData(vm.tracks);
-      console.log(vm.tracks);
+      vm.params.tracks.splice(fromIndex, 1);
+      vm.params.tracks.splice(toIndex, 0, song);
+      playlistEditModal.trackData(vm.params.tracks);
+      console.log(vm.params.tracks);
     };
     vm.textChange = function(){
       playlistEditModal.nameData(vm.params.name);
     }
 
     vm.deleteSong=function(index){
-      vm.tracks.splice(index,1);
-      playlistEditModal.trackData(vm.tracks);
+      vm.params.tracks.splice(index,1);
+      playlistEditModal.trackData(vm.params.tracks);
     }
 
     vm.showDeleteToggle=function(){

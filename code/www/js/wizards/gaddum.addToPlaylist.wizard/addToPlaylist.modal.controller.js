@@ -36,7 +36,7 @@
       mc.displayArray=[];
       mc.params =addToPlaylistWizard.getParams();
       console.log(mc.params);
-      playlistService.asyncSeekPlaylists().then(function(result){
+      playlistService.asyncSeekPlaylists("").then(function(result){
         mc.playlistArray = result;
         mc.playlistArray.forEach(function(element){
           mc.displayArray.push({name:element.getName(),value:false});
@@ -67,9 +67,11 @@
       playlists.forEach(function(playlist){
         playlistService.asyncGetPlaylistTracks(playlist).then(function(result){
           //give trackInfo(mc.params) to spotify service
-          var trackGen = GenericTrack.build(mc.params.getName(),mc.params.getAlbum(),mc.params.getArtist());
+          var trackGen = GenericTrack.build(mc.params.getPlayerUri(),mc.params.getName(),mc.params.getAlbum(),mc.params.getArtist(),mc.params.getDuration_s());
           result.push(trackGen);
-          playlistService.asyncSetPlaylistTracks(playlist,result)
+          playlistService.asyncSetPlaylistTracks(playlist,result).then(function(result){
+            addToPlaylistWizard.close();
+          });
         });
         
       });

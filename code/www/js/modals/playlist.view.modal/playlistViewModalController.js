@@ -20,13 +20,11 @@
   ) {
     var vm = angular.extend(this, {
       params:null,
-      tracks:[],
       playlist:[]
     });
     $scope.playlistViewModal = playlistViewModal;
     function init() {
       vm.params = playlistViewModal.getParams();
-      vm.tracks=vm.params.tracks;
       console.log("params!!",vm.params);
     };
     init();
@@ -39,7 +37,7 @@
     vm.editPlaylist= function(){
       var modalParams=vm.params;
       playlistViewModal.closeCheckFalse();
-      playlistEditModal.open(modalParams,saveChanges,refresh);
+      playlistEditModal.open(modalParams,saveChanges,refreshTrack);
       //var,ok,c
   };
 
@@ -47,10 +45,14 @@
     console.log(editedPlaylist);
   };
 
-  function refresh(tracks,name){
-    vm.tracks = tracks;
-    vm.params.playlist.setName(name);
-    playlistViewModal.data(vm.tracks, vm.params.playlist);
+  function refreshTrack(tracks,name){
+    if (tracks){
+      vm.params.tracks = tracks;
+    }
+    if(name){
+      vm.params.playlist.setName(name);
+    }
+    playlistViewModal.data(vm.params.tracks, vm.params.playlist);
   }
 
 
