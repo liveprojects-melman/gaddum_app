@@ -3,7 +3,7 @@
 --
 -- Text encoding used: UTF-8
 --
--- PRAGMA foreign_keys = off;
+PRAGMA foreign_keys = off;
 -- BEGIN TRANSACTION;
 
 -- Table: settings
@@ -1938,4 +1938,4 @@ CREATE TABLE tracks (
 
 
 -- COMMIT TRANSACTION;
--- PRAGMA foreign_keys = on;
+PRAGMA foreign_keys = on;

@@ -575,6 +575,9 @@
         function asyncSeekPlaylists(name, id) {
             var deferred = $q.defer();
 
+            console.log("----------");
+            console.log("looking for playlist: " + " name: " +  name + " id: " + id);
+
             mappingService.query(
                 "seek_playlists",
                 {
@@ -969,6 +972,9 @@
         function asyncAssociatePlaylistAndTrack(namedIdentifierPlaylist, namedIdentifierTrack, order) {
             var deferred = $q.defer();
 
+            console.log("----------");
+            console.log("associating: " + namedIdentifierPlaylist.getId() + " with: " + namedIdentifierTrack.getId() + " at order: " + order);
+
             var args = {
                 id: utilitiesService.createUuid(),
                 playlist_id: namedIdentifierPlaylist.getId(),
@@ -1019,6 +1025,8 @@
 
 
         function asyncRemovePlaylist(playlistIdentifier) {
+            console.log("----------");
+            console.log("removing playlist: " + playlistIdentifier.getId());
             var deferred = $q.defer();
 
             $timeout(
@@ -1047,11 +1055,12 @@
 
         function asyncUpdatePlaylist(playlistIdentifier) {
             var deferred = $q.defer();
-
+            console.log("----------");
+            console.log("updating playlist: " + playlistIdentifier.getId() + " name: " + playlistIdentifier.getName());
             $timeout(
 
                 function () {
-                    if (playlistIdentifier && playlistIdentifier.getName() && playlistIdentifier.getId()) {
+                    if (playlistIdentifier && (playlistIdentifier.getName() != null) && (playlistIdentifier.getId() != null)) {
 
                         mappingService.query("set_playlist", {
                             id: playlistIdentifier.getId(),
@@ -1087,12 +1096,23 @@
                             function(){
                                 asyncUpdatePlaylist(playlistIdentifier).then( // take advantage of upsert-type function here
                                     function(){
-                                        asyncAssociatePlaylistAndTracks(playlistIdentifier, arrayGenericTracks);
+                                        asyncAssociatePlaylistAndTracks(playlistIdentifier, arrayGenericTracks).then(
+                                            function(){
+                                                deferred.resolve(playlistIdentifier);
+                                            },
+                                            function(error){
+                                                deferred.reject(error);
+                                            }
+                                        );
                                     },
-                                    deferred.resolve(playlistIdentifier)
+                                    function(error){
+                                        deferred.reject(error);
+                                    }
                                 );
                             },
-                            deferred.resolve(playlistIdentifier)
+                            function(error){
+                                deferred.reject(error);
+                            }
                         );
 
                     }else{

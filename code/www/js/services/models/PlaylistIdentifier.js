@@ -34,6 +34,9 @@
     }
 
     this.setName = function(name){
+      if(!name){
+        name = "";
+      }
       this.name = name;
     }
 
@@ -61,6 +64,11 @@
      */
     PlaylistIdentifier.build = function (id, name, isMoodEnabled, isGift) {
       
+      if(!name){
+        name = "";
+      }
+
+
         return new PlaylistIdentifier(
           id, name, isMoodEnabled, isGift
         );
