@@ -775,10 +775,22 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 15%;
     color:black;
 }
+.addToPlaylist{
+    position: absolute;
+    top: -20%;
+    left: 8%;
+    color:black;
+}
 .groupTextInButton{
     position: absolute;
     bottom: -5%;
     left: 15%;
+    color:black;
+}
+.addToTextInButtonPlaylistView{
+    position: absolute;
+    bottom: -20%;
+    left: 3%;
     color:black;
 }
 .shareTextInButton{
@@ -787,10 +799,22 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 10%;
     color:black;
 }
+.shareTextInButtonPlaylistView{
+    position: absolute;
+    bottom: -20%;
+    left: 10%;
+    color:black;
+}
 .removeTextInButton{
     position: absolute;
     bottom: -5%;
     left: 5%;
+    color:black;
+}
+.playTextInButtonPlaylistView{
+    position: absolute;
+    bottom: -20%;
+    left: 10%;
     color:black;
 }
 .addToGroup{

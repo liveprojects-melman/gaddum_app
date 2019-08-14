@@ -67,7 +67,7 @@
       playlists.forEach(function(playlist){
         playlistService.asyncGetPlaylistTracks(playlist).then(function(result){
           //give trackInfo(mc.params) to spotify service
-          var trackGen = GenericTrack.build(mc.params.getPlayerUri(),mc.params.getName(),mc.params.getAlbum(),mc.params.getArtist(),mc.params.getDuration_s());
+          var trackGen = mc.params;
           result.push(trackGen);
           playlistService.asyncSetPlaylistTracks(playlist,result).then(function(result){
             addToPlaylistWizard.close();

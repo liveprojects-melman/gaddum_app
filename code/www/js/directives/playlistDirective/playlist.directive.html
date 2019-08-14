@@ -13,12 +13,11 @@
 <div>
   <ion-content class="playlistPageListContent">
     <ion-list class="list">
-      <ion-item ng-repeat="playlist in vm.playlistsToShow" can-swipe="true" class="item-remove-animate item item-complex"
+      <ion-item ng-repeat="playlist in vm.playlistsToShow" ng-class-odd="'listodd'" ng-class-even="'listeven'"
+         can-swipe="true" class="item-remove-animate item item-complex"
         ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)"
         ng-mouseup="vm.allowSlideBox($event)" class="playlistPageItemRepeat">
-        <img src="{{playlist.images[0].url}}" style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;">
         <h2>{{playlist.name}}</h2>
-        <h2>{{playlist.owner.display_name}}</h2>
         <!-- <h2>test</h2>
       <h2>testtest</h2> -->
         <!-- <p>{{.description}}</p> -->
