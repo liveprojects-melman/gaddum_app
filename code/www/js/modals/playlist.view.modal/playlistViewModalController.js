@@ -68,7 +68,7 @@
   
   function play(track){
     console.log("track",track);
-    currentTrack = GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s());
+    currentTrack = track;
     console.log("current",currentTrack);
     howAreYouPlay();
   }

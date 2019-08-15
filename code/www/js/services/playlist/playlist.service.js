@@ -62,12 +62,12 @@
     function asyncPlay(moodedPlaylists){
 
       var deferred = $q.defer();
-
+      console.log("async play MoodedPlaylist:", moodedPlaylists);
       $timeout(
 
         function(){
 
-          if(moodedPlaylist){
+          if(moodedPlaylists){
 
             // TODO: Mr Cooper 
             deferred.resolve();
@@ -89,12 +89,12 @@
     function asyncMakeTrackStatement(genericTrack,MoodId){
 
       var deferred = $q.defer();
-
+      console.log("asyncMakeTrackStatement genericTrack:", genericTrack," MoodId:",MoodId);
       $timeout(
 
         function(){
 
-          if(moodedPlaylist){
+          if(genericTrack){
 
             // TODO: Mr Cooper 
             deferred.resolve();

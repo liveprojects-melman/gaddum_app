@@ -15,7 +15,10 @@
     'playlistService',
     '$ionicSlideBoxDelegate',
     'playlistViewModal',
-    'importPlaylistWizard'
+    'importPlaylistWizard',
+    'howAreYouModal',
+    'MoodedPlaylist',
+    'Playlist'
   ];
 
   function control(
@@ -28,7 +31,10 @@
     playlistService,
     $ionicSlideBoxDelegate,
     playlistViewModal,
-    importPlaylistWizard
+    importPlaylistWizard,
+    howAreYouModal,
+    MoodedPlaylist,
+    Playlist
 
   ) {
     var vm = angular.extend(this, {
@@ -52,38 +58,38 @@
     function init() {
       onNewSearch("");
       createModalList();
-      if(playlistService.getIsBusy()){
+      if (playlistService.getIsBusy()) {
         vm.busy = true;
         contextMenuDisable();
       }
     };
     function createModalList() {
       var firstVariable = "Import Playlists";
-      var firstFunc = importPlaylist; 
+      var firstFunc = importPlaylist;
       var contextMenu = [];
-      contextMenu[0]=gaddumContextMenuItem.build(firstVariable,firstFunc);
+      contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
       vm.conMenu = contextMenu;
       gaddumShortcutBarService.setContextMenu(vm.conMenu);
-  }
-  function contextMenuDisable(){
-    gaddumShortcutBarService.disableContext();
-  }
-  function contextMenuEnable(){
-    gaddumShortcutBarService.enableContext();
-  }
-  function importPlaylist(){
-    importPlaylistWizard.open(null,importRefresh,null);
-  }
-  function importRefresh(playlistArray){
-    vm.busy=true;
-    contextMenuDisable();
-    playlistService.asyncImportPlaylist(playlistArray)
-      .then(function(result){
-        vm.busy=false;
-        contextMenuEnable();
-        onNewSearch("");
-      });
-  }
+    }
+    function contextMenuDisable() {
+      gaddumShortcutBarService.disableContext();
+    }
+    function contextMenuEnable() {
+      gaddumShortcutBarService.enableContext();
+    }
+    function importPlaylist() {
+      importPlaylistWizard.open(null, importRefresh, null);
+    }
+    function importRefresh(playlistArray) {
+      vm.busy = true;
+      contextMenuDisable();
+      playlistService.asyncImportPlaylist(playlistArray)
+        .then(function (result) {
+          vm.busy = false;
+          contextMenuEnable();
+          onNewSearch("");
+        });
+    }
 
     vm.removePlaylist = function (index) {
       vm.busy = true;
@@ -94,7 +100,7 @@
         function () {
           onNewSearch(vm.searchTerm);
           contextMenuEnable();
-          vm.busy= false;
+          vm.busy = false;
         },
         onError
       );
@@ -122,17 +128,35 @@
       //var,ok,c
     };
 
-
+    var playlistToPlay = null;
     vm.playPlaylist = function (index) {
-      var playlist = vm.playlistsToShow[index];
-      console.log("Playing: " + playlist.getName());
+      playlistToPlay = vm.playlistsToShow[index];
+      howAreYouPlay();
       console.log("playPlaylist: Not yet implemented...");
+    }
+    function howAreYouPlay() {
+      howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
+    }
+    function fnCallbackHowAreYouOkPlay(emotion) {
+      playlistService.asyncGetPlaylistTracks(playlistToPlay).then(function (tracks) {
+        var playlist = null;
+        var mooded = null;
+        var moodedArray = [];
+        playlist = Playlist.build(playlistToPlay.getId(), playlistToPlay.getName(), tracks);
+        mooded = MoodedPlaylist.build(emotion, playlist);
+        moodedArray.push(mooded);
+        playlistService.asyncPlay(moodedArray);
+        console.log(moodedArray);
+      });
+    }
+    function fnCallbackHowAreYouCancel() {
+      console.log("modal canceled");
     }
 
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
-        console.log("refresh Playlist",playlist);
-        console.log("refresh tracks",tracks);
+        console.log("refresh Playlist", playlist);
+        console.log("refresh tracks", tracks);
         vm.busy = true;
         contextMenuDisable();
         playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {
@@ -141,7 +165,7 @@
           contextMenuEnable();
         });
       }
-      else{
+      else {
         onNewSearch("");
         contextMenuEnable();
       }
