@@ -208,8 +208,10 @@
     }
     function addToPlaylist(track){
       var trackToAdd = [];
-      trackToAdd.push(GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s()));
-      addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+      playlistService.asyncImportTrack(track).then(function(genTrack){
+        trackToAdd.push(genTrack);
+        addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+      });
     }
     function fnCallbackAddToPlaylistOk(){
       
