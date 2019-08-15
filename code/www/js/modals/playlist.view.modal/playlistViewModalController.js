@@ -14,7 +14,8 @@
     'howAreYouModal',
     'Playlist',
     'MoodedPlaylist',
-    'userProfilerService'
+    'userProfilerService',
+    'StatementCriteria'
   ];
 
   function playlistViewModalController(
@@ -27,7 +28,8 @@
     howAreYouModal,
     Playlist,
     MoodedPlaylist,
-    userProfilerService
+    userProfilerService,
+    StatementCriteria
   ) {
     var vm = angular.extend(this, {
       params:null,
@@ -75,6 +77,7 @@
   var currentTrack = null;
   function howAreYouPlay(){
     howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
+    playlistViewModal.closeCheckFalse();
   }
   function fnCallbackHowAreYouOkPlay(emotion){
     var arrayTrack = [];
@@ -93,6 +96,7 @@
   }
   function addToPlaylist(track){
     addToPlaylistWizard.open(track,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+    playlistViewModal.closeCheckFalse();
   }
   function fnCallbackAddToPlaylistOk(){
     
@@ -103,12 +107,14 @@
   function asyncMakeTrackStatement(track){
     currentTrack = track;
     howAreYouTrack();
+    playlistViewModal.closeCheckFalse();
   }
   function howAreYouTrack(){
     howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
   }
   function fnCallbackHowAreYouOkTrack(emotion){
-    playlistService.asyncMakeTrackStatement(currentTrack,emotion);
+    var StatCrit = StatementCriteria.build(emotion,currentTrack);
+    playlistService.asyncMakeTrackStatement(StatCrit);
   }
 
   vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
