@@ -30,17 +30,18 @@
 
     ///
 
-    var handlePause = function handlePause() {
+    service.handlePause = function handlePause() {
       gaddumMusicProviderService.asyncPauseCurrentTrack().then(
         function(okay){console.log("handlePause - got ",okay)},
-        function(err){console.log("handlePause - ERROR ",err)}
+        function(err) {console.log("handlePause - ERROR ",err)}
       );
     };
-    var handlePlay = function handlePlay() {
+
+    service.handlePlay = function handlePlay() {
       gaddumMusicProviderService.asyncPlayCurrentTrack().then(
-        function(okay){console.log("handlePlay - got ",okay)},
-        function(err){console.log("handlePlay - ERROR ",err)}
-      );.
+        function(okay){ console.log("handlePlay - got ",okay) },
+        function(err) { console.log("handlePlay - ERROR ",err) }
+      );
     };
 
     ///
