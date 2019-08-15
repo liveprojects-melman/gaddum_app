@@ -7,12 +7,14 @@
 
   gaddumPlayerController.$inject = [
     'gaddumStreamingService',
+    'playerService',
     '$state',
     '$scope'
   ];
 
   function gaddumPlayerController(
     gaddumStreamingService,
+    playerService,
     $state,
     $scope
   ) {
@@ -28,16 +30,33 @@
     };
 
     gpc.handleBackPress = function handleBackPress() {
-      gaddumStreamingService.handleBack();
+      //gaddumStreamingService.handleBack();
+      playerService.asyncControlSkipBack.then(
+        function(ok){console.log(ok);},
+        function(er){console.log(er);}
+      );
     };
     gpc.handlePausePress = function handlePausePress(){
-      gaddumStreamingService.handlePause();
+      //gaddumStreamingService.handlePause();
+      playerService.asyncControlControlPause.then(
+        function(ok){console.log(ok);},
+        function(er){console.log(er);}
+      );
     };
     gpc.handlePlayPress = function handlePlayPress(){
-      gaddumStreamingService.handlePlay();
+      //gaddumStreamingService.handlePlay();
+      playerService.asyncControlPlay.then(
+        function(ok){console.log(ok);},
+        function(er){console.log(er);}
+      );
     };
     gpc.handleNextPress = function handleNextPress(){
-      gaddumStreamingService.handleNext();
+      //gaddumStreamingService.handleNext();
+      playerService.asyncControlSkipNext.then(
+        function(ok){console.log(ok);},
+        function(er){console.log(er);}
+      );
+
     };
 
     return gpc;
