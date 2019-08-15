@@ -23,7 +23,8 @@
     'friendsService',
     '$ionicModal',
     '$scope',
-    'addToPlaylistWizard'
+    'addToPlaylistWizard',
+    'playlistService'
 
   ];
 
@@ -46,7 +47,8 @@
     $ionicModal,
 
     $scope,
-    addToPlaylistWizard
+    addToPlaylistWizard,
+    playlistService
   ) {
     var bm = angular.extend(this, {
       
@@ -207,10 +209,10 @@
       console.log("modal canceled");
     }
     function addToPlaylist(track){
-      var trackToAdd = [];
-      playlistService.asyncImportTrack(track).then(function(genTrack){
-        trackToAdd.push(genTrack);
-        addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+      var tracksToAdd = [];
+      playlistService.asyncImportTracks([track]).then(function(genTracks){
+        tracksToAdd.concat(genTracks);
+        addToPlaylistWizard.open(tracksToAdd[0],fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
       });
     }
     function fnCallbackAddToPlaylistOk(){

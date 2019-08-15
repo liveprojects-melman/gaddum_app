@@ -50,7 +50,8 @@
 
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
-
+    var EVENT_HANDLER_PROMISE = null;
+    var CURRENT_TRACK_INFO = null;
 
 
     var AUTH_CONFIG = null;
@@ -246,9 +247,19 @@
 
     // ------ PUBLIC
 
-    function asyncInit(musicProviderIdentifier) {
-      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
+    function asyncInitialise(musicProviderIdentifier, eventHandlerPromise) {
 
+      if(!musicProviderIdentifier){
+        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no musicProviderIdentifier.");
+      }
+
+      if(!eventHandlerPromise){
+        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
+      }
+
+
+      MUSIC_PROVIDER_IDENTIFIER = musicProviderEventHandlerPromise;
+      EVENT_HANDLER_PROMISE = eventHandlerPromise;
       AUTH_CONFIG = {
         clientId: null,
         encryptionSecret: null,
@@ -470,7 +481,7 @@
 
 
     // --- needs a tidy
-    function playTrack(TID) {
+    function asyncPlay(TID) {
       return $q(function (resolve, reject) {
         var deviceID = device.uuid;
         asyncGetAccessCredentials().then(function (result) {
@@ -483,7 +494,7 @@
         });
       });
     }
-    function pause() {
+    function asyncPause() {
       return $q(function (resolve, reject) {
         cordova.plugins.spotify.pause()
         then(function () {
@@ -937,11 +948,137 @@
     }
 
 
+    function buildDummyTrackObject() {
 
+
+      TrackInfo.build(
+          "Some Name",
+          "Some Album",
+          "Some Artist",
+          2800,
+          "https://blh.com/spotifytracks/erwghwerpgoehrgpoeiwhgogi/erpgiehgpuerhgerh/",
+          "https://blh.com/pics/ergerjgwpofwejew/ewflwefjgpo.jpg",
+          "ergjerigergoierhgoiergiheroi",
+          "gaddumMusicProviderSpotifyService"
+      );
+
+
+  }
+
+
+    function asyncSetTrack(genericTrack){
+      // look up trackInfo in cache.
+      // if not there, search on line for it.
+      // Cache the results.
+      // hold a track info object.
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+        
+          CURRENT_TRACK_INFO = buildDummyTrackObject();
+        
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+    }
+
+    function asyncPlayCurrentTrack(){
+      // if spotify player is not playing
+      // use the current TrackInfo object to 
+      // obtain correct track id. 
+      // Update spotify player.
+      // play the  spotify player. 
+
+      var deferred = $q.defer();
+
+      // Dummy for now.
+
+      $timeout(
+
+        function(){
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_START,
+                CURRENT_TRACK_INFO)
+              );
+          },1000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                10)
+              );
+          },2000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                50)
+              );
+          },3000);
+
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                80)
+              );
+          },4000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_END,
+                80)
+              );
+          },5000);
+
+
+
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+
+
+
+    }
+
+    function asyncPauseCurrentTrack(){
+      // pause the spotify player.
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+        
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+
+
+    }
 
 
     var service = {
-      asyncInit: asyncInit,
+      asyncInitialise: asyncInitialise,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
@@ -949,14 +1086,18 @@
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
-      playTrack: playTrack,
-      pause: pause,
+
+      asyncSetTrackTrack: asyncSetTrack,
+      asyncPlayCurrentTrack, asyncPlayCurrentTrack,
+      asyncPauseCurrentTrack: asyncPauseCurrentTrack,
+      
+      
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncSeekTracks: asyncSeekTracks,
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportPlaylists: asyncImportPlaylists
-
+      asyncImportPlaylists: asyncImportPlaylists,
+      asyncImportTracks: asyncImportTracks
 
     };
 

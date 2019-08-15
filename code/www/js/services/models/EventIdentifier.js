@@ -19,18 +19,18 @@
     EventIdentifier.TRACK_PROGRESS_PERCENT = -4, // progress through selected track
     EventIdentifier.TRACK_ERROR = -4; // an error has occured playing the track / the track is not available.
 
-    function EventIdentifier(code, message) {
+    function EventIdentifier(code, payload) {
       // Public properties, assigned to the instance ('this')
       this.code = code;
-      this. message = message;
+      this.payload = payload;
 
     
 
     this.getCode = function() {
       return this.code;
     }
-    this.getMessage = function() {
-      return this.message;
+    this.getPayload = function() {
+      return this.payload;
     }
   };
     
@@ -39,10 +39,10 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    EventIdentifier.build = function (code, message) {
+    EventIdentifier.build = function (code, payload) {
       
         return new EventIdentifier(
-          code, message
+          code, payload
         );
 
     };

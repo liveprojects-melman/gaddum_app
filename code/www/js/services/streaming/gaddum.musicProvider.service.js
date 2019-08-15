@@ -87,7 +87,7 @@
       dataApiService.asyncSetSelectedMusicProvider(musicProviderIdentifier).then(
         function(){
           console.log("initialising music provider: " + musicProviderIdentifier.getName());
-          service.musicProvider.asyncInit(musicProviderIdentifier).then(
+          service.musicProvider.asyncInitialise(musicProviderIdentifier, returnsAnEventHandlingPromise).then(
             deferred.resolve,
             deferred.reject
           );
