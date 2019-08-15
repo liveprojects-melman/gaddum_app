@@ -14,7 +14,8 @@
     'howAreYouModal',
     'Playlist',
     'MoodedPlaylist',
-    'userProfilerService'
+    'userProfilerService',
+    'StatementCriteria'
   ];
 
   function playlistViewModalController(
@@ -27,7 +28,8 @@
     howAreYouModal,
     Playlist,
     MoodedPlaylist,
-    userProfilerService
+    userProfilerService,
+    StatementCriteria
   ) {
     var vm = angular.extend(this, {
       params:null,
@@ -108,7 +110,8 @@
     howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
   }
   function fnCallbackHowAreYouOkTrack(emotion){
-    playlistService.asyncMakeTrackStatement(currentTrack,emotion);
+    var StatCrit = StatementCriteria.build(emotion,currentTrack);
+    playlistService.asyncMakeTrackStatement(StatCrit);
   }
 
   vm.asyncMakeTrackStatement=asyncMakeTrackStatement;

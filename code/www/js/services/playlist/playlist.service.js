@@ -86,15 +86,15 @@
 
     }
 
-    function asyncMakeTrackStatement(genericTrack,MoodId){
+    function asyncMakeTrackStatement(StatCrit){
 
       var deferred = $q.defer();
-      console.log("asyncMakeTrackStatement genericTrack:", genericTrack," MoodId:",MoodId);
+      console.log("asyncMakeTrackStatement StatCrit:", StatCrit);
       $timeout(
 
         function(){
 
-          if(genericTrack){
+          if(StatCrit){
 
             // TODO: Mr Cooper 
             deferred.resolve();
