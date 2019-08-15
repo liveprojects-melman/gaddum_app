@@ -71,6 +71,7 @@
           trackGen.forEach(function(track){
             result.push(track);
           });
+          console.log("playlist:", playlist,"tracks:",result);
           playlistService.asyncSetPlaylistTracks(playlist,result).then(function(result){
             addToPlaylistWizard.close();
           });

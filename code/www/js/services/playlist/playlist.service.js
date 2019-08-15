@@ -40,6 +40,7 @@
     
     function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
       isBusy = true;
+      console.log("tracks are ", arrayGenericTracks);
       return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks).then(function(result){
         isBusy = false;
       });
@@ -57,6 +58,31 @@
       return gaddumMusicProviderService.asyncImportPlaylists(playlistArray).then(function (result) {
         isBusy = false;
       });
+    }
+    function asyncImportTrack(trackInfo){
+      var deferred = $q.defer();
+      console.log("async play trackInfo:", trackInfo);
+      $timeout(
+
+        function(){
+
+          if(trackInfo){
+
+            // TODO: Mr Cooper 
+            deferred.resolve();
+
+          }else{
+            deferred.reject();
+          }
+
+
+        }
+
+      );
+
+
+      return deferred.promise;
+
     }
 
     function asyncPlay(moodedPlaylists){
@@ -124,7 +150,8 @@
       getIsBusy:getIsBusy,
       asyncImportPlaylist:asyncImportPlaylist,
       asyncMakeTrackStatement:asyncMakeTrackStatement,
-      asyncPlay: asyncPlay
+      asyncPlay: asyncPlay,
+      asyncImportTrack:asyncImportTrack
 
     };
 
