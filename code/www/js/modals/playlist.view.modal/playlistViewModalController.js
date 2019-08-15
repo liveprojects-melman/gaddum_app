@@ -91,11 +91,36 @@
     playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);
   }
+  function playPlaylist(){
+
+    howAreYouPlayPlaylist();
+  }
+  var currentTrack = null;
+  function howAreYouPlayPlaylist(){
+    howAreYouModal.open(null,fnCallbackhowAreYouPlayPlaylist,fnCallbackHowAreYouCancel);
+    playlistViewModal.closeCheckFalse();
+  }
+  function fnCallbackhowAreYouPlayPlaylist(emotion){
+    var playlist = null;
+    var mooded= null;
+    var moodedArray =[];
+    playlist = Playlist.build(vm.params.playlist.getId(), vm.params.playlist.getName(), vm.params.tracks);
+    mooded = MoodedPlaylist.build(emotion,playlist);
+    moodedArray.push(mooded);
+    playlistService.asyncPlay(moodedArray);
+    console.log(moodedArray);
+  }
   function fnCallbackHowAreYouCancel(){
     console.log("modal canceled");
   }
   function addToPlaylist(track){
-    addToPlaylistWizard.open(track,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+    var trackToAdd = [];
+    trackToAdd.push(track);
+    addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+    playlistViewModal.closeCheckFalse();
+  }
+  function addPlaylistToPlaylist(){
+    addToPlaylistWizard.open(vm.params.tracks,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
     playlistViewModal.closeCheckFalse();
   }
   function fnCallbackAddToPlaylistOk(){
@@ -117,8 +142,10 @@
     playlistService.asyncMakeTrackStatement(StatCrit);
   }
 
+  vm.playPlaylist = playPlaylist;
   vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
   vm.addToPlaylist=addToPlaylist;
+  vm.addPlaylistToPlaylist=addPlaylistToPlaylist;
   vm.play=play;
 
     
