@@ -9,12 +9,14 @@
     '$http',
     '$rootScope',
     'gaddumMusicProviderService',
+    'intelligentTrackSelector',
     '$interval' // testing only
   ];
   function gaddumStreamingService(
     $http,
     $rootScope,
     gaddumMusicProviderService,
+    intelligentTrackSelector,
     $interval
   ) {
     var service = {
@@ -41,6 +43,20 @@
       gaddumMusicProviderService.asyncPlayCurrentTrack().then(
         function(okay){ console.log("handlePlay - got ",okay) },
         function(err) { console.log("handlePlay - ERROR ",err) }
+      );
+    };
+
+    service.handleBackPress = function handleBackPress() {
+      intelligentTrackSelector.asyncPrev().then(
+        function(okay){ console.log("handlePrev - got ",okay) },
+        function(err) { console.log("handlePrev - ERROR ",err) }
+      );
+    };
+
+    service.handlePrev = function handleNextPress() {
+      intelligentTrackSelector.asyncNext().then(
+        function(okay){ console.log("handleNext - got ",okay) },
+        function(err) { console.log("handleNext - ERROR ",err) }
       );
     };
 

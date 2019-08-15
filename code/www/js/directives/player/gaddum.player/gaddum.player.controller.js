@@ -7,12 +7,14 @@
 
   gaddumPlayerController.$inject = [
     'gaddumStreamingService',
+    'intelligentTrackSelector',
     '$state',
     '$scope'
   ];
 
   function gaddumPlayerController(
     gaddumStreamingService,
+    intelligentTrackSelector,
     $state,
     $scope
   ) {
@@ -27,14 +29,18 @@
       gpc.state.ready = !gpc.state.ready;
     };
 
-    gpc.handleBackPress = function handleBackPress(){};
+    gpc.handleBackPress = function handleBackPress() {
+      gaddumStreamingService.handleBack();
+    };
     gpc.handlePausePress = function handlePausePress(){
       gaddumStreamingService.handlePause();
     };
     gpc.handlePlayPress = function handlePlayPress(){
       gaddumStreamingService.handlePlay();
     };
-    gpc.handleNextPress = function handleNextPress(){};
+    gpc.handleNextPress = function handleNextPress(){
+      gaddumStreamingService.handleNext();
+    };
 
     return gpc;
   }
