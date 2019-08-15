@@ -77,6 +77,7 @@
   var currentTrack = null;
   function howAreYouPlay(){
     howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
+    playlistViewModal.closeCheckFalse();
   }
   function fnCallbackHowAreYouOkPlay(emotion){
     var arrayTrack = [];
@@ -95,6 +96,7 @@
   }
   function addToPlaylist(track){
     addToPlaylistWizard.open(track,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+    playlistViewModal.closeCheckFalse();
   }
   function fnCallbackAddToPlaylistOk(){
     
@@ -105,6 +107,7 @@
   function asyncMakeTrackStatement(track){
     currentTrack = track;
     howAreYouTrack();
+    playlistViewModal.closeCheckFalse();
   }
   function howAreYouTrack(){
     howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
