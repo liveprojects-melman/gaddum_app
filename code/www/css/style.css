@@ -1105,7 +1105,6 @@ margin:10px;
       position: absolute;
     width: 50%;
     left: 25%;
-    top:72%;
     bottom: 4rem;
     height: auto;
     text-align: center;
@@ -1302,82 +1301,84 @@ div#scroller.ng-hide {
     position: absolute;
 }
 .emojiPeaceful{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: rgb(67, 138, 202);
 }
 .emojiAngry{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right:23%;
+    margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiRestful{
-    width:5.5rem;
-    margin-left:23%;
+    width:auto;
+    margin-left:28%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: rgb(67, 138, 202);
 }
 .emojiCrazy{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right: 3%;
+    margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiSad{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
+    margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiHappy{
-    width:5.5rem;
+    width:auto;
     float:right;
     border:solid 1px black;
-    margin-right:23%;
+    margin-right:28%;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiTired{
-    width:5.5rem;
-    margin-left:23%;
+    width:auto;
+    margin-left:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiPhysical{
-    width:5.5rem;
+    width:auto;
     float: right;
-    margin-right: 3%;
+    margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiBored{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
+    margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiFocussed{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right:23%;
+    margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiSize{
-    font-size: 3.6rem !important;
+    font-size: 3rem !important;
 }
 .HowAreYouModalBox{
     width:90% ;
@@ -1468,11 +1469,11 @@ div#scroller.ng-hide {
     color:black;
 }
 .contextOne{
-    top: 31.2rem !important;
+    bottom: 3.6rem;
     height: 3.75rem;
 }
 .contextMore{
-    top:72% !important;
+    bottom: 3.6rem;
 }
 .importIconMore{
     position:absolute;
