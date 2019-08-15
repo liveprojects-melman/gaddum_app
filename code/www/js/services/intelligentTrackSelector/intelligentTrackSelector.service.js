@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('gaddum.intelligenttrackselector')
-        .factory('intelligentTrackSelector', intelligentTrackSelector);
+    .module('gaddum.intelligenttrackselector')
+    .factory('intelligentTrackSelector', intelligentTrackSelector);
 
     intelligentTrackSelector.$inject = [
         'ErrorIdentifier',

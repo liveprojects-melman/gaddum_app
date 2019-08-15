@@ -9,14 +9,14 @@
     '$http',
     '$rootScope',
     'gaddumMusicProviderService',
-    'intelligentTrackSelector',
+//    'intelligentTrackSelector',
     '$interval' // testing only
   ];
   function gaddumStreamingService(
     $http,
     $rootScope,
     gaddumMusicProviderService,
-    intelligentTrackSelector,
+//    intelligentTrackSelector,
     $interval
   ) {
     var service = {
