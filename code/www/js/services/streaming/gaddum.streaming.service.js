@@ -8,11 +8,13 @@
   gaddumStreamingService.$inject = [
     '$http',
     '$rootScope',
+    'gaddumMusicProviderService',
     '$interval' // testing only
   ];
   function gaddumStreamingService(
     $http,
     $rootScope,
+    gaddumMusicProviderService,
     $interval
   ) {
     var service = {
@@ -21,14 +23,31 @@
         playing: false
       },
       song: {
-        title: "THIS IS A TITLE",
-        artist: "THIS IS AN ARTIST"
+        title: "",
+        artist: ""
       }
     };
 
+    ///
+
+    var handlePause = function handlePause() {
+      gaddumMusicProviderService.asyncPauseCurrentTrack().then(
+        function(okay){console.log("handlePause - got ",okay)},
+        function(err){console.log("handlePause - ERROR ",err)}
+      );
+    };
+    var handlePlay = function handlePlay() {
+      gaddumMusicProviderService.asyncPlayCurrentTrack().then(
+        function(okay){console.log("handlePlay - got ",okay)},
+        function(err){console.log("handlePlay - ERROR ",err)}
+      );.
+    };
+
+    ///
+
     service.init = function init() {
       service.state.ready = true;
-      service.state.playing = true;
+      service.state.playing = false;
     };
 
     service.init();

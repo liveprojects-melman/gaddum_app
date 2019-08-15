@@ -28,8 +28,12 @@
     };
 
     gpc.handleBackPress = function handleBackPress(){};
-    gpc.handlePausePress = function handlePausePress(){};
-    gpc.handlePlayPress = function handlePlayPress(){};
+    gpc.handlePausePress = function handlePausePress(){
+      gaddumStreamingService.handlePause();
+    };
+    gpc.handlePlayPress = function handlePlayPress(){
+      gaddumStreamingService.handlePlay();
+    };
     gpc.handleNextPress = function handleNextPress(){};
 
     return gpc;
