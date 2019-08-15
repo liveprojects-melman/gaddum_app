@@ -23,7 +23,7 @@
       showGenres: false,
       updateGenres:[],
       allGenres:[],
-      pictureColor:"#000000"
+      pictureColor:"#FF00FF"
     });
     var scale = 8;
     var fnames = [
@@ -266,6 +266,19 @@
         {"avatar_image":vm.displayImage},
         {"avatar_image_colour":vm.pictureColor}
       ];
+      
+      /* if (vm.displayImage.length==8) {
+        var modalParams = [
+          {"avatar_image":vm.displayImage},
+          {"avatar_image_colour":vm.pictureColor}
+        ];
+      } else{
+        var modalParams = [
+          {"avatar_image":[0,102,102,24,24,102,102,0]},
+          {"avatar_image_colour":"FF00FF"}
+        ];
+      } */
+      
 //      console.log("displat img",vm.displayImage);
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
       //var,ok,c

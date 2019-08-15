@@ -46,10 +46,10 @@
                     102,
                     24,
                     24,
-                    66,
-                    126,
+                    102,
+                    102,
                     0
-                ],
+                  ],
                 "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
             }
         };
@@ -152,6 +152,10 @@
             var deferred = $q.defer();
             $timeout(
                 function () {
+                    if (vm.checkGraphic(vm.userProfile.avatar_graphic.values)) {
+                        vm.userProfile.avatar_graphic.values=[0,102,102,24,24,102,102,0];
+                        vm.userProfile.avatar_graphic.colour="#FF00FF";
+                    }
                     var modalParams = [
                         { "allGenres": vm.allGenres },
                         { "userGenres": vm.selectedGenres },
@@ -164,6 +168,16 @@
 
             return deferred.promise;
         }
+
+        vm.checkGraphic = function (gValues) {
+            gValues.forEach(function (row) {
+                if (row!=0) {
+                    return false;
+                }
+            });
+            return true;
+
+        };
 
 
 
