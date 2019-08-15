@@ -1,9 +1,9 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Mon Aug 12 17:25:32 2019
+-- File generated with SQLiteStudio v3.0.7 on Thu Aug 15 11:42:54 2019
 --
 -- Text encoding used: UTF-8
 --
-PRAGMA foreign_keys = off;
+-- PRAGMA foreign_keys = off;
 -- BEGIN TRANSACTION;
 
 -- Table: settings
@@ -68,7 +68,7 @@ INSERT INTO settings (
                      )
                      VALUES (
                          'music_provider_id',
-                         '',
+                         NULL,
                          'string'
                      );
 
@@ -123,7 +123,7 @@ INSERT INTO settings (
                      )
                      VALUES (
                          'sharing_mood_history',
-                         'true',
+                         NULL,
                          'boolean'
                      );
 
@@ -156,7 +156,7 @@ INSERT INTO settings (
                      )
                      VALUES (
                          'avatar_graphic',
-                         '',
+                         NULL,
                          'string'
                      );
 
@@ -1938,4 +1938,4 @@ CREATE TABLE tracks (
 
 
 -- COMMIT TRANSACTION;
-PRAGMA foreign_keys = on;
+-- PRAGMA foreign_keys = on;

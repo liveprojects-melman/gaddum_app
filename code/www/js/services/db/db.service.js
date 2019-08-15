@@ -36,7 +36,14 @@
 
         //PUBLIC
         service.openDB = function (success, fail) {
-            service.private.db = window.sqlitePlugin.openDatabase({ name: service.DB_NAME, location: service.DB_LOCATION }, success, fail);
+            service.private.db = window.sqlitePlugin.openDatabase(
+                { name: service.DB_NAME, location: service.DB_LOCATION }, 
+                function onOpenEnableForeignKeys(){
+                    service.private.db.executeSql("PRAGMA foreign_keys = on", [],
+                    success,
+                    fail)
+                }, 
+                fail);
         };
 
         //PUBLIC
@@ -167,6 +174,7 @@
                     );
                     if (service.private.db) {
 
+                        console.log("turning OFF foreign keys");
                         service.private.db.executeSql("PRAGMA foreign_keys = off", [],
                             function () {
                                 var stripped = utilitiesService.removeComments(sql);
@@ -176,6 +184,7 @@
                                     stripped,
                                     {
                                         successFn: function () {
+                                            console.log("turning ON foreign keys");
                                             service.private.db.executeSql("PRAGMA foreign_keys = on", [],
                                                 success,
                                                 fail)
