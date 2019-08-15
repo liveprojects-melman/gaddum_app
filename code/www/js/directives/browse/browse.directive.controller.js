@@ -207,7 +207,8 @@
       console.log("modal canceled");
     }
     function addToPlaylist(track){
-      var trackToAdd = GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s());
+      var trackToAdd = [];
+      trackToAdd.push(GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s()));
       addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
     }
     function fnCallbackAddToPlaylistOk(){
