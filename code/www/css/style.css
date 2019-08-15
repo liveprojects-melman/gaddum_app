@@ -964,6 +964,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
   }
   .qrcode{
     border: 15px white solid;
+    height: 95%;
   }
   #nameHeader{
       max-width: calc( 100% - 80px );
