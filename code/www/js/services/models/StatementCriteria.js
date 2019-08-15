@@ -14,11 +14,9 @@
     GenericTrack,
     MoodIdentifier
   ) {
-    function StatementCriteria(moodId, timeStamp, location, genericTrack  ) {
+    function StatementCriteria(moodId,  genericTrack  ) {
       // Public properties, assigned to the instance ('this')
       this.moodId = moodId;
-      this.timeStamp = timeStamp;
-      this.location = location;
       this.genericTrack = genericTrack;
       
       this.getMoodId = function(){
