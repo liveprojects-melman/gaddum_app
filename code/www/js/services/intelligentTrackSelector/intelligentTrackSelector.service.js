@@ -132,7 +132,7 @@
         }
 
 
-        var selectTrack(){
+        function selectTrack(){
 
         }
 

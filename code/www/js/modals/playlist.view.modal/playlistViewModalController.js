@@ -70,13 +70,13 @@
     console.log("track",track);
     currentTrack = GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s());
     console.log("current",currentTrack);
-    howAreYou();
+    howAreYouPlay();
   }
   var currentTrack = null;
-  function howAreYou(){
-    howAreYouModal.open(null,fnCallbackHowAreYouOk,fnCallbackHowAreYouCancel);
+  function howAreYouPlay(){
+    howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
   }
-  function fnCallbackHowAreYouOk(emotion){
+  function fnCallbackHowAreYouOkPlay(emotion){
     var arrayTrack = [];
     var playlist=null;
     var mooded= null;
@@ -85,7 +85,7 @@
     playlist = Playlist.build(null, null, arrayTrack);
     mooded = MoodedPlaylist.build(emotion,playlist);
     moodedArray.push(mooded);
-    userProfilerService.loader.asyncLoadMoodedPlaylists(moodedArray);
+    playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);
   }
   function fnCallbackHowAreYouCancel(){
@@ -100,7 +100,18 @@
   function fnCallbackAddToPlaylistCancel(){
     console.log("modal canceled");
   }
-  
+  function asyncMakeTrackStatement(track){
+    currentTrack = track;
+    howAreYouTrack();
+  }
+  function howAreYouTrack(){
+    howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
+  }
+  function fnCallbackHowAreYouOkTrack(emotion){
+    playlistService.asyncMakeTrackStatement(currentTrack,emotion);
+  }
+
+  vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
   vm.addToPlaylist=addToPlaylist;
   vm.play=play;
 

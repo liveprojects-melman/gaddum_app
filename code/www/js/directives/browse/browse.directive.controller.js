@@ -200,7 +200,7 @@
       playlist = Playlist.build(null, null, arrayTrack);
       mooded = MoodedPlaylist.build(emotion,playlist);
       moodedArray.push(mooded);
-      userProfilerService.loader.asyncLoadMoodedPlaylists(moodedArray);
+      playlistService.asyncPlay(moodedArray);
       console.log(moodedArray);
     }
     function fnCallbackHowAreYouCancel(){

@@ -57,6 +57,59 @@
       });
     }
 
+    function asyncPlay(moodedPlaylists){
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+
+          if(moodedPlaylist){
+
+            // TODO: Mr Cooper 
+            deferred.resolve();
+
+          }else{
+            deferred.reject();
+          }
+
+
+        }
+
+      );
+
+
+      return deferred.promise;
+
+    }
+
+    function asyncMakeTrackStatement(genericTrack,MoodId){
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+
+          if(moodedPlaylist){
+
+            // TODO: Mr Cooper 
+            deferred.resolve();
+
+          }else{
+            deferred.reject();
+          }
+
+
+        }
+
+      );
+
+
+      return deferred.promise;
+
+    }
 
 
     var service = {
@@ -67,7 +120,9 @@
       asyncGetPlaylistTracks:asyncGetPlaylistTracks,
       asyncRemovePlaylist:asyncRemovePlaylist,
       getIsBusy:getIsBusy,
-      asyncImportPlaylist:asyncImportPlaylist
+      asyncImportPlaylist:asyncImportPlaylist,
+      asyncMakeTrackStatement:asyncMakeTrackStatement,
+      asyncPlay: asyncPlay
 
     };
 

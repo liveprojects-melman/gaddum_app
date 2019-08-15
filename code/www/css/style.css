@@ -778,7 +778,15 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .addToPlaylist{
     position: absolute;
     top: -20%;
+    left: 23%;
+    font-size: 10px;
+    color:black;
+}
+.addToMood{
+    position: absolute;
+    top: -20%;
     left: 8%;
+    font-size: 10px;
     color:black;
 }
 .groupTextInButton{
@@ -790,7 +798,15 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .addToTextInButtonPlaylistView{
     position: absolute;
     bottom: -20%;
-    left: 3%;
+    left: 18%;
+    font-size: 10px;
+    color:black;
+}
+.addToTextInButtonMoodView{
+    position: absolute;
+    bottom: -20%;
+    left: 8%;
+    font-size: 10px;
     color:black;
 }
 .shareTextInButton{

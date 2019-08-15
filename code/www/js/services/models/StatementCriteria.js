@@ -20,32 +20,24 @@
       this.timeStamp = timeStamp;
       this.location = location;
       this.genericTrack = genericTrack;
+      
+      this.getMoodId = function(){
+        return this.moodId;
+      }
+      this.getGenericTrack = function(){
+        return this.genericTrack;
+      }
     }
 
-    function getMoodId(){
-      return moodId;
-    }
-
-    function getTimeStamp(){
-      return timeStamp;
-    }
-
-    function getLocation(){
-      return location;
-    }
-
-    function getGenerictrack(){
-      return genericTrack;
-    }
 
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    StatementCriteria.build = function (moodIds, timeStamp, location, genericTrack) {
+    StatementCriteria.build = function (moodId, genericTrack) {
       
         return new StatementCriteria(
-          moodId, timeStamp, location, genericTrack
+          moodId, genericTrack
         );
  
     };
