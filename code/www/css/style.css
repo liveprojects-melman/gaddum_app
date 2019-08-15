@@ -756,7 +756,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .addToGroup{
     background-color: yellow !important ;
-    width:25%;
+    
 }
 .shareFriends img{
     height: 30%;
@@ -764,7 +764,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .shareFriends{
     background-color: lightblue !important;
-    width: 25%
+    
 }
 .addMoodToTrack img{
     height: 30%;
@@ -772,14 +772,14 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .addMoodToTrack{
     background-color: red !important;
-    width: 25%
+    
 }
 .removeFriends img{
     height: 30%;
 }
 .removeFriends{
     background-color: lightgreen !important;
-    width: 25%;
+    
 }
 .addTo{
     position: absolute;
@@ -836,19 +836,19 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .removeTextInButton{
     position: absolute;
     bottom: -5%;
-    left: 5%;
+    left: 25%;
     color:black;
 }
 .playTextInButtonPlaylistView{
     position: absolute;
     bottom: -20%;
-    left: 10%;
+    left: 25%;
     color:black;
 }
 
 .shareFriends{
     background-color: blue;
-    width:25%;
+    
 }
 .projectPersonnel{
     position:relative;

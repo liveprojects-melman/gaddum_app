@@ -11,14 +11,16 @@
     'PlaylistIdentifier',
     'GenericTrack',
     '$q',
-    'gaddumMusicProviderService'
+    'gaddumMusicProviderService',
+    '$timeout'
   ];
   function playlistService(
     dataApiService,
     PlaylistIdentifier,
     GenericTrack,
     $q,
-    gaddumMusicProviderService
+    gaddumMusicProviderService,
+    $timeout
   ) {
     var isBusy = false;
     function getIsBusy(){
