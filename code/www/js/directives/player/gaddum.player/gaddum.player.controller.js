@@ -7,14 +7,12 @@
 
   gaddumPlayerController.$inject = [
     'gaddumStreamingService',
-    'intelligentTrackSelector',
     '$state',
     '$scope'
   ];
 
   function gaddumPlayerController(
     gaddumStreamingService,
-    intelligentTrackSelector,
     $state,
     $scope
   ) {
