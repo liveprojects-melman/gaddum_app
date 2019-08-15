@@ -16,7 +16,7 @@
       <ion-item ng-repeat="playlist in vm.playlistsToShow" ng-class-odd="'listodd'" ng-class-even="'listeven'"
          can-swipe="true" class="item-remove-animate item item-complex"
         ng-touchstart="vm.preventSlideBox($event)" ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)"
-        ng-mouseup="vm.allowSlideBox($event)" class="playlistPageItemRepeat">
+        ng-mouseup="vm.allowSlideBox($event)" ng-click="vm.viewPlaylist({{$index}})" class="playlistPageItemRepeat">
         <h2>{{playlist.name}}</h2>
         <!-- <h2>test</h2>
       <h2>testtest</h2> -->
