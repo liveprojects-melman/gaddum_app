@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('gaddum.player', [ "angular-marquee" ] )
+    .module('gaddum.player', [ "angular-marquee", 'gaddum.intelligenttrackselector'])
     .directive('gaddum.player',function(){
 
       return{

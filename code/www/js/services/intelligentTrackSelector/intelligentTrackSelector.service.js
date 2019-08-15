@@ -13,7 +13,6 @@
         'dataApiService',
         '$timeout',
         'moment'
-
     ];
 
     function intelligentTrackSelector(
