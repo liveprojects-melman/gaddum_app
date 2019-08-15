@@ -751,10 +751,12 @@ ion-side-menu-content/*.menu-content.pane*/ {
 .ellipsis { text-overflow: ellipsis; }
 .addToGroup img{
     height: 30%;
+
     
 }
 .addToGroup{
     background-color: yellow !important ;
+    width:25%;
 }
 .shareFriends img{
     height: 30%;
@@ -762,12 +764,22 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .shareFriends{
     background-color: lightblue !important;
+    width: 25%
+}
+.addMoodToTrack img{
+    height: 30%;
+    
+}
+.addMoodToTrack{
+    background-color: red !important;
+    width: 25%
 }
 .removeFriends img{
     height: 30%;
 }
 .removeFriends{
     background-color: lightgreen !important;
+    width: 25%;
 }
 .addTo{
     position: absolute;
@@ -833,14 +845,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 10%;
     color:black;
 }
-.addToGroup{
-    border-right: solid black  !important;
-    width: 35%;
-    background-color: green;
-}
+
 .shareFriends{
-    border-right: solid black  !important;
     background-color: blue;
+    width:25%;
 }
 .projectPersonnel{
     position:relative;
