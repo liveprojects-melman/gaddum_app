@@ -60,6 +60,7 @@
             if (modalSave){
                 if(!modalSave._isShown){
                     modalSave.remove();
+                    modalSave = null;
                     $scope.fnCallbackCancel(chose);
                 }
             }

@@ -504,6 +504,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
     height: 100%;
     float:right;
 }
+.littleSelectArrowBrowse{
+    height: 2.5rem;
+    float:right;
+}
 
 .moodSpinnerDiv{
     text-align: center;
@@ -1185,15 +1189,14 @@ div#controls{
     display: inline;
 }
 .searchCatModal{
-    top: 32%;
-    right: 20%;
+    top: 30.5%;
     bottom: 20%;
-    left: 20%;
+    left: 69%;
     min-height: 200px;
-    width: 60%;
+    width: 30%;
     height: 36.2%;
     border-radius: 1em;
-    border: solid black 0.3em; 
+    border: solid black 0.3em;
 }
 .checkboxListItemText{
     display: inline;
