@@ -22,7 +22,10 @@ div.bar.bar-subheader {
   line-height:38px !important;
   font-size:.75rem;
 }
-
+.header-bar-modal{
+    background-color: rgba(0, 0, 0, 0);
+    background-image: var(--color-secondaryBackground);
+}
 
 /* ion-slide-box-tabs, via https://raw.githubusercontent.com/JKnorr91/ion-slide-box-tabs/master/src/css/slidingTabs.css */
 
@@ -704,7 +707,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding-left: 0px;
 }
 #searchBox{
-    width: 100%;
+    width: 95%;
     height: 100%;
     margin-left: 5px;
 }
@@ -1702,13 +1705,7 @@ div#scroller.ng-hide {
     width: 80%;
     padding: 0%;
 }
-.modalPlaylistView{
-    position: absolute;
-    left: 5%;
-    height: 73%;
-    top: 10%;
-    width: 90%;
-}
+
 .viewPlaylistEditList{
     position: absolute;
     top: 10%;
@@ -1736,6 +1733,24 @@ div#scroller.ng-hide {
     height: 73%;
     top: 10%;
     width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistView{
+    position: absolute;
+    left: 5%;
+    height: 73%;
+    top: 10%;
+    width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistCreate{
+    position: absolute;
+    left: 15%;
+    height: 150px;
+    min-height: 175px;
+    top: 25%;
+    width: 70%;
+    background-image: var(--color-secondaryBackground);
 }
 .editPlaylistSongsList{
     top: 5.5rem;
@@ -1750,5 +1765,10 @@ div#scroller.ng-hide {
 .playlistEditTitlediv{
     position: absolute;
     top: 56px;
+    width: 100%;
+}
+.playlistCreateTitlediv{
+    position: absolute;
+    top: 45px;
     width: 100%;
 }
