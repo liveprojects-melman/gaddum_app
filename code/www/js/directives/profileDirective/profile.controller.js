@@ -40,7 +40,7 @@
         vm.userProfile = {
             "profile": {
                 "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
-                "avatar_name": "Lemmon Jelly",
+                "avatar_name": "Defaulthony Nameson",
                 "avatar_graphic": [
                     0,
                     102,
@@ -79,7 +79,7 @@
                     )
                 });
             setTimeout(function () {
-                vm.name = profileService.asyncGetAvatarName();//change
+                //vm.name = profileService.asyncGetAvatarName();//change
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
             }, 0);
         };

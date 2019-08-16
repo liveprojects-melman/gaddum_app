@@ -12,6 +12,8 @@
     <!-- <button id="addFriendsModalNextButton" ng-click="vm.addFreindsModalNext()" ng-show="vm.showFinishbutton==false">Next</button> -->
     <button id="addFriendsModalNextButton" ng-click="((vm.modalpage==3) ? vm.addNewFriend() : vm.addFreindsModalNext())"; ng-show="vm.showFinishbutton==false">Next</button>
     <button id="addFriendsModalFinishButton" ng-click="vm.addFriendsModalClose()" ng-show="vm.showFinishbutton==true">Finish</button>
+    <button id="scan" ng-click="vm.scanQRcode()" ng-show="vm.modalpage==3">Scan QR code</button>
+
     </div>
   </content>
 </div>

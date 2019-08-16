@@ -167,10 +167,10 @@
             
             
             console.log(sharedProfile);
-            if ((sharedProfile[0].profile.profile_id.length)>3) {
+            if ((sharedProfile.profile.profile_id.length)>3) {
                 //req sent
                 //return req sent
-                friendsDummy.push(sharedProfile[0]);
+                friendsDummy.push(sharedProfile);
                 return true;
             } else{
                 //req not sent
