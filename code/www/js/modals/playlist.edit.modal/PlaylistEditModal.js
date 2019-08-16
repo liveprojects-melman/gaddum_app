@@ -29,7 +29,8 @@
             getParams: getParams,
             callback: callback,
             trackData: trackData,
-            nameData: nameData
+            nameData: nameData,
+            cancel:cancel
         };
         return myModal;
 
@@ -61,9 +62,10 @@
         }
         function close() {
             if (modalSave) {
-                $scope.fnCallbackCancel(trackList, playlistName);
                 modalSave.remove();
-
+                modalSave = null;
+                trackList = null;
+                playlistName = null;
             }
         }
         function closeAndRemove(modalInstance) {
@@ -78,9 +80,14 @@
         function nameData(name) {
             playlistName = name;
         }
-        function callback(newData) {
-            $scope.fnCallbackOk(newData);
+        function callback() {
+            $scope.fnCallbackOk(trackList, playlistName);
+            close();
         };
+        function cancel(){
+            $scope.fnCallbackOk(null, null);
+            close();
+        }
 
 
     }
