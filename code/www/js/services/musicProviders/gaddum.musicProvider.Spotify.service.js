@@ -20,8 +20,7 @@
     'GenericImportTrack',
     'dataApiService',
     'ImportPlaylist',
-    'PlaylistIdentifier',
-    'Playlist'
+    'PlaylistIdentifier'
   ];
 
   function gaddumMusicProviderSpotifyService(
@@ -39,8 +38,7 @@
     GenericImportTrack,
     dataApiService,
     ImportPlaylist,
-    PlaylistIdentifier,
-    Playlist
+    PlaylistIdentifier
 
   ) {
 
@@ -567,7 +565,7 @@
       dataApiService.asyncGetGenericTracksInPlaylist(playlistIdentifier)
         .then(
           function (genericTracks) {
-            var result = Playlist.build(playlistIdentifier.getId(), playlistIdentifier.getName(), genericTracks);
+            var result = genericTracks;
             deferred.resolve(result);
           }
           ,

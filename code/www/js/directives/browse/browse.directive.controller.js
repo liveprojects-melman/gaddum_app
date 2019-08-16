@@ -16,9 +16,9 @@
     'GenericTrack',
     'MoodedPlaylist',
     'MoodIdentifier',
-    'Playlist',
     'userProfilerService',
     'gaddumShortcutBarService',
+    'playlistService',
     
     'friendsService',
     '$ionicModal',
@@ -38,9 +38,9 @@
     GenericTrack,
     MoodedPlaylist,
     MoodIdentifier,
-    Playlist,
     userProfilerService,
     gaddumShortcutBarService,
+    playlistService,
     
     browseService,
     $ionicModal,
@@ -119,6 +119,15 @@
         console.log(er);
     });
     }
+    function createModalList() {
+      var firstVariable = "Import Playlists";
+      var firstFunc = importPlaylist;
+      var contextMenu = [];
+      contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
+      vm.conMenu = contextMenu;
+      gaddumShortcutBarService.setContextMenu(vm.conMenu);
+    }
+
     function moreTracks(){
       bm.searching = true;
       bm.page = bm.page+1;
@@ -193,12 +202,10 @@
     }
     function fnCallbackHowAreYouOk(emotion){
       var arrayTrack = [];
-      var playlist=null;
       var mooded= null;
       var moodedArray =[];
       arrayTrack.push(currentTrack);
-      playlist = Playlist.build(null, null, arrayTrack);
-      mooded = MoodedPlaylist.build(emotion,playlist);
+      mooded = MoodedPlaylist.build(emotion,arrayTrack);
       moodedArray.push(mooded);
       playlistService.asyncPlay(moodedArray);
       console.log(moodedArray);
