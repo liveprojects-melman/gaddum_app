@@ -17,8 +17,7 @@
     'playlistViewModal',
     'importPlaylistWizard',
     'howAreYouModal',
-    'MoodedPlaylist',
-    'Playlist'
+    'MoodedPlaylist'
   ];
 
   function control(
@@ -33,8 +32,7 @@
     playlistViewModal,
     importPlaylistWizard,
     howAreYouModal,
-    MoodedPlaylist,
-    Playlist
+    MoodedPlaylist
 
   ) {
     var vm = angular.extend(this, {
@@ -139,11 +137,9 @@
     }
     function fnCallbackHowAreYouOkPlay(emotion) {
       playlistService.asyncGetPlaylistTracks(playlistToPlay).then(function (tracks) {
-        var playlist = null;
         var mooded = null;
         var moodedArray = [];
-        playlist = Playlist.build(playlistToPlay.getId(), playlistToPlay.getName(), tracks);
-        mooded = MoodedPlaylist.build(emotion, playlist);
+        mooded = MoodedPlaylist.build(emotion, tracks);
         moodedArray.push(mooded);
         playlistService.asyncPlay(moodedArray);
         console.log(moodedArray);
@@ -155,7 +151,6 @@
 
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
-        console.log("refresh Playlist", playlist);
         console.log("refresh tracks", tracks);
         vm.busy = true;
         contextMenuDisable();

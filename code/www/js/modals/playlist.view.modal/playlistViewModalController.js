@@ -12,7 +12,6 @@
     'addToPlaylistWizard',
     'GenericTrack',
     'howAreYouModal',
-    'Playlist',
     'MoodedPlaylist',
     'userProfilerService',
     'StatementCriteria'
@@ -26,7 +25,6 @@
     addToPlaylistWizard,
     GenericTrack,
     howAreYouModal,
-    Playlist,
     MoodedPlaylist,
     userProfilerService,
     StatementCriteria
@@ -81,12 +79,10 @@
   }
   function fnCallbackHowAreYouOkPlay(emotion){
     var arrayTrack = [];
-    var playlist=null;
     var mooded= null;
     var moodedArray =[];
     arrayTrack.push(currentTrack);
-    playlist = Playlist.build(null, null, arrayTrack);
-    mooded = MoodedPlaylist.build(emotion,playlist);
+    mooded = MoodedPlaylist.build(emotion,arrayTrack);
     moodedArray.push(mooded);
     playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);
@@ -101,11 +97,9 @@
     playlistViewModal.closeCheckFalse();
   }
   function fnCallbackhowAreYouPlayPlaylist(emotion){
-    var playlist = null;
     var mooded= null;
     var moodedArray =[];
-    playlist = Playlist.build(vm.params.playlist.getId(), vm.params.playlist.getName(), vm.params.tracks);
-    mooded = MoodedPlaylist.build(emotion,playlist);
+    mooded = MoodedPlaylist.build(emotion,vm.params.tracks);
     moodedArray.push(mooded);
     playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);
