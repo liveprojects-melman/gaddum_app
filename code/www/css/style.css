@@ -1191,8 +1191,9 @@ div#colour-swatch {
   border-radius:4pm;
 }
 div#colour-name {
-  padding-top: .5em;
-  font-size: 200%;
+  padding-top: .8em;
+  font-size: 150%;
+  margin-left: .5em;
 }
 div#controls{
     position: absolute;
