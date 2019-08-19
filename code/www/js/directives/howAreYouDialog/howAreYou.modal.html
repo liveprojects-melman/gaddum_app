@@ -8,7 +8,7 @@
 
       <h3 class="modalTitle">How Are You?</h3>
     </div>
-    <div ng-hide="mc.loading" class="emotionButtonDiv">
+    <div style="top: 16%; position: absolute;" ng-hide="mc.loading" class="emotionButtonDiv">
       <button ng-click="mc.showOverlay(mc.allEmotions.peaceful)" class="emojiPeaceful emojiSize " ng-class="((mc.emotionSelected === mc.allEmotions.peaceful) ? 'selectedItemRed' : '')">{{mc.allEmotions.peaceful.emoji}}</button>
       <button ng-click="mc.showOverlay(mc.allEmotions.angry)" class="emojiAngry emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.angry) ? 'selectedItemRed' : '')">{{mc.allEmotions.angry.emoji}}</button>
       <button ng-click="mc.showOverlay(mc.allEmotions.restful)" class="emojiRestful emojiSize" ng-class="((mc.emotionSelected === mc.allEmotions.restful) ? 'selectedItemRed' : '')">{{mc.allEmotions.restful.emoji}}</button>

@@ -12,7 +12,6 @@
     'addToPlaylistWizard',
     'GenericTrack',
     'howAreYouModal',
-    'Playlist',
     'MoodedPlaylist',
     'userProfilerService',
     'StatementCriteria'
@@ -26,7 +25,6 @@
     addToPlaylistWizard,
     GenericTrack,
     howAreYouModal,
-    Playlist,
     MoodedPlaylist,
     userProfilerService,
     StatementCriteria
@@ -46,26 +44,41 @@
     vm.returnData = function () {
       console.log("?");
     };
-
+    var saveParams = null;
     vm.editPlaylist= function(){
-      var modalParams=vm.params;
+      var modalParams = null;
+      var saveTracks = [];
+      vm.params.tracks.forEach(function(track) {
+        saveTracks.push(track);
+      });
+      saveParams={"playlist":vm.params.playlist.getName(),"tracks":saveTracks};
+      modalParams=vm.params;
       playlistViewModal.closeCheckFalse();
-      playlistEditModal.open(modalParams,saveChanges,refreshTrack);
+      playlistEditModal.open(modalParams,refreshTrack,modalCancel);
       //var,ok,c
   };
 
-  function saveChanges(editedPlaylist){
-    console.log(editedPlaylist);
+  function modalCancel(){
+    console.log("modalCancel");
   };
 
   function refreshTrack(tracks,name){
-    if (tracks){
-      vm.params.tracks = tracks;
+    if(tracks||name){
+      if (tracks){
+        vm.params.tracks = tracks;
+      }
+      if(name){
+        vm.params.playlist.setName(name);
+        vm.params.name = name;
+      }
+      playlistViewModal.data(vm.params.tracks, vm.params.playlist);
     }
-    if(name){
-      vm.params.playlist.setName(name);
+    else{
+      vm.params.playlist.setName(saveParams.playlist);
+      vm.params.tracks = saveParams.tracks;
     }
-    playlistViewModal.data(vm.params.tracks, vm.params.playlist);
+    
+   
   }
   
   function play(track){
@@ -81,12 +94,10 @@
   }
   function fnCallbackHowAreYouOkPlay(emotion){
     var arrayTrack = [];
-    var playlist=null;
     var mooded= null;
     var moodedArray =[];
     arrayTrack.push(currentTrack);
-    playlist = Playlist.build(null, null, arrayTrack);
-    mooded = MoodedPlaylist.build(emotion,playlist);
+    mooded = MoodedPlaylist.build(emotion,arrayTrack);
     moodedArray.push(mooded);
     playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);
@@ -101,11 +112,9 @@
     playlistViewModal.closeCheckFalse();
   }
   function fnCallbackhowAreYouPlayPlaylist(emotion){
-    var playlist = null;
     var mooded= null;
     var moodedArray =[];
-    playlist = Playlist.build(vm.params.playlist.getId(), vm.params.playlist.getName(), vm.params.tracks);
-    mooded = MoodedPlaylist.build(emotion,playlist);
+    mooded = MoodedPlaylist.build(emotion,vm.params.tracks);
     moodedArray.push(mooded);
     playlistService.asyncPlay(moodedArray);
     console.log(moodedArray);

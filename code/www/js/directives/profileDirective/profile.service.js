@@ -188,6 +188,15 @@
             return dataApiService.asyncSetSetting(SETTINGS.AVATAR_GRAPHIC, value, VALID_TYPES.string);
         };
 
+        var openModalFlag=false;
+        function setModalOpenFlag(value){
+            openModalFlag=value;
+        };
+        
+        function getOpenModalFlag(){
+            return openModalFlag;
+        };
+
 
         service = {
             asyncGetUserProfile: asyncGetUserProfile,
@@ -199,7 +208,10 @@
             asyncGetAvatarName: asyncGetAvatarName,
             asyncGetGenres: asyncGetGenres,
             asyncSetGenres: asyncSetGenres,
-            asyncGetAllGenres: asyncGetAllGenres
+            asyncGetAllGenres: asyncGetAllGenres,
+            setModalOpenFlag: setModalOpenFlag,
+            getOpenModalFlag: getOpenModalFlag
+
         };
 
 

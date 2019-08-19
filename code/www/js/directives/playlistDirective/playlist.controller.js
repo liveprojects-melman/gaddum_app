@@ -18,7 +18,7 @@
     'importPlaylistWizard',
     'howAreYouModal',
     'MoodedPlaylist',
-    'Playlist'
+    'playlistCreateModal'
   ];
 
   function control(
@@ -34,7 +34,7 @@
     importPlaylistWizard,
     howAreYouModal,
     MoodedPlaylist,
-    Playlist
+    playlistCreateModal
 
   ) {
     var vm = angular.extend(this, {
@@ -66,8 +66,11 @@
     function createModalList() {
       var firstVariable = "Import Playlists";
       var firstFunc = importPlaylist;
+      var secVariable = "Create Playlist";
+      var secFunc = createPlaylist;
       var contextMenu = [];
       contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
+      contextMenu[1] = gaddumContextMenuItem.build(secVariable,secFunc);
       vm.conMenu = contextMenu;
       gaddumShortcutBarService.setContextMenu(vm.conMenu);
     }
@@ -76,6 +79,20 @@
     }
     function contextMenuEnable() {
       gaddumShortcutBarService.enableContext();
+    }
+    function createPlaylist(){
+      playlistCreateModal.open(null,createRefresh,null);
+    }
+    function createRefresh(name){
+      vm.busy = true;
+      contextMenuDisable();
+      if(name){
+        playlistService.asyncCreatePlaylist(name).then(function(result){
+          vm.busy = false;
+          contextMenuEnable();
+          onNewSearch("");
+        });
+      }
     }
     function importPlaylist() {
       importPlaylistWizard.open(null, importRefresh, null);
@@ -139,11 +156,9 @@
     }
     function fnCallbackHowAreYouOkPlay(emotion) {
       playlistService.asyncGetPlaylistTracks(playlistToPlay).then(function (tracks) {
-        var playlist = null;
         var mooded = null;
         var moodedArray = [];
-        playlist = Playlist.build(playlistToPlay.getId(), playlistToPlay.getName(), tracks);
-        mooded = MoodedPlaylist.build(emotion, playlist);
+        mooded = MoodedPlaylist.build(emotion, tracks);
         moodedArray.push(mooded);
         playlistService.asyncPlay(moodedArray);
         console.log(moodedArray);
@@ -155,7 +170,6 @@
 
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
-        console.log("refresh Playlist", playlist);
         console.log("refresh tracks", tracks);
         vm.busy = true;
         contextMenuDisable();
@@ -187,25 +201,25 @@
 
 
 
-    function getPlaylist() {
+    // function getPlaylist() {
 
-      gaddumMusicProviderService.importAllPlaylists().then(function (result) {
-        var id = result.data.items[0].id
+    //   gaddumMusicProviderService.importAllPlaylists().then(function (result) {
+    //     var id = result.data.items[0].id
 
-        gaddumMusicProviderService.getplaylistTracks(id).then(function (result2) {
+    //     gaddumMusicProviderService.getplaylistTracks(id).then(function (result2) {
 
-          console.log("track", result2);
-        }).catch(function (er) {
+    //       console.log("track", result2);
+    //     }).catch(function (er) {
 
-          console.log(er);
-        });
-      }).catch(function (er) {
+    //       console.log(er);
+    //     });
+    //   }).catch(function (er) {
 
-        console.log(er);
-      });
+    //     console.log(er);
+    //   });
 
 
-    };
+    // };
 
     vm.searchColour = function () {
       document.getElementById('searchPlaylistsBox').style.color = "grey";

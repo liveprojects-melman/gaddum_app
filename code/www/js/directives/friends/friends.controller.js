@@ -13,7 +13,9 @@
 
     'friendsService',
     '$ionicModal',
-    '$scope'
+    '$scope',
+    'gaddumContextMenuItem',
+    'gaddumShortcutBarService'
   ];
 
   function friendsController(
@@ -26,11 +28,24 @@
     friendsService,
     $ionicModal,
 
-    $scope
+    $scope,
+    gaddumContextMenuItem,
+    gaddumShortcutBarService
   ) {
     var vm = angular.extend(this, {
       friends: null,
-      test: document.createElement("p")
+      test: document.createElement("p"),
+      showcamera:false,
+      scanner: new Instascan.Scanner({
+        video: document.getElementById('preview'),
+        continious: true,
+        scanPeriod: 5,
+        backgroundScan: false,
+        refactoryPeriod: 3000,
+        mirror: false
+        
+    })
+      //
     });
     var _interval_ms = 100;
     var moodChoices = [];
@@ -48,10 +63,11 @@
     }
 
     function init() {
+      createModalList();
       vm.friends = friendsService.getAllFriends();
       update();
     }
-    init();
+    /* init(); */
 
     vm.preventSlideBox = function preventSlideBox() {
       $ionicSlideBoxDelegate.enableSlide(false);
@@ -76,8 +92,14 @@
       var nx = Math.floor(canvas.width / scale);
       var ny = Math.floor(canvas.height / scale);
       var bin;
+      var drawColour;
       for (var i = 0; i < vm.friends.length; i++) {
         if (vm.friends[i].profile.profile_id == id) {
+          if (vm.friends[i].profile.avatar_graphic_colour==null) {
+            drawColour="#000000"
+          }else{
+            drawColour=vm.friends[i].profile.avatar_graphic_colour;
+          };
           for (var j = 0; j < vm.friends[i].profile.avatar_graphic.length; j++) {
             bin = vm.friends[i].profile.avatar_graphic[j].toString(2);
             for (var x = bin.length; x < 8; x++) {
@@ -86,7 +108,7 @@
             //console.log(bin);
             for (var k = 0; k < bin.length; k++) {
               if (bin[k] == "1") {
-                rect(k, j, nx, ny, '#000000', ctx);
+                rect(k, j, nx, ny, drawColour, ctx);
               } else {
                 rect(k, j, nx, ny, '#ffffff', ctx);
               }
@@ -124,7 +146,7 @@
       }
     }];
 
-    vm.addFriend = function addFriend(scannedProfile) {
+    vm.addFriend = function addFriend() {
       vm.addFriendsModal();
     };
 
@@ -209,8 +231,9 @@
       });
     };
 
-    vm.addNewFriend= function(){
-      friendsService.addNewFriend(vm.sharedProfile);
+    vm.addNewFriend= function(scannedFriend){
+      scannedFriend=JSON.parse(atob(scannedFriend));
+      friendsService.addNewFriend(scannedFriend);
       vm.modalpage++;
       console.log(vm.modalpage);
       vm.friends=[];
@@ -268,11 +291,85 @@
     vm.toggleReorder = function () {
       var reorderGroup = document.getElementById('reorder');
       reorderGroup.disabled = !reorderGroup.disabled;
-      reorderGroup.addEventListener('ionItemReorder', function(detail){
+      reorderGroup.addEventListener('ionItemReorder', function (detail) {
         detail.complete(true);
       });
     };
 
+    function createModalList() {
+      var firstVariable = "Add Friend";
+      var firstFunc = vm.addFriend;
+      var contextMenu = [];
+      contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
+      vm.conMenu = contextMenu;
+      gaddumShortcutBarService.setContextMenu(vm.conMenu);
+      //console.log(vm.conMenu);
+    }
+
     init();
+
+
+
+
+
+
+    //
+
+    vm.scanner.addListener('scan', function (content) {
+      /* $scope.modal.show().then(vm.modalpage=4);//remove this
+      vm.addFriendsModalUpdater();//remove this */
+      vm.showcamera = false;
+      vm.scanner.stop();//stop the scanner when a code is scanned
+      console.log("scanned: ", content);//display the scanned code in the log
+
+
+      vm.addNewFriend(content);
+
+
+
+
+      //content = scanned friend
+
+      //window.location.href=content;//redirect to the link from the code (should be the response page again but this time with parameters)
+    });
+
+
+    //added for scanner 3/3
+    vm.scanQRcode = function () {
+      //get a camera, pass it into the start of the scanner object in the data model (defined above)
+      //this will start the camera, show the video feed on the page and start scanning for a QRcode
+
+      Instascan.Camera.getCameras().then(function (cameras) {
+        //enumerate available cameras. result displayed in an array
+        vm.showcamera = true;
+        $scope.modal.hide();
+        console.log("cameras: ", cameras);
+        if (cameras.length > 0)//if any cameras are found
+        {
+          if (cameras.length == 1)//check if there is only one camera
+          {
+            vm.scanner.start(cameras[0]);
+            /* document.getElementById("modalvid").innerHTML=document.getElementById("preview-container").innerHTML; */
+            console.log("started scanner", cameras[0]);
+          }
+          else { //if there is more than one camera open the rear/back camera
+            vm.scanner.start(cameras[cameras.length-1]);
+            /* document.getElementById("modalvid").innerHTML=document.getElementById("preview-container").innerHTML; */
+            console.log("started scanner", cameras[cameras.length-1]);
+          }
+        }
+        else {
+          console.error("No cameras found.");
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    }
+
+
+
+
+
+    //
   }
 })();

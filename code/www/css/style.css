@@ -22,7 +22,10 @@ div.bar.bar-subheader {
   line-height:38px !important;
   font-size:.75rem;
 }
-
+.header-bar-modal{
+    background-color: rgba(0, 0, 0, 0);
+    background-image: var(--color-secondaryBackground);
+}
 
 /* ion-slide-box-tabs, via https://raw.githubusercontent.com/JKnorr91/ion-slide-box-tabs/master/src/css/slidingTabs.css */
 
@@ -504,6 +507,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
     height: 100%;
     float:right;
 }
+.littleSelectArrowBrowse{
+    height: 2.5rem;
+    float:right;
+}
 
 .moodSpinnerDiv{
     text-align: center;
@@ -700,8 +707,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding-left: 0px;
 }
 #searchBox{
-    width: 100%;
+    width: 95%;
     height: 100%;
+    margin-left: 5px;
 }
 #friendsListscroll{
     position: absolute;
@@ -891,7 +899,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .playlistCheckbox{
     float: right;
-    margin-top: 4px !important;
+    margin-top: 10px !important;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 .settingsCheckbox{
     float: right;
@@ -1105,7 +1115,6 @@ margin:10px;
       position: absolute;
     width: 50%;
     left: 25%;
-    top:72%;
     bottom: 4rem;
     height: auto;
     text-align: center;
@@ -1186,15 +1195,14 @@ div#controls{
     display: inline;
 }
 .searchCatModal{
-    top: 32%;
-    right: 20%;
+    top: 30.5%;
     bottom: 20%;
-    left: 20%;
+    left: 69%;
     min-height: 200px;
-    width: 60%;
+    width: 30%;
     height: 36.2%;
     border-radius: 1em;
-    border: solid black 0.3em; 
+    border: solid black 0.3em;
 }
 .checkboxListItemText{
     display: inline;
@@ -1302,82 +1310,84 @@ div#scroller.ng-hide {
     position: absolute;
 }
 .emojiPeaceful{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: rgb(67, 138, 202);
 }
 .emojiAngry{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right:23%;
+    margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiRestful{
-    width:5.5rem;
-    margin-left:23%;
+    width:auto;
+    margin-left:28%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: rgb(67, 138, 202);
 }
 .emojiCrazy{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right: 3%;
+    margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiSad{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
+    margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiHappy{
-    width:5.5rem;
+    width:auto;
     float:right;
     border:solid 1px black;
-    margin-right:23%;
+    margin-right:28%;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiTired{
-    width:5.5rem;
-    margin-left:23%;
+    width:auto;
+    margin-left:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiPhysical{
-    width:5.5rem;
+    width:auto;
     float: right;
-    margin-right: 3%;
+    margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiBored{
-    width:5.5rem;
-    margin-left:3%;
+    width:auto;
+    margin-left:5%;
+    margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiFocussed{
-    width:5.5rem;
+    width:auto;
     float:right;
-    margin-right:23%;
+    margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: rgb(67, 138, 202);
 }
 .emojiSize{
-    font-size: 3.6rem !important;
+    font-size: 3rem !important;
 }
 .HowAreYouModalBox{
     width:90% ;
@@ -1468,11 +1478,11 @@ div#scroller.ng-hide {
     color:black;
 }
 .contextOne{
-    top: 31.2rem !important;
+    bottom: 3.6rem;
     height: 3.75rem;
 }
 .contextMore{
-    top:72% !important;
+    bottom: 3.6rem;
 }
 .importIconMore{
     position:absolute;
@@ -1695,13 +1705,7 @@ div#scroller.ng-hide {
     width: 80%;
     padding: 0%;
 }
-.modalPlaylistView{
-    position: absolute;
-    left: 5%;
-    height: 73%;
-    top: 10%;
-    width: 90%;
-}
+
 .viewPlaylistEditList{
     position: absolute;
     top: 10%;
@@ -1729,6 +1733,24 @@ div#scroller.ng-hide {
     height: 73%;
     top: 10%;
     width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistView{
+    position: absolute;
+    left: 5%;
+    height: 73%;
+    top: 10%;
+    width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistCreate{
+    position: absolute;
+    left: 15%;
+    height: 150px;
+    min-height: 175px;
+    top: 25%;
+    width: 70%;
+    background-image: var(--color-secondaryBackground);
 }
 .editPlaylistSongsList{
     top: 5.5rem;
@@ -1742,6 +1764,11 @@ div#scroller.ng-hide {
 }
 .playlistEditTitlediv{
     position: absolute;
-    top: 44px;
+    top: 56px;
+    width: 100%;
+}
+.playlistCreateTitlediv{
+    position: absolute;
+    top: 45px;
     width: 100%;
 }

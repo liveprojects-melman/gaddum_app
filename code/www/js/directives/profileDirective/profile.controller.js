@@ -33,13 +33,14 @@
             scrollGenre: true,
             genresFontStyle: false,
             displayGenres:""
+            
 
         });
         var scale = 8;
         vm.userProfile = {
             "profile": {
                 "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
-                "avatar_name": "Lemmon Jelly",
+                "avatar_name": "Defaulthony Nameson",
                 "avatar_graphic": [
                     0,
                     102,
@@ -69,16 +70,16 @@
         vm.setName = function (name) {
             profileService.asyncSetAvatarName(name).then(
                 function () {
-                    console.log("SET NAME done");;
+                    //console.log("SET NAME done");;
                     profileService.asyncGetAvatarName().then(
                         function success(result){
-                            console.log("new name",result)
+                            //console.log("new name",result)
                             vm.name=result;
                         }
                     )
                 });
             setTimeout(function () {
-                vm.name = profileService.asyncGetAvatarName();//change
+                //vm.name = profileService.asyncGetAvatarName();//change
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
             }, 0);
         };
@@ -89,9 +90,9 @@
             return profileService.getUserGenres();
         }
         vm.setGenres = function (genres) {
-            console.log("genres test",profileService.asyncGetGenres());
+            //console.log("genres test",profileService.asyncGetGenres());
             profileService.asyncSetGenres(genres);
-            console.log("genres test2",profileService.asyncGetGenres());
+            //console.log("genres test2",profileService.asyncGetGenres());
             setTimeout(function () {
                 vm.userGenres = genres;
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
@@ -193,7 +194,7 @@
         vm.genreScrollChecker = function () {
             vm.displayGenres=vm.userGenres.join(", ");
             if (document.getElementById("genreStatic")&&vm.userGenres!=null&&vm.userGenres!=""&&vm.userGenres.length!=0) {
-                console.log("scroll genres",vm.userGenres);
+                //console.log("scroll genres",vm.userGenres);
                 var genreFont = document.getElementById("genreStatic").style.font;
                 var genreText = vm.userGenres.join(", ");
                 var maxNoScrollWidth = document.body.clientWidth - (document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
@@ -269,20 +270,22 @@
             vm.setAvatar_image(profileDetails.avatar_image,profileDetails.avatar_image_colour);
             vm.setGenres(profileDetails.genres);
             vm.genreScrollChecker();
+            profileService.setModalOpenFlag(false);
 
         };
         function refresh(profileDetails) {
+            profileService.setModalOpenFlag(false);
             //refresh all the things
         };
 
         vm.setAvatar_image = function (avatar_image,image_colour) {
-            console.log("aimg", avatar_image);
+            //console.log("aimg", avatar_image);
             avatar_image=AvatarGraphic.build(image_colour,avatar_image);
             //profileService.asyncSetAvatarGraphic(avatar_image);
             setTimeout(function () {
                 profileService.asyncSetAvatarGraphic(avatar_image).then(
                     function success(result) {
-                        console.log("presult",result);
+                        //console.log("presult",result);
                 vm.userProfile.avatar_graphic = avatar_image;
                 /* vm.createProfileGraphic(vm.userProfile.profile_id); */
                 vm.createProfileGraphic(avatar_image);
@@ -300,26 +303,31 @@
             var contextMenu = [];
             contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
             vm.conMenu = contextMenu;
-            console.log(vm.conMenu);
+            //console.log(vm.conMenu);
         }
 
         // TODO: Error Handling
         function init() {
-            console.log("init");
+            //console.log("init");
             vm.name = vm.userProfile.profile.avatar_name;
         /*     asyncPopulateGenres().then(function () {
                 
             }); */
             asyncPopulateGenres().then(
-                asyncPopulateProfile()).then(function () { 
-                    vm.genreScrollChecker() });
-
-            /* asyncPopulateProfile().then(
-                function () {
-                    vm.name = vm.userProfile.profile.avatar_name;
-                    vm.genreScrollChecker();
-                }
-            ); */
+                asyncPopulateProfile()).then(function success(results) {
+                    vm.genreScrollChecker()
+                    //console.log("!!!!!!!",vm.userProfile);
+                    vm.checkGraphic(vm.userProfile.avatar_graphic.values)
+                    //if (vm.checkGraphic(vm.userProfile.avatar_graphic.values)) {
+                    if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
+                        profileService.setModalOpenFlag(true);
+                        vm.profileEdit();
+                    }
+                },
+                    function fail(error) {
+                        console.log("FAIL!!!!!!!");
+                    }
+                );
 
 
 
@@ -327,6 +335,7 @@
             console.log("context", vm.conMenu);
             gaddumShortcutBarService.setContextMenu(vm.conMenu);
             console.log("profile", vm.userProfile);
+
         };
         init();
 

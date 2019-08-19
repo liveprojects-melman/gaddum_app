@@ -5,7 +5,7 @@
     <ion-list class="selectListModal" can-swipe="true">
         <ion-item ng-click="mc.change(search)"ng-repeat="search in mc.params">
             <h2 class="checkboxListItemText">{{search.mod.name}}</h2>
-            <input type="checkbox" ng-model="search.value" ng-change="mc.change(search)" class="checkbox"></input>
+            <input style="float: right"type="checkbox" ng-model="search.value" ng-change="mc.change(search)" class="checkbox"></input>
         </ion-item>
     </ion-list>
   </ion-content>

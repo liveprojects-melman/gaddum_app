@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('playlistEditModule', [])
-        .factory('playlistEditModal', playlistEditModal);
-    playlistEditModal.$inject = ['$ionicModal', '$rootScope'];
-    function playlistEditModal($ionicModal, $rootScope) {
+        .module('playlistCreateModule', [])
+        .factory('playlistCreateModal', playlistCreateModal);
+        playlistCreateModal.$inject = ['$ionicModal', '$rootScope'];
+    function playlistCreateModal($ionicModal, $rootScope) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
                 focusFirstInput: true,
-                controller: 'playlistEditModalController as vm',
+                controller: 'playlistCreateModalController as vm',
 
             };
         $scope.$on("modal.hidden", function (modal) {
@@ -42,7 +42,7 @@
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel = fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
-                'js/modals/playlist.edit.modal/playlistEditModal.html',
+                'js/modals/playlist.create.modal/playlistCreateModal.html',
                 myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
@@ -80,8 +80,8 @@
         function nameData(name) {
             playlistName = name;
         }
-        function callback() {
-            $scope.fnCallbackOk(trackList, playlistName);
+        function callback(playlistName) {
+            $scope.fnCallbackOk(playlistName);
             close();
         };
         function cancel(){

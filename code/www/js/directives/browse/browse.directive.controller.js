@@ -16,9 +16,10 @@
     'GenericTrack',
     'MoodedPlaylist',
     'MoodIdentifier',
-    'Playlist',
     'userProfilerService',
     'gaddumShortcutBarService',
+    'gaddumContextMenuItem',
+    'playlistService',
     
     'friendsService',
     '$ionicModal',
@@ -38,9 +39,10 @@
     GenericTrack,
     MoodedPlaylist,
     MoodIdentifier,
-    Playlist,
     userProfilerService,
     gaddumShortcutBarService,
+    gaddumContextMenuItem,
+    playlistService,
     
     browseService,
     $ionicModal,
@@ -61,6 +63,8 @@
     
 
     function init() {
+      createModalList();
+      gaddumShortcutBarService.disableContext();
       bm.searching=false;
       bm.searchBrowse=[];
       bm.sList= false;
@@ -77,9 +81,11 @@
         });
         bm.searchType[0].value = true;
       });
+      
     }
     init();
     function search(){
+      gaddumShortcutBarService.disableContext();
       bm.moreTrackCheck = false;
       bm.searchingType = [];
       bm.page = 0;
@@ -110,6 +116,7 @@
         result.forEach(function(element){
           bm.searchBrowse.push(element);
         });
+        gaddumShortcutBarService.enableContext();
         
         
       }).catch(function(er){
@@ -119,6 +126,35 @@
         console.log(er);
     });
     }
+    function createModalList() {
+      var firstVariable = "Play All Tracks";
+      var firstFunc = howAreYouPlayAllTracks;
+      var contextMenu = [];
+      contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
+      var conMenu = contextMenu;
+      gaddumShortcutBarService.setContextMenu(conMenu);
+    }
+    function howAreYouPlayAllTracks(){
+      howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
+    }
+    function fnCallbackHowAreYouOkPlay(emotion){
+      var arrayTrack = [];
+      var currentTrack = null;
+      var mooded= null;
+      var moodedArray =[];
+      bm.searchBrowse.forEach(function(track) {
+        currentTrack = GenericTrack.build(track.getPlayerUri(),track.getName(),track.getAlbum(),track.getArtist(),track.getDuration_s());
+        arrayTrack.push(currentTrack);
+      });
+      mooded = MoodedPlaylist.build(emotion,arrayTrack);
+      moodedArray.push(mooded);
+      playlistService.asyncPlay(moodedArray);
+      console.log(moodedArray);
+    }
+    function fnCallbackHowAreYouCancel(){
+      console.log("modal canceled");
+    }
+
     function moreTracks(){
       bm.searching = true;
       bm.page = bm.page+1;
@@ -148,6 +184,7 @@
     function fnCallbackSearchCancel(type){
       bm.searchType = type;
       bm.searchBrowse=[];
+      gaddumShortcutBarService.disableContext();
       bm.moreTrackCheck = true;
       searchTypeText();
     }
@@ -193,12 +230,10 @@
     }
     function fnCallbackHowAreYouOk(emotion){
       var arrayTrack = [];
-      var playlist=null;
       var mooded= null;
       var moodedArray =[];
       arrayTrack.push(currentTrack);
-      playlist = Playlist.build(null, null, arrayTrack);
-      mooded = MoodedPlaylist.build(emotion,playlist);
+      mooded = MoodedPlaylist.build(emotion,arrayTrack);
       moodedArray.push(mooded);
       playlistService.asyncPlay(moodedArray);
       console.log(moodedArray);
