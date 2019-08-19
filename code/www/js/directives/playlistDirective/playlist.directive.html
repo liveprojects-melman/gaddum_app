@@ -21,17 +21,17 @@
         <!-- <h2>test</h2>
       <h2>testtest</h2> -->
         <!-- <p>{{.description}}</p> -->
-        <ion-option-button class="button-positive icon ion-play" ng-click="vm.playPlaylist({{$index}})">
+        <ion-option-button style="color: black;" class="button-positive icon ion-play" ng-click="vm.playPlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p>Play</p>
           </div>
         </ion-option-button>
-        <ion-option-button ng-disabled="vm.busy" class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
+        <ion-option-button style="color: black;"  ng-disabled="vm.busy" class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p>View</p>
           </div>
         </ion-option-button>
-        <ion-option-button class="button-info icon-bottom ion-trash-b" ng-click="vm.removePlaylist({{$index}})">
+        <ion-option-button style="color: black;"  class="button-info icon-bottom ion-trash-b" ng-click="vm.removePlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p style="left:-8px">Remove</p>
           </div>
