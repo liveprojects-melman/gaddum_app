@@ -1,82 +1,83 @@
+<div>
 
-    <div>
-    
 
-      <div>
-
+  <div>
 
 
 
-        <ion-modal-controller></ion-modal-controller>
-        <div class="item item-button-right playlistsSearch">
-          <input placeholder="search&hellip;" type="text" ng-value="searchInput" name="searchTextInput" id="searchBox" ng-model="bm.searchText">
-          <div ng-hide=!bm.searching class="browseSpinner">
-            <ion-spinner class="" paused="true" name="circles" ></ion-spinner>
-          </div>
-          <button class="button button-stable search" ng-click="bm.search(bm.searchType)" id="searchButton">
-            <i style="color:black;" class="icon ion-search"></i>
-          </button>
-        </div>
+
+    <ion-modal-controller></ion-modal-controller>
+    <div class="item item-button-right playlistsSearch">
+      <input placeholder="search&hellip;" type="text" ng-value="searchInput" name="searchTextInput" id="searchBox"
+        ng-model="bm.searchText">
+      <div ng-hide=!bm.searching class="browseSpinner">
+        <ion-spinner class="" paused="true" name="circles"></ion-spinner>
       </div>
-      <!-- <div>
+      <button class="button button-stable search" ng-click="bm.search(bm.searchType)" id="searchButton">
+        <i style="color:black;" class="icon ion-search"></i>
+      </button>
+    </div>
+  </div>
+  <!-- <div>
         <div style="width: 40%; text-overflow: ellipsis;overflow: hidden; white-space: nowrap; margin-left:5px; display:inline-block;">
             <h3 style="color:black; max-width: 40%;" class="openSearchModalText">{{bm.typeSearch}}</h3>
         </div>
         
         <button class="openSearchModal button" ng-click="bm.openSearchModal()">Choose Search Criteria </button>
       </div> -->
-      <ion-content ng-show="true" style="top:5.5rem; bottom:0;" id="browseListscroll">
-        <ion-list can-swipe="true" id="friendsList">
-          <ion-item class="backgroundClear">
-              <div class="item-button-right">
-                  <p style="text-overflow: ellipsis; color:white; overflow: hidden; white-space: nowrap; width:70%;">{{bm.typeSearch}}</p>
-                  <button class="openSearchModal button button-stable" ng-click="bm.openSearchModal()"></span><img src="css/arrow-down-b.svg" class="littleSelectArrowBrowse" /> </button>
-                </div>
-          </ion-item>
-          <ion-item ng-repeat="browse in bm.searchBrowse" 
-            can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="bm.preventSlideBox($event)"
-            ng-touchend="bm.allowSlideBox($event)" ng-mousedown="bm.preventSlideBox($event)" ng-mouseup="bm.allowSlideBox($event)">
-           
-              <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.artwork_uri}}">
-              <p style="color:black;">{{browse.artist}}</p>
-              <p style="color:black;">{{browse.album}}</p>
-              <h1>{{browse.name}}</h1>
-
-            
-            
-            <ion-option-button class="button-assertive removeFriends" ng-click="bm.play(browse)">
-              <img src="css/icons8-play-50.png"/>
-              <div class="removeTextInButton">play</div>
-            
-          </ion-option-button>
-        
-          <ion-option-button class="button-info addToGroup" ng-click="bm.addToPlaylist(browse)">
-            
-            <div class="addTo">add to</div>
-          
-            <img src="css/playlist_add_black_96x96.png"/>
-
-            <div class="groupTextInButton">playlist</div>
-            </ion-option-button>
-            <ion-option-button class="button-energised shareFriends" ng-click="bm.share(browse)">
-              <img src="css/share.png" />
-              <div class="shareTextInButton">share</div>
-            
-          </ion-option-button>
-
-          </ion-item>
-          <ion-item ng-click="bm.moreTracks()" ng-hide="bm.moreTrackCheck">
-            <p>More...</p>
-          </ion-item>
-        </ion-list>
-      </ion-content>
+  <ion-content ng-show="true" style="top:5.5rem; bottom:0;" id="browseListscroll">
+    <ion-list can-swipe="true" id="friendsList">
+      <ion-item class="backgroundClear">
+        <div class="item-button-right">
+          <p style="text-overflow: ellipsis; color:white; overflow: hidden; white-space: nowrap; width:70%;">{{bm.typeSearch}}</p>
+          <button class="openSearchModal button button-stable" ng-click="bm.openSearchModal()"></span><img src="css/arrow-down-b.svg"
+              class="littleSelectArrowBrowse" /> </button>
+        </div>
+      </ion-item>
+      <ion-item  ng-repeat="browse in bm.searchBrowse" ng-class-odd="'listodd'" ng-class-even="'listeven'"
+        can-swipe="true" class="item-remove-animate item item-complex browseItem" ng-touchstart="bm.preventSlideBox($event)"
+        ng-touchend="bm.allowSlideBox($event)" ng-mousedown="bm.preventSlideBox($event)" ng-mouseup="bm.allowSlideBox($event)">
+        <img style="padding-bottom: 7.5px;" src="{{browse.artwork_uri}}" class="playlistArt">
+        <!-- <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.artwork_uri}}"> -->
+        <p class="overflow ellipsis" style="color:black; top: 15px; width: 75%; left: 25%; position: relative;">{{browse.artist}}, {{browse.album}}</p>
+        <!-- <p style="color:black;">{{browse.album}}</p> -->
+        <h1 class="overflow ellipsis" style="width: 75%; bottom:5px; left: 25%; position: relative;">{{browse.name}}</h1>
 
 
 
+        <ion-option-button class="button-assertive removeFriends" ng-click="bm.play(browse)">
+          <img src="css/icons8-play-50.png" />
+          <div class="removeTextInButton">play</div>
 
-    </div>
+        </ion-option-button>
+
+        <ion-option-button class="button-info addToGroup" ng-click="bm.addToPlaylist(browse)">
+
+          <div class="addTo">add to</div>
+
+          <img src="css/playlist_add_black_96x96.png" />
+
+          <div class="groupTextInButton">playlist</div>
+        </ion-option-button>
+        <ion-option-button class="button-energised shareFriends" ng-click="bm.share(browse)">
+          <img src="css/share.png" />
+          <div class="shareTextInButton">share</div>
+
+        </ion-option-button>
+
+      </ion-item>
+      <ion-item ng-click="bm.moreTracks()" ng-hide="bm.moreTrackCheck">
+        <p>More...</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 
 
 
 
-    </div>
+</div>
+
+
+
+
+</div>

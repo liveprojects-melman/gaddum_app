@@ -504,6 +504,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding: 6%;
     padding-right: 3%;
 }
+.browseItem >.item-content{
+    padding: 0;
+}
 .littleSelectArrow{
     height: 100%;
     float:right;
