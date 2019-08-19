@@ -9,7 +9,6 @@
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
-                focusFirstInput: true,
                 controller: 'playlistEditModalController as vm',
 
             };
