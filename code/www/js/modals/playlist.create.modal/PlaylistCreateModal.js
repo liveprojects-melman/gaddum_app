@@ -87,7 +87,7 @@
             close();
         };
         function cancel(){
-            $scope.fnCallbackOk(null, null);
+            $scope.fnCallbackOk(null);
             close();
         }
 

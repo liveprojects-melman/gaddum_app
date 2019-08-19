@@ -93,6 +93,10 @@
           onNewSearch("");
         });
       }
+      else{
+        vm.busy = false;
+        contextMenuEnable();
+      }
     }
     function importPlaylist() {
       importPlaylistWizard.open(null, importRefresh, null);
