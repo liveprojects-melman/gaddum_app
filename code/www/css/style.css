@@ -1803,3 +1803,18 @@ div#scroller.ng-hide {
 .loginModal{
     top:5rem;
 }
+.QRModal{
+    width: 100%;
+}
+.bigQRdiv{
+    width: 100%;
+    height: 100%;
+}
+.bigQRdiv qrcode{
+    width: 100%;
+    height: 100%;
+}
+.bigQRdiv qrcode .qrcode{
+    width: 100%;
+    height: 100%;
+}
