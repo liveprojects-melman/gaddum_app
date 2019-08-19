@@ -1663,7 +1663,7 @@ div#scroller.ng-hide {
    div#editImageModalControls {
 	   margin: .25rem;
      user-select:none;
-     width:inherit !important;
+     /* width:inherit !important; */
    }
 
 /* end of profile edit modal css */
