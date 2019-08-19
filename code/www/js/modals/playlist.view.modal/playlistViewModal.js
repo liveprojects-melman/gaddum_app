@@ -4,8 +4,8 @@
     angular
         .module('playlistViewModule', [])
         .factory('playlistViewModal', playlistViewModal);
-    playlistViewModal.$inject = ['$ionicModal', '$rootScope'];
-    function playlistViewModal($ionicModal, $rootScope) {
+    playlistViewModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function playlistViewModal($ionicModal, $rootScope, $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

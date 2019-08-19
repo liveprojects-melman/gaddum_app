@@ -4,8 +4,8 @@
     angular
         .module('gaddum.playlists')
         .factory('importPlaylistWizard', importPlaylistWizard);//rename genModal
-    importPlaylistWizard.$inject = ['$ionicModal', '$rootScope'];
-    function importPlaylistWizard($ionicModal, $rootScope) {
+    importPlaylistWizard.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function importPlaylistWizard($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

@@ -4,8 +4,8 @@
     angular
         .module('playlistCreateModule', [])
         .factory('playlistCreateModal', playlistCreateModal);
-        playlistCreateModal.$inject = ['$ionicModal', '$rootScope'];
-    function playlistCreateModal($ionicModal, $rootScope) {
+        playlistCreateModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function playlistCreateModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

@@ -4,8 +4,8 @@
   angular
     .module('genresCheckboxModalsModule', [])
     .factory('genresCheckboxModal', genresCheckboxModal);
-  genresCheckboxModal.$inject = ['$ionicModal', '$rootScope'];
-  function genresCheckboxModal($ionicModal, $rootScope) {
+  genresCheckboxModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+  function genresCheckboxModal($ionicModal, $rootScope , $timeout) {
     var $scope = $rootScope.$new(),
         myModalInstanceOptions = {
           scope: null,
