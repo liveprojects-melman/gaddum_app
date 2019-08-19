@@ -11,6 +11,7 @@
                 scope: null,
                 focusFirstInput: true,
                 controller: 'gaddumContextMenuModalController as mc',
+                animation: 'slide-in-up'
                 
             };
         $scope.$on("modal.hidden", function (modal) {
@@ -40,7 +41,7 @@
                 modalSave = modalInstance;
                 service.close = function () {
                     closeAndRemove(modalInstance);
-                    $scope.fnCallbackOk();
+                    // $scope.fnCallbackOk();
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();

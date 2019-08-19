@@ -37,7 +37,7 @@ ion-slide:nth-child(2n) {
     background-color: #fff;
 }
 .title{
-
+    color: black !important;
 }
 .slider {
     height: 100%;
@@ -165,6 +165,7 @@ ion-modal
     border-radius: 1rem;
     border:solid black 0.3rem; 
     z-index: 2000;
+    /* animation-name: slide-in-down; */
 }
 .aboutModal{
     width:90% ;
@@ -436,9 +437,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
     border-radius:0.7em;
     border-bottom: #444;
     border:.2em solid black;
-    right: 10%;
+    right: 7.5%;
     top: 10%;
-    width:80%;
+    width:90%;
     min-width: 45%;
     height: 20%;
     min-height: 8%;
@@ -1115,7 +1116,8 @@ margin:10px;
       position: absolute;
     width: 50%;
     left: 25%;
-    bottom: 4rem;
+    top: auto;
+    bottom: 3.5rem;
     height: auto;
     text-align: center;
     background-color:white;
