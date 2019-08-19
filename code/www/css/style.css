@@ -1195,12 +1195,12 @@ div#controls{
     display: inline;
 }
 .searchCatModal{
-    top: 30.5%;
+    top: 12rem;
     bottom: 20%;
     left: 69%;
     min-height: 200px;
     width: 30%;
-    height: 36.2%;
+    height: 13.8rem;
     border-radius: 1em;
     border: solid black 0.3em;
 }
@@ -1499,7 +1499,7 @@ div#scroller.ng-hide {
     position: absolute;
     min-height: 0px;
     width: 46%;
-    top: 18.4rem;
+    top: 15.8rem;
     left: 29%;
 }
 .playlistDisplayName{
@@ -1771,4 +1771,7 @@ div#scroller.ng-hide {
     position: absolute;
     top: 45px;
     width: 100%;
+}
+.loginModal{
+    top:5rem;
 }
