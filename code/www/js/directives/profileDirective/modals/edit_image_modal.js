@@ -54,8 +54,11 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
-                    $scope.fnCallbackCancel(encodedImage);
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel(encodedImage);
+                    },500);
                 }
             }
         }

@@ -4,8 +4,8 @@
     angular
         .module('gaddum.playlists')
         .factory('addToPlaylistWizard', addToPlaylistWizard);//rename genModal
-    addToPlaylistWizard.$inject = ['$ionicModal', '$rootScope'];
-    function addToPlaylistWizard($ionicModal, $rootScope) {
+    addToPlaylistWizard.$inject = ['$ionicModal', '$rootScope', '$timeout'];
+    function addToPlaylistWizard($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -59,7 +59,9 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                    },500);
                 }
             }
         }

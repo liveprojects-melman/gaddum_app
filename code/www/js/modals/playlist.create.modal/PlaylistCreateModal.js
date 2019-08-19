@@ -62,10 +62,12 @@
         }
         function close() {
             if (modalSave) {
-                modalSave.remove();
-                modalSave = null;
-                trackList = null;
-                playlistName = null;
+                $timeout(function(){
+                    modalSave.remove();
+                    modalSave = null;
+                    trackList = null;
+                    playlistName = null;
+                },500);
             }
         }
         function closeAndRemove(modalInstance) {

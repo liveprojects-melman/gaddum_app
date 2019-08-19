@@ -63,11 +63,14 @@
         function close() {
             if(closeCheck){
                 if(modalSave){
-                    modalSave.remove();
-                    modalSave = null;
-                    $scope.fnCallbackCancel(dataTracks,dataPlaylist);
-                    dataTracks = null;
-                    dataPlaylist = null;
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel(dataTracks,dataPlaylist);
+                        dataTracks = null;
+                        dataPlaylist = null;
+                    },500);
+                    
                 }
             }
             closeCheck = true;
