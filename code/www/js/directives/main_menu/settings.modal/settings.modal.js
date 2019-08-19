@@ -71,8 +71,11 @@
                             userSettingsService.asyncSet(element.id, element.value, element.type);
                         });
                     }
-                    $scope.fnCallbackCancel();
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel();
+                    },500);
                 }
             }
             

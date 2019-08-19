@@ -58,7 +58,9 @@
         }
         function close() {
             if (modalSave){
-                modalSave.remove();
+                $timeout(function(){
+                    modalSave.remove();
+                },500);
             }
             
         }

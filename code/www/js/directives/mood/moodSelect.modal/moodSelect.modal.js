@@ -59,8 +59,11 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
-                    $scope.fnCallbackCancel();
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel();
+                    },500);
                 }
             }
         }
