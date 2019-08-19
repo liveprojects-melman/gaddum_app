@@ -4,8 +4,8 @@
   angular
     .module('modalsProfile', [])
     .factory('profileEditModal', profileEditModal);
-  profileEditModal.$inject = ['$ionicModal', '$rootScope'];
-    function profileEditModal($ionicModal, $rootScope) {
+  profileEditModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function profileEditModal($ionicModal, $rootScope , $timeout) {
       var $scope = $rootScope.$new(),
           myModalInstanceOptions = {
             scope: null,

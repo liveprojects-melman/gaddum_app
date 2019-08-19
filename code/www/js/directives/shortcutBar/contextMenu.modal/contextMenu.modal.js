@@ -4,8 +4,8 @@
     angular
         .module('gaddum.shortcutBar')
         .factory('gaddumContextMenuModal', gaddumContextMenuModal);//rename genModal
-        gaddumContextMenuModal.$inject = ['$ionicModal', '$rootScope'];
-    function gaddumContextMenuModal($ionicModal, $rootScope) {
+        gaddumContextMenuModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function gaddumContextMenuModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

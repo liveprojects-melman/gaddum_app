@@ -4,8 +4,8 @@
     angular
         .module('gaddum.main_ui')
         .factory('AboutModal', AboutModal);//rename genModal
-    AboutModal.$inject = ['$ionicModal', '$rootScope'];
-    function AboutModal($ionicModal, $rootScope) {
+    AboutModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function AboutModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

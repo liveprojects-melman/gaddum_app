@@ -4,8 +4,8 @@
     angular
         .module('gaddum.searchCat' ,[])
         .factory('searchCatModal', searchCatModal);//rename genModal
-        searchCatModal.$inject = ['$ionicModal', '$rootScope'];
-    function searchCatModal($ionicModal, $rootScope) {
+        searchCatModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function searchCatModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,

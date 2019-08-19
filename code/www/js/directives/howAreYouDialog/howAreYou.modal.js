@@ -4,8 +4,8 @@
     angular
         .module('gaddum.mood')
         .factory('howAreYouModal', howAreYouModal);//rename genModal
-    howAreYouModal.$inject = ['$ionicModal', '$rootScope'];
-    function howAreYouModal($ionicModal, $rootScope) {
+    howAreYouModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function howAreYouModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
