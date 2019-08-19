@@ -392,7 +392,7 @@
           tempArray = [];
         }
       }
-      editImageModal.imgUpdate(encodedImg, vm.colour[vm.colourChoice][1]);
+      editImageModal.imgUpdate(encodedImg, vm.colourChoices[vm.colourChoice][1]);
     };
 
     var render_canvas = function render_canvas(source, destination) {
