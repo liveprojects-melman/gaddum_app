@@ -1815,3 +1815,9 @@ div#scroller.ng-hide {
     width: 100%;
     height: 100%;
 }
+.showQRCodeModal{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
