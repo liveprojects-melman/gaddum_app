@@ -1710,11 +1710,14 @@ div#scroller.ng-hide {
 }
 .playlistsSearch{
     height: 3rem;
+    background-color: rgba(0, 0, 0, 0);
 }
 #searchPlaylistsBox{
     position: absolute;
     top: 33%;
     width: 80%;
+    color: white !important;
+    background-color: rgba(0,0,0,0);
     padding: 0%;
 }
 

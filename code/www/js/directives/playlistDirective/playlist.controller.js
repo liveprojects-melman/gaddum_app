@@ -221,28 +221,28 @@
 
     // };
 
-    vm.searchColour = function () {
-      document.getElementById('searchPlaylistsBox').style.color = "grey";
-    };
+    // vm.searchColour = function () {
+    //   document.getElementById('searchPlaylistsBox').style.color = "grey";
+    // };
 
-    vm.searchClick = function () {
-      if (vm.firstSearch) {
-        document.getElementById('searchPlaylistsBox').value = "";
-        document.getElementById('searchPlaylistsBox').style.color = "black";
-        console.log("clicked");
-        vm.firstSearch = false;
-      };
+    // vm.searchClick = function () {
+    //   if (vm.firstSearch) {
+    //     document.getElementById('searchPlaylistsBox').value = "";
+    //     document.getElementById('searchPlaylistsBox').style.color = "black";
+    //     console.log("clicked");
+    //     vm.firstSearch = false;
+    //   };
 
-      vm.searchDeselect = function () {
-        if (document.getElementById('searchPlaylistsBox').value == "") {
-          document.getElementById('searchPlaylistsBox').value = "search";
-          document.getElementById('searchPlaylistsBox').style.color = "grey";
-          vm.firstSearch = true;
-          console.log("reactivated");
-        }
+    //   vm.searchDeselect = function () {
+    //     if (document.getElementById('searchPlaylistsBox').value == "") {
+    //       document.getElementById('searchPlaylistsBox').value = "search";
+    //       document.getElementById('searchPlaylistsBox').style.color = "grey";
+    //       vm.firstSearch = true;
+    //       console.log("reactivated");
+    //     }
 
-      };
-    };
+    //   };
+    // };
 
 
     function onNewPlaylists(playlists) {
