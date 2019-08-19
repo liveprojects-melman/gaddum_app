@@ -312,7 +312,7 @@
 
 </head>
 
-<body ng-app="gaddum" ng-animate-children="true">
+<body ng-app="gaddum" ng-animate-children="true" ng-cloak>
     <permissions_directive></permissions_directive>
 
   <div  class="bar bar-header" align-title="center">
@@ -324,7 +324,7 @@
 
   <ion-nav-view></ion-nav-view>
 
-  <ion-content xhas-header="true" xhas-subheader="true" class="has-header xhas-subheader " scroll="false">
+  <ion-content class="has-header" scroll="false" ng-cloak>
     <ion-view ui-view name="gaddum" id="main_wrapper" scroll="false">
     </ion-view>
   </ion-content>
