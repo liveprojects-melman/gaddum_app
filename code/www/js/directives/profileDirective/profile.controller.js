@@ -14,7 +14,9 @@
         'gaddumShortcutBarService',
         'ErrorIdentifier',
         '$timeout',
-        'AvatarGraphic'
+        'AvatarGraphic',
+        '$ionicModal',
+        '$scope'
     ];
 
     function control(
@@ -26,13 +28,16 @@
         gaddumShortcutBarService,
         ErrorIdentifier,
         $timeout,
-        AvatarGraphic
+        AvatarGraphic,
+        $ionicModal,
+        $scope
 
     ) {
         var vm = angular.extend(this, {
             scrollGenre: true,
             genresFontStyle: false,
-            displayGenres:""
+            displayGenres:"",
+            screenWidth:0,
             
 
         });
@@ -81,6 +86,11 @@
             setTimeout(function () {
                 //vm.name = profileService.asyncGetAvatarName();//change
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
+                /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
+                    document.getElementById("qrCodeDiv").style.visibility="hidden";
+                } else{
+                    document.getElementById("qrCodeDiv").style.visibility="visible";
+                } */
             }, 0);
         };
 
@@ -96,6 +106,11 @@
             setTimeout(function () {
                 vm.userGenres = genres;
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
+                /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
+                    document.getElementById("qrCodeDiv").style.visibility="hidden";
+                } else{
+                    document.getElementById("qrCodeDiv").style.visibility="visible";
+                } */
                 vm.genreScrollChecker();
             }, 0);
         }
@@ -138,6 +153,11 @@
                     vm.userProfile = result;
                     vm.name=result.avatar_name;
                     vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour:vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id}) + "}");
+                    /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
+                        document.getElementById("qrCodeDiv").style.visibility="hidden";
+                    } else{
+                        document.getElementById("qrCodeDiv").style.visibility="visible";
+                    } */
                     deferred.resolve();
                 },
                 function fail(error) {
@@ -236,6 +256,10 @@
                 function success(result) {
                     var graphic = result.avatar_graphic.getValues();
                     var colour=result.avatar_graphic.getColour();
+
+
+                    //if(vm.userProfile.avatar_graphic_colour!="#000000")
+
                     for (var j = 0; j < graphic.length; j++) {
                         bin = graphic[j].toString(2);
                         for (var x = bin.length; x < 8; x++) {
@@ -249,6 +273,16 @@
                             }
                         }
                     }
+
+
+                    /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
+                        document.getElementById("profileImage").style.visibility="hidden";
+                    } else{
+                        document.getElementById("profileImage").style.visibility="visible";
+                    } */
+
+
+
                     //deferred.resolve();
                 },
                 function fail(error) {
@@ -276,6 +310,10 @@
         function refresh(profileDetails) {
             profileService.setModalOpenFlag(false);
             //refresh all the things
+            if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
+                profileService.setModalOpenFlag(true);
+                vm.profileEdit();
+            };
         };
 
         vm.setAvatar_image = function (avatar_image,image_colour) {
@@ -306,9 +344,21 @@
             //console.log(vm.conMenu);
         }
 
+        vm.showQR= function () {
+            $ionicModal.fromTemplateUrl('js/directives/profileDirective/showQRCodeModal.html', {
+              scope: $scope,
+              animation: 'slide-in-up'
+            }).then(function (modal) {
+              $scope.modal = modal;
+              $scope.modal.show();
+              //flag = false;
+            });
+          };
+
         // TODO: Error Handling
         function init() {
             //console.log("init");
+            vm.screenWidth=screen.width;
             vm.name = vm.userProfile.profile.avatar_name;
         /*     asyncPopulateGenres().then(function () {
                 
@@ -322,7 +372,7 @@
                     if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
                         profileService.setModalOpenFlag(true);
                         vm.profileEdit();
-                    }
+                    };
                 },
                     function fail(error) {
                         console.log("FAIL!!!!!!!");

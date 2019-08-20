@@ -7,20 +7,18 @@
 
   main_uiController.$inject = [
     '$scope',
-    '$ionicSlideBoxDelegate',
-    'gaddumStreamingService'
+    '$ionicSlideBoxDelegate'
   ];
 
   function main_uiController(
     $scope,
-    $ionicSlideBoxDelegate,
-    gaddumStreamingService
+    $ionicSlideBoxDelegate
   ) {
     var mlc = angular.extend(this, {
 
     });
 
-    mlc.playeropen = "playeropen";//gaddumStreamingService.state;
+    mlc.playeropen = "playeropen";
 
     $scope.$on('player:ready', function(event,data) {
       console.log("BroadcastGot: ",data);

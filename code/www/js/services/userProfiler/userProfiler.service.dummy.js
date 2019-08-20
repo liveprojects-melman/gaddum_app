@@ -25,12 +25,22 @@
         $timeout
     ) {
 
-        
+        var SETTINGS = {
+            MAX_SKIP_COUNT: {
+                id: 'track_selector_max_skips',
+                value: 0
+            },
+            MAX_TRACK_DURATION_FOR_SKIP_S: {
+                id: 'track_selector_max_track_duration_for_skip_s',
+                value: 0
+            }
+        };
 
 
         function initialise(){
 
-
+            //promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_SKIP_COUNT.id));
+            //promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
             
         } 
 

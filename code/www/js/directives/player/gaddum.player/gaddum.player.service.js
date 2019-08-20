@@ -174,7 +174,7 @@
             // initialises.
             // sets a promise to handle events
             // this is normally a controller.
-            initalise: initialise,
+            initialise: initialise,
 
             // requests the next track in the playlist
             // writes an Observation to the database

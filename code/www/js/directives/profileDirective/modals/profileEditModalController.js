@@ -185,12 +185,32 @@
           vm.genresAsString="No Music";
         }
       }
+      genresCheck()
     };
     function genresCheck(){
       if (vm.genresAsString==null||vm.genresAsString==="") {
 //        console.log("!!");
         vm.genresAsString="No Music";
       }
+      testGenresButton();
+    };
+    function testGenresButton() {
+      var btnString = vm.genresAsString;
+      var btnStringAsArray = btnString.split('');
+      var empty = true;
+      if (vm.genresAsString == null || vm.genresAsString == "") {
+        empty = true;
+      } else {
+        btnStringAsArray.forEach(function (letter) {
+          if (/^[a-zA-Z]/.test(letter)) {
+            empty = false;
+          }
+        });
+      }
+      if (empty == true) {
+        btnString = vm.genresAsString = "No Genres Chosen"
+      }
+      //!/[^a-z]/i.test(str);;
     };
 
     vm.matchCheckboxes = function matchCheckboxes( ) {
@@ -332,5 +352,7 @@
         vm.getGenresAsString();
       }
     };
+
+    
   }
 })();

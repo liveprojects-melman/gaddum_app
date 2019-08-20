@@ -94,12 +94,12 @@
 
       var accessToken = response.accessToken;
       var refreshToken = response.encryptedRefreshToken;
-      var expires_at = response.expiresAt;
+      var expiresAt = response.expiresAt;
 
 
 
       promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', accessToken));
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expires_at));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expiresAt));
       promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token', refreshToken));
 
       CACHED_ACCESS_CREDENTIALS = AccessCredentials.build(accessToken, expiresAt, refreshToken);
@@ -256,7 +256,7 @@
       }
 
 
-      MUSIC_PROVIDER_IDENTIFIER = musicProviderEventHandlerPromise;
+      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
       EVENT_HANDLER_PROMISE = eventHandlerPromise;
       AUTH_CONFIG = {
         clientId: null,

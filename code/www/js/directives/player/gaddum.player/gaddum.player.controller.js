@@ -1,10 +1,8 @@
-import { init } from "../../../../../platforms/android/platform_www/cordova-js-src/exec";
-
-(function(){
+(function () {
   'use strict';
 
   angular
-    .module('gaddum.player' )
+    .module('gaddum.player')
     .controller('gaddumPlayerController', gaddumPlayerController);
 
   gaddumPlayerController.$inject = [
@@ -25,87 +23,86 @@ import { init } from "../../../../../platforms/android/platform_www/cordova-js-s
     TrackInfo,
     GenericTrack
   ) {
-    var gpc = { };
-    gpc.state = gaddumStreamingService.state;
+    var gpc = {};
+    gpc.state = {
+      ready: true,
+      hasTrack: true
+    };
     gpc.marquee = {
-      "songtitle": gaddumStreamingService.song.title,
-      "artistname": gaddumStreamingService.song.artist
-    };
-    gpc.toggle=function toggle(){
-      console.log("TOGGLE!");
-      gpc.state.ready = !gpc.state.ready;
+      "songtitle": "some song",
+      "artistname": "some artist"
     };
 
 
-    function onControlOK(genericTrack){
-      console.log("control OK. Generic Track being passed to Music Provider: " + genericTrack.getname() );
+    function onControlOK(genericTrack) {
+      console.log("control OK. Generic Track being passed to Music Provider: " + genericTrack.getname());
     }
 
-    function onControlError(error){
-      console.log("control error. Track: " + error.message() );
+    function onControlError(error) {
+      console.log("control error. Track: " + error.message());
     }
 
-    function onTrackStart(trackInfo){
+    function onTrackStart(trackInfo) {
       console.log("track playing: " + trackInfo.getName());
     }
 
-    function onTrackEnd(trackInfo){
+    function onTrackEnd(trackInfo) {
       console.log("track ended: " + trackInfo.getName());
     }
 
-    function onTrackPaused(trackInfo){
+    function onTrackPaused(trackInfo) {
       console.log("track paused: " + trackInfo.getName());
     }
 
-    function onTrackProgressPercent(progress){
+    function onTrackProgressPercent(progress) {
       console.log("track progress: " + progress);
     }
 
-    function onTrackError(error){
+    function onTrackError(error) {
       console.log("track error: " + error.getMessage());
       var deferred = $q.defer();
 
       $timeout(
-        function(){
+        function () {
           deferred.resolve();
         }
       )
-      
+
       return deferred.promise;
 
     }
 
 
-    function asyncHandleEvent(event){
+    function asyncHandleEvent(event) {
 
 
       var deferred = $q.defer();
 
       $timeout(
-        function(){
-          
-   
-      switch(event.getCode()){
-        case EventIdentifier.TRACK_START: // the current track has started / resumed playing
-        onTrackStart(event.getMessage());
-        break;
-        case EventIdentifier.TRACK_END:// the current track has completed playing
-        onTrackEnd(event.getMessage());
-        break;
-        case EventIdentifier.TRACK_PAUSED :// the playing of the selected track has been paused
-        onTrackPaused(event.getMessage());
-        break;
-        case EventIdentifier.TRACK_PROGRESS_PERCENT: // progress through selected track
-        onTrackProgressPercent(event.getMessage());
-        break;
-        case EventIdentifier.TRACK_ERROR: // an error has occured playing the track / the track is not available.
-        onTrackError(event.getMessage());
-        break;
+        function () {
 
-      };
 
-    });
-      
+          switch (event.getCode()) {
+            case EventIdentifier.TRACK_START: // the current track has started / resumed playing
+              onTrackStart(event.getMessage());
+              break;
+            case EventIdentifier.TRACK_END:// the current track has completed playing
+              onTrackEnd(event.getMessage());
+              break;
+            case EventIdentifier.TRACK_PAUSED:// the playing of the selected track has been paused
+              onTrackPaused(event.getMessage());
+              break;
+            case EventIdentifier.TRACK_PROGRESS_PERCENT: // progress through selected track
+              onTrackProgressPercent(event.getMessage());
+              break;
+            case EventIdentifier.TRACK_ERROR: // an error has occured playing the track / the track is not available.
+              onTrackError(event.getMessage());
+              break;
+
+          };
+
+        });
+
       return deferred.promise;
 
     }
@@ -116,27 +113,27 @@ import { init } from "../../../../../platforms/android/platform_www/cordova-js-s
         onControlError
       );
     };
-    gpc.handlePausePress = function handlePausePress(){
+    gpc.handlePausePress = function handlePausePress() {
       playerService.asyncControlPause().then(
         onControlOK,
         onControlError
       );
     };
-    gpc.handlePlayPress = function handlePlayPress(){
+    gpc.handlePlayPress = function handlePlayPress() {
       playerService.asyncControlPlay().then(
         onControlOK,
         onControlError
       );
     };
-    gpc.handleNextPress = function handleNextPress(){
+    gpc.handleNextPress = function handleNextPress() {
       playerService.asyncControlSkipNext().then(
         onControlOK,
         onControlError
       );
-      };
+    };
     //TODO: Need controls for playing again from the begining of the track 
-    
-    function initialise(){
+
+    function initialise() {
       playerService.initialise(asyncHandleEvent);
     }
 
