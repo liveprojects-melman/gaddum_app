@@ -1263,10 +1263,13 @@ div#controls{
   }
   #slideboxwrapper.playeropen.ng-leave {
   }
-  #slideboxwrapper.playeropen {
+  #slideboxwrapper.marqueeopen {
     padding-bottom:100px !important;
   }
-  
+  #slideboxwrapper.playeropen {
+    padding-bottom:52px;
+  }
+
 gaddum.player {
   width:100%;
   position:fixed;

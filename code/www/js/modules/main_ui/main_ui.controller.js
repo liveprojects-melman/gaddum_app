@@ -20,15 +20,19 @@
 
     });
 
-    mlc.playeropen = "";//playeropen";//gaddumStreamingService.state;
+    mlc.playeropen = "";
+    mls.playerHasBeenOpened = false;
 
     $scope.$on('player:ready', function(event,data) {
-//      console.log("BroadcastGot: ",data);
-      //vm.playeropen = 
-      mlc.playeropen = data?"playeropen":""; //vm.playeropen;
-      //$scope.$apply();
+      mlc.playeropen = data?"playeropen":"";
+      if(data) {
+        mlc.playerHasBeenOpened = true;
+      }
     });
 
+    $scope.$on('marquee:read', function(event,data) {
+      mlc.playeropen = data?"marqueeopen":(mlc.playerHasBeenOpened?"playeropen":"");
+    });
   }
 
 })();

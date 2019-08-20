@@ -35,6 +35,10 @@
 
     ///
 
+    service.updateMarqueeState = function updateMarqueeState(newState) {
+      $rootScope.$broadcast('marquee:ready',newState);
+    };
+
     service.handlePause = function handlePause() {
       gaddumMusicProviderService.asyncPauseCurrentTrack().then(
         function(okay){console.log("handlePause - got ",okay);},
@@ -44,7 +48,8 @@
 
     service.handlePlay = function handlePlay() {
       gaddumMusicProviderService.asyncPlayCurrentTrack().then(
-        function(okay){ console.log("handlePlay - got ",okay); },
+        function(okay){ console.log("handlePlay - got ",okay);
+                        service.updateMarqueeState(true)},
         function(err) { console.log("handlePlay - ERROR ",err); }
       );
    };
