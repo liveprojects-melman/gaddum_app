@@ -19,11 +19,11 @@
       </span>
     </p>
   </div>
-  <canvas class="profileImageCanvas" id="profileImage"
+  <canvas class="profileImageCanvas" id="profileImage" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'"
     ng-init="vm.createProfileGraphic()" height=80 width=80
     ></canvas>
-  <div class="qrdiv">
-    <qrcode data={{vm.encodedProfile}}  ></qrcode>
+  <div class="qrdiv" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'" id="qrCodeDiv">
+    <qrcode data={{vm.encodedProfile}}  ng-click="vm.showQR()"></qrcode>
   </div>
 <!-- <ion-footer-bar align-title="left" class="bar-assertive profileFooter">
   <div class="buttons">

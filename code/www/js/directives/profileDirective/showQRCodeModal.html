@@ -1,0 +1,26 @@
+<div class="modal showQRCodeModal">
+  <!-- <header class="bar bar-header bar-positive modalHeader">
+    <h1 id="addFriendsModalHeaderText" class="title">Add a friend - Step1</h1>
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+  </header> -->
+  <content has-header="true" padding="true">
+    <!-- <p >tap to close {{screen.width}}</p> -->
+    <!-- <button ng-click="dismiss()">close</button>
+    <button ng-click="close()">dismiss</button>
+    <button ng-click="modal.dismiss()">mclose</button>
+    <button ng-click="modal.close()">mdismiss</button> -->
+    <a ng-click="modal.remove();" id="closeQRModalButton" class="button button-icon icon ion-close-round"></a>
+    <div class="modalBody QRModal">
+    
+      <div class="bigQRdiv" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'" id="qrCodeDiv" ng-click="modal.hide()">
+        <qrcode data={{vm.encodedProfile}} size={{vm.screenWidth}} ng-click="modal.remove()"></qrcode>
+      </div>
+
+    </div>
+  </content>
+</div>
+
+
+
+<!-- "choice1" ? <code for true> : <code for false></code> -->
+<!-- (vm.modalpage===0) -->
