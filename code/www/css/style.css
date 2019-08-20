@@ -1546,6 +1546,7 @@ div#scroller.ng-hide {
 }
 .playlistNameText{
     padding-left:90px;
+    padding-top: 5px;
     font-weight: 700 !important;
     color:black;
     display: inline-block;
