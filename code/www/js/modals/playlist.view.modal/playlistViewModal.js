@@ -4,8 +4,8 @@
     angular
         .module('playlistViewModule', [])
         .factory('playlistViewModal', playlistViewModal);
-    playlistViewModal.$inject = ['$ionicModal', '$rootScope'];
-    function playlistViewModal($ionicModal, $rootScope) {
+    playlistViewModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function playlistViewModal($ionicModal, $rootScope, $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -63,11 +63,14 @@
         function close() {
             if(closeCheck){
                 if(modalSave){
-                    modalSave.remove();
-                    modalSave = null;
-                    $scope.fnCallbackCancel(dataTracks,dataPlaylist);
-                    dataTracks = null;
-                    dataPlaylist = null;
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel(dataTracks,dataPlaylist);
+                        dataTracks = null;
+                        dataPlaylist = null;
+                    },500);
+                    
                 }
             }
             closeCheck = true;

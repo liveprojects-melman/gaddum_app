@@ -17,7 +17,8 @@
     'playlistViewModal',
     'importPlaylistWizard',
     'howAreYouModal',
-    'MoodedPlaylist'
+    'MoodedPlaylist',
+    'playlistCreateModal'
   ];
 
   function control(
@@ -32,7 +33,8 @@
     playlistViewModal,
     importPlaylistWizard,
     howAreYouModal,
-    MoodedPlaylist
+    MoodedPlaylist,
+    playlistCreateModal
 
   ) {
     var vm = angular.extend(this, {
@@ -64,8 +66,11 @@
     function createModalList() {
       var firstVariable = "Import Playlists";
       var firstFunc = importPlaylist;
+      var secVariable = "Create Playlist";
+      var secFunc = createPlaylist;
       var contextMenu = [];
       contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
+      contextMenu[1] = gaddumContextMenuItem.build(secVariable,secFunc);
       vm.conMenu = contextMenu;
       gaddumShortcutBarService.setContextMenu(vm.conMenu);
     }
@@ -74,6 +79,24 @@
     }
     function contextMenuEnable() {
       gaddumShortcutBarService.enableContext();
+    }
+    function createPlaylist(){
+      playlistCreateModal.open(null,createRefresh,null);
+    }
+    function createRefresh(name){
+      vm.busy = true;
+      contextMenuDisable();
+      if(name){
+        playlistService.asyncCreatePlaylist(name).then(function(result){
+          vm.busy = false;
+          contextMenuEnable();
+          onNewSearch("");
+        });
+      }
+      else{
+        vm.busy = false;
+        contextMenuEnable();
+      }
     }
     function importPlaylist() {
       importPlaylistWizard.open(null, importRefresh, null);
@@ -182,48 +205,48 @@
 
 
 
-    function getPlaylist() {
+    // function getPlaylist() {
 
-      gaddumMusicProviderService.importAllPlaylists().then(function (result) {
-        var id = result.data.items[0].id
+    //   gaddumMusicProviderService.importAllPlaylists().then(function (result) {
+    //     var id = result.data.items[0].id
 
-        gaddumMusicProviderService.getplaylistTracks(id).then(function (result2) {
+    //     gaddumMusicProviderService.getplaylistTracks(id).then(function (result2) {
 
-          console.log("track", result2);
-        }).catch(function (er) {
+    //       console.log("track", result2);
+    //     }).catch(function (er) {
 
-          console.log(er);
-        });
-      }).catch(function (er) {
+    //       console.log(er);
+    //     });
+    //   }).catch(function (er) {
 
-        console.log(er);
-      });
+    //     console.log(er);
+    //   });
 
 
-    };
+    // };
 
-    vm.searchColour = function () {
-      document.getElementById('searchPlaylistsBox').style.color = "grey";
-    };
+    // vm.searchColour = function () {
+    //   document.getElementById('searchPlaylistsBox').style.color = "grey";
+    // };
 
-    vm.searchClick = function () {
-      if (vm.firstSearch) {
-        document.getElementById('searchPlaylistsBox').value = "";
-        document.getElementById('searchPlaylistsBox').style.color = "black";
-        console.log("clicked");
-        vm.firstSearch = false;
-      };
+    // vm.searchClick = function () {
+    //   if (vm.firstSearch) {
+    //     document.getElementById('searchPlaylistsBox').value = "";
+    //     document.getElementById('searchPlaylistsBox').style.color = "black";
+    //     console.log("clicked");
+    //     vm.firstSearch = false;
+    //   };
 
-      vm.searchDeselect = function () {
-        if (document.getElementById('searchPlaylistsBox').value == "") {
-          document.getElementById('searchPlaylistsBox').value = "search";
-          document.getElementById('searchPlaylistsBox').style.color = "grey";
-          vm.firstSearch = true;
-          console.log("reactivated");
-        }
+    //   vm.searchDeselect = function () {
+    //     if (document.getElementById('searchPlaylistsBox').value == "") {
+    //       document.getElementById('searchPlaylistsBox').value = "search";
+    //       document.getElementById('searchPlaylistsBox').style.color = "grey";
+    //       vm.firstSearch = true;
+    //       console.log("reactivated");
+    //     }
 
-      };
-    };
+    //   };
+    // };
 
 
     function onNewPlaylists(playlists) {

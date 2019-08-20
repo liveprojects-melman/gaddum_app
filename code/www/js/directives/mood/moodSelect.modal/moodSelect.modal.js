@@ -4,8 +4,8 @@
     angular
         .module('gaddum.mood')
         .factory('moodSelectModal', moodSelectModal);//rename genModal
-    moodSelectModal.$inject = ['$ionicModal', '$rootScope'];
-    function moodSelectModal($ionicModal, $rootScope) {
+    moodSelectModal.$inject = ['$ionicModal', '$rootScope','$timeout'];
+    function moodSelectModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -59,8 +59,11 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
-                    $scope.fnCallbackCancel();
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel();
+                    },500);
                 }
             }
         }

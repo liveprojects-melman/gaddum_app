@@ -4,8 +4,8 @@
     angular
         .module('gaddum.searchCat' ,[])
         .factory('searchCatModal', searchCatModal);//rename genModal
-        searchCatModal.$inject = ['$ionicModal', '$rootScope'];
-    function searchCatModal($ionicModal, $rootScope) {
+        searchCatModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function searchCatModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -59,9 +59,12 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
-                    modalSave = null;
-                    $scope.fnCallbackCancel(chose);
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel(chose);
+                    },500);
+                    
                 }
             }
         }

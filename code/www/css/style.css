@@ -22,7 +22,10 @@ div.bar.bar-subheader {
   line-height:38px !important;
   font-size:.75rem;
 }
-
+.header-bar-modal{
+    background-color: rgba(0, 0, 0, 0);
+    background-image: var(--color-secondaryBackground);
+}
 
 /* ion-slide-box-tabs, via https://raw.githubusercontent.com/JKnorr91/ion-slide-box-tabs/master/src/css/slidingTabs.css */
 
@@ -34,7 +37,7 @@ ion-slide:nth-child(2n) {
     background-color: #fff;
 }
 .title{
-
+    color: black !important;
 }
 .slider {
     height: 100%;
@@ -162,6 +165,7 @@ ion-modal
     border-radius: 1rem;
     border:solid black 0.3rem; 
     z-index: 2000;
+    /* animation-name: slide-in-down; */
 }
 .aboutModal{
     width:90% ;
@@ -433,9 +437,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
     border-radius:0.7em;
     border-bottom: #444;
     border:.2em solid black;
-    right: 10%;
+    right: 7.5%;
     top: 10%;
-    width:80%;
+    width:90%;
     min-width: 45%;
     height: 20%;
     min-height: 8%;
@@ -500,13 +504,20 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding: 6%;
     padding-right: 3%;
 }
+.browseItem >.item-content{
+    padding: 0;
+}
 .littleSelectArrow{
     height: 100%;
     float:right;
 }
 .littleSelectArrowBrowse{
-    height: 2.5rem;
+    height: 1.2rem;
     float:right;
+}
+input::placeholder{
+    color: white;
+    opacity: 0.75;
 }
 
 .moodSpinnerDiv{
@@ -704,8 +715,14 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding-left: 0px;
 }
 #searchBox{
-    width: 100%;
+    width: 95%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    margin-left: 5px;
+}
+.backgroundClear{
+    background-color: rgba(0, 0, 0, 0);
 }
 #friendsListscroll{
     position: absolute;
@@ -895,7 +912,9 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .playlistCheckbox{
     float: right;
-    margin-top: 4px !important;
+    margin-top: 10px !important;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 .settingsCheckbox{
     float: right;
@@ -1037,6 +1056,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     position: absolute;
     bottom: 5%;
 }
+
 .genreCheckboxes{
     border-width: 0px;
 }
@@ -1109,7 +1129,8 @@ margin:10px;
       position: absolute;
     width: 50%;
     left: 25%;
-    bottom: 4rem;
+    top: auto;
+    bottom: 3.5rem;
     height: auto;
     text-align: center;
     background-color:white;
@@ -1139,7 +1160,6 @@ margin:10px;
     left: 7%;
     /* top: 40%; */
     bottom: 0%;
-    
 }
 
 .genresCheckboxlist .checkbox{
@@ -1157,12 +1177,11 @@ margin:10px;
 }
 .profileImageEditModal{
   padding:4px;
-    width: 85%;
-    position: absolute;
-    left: 7.5%;
-    top: 6%;
-    height: 79%;
-
+  width: 85%;
+  position: absolute;
+  left: 7.5%;
+  top: 6%;
+  height: 79%;
 }
 #canvas_holder #edit{
     width: 88%;
@@ -1177,6 +1196,17 @@ margin:10px;
     height: 88%;
     width: 88%;
 }
+div#colour-swatch {
+  width:auto;
+  min-width:1rem;
+  height:auto;
+  border-radius:4pm;
+}
+div#colour-name {
+  padding-top: .8em;
+  font-size: 150%;
+  margin-left: .5em;
+}
 div#controls{
     position: absolute;
     bottom: 5%;
@@ -1189,12 +1219,12 @@ div#controls{
     display: inline;
 }
 .searchCatModal{
-    top: 30.5%;
+    top: 12rem;
     bottom: 20%;
     left: 69%;
     min-height: 200px;
     width: 30%;
-    height: 36.2%;
+    height: 13.8rem;
     border-radius: 1em;
     border: solid black 0.3em;
 }
@@ -1493,7 +1523,7 @@ div#scroller.ng-hide {
     position: absolute;
     min-height: 0px;
     width: 46%;
-    top: 18.4rem;
+    top: 15.8rem;
     left: 29%;
 }
 .playlistDisplayName{
@@ -1648,6 +1678,7 @@ div#scroller.ng-hide {
    div#editImageModalControls {
 	   margin: .25rem;
      user-select:none;
+     /* width:inherit !important; */
    }
 
 /* end of profile edit modal css */
@@ -1692,20 +1723,17 @@ div#scroller.ng-hide {
 }
 .playlistsSearch{
     height: 3rem;
+    background-color: rgba(0, 0, 0, 0);
 }
 #searchPlaylistsBox{
     position: absolute;
     top: 33%;
     width: 80%;
+    color: white !important;
+    background-color: rgba(0,0,0,0);
     padding: 0%;
 }
-.modalPlaylistView{
-    position: absolute;
-    left: 5%;
-    height: 73%;
-    top: 10%;
-    width: 90%;
-}
+
 .viewPlaylistEditList{
     position: absolute;
     top: 10%;
@@ -1733,6 +1761,24 @@ div#scroller.ng-hide {
     height: 73%;
     top: 10%;
     width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistView{
+    position: absolute;
+    left: 5%;
+    height: 73%;
+    top: 10%;
+    width: 90%;
+    background-image: var(--color-secondaryBackground);
+}
+.modalPlaylistCreate{
+    position: absolute;
+    left: 15%;
+    height: 150px;
+    min-height: 175px;
+    top: 25%;
+    width: 70%;
+    background-image: var(--color-secondaryBackground);
 }
 .editPlaylistSongsList{
     top: 5.5rem;
@@ -1746,6 +1792,35 @@ div#scroller.ng-hide {
 }
 .playlistEditTitlediv{
     position: absolute;
-    top: 44px;
+    top: 56px;
     width: 100%;
+}
+.playlistCreateTitlediv{
+    position: absolute;
+    top: 45px;
+    width: 100%;
+}
+.loginModal{
+    top:5rem;
+}
+.QRModal{
+    width: 100%;
+}
+.bigQRdiv{
+    width: 100%;
+    height: 100%;
+}
+.bigQRdiv qrcode{
+    width: 100%;
+    height: 100%;
+}
+.bigQRdiv qrcode .qrcode{
+    width: 100%;
+    height: 100%;
+}
+.showQRCodeModal{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

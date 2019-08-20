@@ -62,13 +62,15 @@
         function close() {
             isClosing = true; // we are closing the dialog
             isWorking = false;   // to anyone waiting, the operation is complete
-            modalSave.remove();            
+            modalSave.hide();            
         }
 
         function onClickOff(){
             if(modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                    },500);
                 }
             }
             if(modalSave){

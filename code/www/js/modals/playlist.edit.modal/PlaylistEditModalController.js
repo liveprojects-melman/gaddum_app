@@ -20,7 +20,8 @@
       params:null,
       playlist:[],
       showDelete:false,
-      showReorder:false
+      showReorder:false,
+      disableOk:false
     });
     $scope.playlistEditModal = playlistEditModal;
     function init() {
@@ -31,9 +32,11 @@
     
 
     vm.returnData = function () {
-      console.log("?");
+      playlistEditModal.callback();
     };
-
+    vm.cancel = function(){
+      playlistEditModal.cancel();
+    }
 
     vm.reorderlog=function(song, fromIndex,toIndex){
       console.log(song, fromIndex,toIndex);
@@ -42,8 +45,16 @@
       playlistEditModal.trackData(vm.params.tracks);
       console.log(vm.params.tracks);
     };
+    var name = null;
     vm.textChange = function(){
-      playlistEditModal.nameData(vm.params.name);
+      name = vm.params.playlist.getName();
+      if(name.length === 0){
+        vm.disableOk = true;
+      }
+      else{
+        vm.disableOk = false;
+      }
+      playlistEditModal.nameData(vm.params.playlist.getName());
     }
 
     vm.deleteSong=function(index){

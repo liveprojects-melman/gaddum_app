@@ -4,8 +4,8 @@
     angular
         .module('gaddum.main_ui')
         .factory('SettingsModal', SettingsModal);//rename genModal
-    SettingsModal.$inject = ['$ionicModal', '$rootScope','userSettingsService'];
-    function SettingsModal($ionicModal, $rootScope,userSettingsService) {
+    SettingsModal.$inject = ['$ionicModal', '$rootScope','userSettingsService','$timeout'];
+    function SettingsModal($ionicModal, $rootScope,userSettingsService, $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -71,8 +71,11 @@
                             userSettingsService.asyncSet(element.id, element.value, element.type);
                         });
                     }
-                    $scope.fnCallbackCancel();
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel();
+                    },500);
                 }
             }
             

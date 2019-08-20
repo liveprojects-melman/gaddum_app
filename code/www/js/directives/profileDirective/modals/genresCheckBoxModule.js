@@ -4,8 +4,8 @@
   angular
     .module('genresCheckboxModalsModule', [])
     .factory('genresCheckboxModal', genresCheckboxModal);
-  genresCheckboxModal.$inject = ['$ionicModal', '$rootScope'];
-  function genresCheckboxModal($ionicModal, $rootScope) {
+  genresCheckboxModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+  function genresCheckboxModal($ionicModal, $rootScope , $timeout) {
     var $scope = $rootScope.$new(),
         myModalInstanceOptions = {
           scope: null,
@@ -58,8 +58,11 @@
       
       if (modalSave){
                 if(!modalSave._isShown){
+                  $timeout(function(){
                     modalSave.remove();
+                    modalSave = null;
                     $scope.fnCallbackCancel(selectedGenres);
+                },500);
                 }
             }
     }

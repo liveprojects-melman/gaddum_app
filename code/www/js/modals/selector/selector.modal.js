@@ -4,8 +4,8 @@
     angular
         .module('gaddum.selector')
         .factory('selectorModal', selectorModal);//rename genModal
-    selectorModal.$inject = ['$ionicModal', '$rootScope'];
-    function selectorModal($ionicModal, $rootScope) {
+    selectorModal.$inject = ['$ionicModal', '$rootScope', '$timeout'];
+    function selectorModal($ionicModal, $rootScope, $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -64,7 +64,9 @@
             }
             if(modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                    },500);
                 }
             }
 

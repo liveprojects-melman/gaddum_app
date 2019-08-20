@@ -4,12 +4,11 @@
     angular
         .module('playlistEditModule', [])
         .factory('playlistEditModal', playlistEditModal);
-    playlistEditModal.$inject = ['$ionicModal', '$rootScope'];
-    function playlistEditModal($ionicModal, $rootScope) {
+    playlistEditModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function playlistEditModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
-                focusFirstInput: true,
                 controller: 'playlistEditModalController as vm',
 
             };
@@ -29,7 +28,8 @@
             getParams: getParams,
             callback: callback,
             trackData: trackData,
-            nameData: nameData
+            nameData: nameData,
+            cancel:cancel
         };
         return myModal;
 
@@ -61,9 +61,12 @@
         }
         function close() {
             if (modalSave) {
-                $scope.fnCallbackCancel(trackList, playlistName);
-                modalSave.remove();
-
+                $timeout(function(){
+                    modalSave.remove();
+                    modalSave = null;
+                    trackList = null;
+                    playlistName = null;
+                },500);
             }
         }
         function closeAndRemove(modalInstance) {
@@ -78,9 +81,14 @@
         function nameData(name) {
             playlistName = name;
         }
-        function callback(newData) {
-            $scope.fnCallbackOk(newData);
+        function callback() {
+            $scope.fnCallbackOk(trackList, playlistName);
+            close();
         };
+        function cancel(){
+            $scope.fnCallbackOk(null, null);
+            close();
+        }
 
 
     }

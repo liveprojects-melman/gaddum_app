@@ -1,6 +1,6 @@
 
-<div ng-class="((mc.length === 1)? 'contextOne' : 'contextMore')" class="modalContext " ng-controller="gaddumContextMenuModalController as mc">
-  
+<div class="modal modalContext " ng-controller="gaddumContextMenuModalController as mc">
+    <!-- ng-class="((mc.length === 1)? 'contextOne' : 'contextMore')"  -->
     <!-- <ion-content class="selectListModal"> -->
     <ion-list class="selectListModal" can-swipe="true">
       <ion-item ng-click="menuItem.func(); mc.closeModal()" ng-repeat=" menuItem in mc.params " class="contextButton">

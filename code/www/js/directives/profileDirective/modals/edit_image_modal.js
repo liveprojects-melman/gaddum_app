@@ -4,8 +4,8 @@
     angular
         .module('editImageModalModule', ['colorpicker'])
         .factory('editImageModal', editImageModal);
-        editImageModal.$inject = ['$ionicModal', '$rootScope'];
-    function editImageModal($ionicModal, $rootScope) {
+        editImageModal.$inject = ['$ionicModal', '$rootScope', '$timeout'];
+    function editImageModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -54,8 +54,11 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
-                    $scope.fnCallbackCancel(encodedImage);
+                    $timeout(function(){
+                        modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel(encodedImage);
+                    },500);
                 }
             }
         }

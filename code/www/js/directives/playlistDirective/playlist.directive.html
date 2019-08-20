@@ -1,11 +1,11 @@
 <div class="item item-button-right playlistsSearch">
-  <input type="text" name="searchPlaylistsInput" id="searchPlaylistsBox" class="searchPlaylistsBox" value="Search"
-    ng-click="vm.searchClick()" ng-blur="vm.searchDeselect()" ng-init="vm.searchColour()">
+  <input type="text" name="searchPlaylistsInput" id="searchPlaylistsBox" class="searchPlaylistsBox" 
+      placeholder="search&hellip;">
   <div ng-hide=!vm.busy class="browseSpinner">
     <ion-spinner class="" paused="true" name="circles"></ion-spinner>
   </div>
-  <button class="button button-assertive search" id="searchPlaylistsButton" ng-click="vm.searchPlaylists()">
-    <i class="icon ion-search"></i>
+  <button class="button button-stable search" id="searchPlaylistsButton" ng-click="vm.searchPlaylists()">
+    <i style="color:black;" class="icon ion-search"></i>
   </button>
 </div>
 
@@ -21,17 +21,17 @@
         <!-- <h2>test</h2>
       <h2>testtest</h2> -->
         <!-- <p>{{.description}}</p> -->
-        <ion-option-button class="button-positive icon ion-play" ng-click="vm.playPlaylist({{$index}})">
+        <ion-option-button style="color: black;" class="button-positive icon ion-play" ng-click="vm.playPlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p>Play</p>
           </div>
         </ion-option-button>
-        <ion-option-button ng-disabled="vm.busy" class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
+        <ion-option-button style="color: black;"  ng-disabled="vm.busy" class="button-energized icon ion-navicon-round" ng-click="vm.viewPlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p>View</p>
           </div>
         </ion-option-button>
-        <ion-option-button class="button-info icon-bottom ion-trash-b" ng-click="vm.removePlaylist({{$index}})">
+        <ion-option-button style="color: black;"  class="button-info icon-bottom ion-trash-b" ng-click="vm.removePlaylist({{$index}})">
           <div class="playlistTextInButton">
             <p style="left:-8px">Remove</p>
           </div>

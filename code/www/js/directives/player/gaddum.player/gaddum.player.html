@@ -1,7 +1,7 @@
 <div id="gaddum-player" class="animated" ng-show="gpc.state.ready===true">
   <div id="scroller" class="animated" ng-show="gpc.state.ready===true">
-    <div angular-marquee class="animated" scroll="gpc.state.playing" duration="10000" id="songtitle">{{gpc.marquee.songtitle}}</div>
-    <div angular-marquee class="aniamted" scroll="gpc.state.playing" id="artistname">{{gpc.marquee.artistname}}</div>
+    <div angular-marquee class="animated" scroll="gpc.state.hasTrack" duration="10000" id="songtitle">{{gpc.marquee.songtitle}}</div>
+    <div angular-marquee class="animated" scroll="gpc.state.hasTrack" duration="10000" id="artistname">{{gpc.marquee.artistname}}</div>
   </div>
   <div id="gaddum-shuttle" class="button-bar">
     <button name="prev" class="button icon-left icon ion-skipbackward" ng-click="gpc.handleBackPress()">back</button>

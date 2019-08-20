@@ -2,67 +2,73 @@
     'use strict';
 
     angular
-        .module('gaddum.playlists')
-        .factory('importPlaylistWizard', importPlaylistWizard);//rename genModal
-    importPlaylistWizard.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
-    function importPlaylistWizard($ionicModal, $rootScope , $timeout) {
+        .module('playlistCreateModule', [])
+        .factory('playlistCreateModal', playlistCreateModal);
+        playlistCreateModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function playlistCreateModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
                 focusFirstInput: true,
-                controller: 'importPlaylistWizardController as mc',
-                animation: 'slide-in-down'
-                
+                controller: 'playlistCreateModalController as vm',
+
             };
         $scope.$on("modal.hidden", function (modal) {
-            
+
             close();
-            
+
         });
         var modalSave = null;
         var parmeter = null;
+        var trackList = null;
+        var playlistName = null;
 
         var myModal = {
             open: open,
             close: close,
-            getParams:getParams,
-            callback:callback
+            getParams: getParams,
+            callback: callback,
+            trackData: trackData,
+            nameData: nameData,
+            cancel:cancel
         };
         return myModal;
 
         function open(params, fnCallbackOk, fnCallbackCancel) {
             var service = this;
             parmeter = params;
+            trackList = null;
+            playlistName = null;
             $scope.fnCallbackOk = fnCallbackOk;
-            $scope.fnCallbackCancel=fnCallbackCancel;
+            $scope.fnCallbackCancel = fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
-                'js/wizards/gaddum.importPlaylist.wizard/importPlaylist.modal.html',
+                'js/modals/playlist.create.modal/playlistCreateModal.html',
                 myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
                     closeAndRemove(modalInstance);
-                    
+
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();
             });
-            
+
         }
-        function getParams(){
+        function getParams() {
             return parmeter;
-        }
-        function callback(arrayPlaylist){
-            $scope.fnCallbackOk(arrayPlaylist);
-            close();
+
+
         }
         function close() {
-            if (modalSave){
+            if (modalSave) {
                 $timeout(function(){
                     modalSave.remove();
+                    modalSave = null;
+                    trackList = null;
+                    playlistName = null;
                 },500);
             }
-            
         }
         function closeAndRemove(modalInstance) {
             return modalInstance.hide()
@@ -70,6 +76,22 @@
                     return modalInstance.remove();
                 });
         };
+        function trackData(tracks) {
+            trackList = tracks;
+        }
+        function nameData(name) {
+            playlistName = name;
+        }
+        function callback(playlistName) {
+            $scope.fnCallbackOk(playlistName);
+            close();
+        };
+        function cancel(){
+            $scope.fnCallbackOk(null);
+            close();
+        }
+
+
     }
 })();
 

@@ -4,13 +4,14 @@
     angular
         .module('gaddum.shortcutBar')
         .factory('gaddumContextMenuModal', gaddumContextMenuModal);//rename genModal
-        gaddumContextMenuModal.$inject = ['$ionicModal', '$rootScope'];
-    function gaddumContextMenuModal($ionicModal, $rootScope) {
+        gaddumContextMenuModal.$inject = ['$ionicModal', '$rootScope' , '$timeout'];
+    function gaddumContextMenuModal($ionicModal, $rootScope , $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
                 focusFirstInput: true,
                 controller: 'gaddumContextMenuModalController as mc',
+                animation: 'slide-in-up'
                 
             };
         $scope.$on("modal.hidden", function (modal) {
@@ -40,7 +41,7 @@
                 modalSave = modalInstance;
                 service.close = function () {
                     closeAndRemove(modalInstance);
-                    $scope.fnCallbackOk();
+                    // $scope.fnCallbackOk();
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();
@@ -55,7 +56,9 @@
         function close() {
             if (modalSave){
                 if(!modalSave._isShown){
-                    modalSave.remove();
+                    $timeout(function(){
+                        modalSave.remove();
+                    },500);
                 }
             }
         }

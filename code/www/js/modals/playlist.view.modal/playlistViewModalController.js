@@ -44,26 +44,41 @@
     vm.returnData = function () {
       console.log("?");
     };
-
+    var saveParams = null;
     vm.editPlaylist= function(){
-      var modalParams=vm.params;
+      var modalParams = null;
+      var saveTracks = [];
+      vm.params.tracks.forEach(function(track) {
+        saveTracks.push(track);
+      });
+      saveParams={"playlist":vm.params.playlist.getName(),"tracks":saveTracks};
+      modalParams=vm.params;
       playlistViewModal.closeCheckFalse();
-      playlistEditModal.open(modalParams,saveChanges,refreshTrack);
+      playlistEditModal.open(modalParams,refreshTrack,modalCancel);
       //var,ok,c
   };
 
-  function saveChanges(editedPlaylist){
-    console.log(editedPlaylist);
+  function modalCancel(){
+    console.log("modalCancel");
   };
 
   function refreshTrack(tracks,name){
-    if (tracks){
-      vm.params.tracks = tracks;
+    if(tracks||name){
+      if (tracks){
+        vm.params.tracks = tracks;
+      }
+      if(name){
+        vm.params.playlist.setName(name);
+        vm.params.name = name;
+      }
+      playlistViewModal.data(vm.params.tracks, vm.params.playlist);
     }
-    if(name){
-      vm.params.playlist.setName(name);
+    else{
+      vm.params.playlist.setName(saveParams.playlist);
+      vm.params.tracks = saveParams.tracks;
     }
-    playlistViewModal.data(vm.params.tracks, vm.params.playlist);
+    
+   
   }
   
   function play(track){

@@ -6,9 +6,8 @@
     .factory('MusicProviderIdentifier', MusicProviderIdentifier)
     ;
 
-  MusicProviderIdentifier.$inject = [
+  MusicProviderIdentifier.$inject = [ ];
 
-  ];
   function MusicProviderIdentifier(
 
   ) {
@@ -20,14 +19,12 @@
       this.name = name;
       this.id = id;
 
-
-
       this.getName = function () {
         return this.name;
-      }
+      };
       this.getId = function () {
         return this.id;
-      }
+      };
 
 
     }
@@ -39,25 +36,20 @@
      * Instance ('this') is not available in static context
      */
     MusicProviderIdentifier.build = function ( name,
-      id,
-) {
-
+                                               id
+                                             ) {
       return new MusicProviderIdentifier(
         name,
         id
       );
-
     };
 
     MusicProviderIdentifier.buildFromObject = function (incoming) {
       var result = new MusicProviderIdentifier();
 
       result = angular.merge(result, incoming);
-
       return result;
-
     };
-
 
     /**
      * Return the constructor function

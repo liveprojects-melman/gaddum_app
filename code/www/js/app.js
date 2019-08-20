@@ -43,7 +43,8 @@ angular.module('gaddum', [
   'playlistViewModule',
   'playlistEditModule',
   'gaddum.playlistDirective',
-  'gaddum.intelligenttrackselector'
+  'gaddum.intelligenttrackselector',
+  'playlistCreateModule'
 
 ])
   .run([

@@ -114,24 +114,28 @@
       ["Prev C", '#111']
     ];
     vm.colourChoices = colours;
-    vm.colourChoice = 0; // SET TO PROFILE CHOICE!
+    vm.colourChoice = 0; // SET TO PROFILE CHOICE! @TODO!
     vm.colourStyle = {
       'font-weight': 900,
-      'color': vm.colourChoices[vm.colourChoice][1]
+      'border-radius':'4px',
+      'width':'auto',
+      'min-width':'1rem',
+      'height':'auto',
+      'background-color': vm.colourChoices[vm.colourChoice][1]
     };
     vm.nextColour = function nextColour() {
       vm.colourChoice = (vm.colourChoice + 1) % (vm.colourChoices.length);
-      vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.colourStyle['background-color'] = vm.colourChoices[vm.colourChoice][1];
       vm.updatePixelColour();
     };
     vm.prevColour = function prevColour() {
       vm.colourChoice = (vm.colourChoice + vm.colourChoices.length - 1) % (vm.colourChoices.length);
-      vm.colourStyle.color = vm.colourChoices[vm.colourChoice][1];
+      vm.colourStyle['background-color'] = vm.colourChoices[vm.colourChoice][1];
       vm.updatePixelColour();
     };
     vm.updatePixelColour = function updatePixelColour() {
       var colourMapping = ["none", "r", "g", "b"];
-      pixel_colours[1] = { "colour": vm.colourChoices[vm.colourChoice][1] }
+      pixel_colours[1] = { "colour": vm.colourChoices[vm.colourChoice][1] };
       /* if(vm.colourChoices[vm.colourChoice][1].length <=6){
         for (var i = 1; i<4; i++) {
           pixel_colours[1][ colourMapping[ i ] ]  =
@@ -321,7 +325,7 @@
       console.log("this is the save");
       saveHash();
       //console.log("Returning img in callback",encodedImg);
-      editImageModal.imgUpdate(encodedImg, vm.colourStyle.color);
+      editImageModal.imgUpdate(encodedImg, vm.colours[vm.colourChoice][1]);
       editImageModal.close();
       /*
               var save_canvas = document.createElement('canvas');
@@ -388,7 +392,7 @@
           tempArray = [];
         }
       }
-      editImageModal.imgUpdate(encodedImg, vm.colourStyle.color);
+      editImageModal.imgUpdate(encodedImg, vm.colourChoices[vm.colourChoice][1]);
     };
 
     var render_canvas = function render_canvas(source, destination) {
