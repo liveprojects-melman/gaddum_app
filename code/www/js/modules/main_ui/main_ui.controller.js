@@ -20,12 +20,12 @@
 
     });
 
-    mlc.playeropen = "playeropen";//gaddumStreamingService.state;
+    mlc.playeropen = "";//playeropen";//gaddumStreamingService.state;
 
     $scope.$on('player:ready', function(event,data) {
 //      console.log("BroadcastGot: ",data);
       //vm.playeropen = 
-      $scope.playeropen = data?"playeropen":""; //vm.playeropen;
+      mlc.playeropen = data?"playeropen":""; //vm.playeropen;
       //$scope.$apply();
     });
 
