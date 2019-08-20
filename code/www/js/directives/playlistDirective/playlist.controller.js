@@ -18,7 +18,8 @@
     'importPlaylistWizard',
     'howAreYouModal',
     'MoodedPlaylist',
-    'playlistCreateModal'
+    'playlistCreateModal',
+    'spinnerService'
   ];
 
   function control(
@@ -34,7 +35,8 @@
     importPlaylistWizard,
     howAreYouModal,
     MoodedPlaylist,
-    playlistCreateModal
+    playlistCreateModal,
+    spinnerService
 
   ) {
     var vm = angular.extend(this, {
@@ -103,10 +105,12 @@
     }
     function importRefresh(playlistArray) {
       vm.busy = true;
+      spinnerService.spinnerOn();
       contextMenuDisable();
       playlistService.asyncImportPlaylist(playlistArray)
         .then(function (result) {
           vm.busy = false;
+          spinnerService.spinnerOff();
           contextMenuEnable();
           onNewSearch("");
         });
