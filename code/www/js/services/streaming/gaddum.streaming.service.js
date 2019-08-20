@@ -35,29 +35,29 @@
 
     service.handlePause = function handlePause() {
       gaddumMusicProviderService.asyncPauseCurrentTrack().then(
-        function(okay){console.log("handlePause - got ",okay)},
-        function(err) {console.log("handlePause - ERROR ",err)}
+        function(okay){console.log("handlePause - got ",okay);},
+        function(err) {console.log("handlePause - ERROR ",err);}
       );
     };
 
     service.handlePlay = function handlePlay() {
       gaddumMusicProviderService.asyncPlayCurrentTrack().then(
-        function(okay){ console.log("handlePlay - got ",okay) },
-        function(err) { console.log("handlePlay - ERROR ",err) }
+        function(okay){ console.log("handlePlay - got ",okay); },
+        function(err) { console.log("handlePlay - ERROR ",err); }
       );
     };
 
     service.handleBackPress = function handleBackPress() {
       intelligentTrackSelector.asyncPrev().then(
-        function(okay){ console.log("handlePrev - got ",okay) },
-        function(err) { console.log("handlePrev - ERROR ",err) }
+        function(okay){ console.log("handlePrev - got ",okay); },
+        function(err) { console.log("handlePrev - ERROR ",err); }
       );
     };
 
     service.handlePrev = function handleNextPress() {
       intelligentTrackSelector.asyncNext().then(
-        function(okay){ console.log("handleNext - got ",okay) },
-        function(err) { console.log("handleNext - ERROR ",err) }
+        function(okay){ console.log("handleNext - got ",okay); },
+        function(err) { console.log("handleNext - ERROR ",err); }
       );
     };
 
@@ -73,11 +73,10 @@
         return gaddumMusicProviderService.musicProviderIdentifier;
       },
       function valueL(newV, oldV) {
-        console.log("⏯ state: "+String(newV));
+        console.log("⏯ state: "+String(newV)+","+String(oldV) );
         service.state.show = ( angular.isDefined(newV) && ( newV ) );
       }
     );
-
 
     service.init();
 
@@ -92,7 +91,7 @@
       $rootScope.$broadcast('player:ready',service.state.ready);
       console.log("READYTOGGLE");
     },5000,50, true );*/
-/*    */
+
     return service;
 
   }
