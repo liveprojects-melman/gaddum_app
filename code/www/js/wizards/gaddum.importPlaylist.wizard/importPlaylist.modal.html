@@ -28,7 +28,8 @@
           </ion-item>
         </ion-list>
       </ion-content>
-      <button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button">{{mc.Importtext}}</button>
+      <button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button button-balanced">{{mc.Importtext}}</button>
+      <button ng-hide="mc.importButtonHide" ng-click="mc.close()" class="playlistImportButtonCancel button button-assertive">Cancel</button>
       <ion-spinner class="playlistImportButtonSpinner" ng-hide="!mc.importButtonHide" paused="true" name="circles"></ion-spinner>
     </div>
 

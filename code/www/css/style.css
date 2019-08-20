@@ -1477,13 +1477,21 @@ div#scroller.ng-hide {
       height: 90px;
   }
   .playlistImportButton{
-      bottom:5px;
-      left:2.5%;
-      width: 95%;
-      height: 8%;
-      min-height: 20px;
-      position:absolute;
-  }
+    bottom:5px;
+    right:2.5%;
+    width: 45%;
+    height: 9%;
+    min-height: 20px;
+    position:absolute;
+}
+.playlistImportButtonCancel{
+  bottom:5px;
+  left:2.5%;
+  width: 45%;
+  height: 9%;
+  min-height: 20px;
+  position:absolute;
+}
   .playlistImportButtonSpinner{
       height: 25px;
       width: 25px;

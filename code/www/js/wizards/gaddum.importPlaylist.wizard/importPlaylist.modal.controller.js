@@ -107,6 +107,10 @@
       importPlaylistWizard.callback(importArray);
       
     }
+    function close(){
+      importPlaylistWizard.close();
+    }
+    mc.close = close;
     mc.more = more;
     mc.importPlaylists = importPlaylists;
     mc.playlistSelected = playlistSelected;
