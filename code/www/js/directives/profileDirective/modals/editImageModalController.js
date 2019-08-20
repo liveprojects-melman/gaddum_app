@@ -325,7 +325,7 @@
       console.log("this is the save");
       saveHash();
       //console.log("Returning img in callback",encodedImg);
-      editImageModal.imgUpdate(encodedImg, vm.colours[vm.colourChoice][1]);
+      editImageModal.imgUpdate(encodedImg, colours[vm.colourChoice][1]);
       editImageModal.close();
       /*
               var save_canvas = document.createElement('canvas');
@@ -491,6 +491,8 @@
       if ((event.target == canvas_grid) && (event.cancellable === true)) {
         event.preventDefault();
       }
+      saveHash();
+      editImageModal.imgUpdate(encodedImg, colours[vm.colourChoice][1]);
     };
 
     var getScaledPosition = function getScaledPosition(canvas, evt) {
@@ -563,6 +565,8 @@
           destination_canvas.width / canvas_wh[0],
           destination_canvas.height / canvas_wh[1]);
       }
+      /* saveHash();
+      editImageModal.imgUpdate(encodedImg, colours[vm.colourChoice][1]); */
     };
   }
 })();

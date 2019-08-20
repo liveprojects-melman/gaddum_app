@@ -57,7 +57,7 @@
                     $timeout(function(){
                         modalSave.remove();
                         modalSave = null;
-                        $scope.fnCallbackCancel(encodedImage);
+                        $scope.fnCallbackOk(encodedImage);
                     },500);
                 }
             }
@@ -70,7 +70,7 @@
         }
 
         function callback(newData){
-            $scope.fnCallbackOk(newData);
+            $scope.fnCallbackOk(encodedImage);
         }
 
         function imgUpdate(modalImage,modalColor){
@@ -78,7 +78,8 @@
         }
 
         function cancel(){
-            $scope.fnCallbackCancel();
+            $scope.fnCallbackOk(encodedImage);
+            //$scope.fnCallbackCancel();
         }
         function getEncodedImage(){
             return encodedImage;
