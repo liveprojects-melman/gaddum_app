@@ -72,7 +72,7 @@
         return gaddumMusicProviderService.musicProviderIdentifier;
       },
       function valueL(newV, oldV) {
-        gpc.state.show = newV!=false;
+        service.state.show = newV !== false;
       }
     );
 
