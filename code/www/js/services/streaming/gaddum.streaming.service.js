@@ -74,13 +74,13 @@
     service.areWeLoggedIn = function(){
       gaddumMusicProviderService.asyncIsLoggedIn().then(
         function asyncIsLoggedInYes(response){
-          console.log("⏯ - logged in,", response);
+//          console.log("⏯ - logged in,", response);
           service.state.show = true;
           $rootScope.$broadcast('player:ready',service.state.show);
           $timeout(service.areWeLoggedIn,1000);
         },
         function asyncIsLoggedInNo(err){
-          console.log("⏯ - logged out,", err);
+//          console.log("⏯ - logged out,", err);
           service.state.show = false;
           $rootScope.$broadcast('player:ready',service.state.show);
           $timeout(service.areWeLoggedIn,1000);
