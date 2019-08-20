@@ -19,7 +19,7 @@
     $scope
   ) {
     var gpc = { };
-    gpc.state = gaddumStreamingService.state;
+    gpc.show = false;
     gpc.marquee = {
       "songtitle": gaddumStreamingService.song.title,
       "artistname": gaddumStreamingService.song.artist
@@ -58,6 +58,11 @@
       );
 
     };
+
+    $scope.$on('player:ready',function(event,data) {
+      console.log("gaddum.player - ready = ",data);
+      gpc.show = data?true:false;
+    });
 
     return gpc;
   }
