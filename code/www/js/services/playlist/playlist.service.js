@@ -12,7 +12,8 @@
     'GenericTrack',
     '$q',
     'gaddumMusicProviderService',
-    '$timeout'
+    '$timeout',
+    'userProfilerService'
   ];
   function playlistService(
     dataApiService,
@@ -20,7 +21,9 @@
     GenericTrack,
     $q,
     gaddumMusicProviderService,
-    $timeout
+    $timeout,
+    userProfilerService
+
   ) {
     var isBusy = false;
     function getIsBusy() {
@@ -75,7 +78,7 @@
         function () {
 
           if (moodedPlaylists) {
-
+            userProfilerService.loader.loadMoodedPlaylists(moodedPlaylists);
 
             deferred.resolve();
 
@@ -93,31 +96,8 @@
 
     }
 
-    function asyncMakeTrackStatement(StatCrit) {
-
-      var deferred = $q.defer();
-      console.log("asyncMakeTrackStatement StatCrit:", StatCrit);
-      $timeout(
-
-        function () {
-
-          if (StatCrit) {
-
-            // TODO: Mr Cooper 
-            deferred.resolve();
-
-          } else {
-            deferred.reject();
-          }
-
-
-        }
-
-      );
-
-
-      return deferred.promise;
-
+    function asyncMakeTrackStatement(statementCriteria) {
+      return userProfilerService.statement.asyncApplyStatement(statementCriteria);
     }
 
 

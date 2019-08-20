@@ -12,7 +12,8 @@
         'MoodedPlaylist',
         'StatementCriteria',
         'dataApiService',
-        '$timeout'
+        '$timeout',
+        'observerService'
 
     ];
 
@@ -22,7 +23,9 @@
         MoodedPlaylist,
         StatementCriteria,
         dataApiService,
-        $timeout
+        $timeout,
+        observerService
+
     ) {
 
         var SETTINGS = {
@@ -112,7 +115,19 @@
 
         // --- Statement
 
-        function asyncApplyStatement() {
+        function asyncApplyStatement(statementCriteria) {
+            var mood = null;
+            var genericTrack = null;
+            try{
+                mood = statementCriteria.getMood();
+                genericTrack = statementCriteria.getGenericTrack();
+            }catch(e){
+                throw("asyncApplyStatement: unexpected parameters: needs a MoodIdentifier and a GenericTrack.");
+            }
+            
+
+            return observerService.asyncCreateObservation(mood, true, 0, 0, genericTrack);
+
         }
 
         var service = {

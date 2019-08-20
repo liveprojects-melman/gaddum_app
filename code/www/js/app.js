@@ -43,7 +43,11 @@ angular.module('gaddum', [
   'playlistViewModule',
   'playlistEditModule',
   'gaddum.playlistDirective',
+  'gaddum.location',
+  'gaddum.postcode',
+  'gaddum.observer',
   'gaddum.intelligenttrackselector',
+  'gaddum.userprofiler',
   'playlistCreateModule'
 
 ])
