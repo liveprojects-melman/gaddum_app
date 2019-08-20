@@ -73,6 +73,7 @@
         return gaddumMusicProviderService.musicProviderIdentifier;
       },
       function valueL(newV, oldV) {
+        console.log("⏯ state: "+String(newV));
         service.state.show = newV !== false;
       }
     );
