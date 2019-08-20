@@ -44,7 +44,8 @@ angular.module('gaddum', [
   'playlistEditModule',
   'gaddum.playlistDirective',
   'gaddum.intelligenttrackselector',
-  'playlistCreateModule'
+  'playlistCreateModule',
+  'gaddum.spinner'
 
 ])
   .run([
