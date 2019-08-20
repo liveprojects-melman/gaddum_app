@@ -1751,7 +1751,8 @@ div#scroller.ng-hide {
     position: relative;
     left: 0%;
     /* top: 40%; */
-    width: 41%;
+    width: 42%;
+    margin-top: 4px;
 }
 .playlistViewButton{
     width: 25%;
