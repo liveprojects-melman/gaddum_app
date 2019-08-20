@@ -274,7 +274,7 @@
 
     vm.searchPlaylists = function () {
       var searchTerm = document.getElementById("searchPlaylistsBox").value;
-
+      $('#searchPlaylistsBox').blur();
       onNewSearch(searchTerm);
 
     };

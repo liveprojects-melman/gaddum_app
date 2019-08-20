@@ -87,6 +87,7 @@
     function search(){
       gaddumShortcutBarService.disableContext();
       bm.moreTrackCheck = false;
+      $('#searchBox').blur();
       bm.searchingType = [];
       bm.page = 0;
       bm.searching = true;
