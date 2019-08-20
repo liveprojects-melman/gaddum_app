@@ -1017,8 +1017,8 @@ input::placeholder{
   white-space: nowrap;
   text-overflow: ellipsis;
   margin: 0%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   position: relative;
   top: 13%;
   border-color: transparent;

@@ -52,12 +52,13 @@
             return parmeter;
         }
         function close() {
+            $scope.fnCallbackOk(encodedImage);
             if (modalSave){
-                if(!modalSave._isShown){
+                if(modalSave._isShown){
                     $timeout(function(){
                         modalSave.remove();
                         modalSave = null;
-                        $scope.fnCallbackOk(encodedImage);
+                        
                     },500);
                 }
             }
