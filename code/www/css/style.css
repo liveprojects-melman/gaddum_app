@@ -999,6 +999,9 @@ input::placeholder{
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      position: absolute;
+      top: 0%;
+      left: 0%;
   }
 #genreStatic{
     width: calc( 100% - 80px );
