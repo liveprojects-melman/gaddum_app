@@ -9,15 +9,17 @@
     '$http',
     '$rootScope',
     'gaddumMusicProviderService',
-//    'intelligentTrackSelector',
-    '$interval' // testing only
+    //    'intelligentTrackSelector',
+    '$timeout'
+    //'$interval' // testing only
   ];
   function gaddumStreamingService(
     $http,
     $rootScope,
     gaddumMusicProviderService,
 //    intelligentTrackSelector,
-    $interval
+    $timeout
+    //$interval
   ) {
     var service = {
       state: {
@@ -66,18 +68,32 @@
     service.init = function init() {
       service.state.ready = false;
       service.state.playing = false;
-      service.state.show = true; // @todo until I can work out how to tell if we are logged into anything or not
+      service.areWeLoggedIn();
     };
 
-    $rootScope.$watch(
+/*    $rootScope.$watch(
       function valueF(gaddumMusicProviderService){
         return gaddumMusicProviderService.musicProviderIdentifier;
       },
       function valueL(newV, oldV) {
-        console.log("⏯ state: "+String(newV)+","+String(oldV) );
+      console.log("⏯ state: "+String(newV)+","+String(oldV) );
         service.state.show = ( angular.isDefined(newV) && ( newV ) );
       }
-    );
+      );*/
+    service.areWeLoggedIn = function(){
+      gaddumMusicProviderService.asyncIsLoggedIn().then(
+        function asyncIsLoggedInYes(response){
+          console.log("⏯ - logged in,", response);
+          service.state.ready = true;
+          $timeout(service.areWeLoggedIn,1000);
+        },
+        function asyncIsLoggedInNo(err){
+          console.log("⏯ - logged out,", err);
+          service.state.ready = false;
+          $timeout(service.areWeLoggedIn,1000);
+        }
+      );
+    };
 
     service.init();
 
