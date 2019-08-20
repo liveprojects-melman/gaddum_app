@@ -136,7 +136,9 @@
     
   }
   function fnCallbackAddToPlaylistCancel(){
-    console.log("modal canceled");
+    playlistService.asyncGetPlaylistTracks(vm.params.playlist).then(function (tracks) {
+      vm.params.tracks = tracks;
+    });
   }
   function asyncMakeTrackStatement(track){
     currentTrack = track;

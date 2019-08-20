@@ -75,6 +75,9 @@
 
       if(!ac.selectedNamedIdentifier){
         ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
+        // ac.loginEnabled = true;
+      }
+      else{
         ac.loginEnabled = true;
       }
       

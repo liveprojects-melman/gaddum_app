@@ -528,6 +528,10 @@ input::placeholder{
     height:20%;
 
 }
+.playlistEditList > .item-content{
+    padding-left: 0;
+    margin-left: 10%;
+}
 
 .moodEmoji{
     text-align: center;
@@ -980,7 +984,7 @@ input::placeholder{
 
   .qrdiv{
     position: absolute;
-    top: 20%;  
+    top: 22%;  
     text-align: center;
     width: 100%;
     height: 70%;
@@ -1013,10 +1017,11 @@ input::placeholder{
   white-space: nowrap;
   text-overflow: ellipsis;
   margin: 0%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   position: relative;
   top: 13%;
+  border-color: transparent;
 
 }
 #rerollNameBtn{
@@ -1091,6 +1096,7 @@ margin:10px;
     background-color: white;
     color: black;
     text-align: center;
+    height: 44px;
   }
   .shortcutBarShare{
     position: absolute;
@@ -1471,13 +1477,21 @@ div#scroller.ng-hide {
       height: 90px;
   }
   .playlistImportButton{
-      bottom:5px;
-      left:2.5%;
-      width: 95%;
-      height: 8%;
-      min-height: 20px;
-      position:absolute;
-  }
+    bottom:5px;
+    right:2.5%;
+    width: 45%;
+    height: 9%;
+    min-height: 20px;
+    position:absolute;
+}
+.playlistImportButtonCancel{
+  bottom:5px;
+  left:2.5%;
+  width: 45%;
+  height: 9%;
+  min-height: 20px;
+  position:absolute;
+}
   .playlistImportButtonSpinner{
       height: 25px;
       width: 25px;
@@ -1532,6 +1546,7 @@ div#scroller.ng-hide {
 }
 .playlistNameText{
     padding-left:90px;
+    padding-top: 5px;
     font-weight: 700 !important;
     color:black;
     display: inline-block;
@@ -1562,12 +1577,12 @@ div#scroller.ng-hide {
     position: absolute;
 }
 .addToPlaylistButtonCenter{
-    right: 33%;
+    right: 40%;
     bottom: 5px;
     position: absolute;
 }
 .addToPlaylistButtonCenterTwo{
-    right: 28%;
+    right: 34%;
     bottom: 5px;
     position: absolute;
 }
@@ -1746,7 +1761,8 @@ div#scroller.ng-hide {
     position: relative;
     left: 0%;
     /* top: 40%; */
-    width: 41%;
+    width: 42%;
+    margin-top: 4px;
 }
 .playlistViewButton{
     width: 25%;
@@ -1822,4 +1838,9 @@ div#scroller.ng-hide {
     left: 0;
     width: 100%;
     height: 100%;
+}
+#closeQRModalButton{
+    position: absolute;
+    right: 0;
+    top: 0;
 }

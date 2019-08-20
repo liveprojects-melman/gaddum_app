@@ -14,12 +14,10 @@
             ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"
             ng-click="mc.playlistSelected($index)">
             <img src="{{playlist.artwork}}" ng-click="mc.playlistSelected($index)" class="playlistArt">
-            <h2 class="playlistNameText">{{playlist.name}}</h2>
+            <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
             <input class="playlistCheckbox " type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)"></input>
 
-
-
-            <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
+            <h2 class="playlistNameText">{{playlist.name}}</h2>
 
           </ion-item>
           <ion-item ng-click="mc.more()" ng-hide="mc.hideMore">
@@ -28,7 +26,8 @@
           </ion-item>
         </ion-list>
       </ion-content>
-      <button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button">{{mc.Importtext}}</button>
+      <button ng-hide="mc.importButtonHide" ng-click="mc.importPlaylists()" ng-disabled="!mc.itemSelected" class="playlistImportButton button button-balanced">{{mc.Importtext}}</button>
+      <button ng-hide="mc.importButtonHide" ng-click="mc.close()" class="playlistImportButtonCancel button button-assertive">Cancel</button>
       <ion-spinner class="playlistImportButtonSpinner" ng-hide="!mc.importButtonHide" paused="true" name="circles"></ion-spinner>
     </div>
 

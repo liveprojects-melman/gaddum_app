@@ -18,6 +18,7 @@
       var modalSave = null;
       var parmeter = null;
       var closeCheck = null;
+      var cancelCheck=false;
 
       var myModal = {
         open: open,
@@ -32,6 +33,7 @@
       function open(params, fnCallbackOk, fnCallbackCancel) {
         var service = this;
         closeCheck=true;
+        cancelCheck=true;
         parmeter = params;
         $scope.fnCallbackOk = fnCallbackOk;
         $scope.fnCallbackCancel=fnCallbackCancel;
@@ -57,7 +59,10 @@
                   $timeout(function(){
                     modalSave.remove();
                     modalSave = null;
-                    $scope.fnCallbackCancel();
+                    if (cancelCheck) {
+                      $scope.fnCallbackCancel();
+                    }
+                    
                 },500);
                 }
             }
@@ -74,10 +79,12 @@
 
         function callback(newData){
             $scope.fnCallbackOk(newData);
+            cancelCheck=false;
         }
 
         function cancel(){
             $scope.fnCallbackCancel();
+            cancelCheck=false;
         }
     }
 })();

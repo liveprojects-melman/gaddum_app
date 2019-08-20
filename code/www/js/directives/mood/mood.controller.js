@@ -81,6 +81,7 @@
 
     function updateDisplay(moodId) {
       if (moodId) {
+        // console.log("mood",moodId,"moodDict",moodIdDict,"mooddis",vm.moodDisplay);
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
