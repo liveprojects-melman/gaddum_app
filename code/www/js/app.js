@@ -14,6 +14,7 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
+  'ng-fi-text',
   'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
