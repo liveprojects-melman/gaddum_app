@@ -14,12 +14,10 @@
             ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"
             ng-click="mc.playlistSelected($index)">
             <img src="{{playlist.artwork}}" ng-click="mc.playlistSelected($index)" class="playlistArt">
-            <h2 class="playlistNameText">{{playlist.name}}</h2>
+            <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
             <input class="playlistCheckbox " type="checkbox" ng-model="playlist.value" ng-change="mc.playlistSelected($index)"></input>
 
-
-
-            <h2 class="playlistDisplayName">{{playlist.display_name}}</h2>
+            <h2 class="playlistNameText">{{playlist.name}}</h2>
 
           </ion-item>
           <ion-item ng-click="mc.more()" ng-hide="mc.hideMore">
