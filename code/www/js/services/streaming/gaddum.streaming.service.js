@@ -47,7 +47,7 @@
         function(okay){ console.log("handlePlay - got ",okay); },
         function(err) { console.log("handlePlay - ERROR ",err); }
       );
-    };
+   };
 
     service.handleBackPress = function handleBackPress() {
       intelligentTrackSelector.asyncPrev().then(
@@ -71,25 +71,18 @@
       service.areWeLoggedIn();
     };
 
-/*    $rootScope.$watch(
-      function valueF(gaddumMusicProviderService){
-        return gaddumMusicProviderService.musicProviderIdentifier;
-      },
-      function valueL(newV, oldV) {
-      console.log("⏯ state: "+String(newV)+","+String(oldV) );
-        service.state.show = ( angular.isDefined(newV) && ( newV ) );
-      }
-      );*/
     service.areWeLoggedIn = function(){
       gaddumMusicProviderService.asyncIsLoggedIn().then(
         function asyncIsLoggedInYes(response){
           console.log("⏯ - logged in,", response);
           service.state.show = true;
+          $rootScope.$broadcast('player:ready',service.state.show);
           $timeout(service.areWeLoggedIn,1000);
         },
         function asyncIsLoggedInNo(err){
           console.log("⏯ - logged out,", err);
           service.state.show = false;
+          $rootScope.$broadcast('player:ready',service.state.show);
           $timeout(service.areWeLoggedIn,1000);
         }
       );

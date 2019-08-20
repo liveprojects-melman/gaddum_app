@@ -1278,7 +1278,6 @@ gaddum.player {
   margin: 0 -5px 4px;
   border-radius: 8px;
   bottom:50px !important;
-  xheight:6rem;
 }
 div#scroller {
   display:inline-block;
