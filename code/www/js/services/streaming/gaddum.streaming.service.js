@@ -66,6 +66,7 @@
     service.init = function init() {
       service.state.ready = false;
       service.state.playing = false;
+      service.state.show = true; // @todo until I can work out how to tell if we are logged into anything or not
     };
 
     $rootScope.$watch(
