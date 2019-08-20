@@ -70,6 +70,7 @@
                 if(!modalSave._isShown){
                     $timeout(function(){
                         modalSave.remove();
+                        modalSave = null;
                     },500);
                 }
             }

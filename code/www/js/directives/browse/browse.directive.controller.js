@@ -20,6 +20,7 @@
     'gaddumShortcutBarService',
     'gaddumContextMenuItem',
     'playlistService',
+    'spinnerService',
 
     'friendsService',
     '$ionicModal',
@@ -43,6 +44,7 @@
     gaddumShortcutBarService,
     gaddumContextMenuItem,
     playlistService,
+    spinnerService,
 
     browseService,
     $ionicModal,
@@ -92,6 +94,7 @@
         bm.searchingType = [];
         bm.page = 0;
         bm.searching = true;
+        spinnerService.spinnerOn();
         bm.searchBrowse = [];
         bm.searchType.forEach(function (type) {
           if (type.value) {
@@ -115,6 +118,7 @@
           bm.lastType = bm.searchingType;
           bm.sList = true;
           bm.searching = false;
+          spinnerService.spinnerOff();
           result.forEach(function (element) {
             bm.searchBrowse.push(element);
           });
@@ -125,6 +129,7 @@
           bm.sList = false;
           bm.moreTrackCheck = true;
           bm.searching = false;
+          spinnerService.spinnerOff();
           console.log(er);
         });
       }
@@ -160,10 +165,12 @@
 
     function moreTracks() {
       bm.searching = true;
+      spinnerService.spinnerOn();
       bm.page = bm.page + 1;
       gaddumMusicProviderService.asyncSeekTracks(bm.lastSeek, bm.lastType, 10, bm.page).then(function (result) {
         bm.sList = true;
         bm.searching = false;
+        spinnerService.spinnerOff();
         result.forEach(function (element) {
           bm.searchBrowse.push(element);
         });
@@ -172,6 +179,7 @@
       }).catch(function (er) {
         bm.sList = true;
         bm.searching = false;
+        spinnerService.spinnerOff();
         bm.moreTrackCheck = true;
         console.log(er);
       });

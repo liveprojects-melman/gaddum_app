@@ -93,7 +93,7 @@
           );
         },
         deferred.reject
-        
+
         );
 
 
@@ -123,7 +123,6 @@
               }
               ,
                 deferred.reject
-              
             );
           }
         }

@@ -182,7 +182,7 @@
         newGenres = vm.params[1].userGenres;
         vm.genresAsString=vm.params[1].userGenres.join(", ");
         if (vm.genresAsString==="") {
-          vm.genresAsString="No Music";
+          vm.genresAsString="No Genres Chosen";
         }
       }
       genresCheck()
@@ -190,7 +190,7 @@
     function genresCheck(){
       if (vm.genresAsString==null||vm.genresAsString==="") {
 //        console.log("!!");
-        vm.genresAsString="No Music";
+        vm.genresAsString="No Genres Chosen";
       }
       testGenresButton();
     };
