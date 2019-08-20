@@ -21,6 +21,7 @@
   ) {
     var service = {
       state: {
+        show: false,
         ready: false,
         playing: false
       },
