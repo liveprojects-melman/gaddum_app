@@ -1002,7 +1002,18 @@ input::placeholder{
       position: absolute;
       top: 0%;
       left: 0%;
+      height: 10%;
   }
+    #scaleProfileName {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        min-height:2rem;
+        min-width:600px;
+        width:100%;
+        background-color: #c0ffee;
+
+    }
 #genreStatic{
     width: calc( 100% - 80px );
     
@@ -1645,7 +1656,7 @@ div#scroller.ng-hide {
     height: 10%;
     margin: 0;
     position: absolute;
-    top: 0%;
+    top: 3%;
 }
 #profileEditModalRerollNameDiv{
     position: absolute;
