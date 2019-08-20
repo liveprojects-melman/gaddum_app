@@ -7,86 +7,102 @@
     .module('gaddum.playlists')
     .controller('addToPlaylistModalController', addToPlaylistModalController);
 
-    addToPlaylistModalController.$inject = [
-      'addToPlaylistWizard',
-      '$scope',
-      '$timeout',
-      '$q',
-      'playlistService',
-      'GenericTrack'
+  addToPlaylistModalController.$inject = [
+    'addToPlaylistWizard',
+    '$scope',
+    '$timeout',
+    '$q',
+    'playlistService',
+    'GenericTrack',
+    'playlistCreateModal'
 
   ];
-  
+
   function addToPlaylistModalController(
     addToPlaylistWizard,
     $scope,
     $timeout,
     $q,
     playlistService,
-    GenericTrack
+    GenericTrack,
+    playlistCreateModal
   ) {
     var mc = angular.extend(this, {
-      itemSelected:false,
+      itemSelected: false,
       emotionSelected: ''
     });
-    $scope.addToPlaylistWizard=addToPlaylistWizard;
+    $scope.addToPlaylistWizard = addToPlaylistWizard;
     function init() {
-      
+
       mc.state = true;
-      mc.displayArray=[];
-      mc.params =addToPlaylistWizard.getParams();
+      mc.displayArray = [];
+      mc.params = addToPlaylistWizard.getParams();
       console.log(mc.params);
-      playlistService.asyncSeekPlaylists("").then(function(result){
+      playlistService.asyncSeekPlaylists("").then(function (result) {
         mc.playlistArray = result;
-        mc.playlistArray.forEach(function(element){
-          mc.displayArray.push({name:element.getName(),value:false});
+        mc.playlistArray.forEach(function (element) {
+          mc.displayArray.push({ name: element.getName(), value: false });
         });
       });
-      
-    }
-    init();
-    function close(){
-      addToPlaylistWizard.close();
-    }
-    function createPlaylist(){
 
     }
-    function changeState(){
+    init();
+    function close() {
+      addToPlaylistWizard.close();
+    }
+    function createPlaylist() {
+      playlistCreateModal.open(null, createRefresh, null);
+    }
+    function createRefresh(name) {
+      if (name) {
+        playlistService.asyncCreatePlaylist(name).then(function (result) {
+          playlistService.asyncSeekPlaylists("").then(function (result) {
+            mc.playlistArray = result;
+            mc.displayArray= [];
+            mc.playlistArray.forEach(function (element) {
+              mc.displayArray.push({ name: element.getName(), value: false });
+            });
+          });
+        });
+      }
+
+    }
+    function changeState() {
       mc.state = !mc.state;
     }
-    function add(){
+    function add() {
       var count = 0;
-      var playlists=[];
-      mc.displayArray.forEach(function(element){
-        if(element.value){
+      var playlists = [];
+      mc.displayArray.forEach(function (element) {
+        if (element.value) {
           playlists.push(mc.playlistArray[count]);
         }
         count++;
-        
+
       });
-      playlists.forEach(function(playlist){
-        playlistService.asyncGetPlaylistTracks(playlist).then(function(result){
+      playlists.forEach(function (playlist) {
+        playlistService.asyncGetPlaylistTracks(playlist).then(function (result) {
           //give trackInfo(mc.params) to spotify service
           var trackGen = mc.params;
-          trackGen.forEach(function(track){
+          trackGen.forEach(function (track) {
             result.push(track);
           });
-          console.log("playlist:", playlist,"tracks:",result);
-          playlistService.asyncSetPlaylistTracks(playlist,result).then(function(result){
+          console.log("playlist:", playlist, "tracks:", result);
+          playlistService.asyncSetPlaylistTracks(playlist, result).then(function (result) {
             addToPlaylistWizard.close();
           });
         });
-        
+
       });
     }
-    function playlistSelected(index){
+    function playlistSelected(index) {
       mc.displayArray[index].value = !mc.displayArray[index].value;
     }
     mc.playlistSelected = playlistSelected;
     mc.add = add;
-    mc.close=close;
-    mc.createPlaylist= createPlaylist;
-    mc.changeState=changeState;
+    mc.close = close;
+    mc.createPlaylist = createPlaylist;
+    mc.changeState = changeState;
 
   }
 })();
