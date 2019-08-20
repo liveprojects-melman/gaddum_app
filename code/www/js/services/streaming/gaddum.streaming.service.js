@@ -74,7 +74,7 @@
       },
       function valueL(newV, oldV) {
         console.log("⏯ state: "+String(newV));
-        service.state.show = newV !== false;
+        service.state.show = ( angular.isDefined(newV) && ( newV ) );
       }
     );
 
