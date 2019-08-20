@@ -919,6 +919,7 @@ input::placeholder{
     margin-top: 10px !important;
     height: 1.5rem;
     width: 1.5rem;
+    display: inline-block;
 }
 .settingsCheckbox{
     float: right;
@@ -1541,17 +1542,24 @@ div#scroller.ng-hide {
     left: 29%;
 }
 .playlistDisplayName{
-    padding-left:90px;
+    padding-left: 90px;
+    padding-top: 15px;
     font-size: 12px !important;
     color: darkslategray;
+    width: 100%;
+    display: inline;
+    position: absolute;
 }
 .playlistNameText{
-    padding-left:90px;
-    padding-top: 5px;
+    padding-top: 45px;
     font-weight: 700 !important;
-    color:black;
+    left: 90px;
+    bottom: 5px;
+    color: black;
     display: inline-block;
-    width: 100%;
+    width: 70%;
+    position: absolute;
+    white-space: normal !important;
 }
 .playlistArt{
     width:80px; 
