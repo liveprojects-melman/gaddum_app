@@ -1026,10 +1026,11 @@ input::placeholder{
 }
 #rerollNameBtn{
     position: absolute;
-    right: 0%;
-    width: 30%;
+    right: 6%;
+    width: 17%;
     height: 8%!important;
-    top: 13%;
+    top: 16%;
+    min-width: 0%!important;
 }
 #genreslist{
   /* position: relative; */
