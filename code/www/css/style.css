@@ -1021,6 +1021,7 @@ input::placeholder{
   padding-bottom: 10px;
   position: relative;
   top: 13%;
+  border-color: transparent;
 
 }
 #rerollNameBtn{
