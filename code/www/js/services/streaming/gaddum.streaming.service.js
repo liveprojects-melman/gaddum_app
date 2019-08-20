@@ -63,9 +63,19 @@
     ///
 
     service.init = function init() {
-      service.state.ready = true;
+      service.state.ready = false;
       service.state.playing = false;
     };
+
+    $rootScope.$watch(
+      function valueF(gaddumMusicProviderService){
+        return gaddumMusicProviderService.musicProviderIdentifier;
+      },
+      function valueL(newV, oldV) {
+        gpc.state.show = newV!=false;
+      }
+    );
+
 
     service.init();
 
