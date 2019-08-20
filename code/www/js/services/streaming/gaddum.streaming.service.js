@@ -84,12 +84,12 @@
       gaddumMusicProviderService.asyncIsLoggedIn().then(
         function asyncIsLoggedInYes(response){
           console.log("⏯ - logged in,", response);
-          service.state.ready = true;
+          service.state.show = true;
           $timeout(service.areWeLoggedIn,1000);
         },
         function asyncIsLoggedInNo(err){
           console.log("⏯ - logged out,", err);
-          service.state.ready = false;
+          service.state.show = false;
           $timeout(service.areWeLoggedIn,1000);
         }
       );
