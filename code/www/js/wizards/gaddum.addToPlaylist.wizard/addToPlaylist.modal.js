@@ -61,6 +61,8 @@
                 if(!modalSave._isShown){
                     $timeout(function(){
                         modalSave.remove();
+                        modalSave = null;
+                        $scope.fnCallbackCancel();
                     },500);
                 }
             }

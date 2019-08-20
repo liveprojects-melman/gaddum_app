@@ -26,6 +26,8 @@
     $scope.playlistEditModal = playlistEditModal;
     function init() {
       vm.params = playlistEditModal.getParams();
+      vm.showDelete=true;
+      vm.showReorder=true;
       console.log("params22!",vm.params);
     };
     init();

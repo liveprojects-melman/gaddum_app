@@ -528,6 +528,10 @@ input::placeholder{
     height:20%;
 
 }
+.playlistEditList > .item-content{
+    padding-left: 0;
+    margin-left: 10%;
+}
 
 .moodEmoji{
     text-align: center;
@@ -1563,12 +1567,12 @@ div#scroller.ng-hide {
     position: absolute;
 }
 .addToPlaylistButtonCenter{
-    right: 33%;
+    right: 40%;
     bottom: 5px;
     position: absolute;
 }
 .addToPlaylistButtonCenterTwo{
-    right: 28%;
+    right: 34%;
     bottom: 5px;
     position: absolute;
 }

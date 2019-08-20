@@ -18,9 +18,11 @@
         </ion-item>
       </ion-list>
     </ion-content>
-    <button ng-click="mc.close()" class="button addToPlaylistButtonLeft">Cancel</button>
-    <button ng-click="mc.createPlaylist()" class="button button-calm addToPlaylistButtonCenter">New</button>
-    <button ng-click="mc.changeState()" class="button button-balanced addToPlaylistButtonRight">Next</button>
+    <ion-footer-bar>
+      <button ng-click="mc.close()" class="button addToPlaylistButtonLeft">Cancel</button>
+      <button ng-click="mc.createPlaylist()" class="button button-calm addToPlaylistButtonCenter">New</button>
+      <button ng-click="mc.changeState()" class="button button-balanced addToPlaylistButtonRight">Next</button>
+    </ion-footer-bar>
   </ion-content>
 
   <ion-content ng-hide="mc.state" class="howAreYouModal">
@@ -33,8 +35,10 @@
       <p class="addToPlaylistText">You're going to add to a playlist.</p>
       <p class="addToPlaylistText">Are You Sure?</p>
     </div>
-    <button ng-click="mc.changeState()" class="button button-calm addToPlaylistButtonLeft">Previous</button>
-    <button ng-click="mc.close()" class="button addToPlaylistButtonCenterTwo">Cancel</button>
-    <button ng-click="mc.add()" class="button button-balanced addToPlaylistButtonRight">Add</button>
+    <ion-footer-bar>
+      <button ng-click="mc.changeState()" class="button button-calm addToPlaylistButtonLeft">Previous</button>
+      <button ng-click="mc.close()" class="button addToPlaylistButtonCenterTwo">Cancel</button>
+      <button ng-click="mc.add()" class="button button-balanced addToPlaylistButtonRight">Add</button>
+    </ion-footer-bar>
   </ion-content>
 </div>
