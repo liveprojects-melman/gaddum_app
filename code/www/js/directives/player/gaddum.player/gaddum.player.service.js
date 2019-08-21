@@ -38,7 +38,7 @@
     //      playerService calls userProfilerService.player.asyncNext
     //      if userProfilerService returns a genericTrack object.
     //          playerService calls gaddumMusicProviderService.setTrack() with the genericTrack, **as above**
-    //      if userProfileObject returns null
+    //      if userProfileService returns null
     //          playerService broadcasts a PLAYLIST_END event
     // otherwise, playerService re-broacasts all events to listener. 
     // 
@@ -86,10 +86,38 @@
             var deferred = $q.defer();
             userProfilerService.player.asyncNext().then(
                 function onTrack(genericTrack) {
-                    gaddumMusicProviderService.setTrack(genericTrack).then(
-                        deferred.resolve,
-                        deferred.reject
-                    );
+                    if(genericTrack){
+                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                            deferred.resolve,
+                            deferred.reject
+                        );
+                    }else{
+                        asyncBroadcastEvent(EventIndicator.PLAYLIST_END,null).then(
+                            deferred.resolve,
+                            deferred.reject
+                        )
+                    }
+                },
+                deferred.reject
+            );
+            return deferred.promise;
+        }
+
+        function asyncDoSkipPrev() {
+            var deferred = $q.defer();
+            userProfilerService.player.asyncPrev().then(
+                function onTrack(genericTrack) {
+                    if(genericTrack){
+                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                            deferred.resolve,
+                            deferred.reject
+                        );
+                    }else{
+                        asyncBroadcastEvent(EventIndicator.PLAYLIST_NEW,null).then(
+                            deferred.resolve,
+                            deferred.reject
+                        )
+                    }
                 },
                 deferred.reject
             );
@@ -166,49 +194,17 @@
 
         function asyncControlSkipPrev() {
             console.log("control Skip Next.");
-            var deferred = $q.defer();
-
-            userProfilerService.player.asyncPrev().then(
-                function onTrack(genericTrack) {
-                    gaddumMusicProviderService.setTrack(genericTrack).then(
-                        deferred.resolve,
-                        deferred.reject
-                    );
-                },
-                deferred.reject
-            );
-
-
-            return deferred.promise;
+            return asyncDoSkipPrev();
         }
 
         function asyncControlPlay() {
             console.log("control Play.");
-            var deferred = $q.defer();
-
-            $timeout(
-                function () {
-
-                    deferred.resolve();
-                }
-            );
-
-            return deferred.promise;
+            return gaddumMusicProviderService.asyncPlayCurrentTrack();
         }
 
         function asyncControlPause() {
             console.log("control Pause.");
-            var deferred = $q.defer();
-
-            $timeout(
-                function () {
-
-                    deferred.resolve();
-                }
-            );
-
-
-            return deferred.promise;
+            return gaddumMusicProviderService.asyncPlayCurrentTrack();
         }
 
 
