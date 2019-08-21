@@ -248,7 +248,7 @@
 
 
 
-        vm.profileEdit = function () {
+        function profileEdit() {
             asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(function () { vm.genreScrollChecker() });
         };
 
@@ -384,7 +384,7 @@
 
         function createModalList() {
             var firstVariable = "Edit Profile";
-            var firstFunc = vm.profileEdit;
+            var firstFunc = profileEdit;
             var contextMenu = [];
             contextMenu[0] = gaddumContextMenuItem.build(firstVariable, firstFunc);
             vm.conMenu = contextMenu;
@@ -403,6 +403,7 @@
         };
 
         // TODO: Error Handling
+        vm.profileEdit = profileEdit;
 
 
     }
