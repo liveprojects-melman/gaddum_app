@@ -1,3 +1,4 @@
+<p>{{gpc.state.playing}}</p>
 <div id="gaddum-player" class="animated" ng-show="gpc.state.show">
   <div id="scroller" class="animated" x-ng-show="gpc.state.ready">
     <div angular-marquee class="animated" scroll="gpc.state.hasTrack" duration="10000" id="songtitle">{{gpc.marquee.songtitle}}</div>
@@ -8,6 +9,7 @@
     <button name="pause" class="button icon ion-pause icon-left" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true">pause</button>
     <button name="play" class="button icon ion-play icon-left" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true">play</button>
     <button name="next" class="button icon-left icon ion-skip-forward" ng-click="gpc.handleNextPress()">next</button>
+    
   </div>
   </div>
 </div>

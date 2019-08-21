@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  console.log("Gaddum Player Controller");
+
+
   angular
     .module('gaddum.player')
     .controller('gaddumPlayerController', gaddumPlayerController);
@@ -29,6 +32,7 @@
     var gpc = {};
     gpc.state = {
       ready: true,
+      show: true,
       hasTrack: true,
       busy: false
     };
@@ -51,15 +55,13 @@
 
     }
 
-    function onTrackStart(trackInfo) {
+    function onTrackNew(trackInfo) {
       console.log("track playing: " + trackInfo.getName());
       gpc.state.playing = true;
   
     }
 
-    function onTrackEnd(trackInfo) {
-      console.log("track ended: " + trackInfo.getName());
-    }
+
 
     function onTrackPaused(trackInfo) {
       console.log("track paused: " + trackInfo.getName());
@@ -97,11 +99,8 @@
 
 
           switch (event.getCode()) {
-            case EventIdentifier.TRACK_START: // the current track has started / resumed playing
-              onTrackStart(event.getMessage());
-              break;
-            case EventIdentifier.TRACK_END:// the current track has completed playing
-              onTrackEnd(event.getMessage());
+            case EventIdentifier.TRACK_NEW: // a new track has been queued
+              onTrackNew(event.getMessage());
               break;
             case EventIdentifier.TRACK_PAUSED:// the playing of the selected track has been paused
               onTrackPaused(event.getMessage());
@@ -117,7 +116,19 @@
               break;  
             case EventIdentifier.LOGGED_OUT: // we are now logged out
               onLoggedOut();
+              break;
+            case EventIdentifier.INTERNET_DOWN: // internet connection lost
+              onInternetDown(event.getMessage());
+              break;
+            case EventIdentifier.INTERNET_UP: // internet connection found
+              onInternetUp(event.getMessage());
+              break;
+            case EventIdentifier.PLAYLIST_NEW: // a new playlist is available
+              onPlaylistNew();
               break;  
+            case EventIdentifier.PLAYLIST_END: // no more tracks available in playlist.
+              onPlaylistEnd();
+              break;    
 
           };
 

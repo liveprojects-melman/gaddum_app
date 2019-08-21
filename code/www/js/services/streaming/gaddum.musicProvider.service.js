@@ -345,7 +345,7 @@
       MUSIC_PROVIDER = null;
       MUSIC_PROVIDER_IDENTIFIER = null;
       LOGIN_HANDLER_PROMISE = null;
-      asyncBroadcastEvent = null;
+      EVENT_HANDLER_PROMISE = null;
       IS_LOGGED_IN = null;
 
 
@@ -357,9 +357,9 @@
       }
 
       if (returnsAnEventHandlingPromise) {
-        asyncBroadcastEvent = returnsAnEventHandlingPromise;
+        EVENT_HANDLER_PROMISE = returnsAnEventHandlingPromise;
       } else {
-        throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle events from the player. See EventIdentifier"))
+        throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle events fro the provider. See EventIdentifier"))
       }
 
 

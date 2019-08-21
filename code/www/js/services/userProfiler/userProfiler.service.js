@@ -13,7 +13,8 @@
         'StatementCriteria',
         'dataApiService',
         '$timeout',
-        'observerService'
+        'observerService',
+        'EventIdentifier'
 
     ];
 
@@ -24,9 +25,12 @@
         StatementCriteria,
         dataApiService,
         $timeout,
-        observerService
+        observerService,
+        EventIdentifier
 
     ) {
+
+        var EVENT_HANDLER_PROMISE = null;
 
         var SETTINGS = {
             MAX_SKIP_COUNT: {
@@ -39,12 +43,54 @@
             }
         };
 
+        function asyncBroadcastEvent(event){
+            var deferred = $q.defer();
+      
+            $timeout(
+      
+              function(){
+                if(EVENT_HANDLER_PROMISE){
+                  EVENT_HANDLER_PROMISE(event).then(
+                    deferred.resolve,
+                    deferred.reject
+                  );
+                }
+              }
+      
+            );
+      
+      
+            return deferred.promise;
+          }
 
-        function initialise(){
+
+        function asyncInitialise(returnsAnEventHandlingPromise){
+
+            if (returnsAnEventHandlingPromise) {
+                EVENT_HANDLER_PROMISE = returnsAnEventHandlingPromise;
+            } else {
+                throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "User Profiler Service needs a function returning a promise which will handle change events (new playlists). See EventIdentifier"))
+            }
+
+
+            var deferred = $q.defer();
+
+            $timeout(
+
+                function(){
 
             //promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_SKIP_COUNT.id));
             //promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
+
+                    deferred.resolve();
+
+                }
+
+            );
+
             
+            return deferred.promise;
+
         } 
 
 
@@ -107,6 +153,7 @@
         // --- Loader
 
         function asyncLoadMoodedPlaylists(arrayMoodedPlaylists) {
+            asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_NEW, null));
 
             console.log("Mooded Playlist",arrayMoodedPlaylists);
 
@@ -131,12 +178,11 @@
         }
 
         var service = {
-            initialise,
+            asyncInitialise,
             player: {
+                asyncBegin: asyncBegin, 
                 asyncNext: asyncNext,
-                asyncPrev: asyncPrev,
-                asyncBegin: asyncBegin,
-                asyncComplete: asyncComplete
+                asyncPrev: asyncPrev
             },
             finder: {
                 asyncFindPlaylists: asyncFindPlaylists
