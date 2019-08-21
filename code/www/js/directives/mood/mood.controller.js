@@ -16,7 +16,8 @@
     '$ionicModal',
     '$scope',
     'moodSelectModal',
-    'gaddumShortcutBarService'
+    'gaddumShortcutBarService',
+    'spinnerService'
   ];
 
   function moodDirectiveController(
@@ -28,7 +29,8 @@
     $ionicModal,
     $scope,
     moodSelectModal,
-    gaddumShortcutBarService
+    gaddumShortcutBarService,
+    spinnerService
   ) {
     var vm = angular.extend(this, {
       allEmotions: null,
@@ -38,8 +40,8 @@
       faceDetected: false,
       moodDisplay: {},
       detecting: true,
-      selectbutton: false,
-      helpTips: null  //this shows/hides the speech boxes 
+      helpTips: null,  //this shows/hides the speech boxes 
+      disableButton:false
     });
 
     var _interval_ms = 100;
@@ -81,7 +83,7 @@
 
     function updateDisplay(moodId) {
       if (moodId) {
-        // console.log("mood",moodId,"moodDict",moodIdDict,"mooddis",vm.moodDisplay);
+        console.log("mood", moodId, "moodDict", moodIdDict, "mooddis", vm.moodDisplay);
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
@@ -203,6 +205,8 @@
     function init() {
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
+      spinnerService.spinnerOn();
+      vm.disableButton = true;
       if (vm.firstTime === true) {
         vm.helpTips = true;
       }
@@ -212,16 +216,22 @@
       defaultDisplay();
       moodService.asyncGetSupportedMoodIds().then(function (result) {
         vm.allEmotions = result;
-        if (emotionReaderService.isRunning === false) {
+        if (emotionReaderService.isReady === false) {
           beginInitialiseCapture(function () {
-            asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
+            asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
+              spinnerService.spinnerOff();
+              vm.disableButton = false;
+              update();
+            });
           });
-          vm.selectbutton = true;
         }
         else {
 
-          asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(update);
-          vm.selectbutton = true;
+          asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
+            spinnerService.spinnerOff();
+            vm.disableButton = false;
+            update();
+          });
         }
       });
 
@@ -251,17 +261,32 @@
         }
       );
     }
-
+    var isSleeping = true;
     function sleep() {
-      if (emotionReaderService.isRunning) {
-        emotionReaderService.setSleep(true);
-      }
-      vm.detecting = false;
+      $timeout(function () {
+        if (emotionReaderService.isRunning) {
+          emotionReaderService.setSleep(true);
+          vm.detecting = false;
+          isSleeping = true;
+        }
+        else {
+          if (!isSleeping) {
+            sleep();
+          }
+          else {
+            vm.detecting = false;
+          }
+
+        }
+      }, 100)
+
+
     }
     function wake() {
-      if (emotionReaderService.isRunning) {
+      if (!emotionReaderService.isRunning) {
         emotionReaderService.setSleep(false);
         vm.detecting = true;
+        isSleeping = false;
       }
 
     }
