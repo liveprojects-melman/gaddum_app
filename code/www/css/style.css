@@ -1174,6 +1174,9 @@ margin:10px;
     top:5%;
     background-image: var(--color-secondaryBackground);
 }
+.profileDirective{
+    background-image: var(--color-primaryBackground);
+}
 
 .modalGenresCheckboxes{
     width: 80%;
