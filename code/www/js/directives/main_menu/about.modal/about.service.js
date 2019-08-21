@@ -15,14 +15,14 @@
 
    
       function appVersion(){
-          console.log(AppVersion.version);
+        //   console.log(AppVersion.version);
           return AppVersion.version;
       }
       function componentsLicenses(){
           return "we got these things called licenses?";
       }
       function projectPersonnel(){
-          return "Kei Gibbings, J.T, D.M, L.C";
+          return "Kei Gibbings, J.T, D.M, Laurie Cooper";
       }
       function gaddumLink(){
           return "gaddum Link Here";
