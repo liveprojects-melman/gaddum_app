@@ -52,10 +52,10 @@
             return parmeter;
         }
         function close() {
-            $scope.fnCallbackOk(encodedImage);
             if (modalSave){
                 if(modalSave._isShown){
                     $timeout(function(){
+                        $scope.fnCallbackOk(encodedImage);
                         modalSave.remove();
                         modalSave = null;
                         

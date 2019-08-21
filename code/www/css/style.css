@@ -960,6 +960,7 @@ input::placeholder{
     margin: 0 auto;
     white-space: nowrap;
     overflow: hidden;
+    top: 3rem;
     position: absolute;
    
   }
