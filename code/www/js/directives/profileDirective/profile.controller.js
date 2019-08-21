@@ -366,6 +366,7 @@
         vm.setAvatar_image = function (avatar_image, image_colour) {
             //console.log("aimg", avatar_image);
             avatar_image = AvatarGraphic.build(image_colour, avatar_image);
+            spinnerService.spinnerOn();
             //profileService.asyncSetAvatarGraphic(avatar_image);
             setTimeout(function () {
                 profileService.asyncSetAvatarGraphic(avatar_image).then(
@@ -374,9 +375,11 @@
                         vm.userProfile.avatar_graphic = avatar_image;
                         /* vm.createProfileGraphic(vm.userProfile.profile_id); */
                         vm.createProfileGraphic(avatar_image);
+                        spinnerService.spinnerOff();
                     },
                     function fail(error) {
                         deferred.reject(error);
+                        spinnerService.spinnerOff();
                     })
             }, 0);
         }
