@@ -237,12 +237,13 @@
         }
 
         vm.checkGraphic = function (gValues) {
+            var result = true;
             gValues.forEach(function (row) {
                 if (row != 0) {
-                    return false;
+                    result= false;
                 }
             });
-            return true;
+            return result;
 
         };
 
@@ -354,7 +355,7 @@
             profileService.setModalOpenFlag(false);
 
         };
-        function refresh(profileDetails) {
+        function refresh() {
             profileService.setModalOpenFlag(false);
             //refresh all the things
             if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
