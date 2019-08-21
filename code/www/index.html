@@ -25,6 +25,7 @@
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
        <link href="css/ionic.app.css" rel="stylesheet">
   -->
+  <script src="lib/jQuery/jquery-3.4.1.min.js"></script>
 
   <script src="lib/external/js/lodash.min.js"></script>
   <script src="lib/external/js/moment.min.js"></script>
@@ -248,16 +249,19 @@
   <script src="js/modals/playlist.view.modal/playlistViewModalController.js"></script>
   <script src="js/modals/playlist.create.modal/PlaylistCreateModal.js"></script>
   <script src="js/modals/playlist.create.modal/PlaylistCreateModalController.js"></script>
-  <!-- PLAYLIST MODALS END -->
-
-
+<!-- PLAYLIST MODALS END -->
+<!-- SPINNER DIRECTIVE -->
+  <script src="js/directives/headerSpinner/spinner.directive.js"></script>
+  <script src="js/directives/headerSpinner/spinner.controller.js"></script>
+  <script src="js/services/spinner/spinner.service.js"></script>
+<!-- SPINNER DIRECTIVE END -->
   <!-- settings -->
   <script src="js/services/settings/settings.module.js"></script>
   <!-- <script src="js/services/settings/userSettings.service.dummy.js"></script> -->
   <script src="js/services/settings/userSettings.service.js"></script>
 
   <script src="js/services/userProfiler/userProfiler.module.js"></script>
-  <script src="js/services/userProfiler/userProfiler.service.dummy.js"></script>
+  <script src="js/services/userProfiler/userProfiler.service.js"></script>
 
   <!-- <script src="js/services/settings/settings.service.dummy.js"></script> -->
   <script src="js/services/settings/settings.service.js"></script>
@@ -292,12 +296,18 @@
   <script src="js/services/models/SettingIdentifier.js"></script>
   <script src="js/services/models/StatementCriteria.js"></script>
   <script src="js/services/models/TimeStamp.js"></script>
+  <script src="js/services/models/TimeSlot.js"></script>
   <script src="js/services/models/TrackInfo.js"></script>
   <script src="js/services/models/TrackSearchCriteria.js"></script>
   <script src="js/services/models/TrackReference.js"></script>
 
   <script src="js/services/models/CachedImage.js"></script>
 
+
+
+  <!-- Time -->
+  <script src="js/services/time/time.module.js"></script>
+  <script src="js/services/time/time.service.js"></script>
 
   <!-- Location -->
   <script src="js/services/location/location.module.js"></script>
@@ -325,15 +335,17 @@
   <script src="js/wrappers/format/moment.service.js"></script>
   <script src="lib/external/js/angular-marquee/marquee.js"></script>
   <script src="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.js"></script>
+  <script src="lib/ng-fi-text/ng-fi-text.js"></script>
 
   <!-- ADDED END -->
 
 </head>
 
-<body ng-app="gaddum" ng-animate-children="true">
-  <permissions_directive></permissions_directive>
+<body ng-app="gaddum" ng-animate-children="true" scroll="false" ng-cloak>
+    <permissions_directive></permissions_directive>
 
-  <div class="bar bar-header" align-title="center">
+  <div  class="bar bar-header" align-title="center">
+    <spinner_directive></spinner_directive>
     <h1 class="title">
       gaddum
     </h1>
@@ -342,7 +354,7 @@
 
   <ion-nav-view></ion-nav-view>
 
-  <ion-content xhas-header="true" xhas-subheader="true" class="has-header xhas-subheader " scroll="false">
+  <ion-content class="has-header" scroll="false" ng-cloak>
     <ion-view ui-view name="gaddum" id="main_wrapper" scroll="false">
     </ion-view>
   </ion-content>

@@ -18,13 +18,13 @@
     EventIdentifier.TRACK_PAUSED = -3 // the playing of the selected track has been paused
     EventIdentifier.TRACK_PROGRESS_PERCENT = -4, // progress through selected track
     EventIdentifier.TRACK_ERROR = -4; // an error has occured playing the track / the track is not available.
+    EventIdentifier.LOGGED_OUT = -5; // the music provider has been logged out
+    EventIdentifier.LOGGED_IN = -6; // the music provider has been logged in
 
     function EventIdentifier(code, payload) {
       // Public properties, assigned to the instance ('this')
       this.code = code;
       this.payload = payload;
-
-    
 
     this.getCode = function() {
       return this.code;

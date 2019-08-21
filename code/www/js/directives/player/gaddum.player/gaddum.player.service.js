@@ -7,13 +7,15 @@
 
     playerService.$inject = [
         '$timeout',
-        '$q'
+        '$q',
+        'gaddumMusicProviderService'
 
     ];
 
     function playerService(
         $timeout,
-        $q
+        $q,
+        gaddumMusicProviderService
 
     ) {
 
@@ -33,12 +35,19 @@
         }
 
 
+        var EVENT_HANDLER_PROMISE = null;
+
         function asyncOnEvent(eventIdentifier){
             var deferred = $q.defer();
 
             $timeout(
                 function(){
-                    console.log("event received : " + eventIdentifier.message);
+                    if(EVENT_HANDLER_PROMISE){
+                        EVENT_HANDLER_PROMISE(eventIdentifier).then(
+                            deferred.resolve,
+                            deferred.reject 
+                        );
+                    }
                     deferred.resolve();
                 }
             );
@@ -124,6 +133,14 @@
             return deferred.promise;
         }
 
+        
+        function initialise(eventHandlerPromise){
+            EVENT_HANDLER_PROMISE = eventHandlerPromise;
+            // this will kick-off a process which will lead 
+            // an event being broadcast containing login information
+            gaddumMusicProviderService.asyncIsLoggedIn();
+        }
+
 
         var service = {
             // requests the next track in the playlist
@@ -156,7 +173,13 @@
             // event handler interface. This is passed to the
             // Music Provider service on initialisation
             // The music provider will pass EventIdentifier objects.
-            promiseHandleEvent:asyncOnEvent
+            promiseHandleEvent:asyncOnEvent,
+
+
+            // provides a promise to handle events passed to the player service
+            initialise
+
+
         };
 
         return service;

@@ -48,6 +48,7 @@ angular.module('gaddum', [
   'gaddum.observer',
   'gaddum.intelligenttrackselector',
   'gaddum.userprofiler',
+  'gaddum.time',
   'playlistCreateModule'
 
 ])

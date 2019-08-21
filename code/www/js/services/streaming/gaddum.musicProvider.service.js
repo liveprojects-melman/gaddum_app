@@ -1,29 +1,101 @@
-// as per https://trello.com/c/tWfwgXbh/7-musicproviderservice
 (function () {
   'use strict';
+
+  console.log("HERE: gaddumMusicProviderService");
 
   angular
     .module('gaddum.streaming')
     .factory('gaddumMusicProviderService', gaddumMusicProviderService);
 
   gaddumMusicProviderService.$inject = [
-    '$http',
+
     '$injector',
     '$timeout',
     '$q',
     'dataApiService',
-    'MusicProviderIdentifier'
+    'MusicProviderIdentifier',
+    'EventIdentifier'
   ];
 
   function gaddumMusicProviderService(
-    $http,
+
     $injector,
     $timeout,
     $q,
     dataApiService,
-    MusicProviderIdentifier
-
+    MusicProviderIdentifier,
+    EventIdentifier
   ) {
+
+      // vars
+      var MUSIC_PROVIDER = null;
+      var MUSIC_PROVIDER_IDENTIFIER = null;
+      var LOGIN_HANDLER_PROMISE = null;
+      var EVENT_HANDLER_PROMISE = null;
+      var IS_LOGGED_IN = null;
+
+
+
+    function asyncBroadcastEvent(event){
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+          if(EVENT_HANDLER_PROMISE){
+            EVENT_HANDLER_PROMISE(event).then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }
+        }
+
+      );
+
+
+      return deferred.promise;
+    }
+
+
+    function asyncHandleLogin(){
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+          if(LOGIN_HANDLER_PROMISE){
+            LOGIN_HANDLER_PROMISE().then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }
+        }
+
+      );
+
+
+      return deferred.promise;
+    }
+
+
+
+    function handleLoginUpdate(loggedIn) {
+      if (IS_LOGGED_IN != loggedIn) {
+
+        if (loggedIn) {
+          asyncBroadcastEvent(
+            EventIdentifier.build(
+              EventIdentifier.LOGGED_IN
+            ));
+        } else {
+          asyncBroadcastEvent(
+            EventIdentifier.build(
+              EventIdentifier.LOGGED_OUT
+            ));
+        }
+        IS_LOGGED_IN = loggedIn;
+      }
+    }
 
     function onLoginNotNeeded() {
       var deferred = $q.defer();
@@ -40,7 +112,7 @@
       if (loggedIn) {
         return onLoginNotNeeded();
       } else {
-        return service.returnsALoginPromise();
+        return asyncHandleLogin();
       }
     }
 
@@ -81,28 +153,28 @@
       // dynamic injection: see http://next.plnkr.co/edit/iVblEU?p=preview&utm_source=legacy&utm_medium=worker&utm_campaign=next&preview, https://stackoverflow.com/questions/13724832/angularjs-runtime-dependency-injection
 
       var deferred = $q.defer();
-      service.musicProviderIdentifier  = musicProviderIdentifier;
-      service.musicProvider = $injector.get(musicProviderIdentifier.getId());
+      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
+      MUSIC_PROVIDER = $injector.get(musicProviderIdentifier.getId());
 
       dataApiService.asyncSetSelectedMusicProvider(musicProviderIdentifier).then(
-        function(){
+        function () {
           console.log("initialising music provider: " + musicProviderIdentifier.getName());
-          service.musicProvider.asyncInitialise(musicProviderIdentifier, service.returnsAnEventHandlingPromise).then(
+          MUSIC_PROVIDER.asyncInitialise(musicProviderIdentifier, asyncBroadcastEvent).then(
             deferred.resolve,
             deferred.reject
           );
         },
         deferred.reject
 
-        );
+      );
 
 
       return deferred.promise;
     }
 
 
-    function getMusicProvider(){
-      return service.musicProviderIdentifier;
+    function getMusicProvider() {
+      return MUSIC_PROVIDER_IDENTIFIER;
     }
 
 
@@ -114,15 +186,15 @@
       $timeout(
 
         function () {
-          if (service.musicProviderIdentifier) {
-            deferred.resolve(service.musicProviderIdentifier);
+          if (MUSIC_PROVIDER_IDENTIFIER) {
+            deferred.resolve(MUSIC_PROVIDER_IDENTIFIER);
           } else {
             dataApiService.asyncGetSelectedMusicProvider().then(
-              function(result){
+              function (result) {
                 deferred.resolve(result);
               }
               ,
-                deferred.reject
+              deferred.reject
             );
           }
         }
@@ -136,7 +208,7 @@
 
     function asyncGetSupportedSearchModifier() {
       return $q(function (resolve, reject) {
-        service.musicProvider.asyncGetSupportedSearchModifier().then(function (result) {
+        MUSIC_PROVIDER.asyncGetSupportedSearchModifier().then(function (result) {
           return resolve(result);
         });
       });
@@ -147,8 +219,8 @@
     function asyncLogin() {
       var promise = null;
 
-      if (service.musicProvider) {
-        promise = service.musicProvider.asyncLogin();
+      if (MUSIC_PROVIDER) {
+        promise = MUSIC_PROVIDER.asyncLogin();
       } else {
         var deferred = $q.defer();
         promise = deferred.promise;
@@ -159,28 +231,39 @@
     }
 
     function asyncIsLoggedIn() {
-      var promise = null;
+      var deferred = $q.defer();
+      
+      $timeout(
+        function () {
+          if (MUSIC_PROVIDER) {
+              MUSIC_PROVIDER.asyncIsLoggedIn().then(
 
-      if (service.musicProvider) {
-        promise = service.musicProvider.asyncIsLoggedIn();
-      } else {
+                function(loggedIn ){
+                  handleLoginUpdate(loggedIn);
+                  deferred.resolve(loggedIn);
+                },
+                function(error){
+                  handleLoginUpdate(false);
+                  deferred.resolve(false);
+                }
 
-        var deferred = $q.defer();
-        promise = deferred.promise;
-        $timeout(function () {
-          deferred.resolve(false);
-        });
+              );
+          } else {
+            handleLoginUpdate(false);
+            deferred.resolve(false);
+          }
+      });
 
-      }
-      return promise;
+      
+      return deferred.promise;
     }
 
     function asyncLogout() {
 
       var promise = null;
 
-      if (service.musicProvider) {
-        promise = service.musicProvider.asyncLogout();
+      if (MUSIC_PROVIDER) {
+        promise = MUSIC_PROVIDER.asyncLogout();
       } else {
         var deferred = $q.defer();
         promise = deferred.promise;
@@ -192,45 +275,45 @@
     function asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page);
+          return MUSIC_PROVIDER.asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page);
         });
     }
 
     function asyncSetTrack(genericTrack) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncSetTrack(genericTrack);
+          return MUSIC_PROVIDER.asyncSetTrack(genericTrack);
         });
     }
 
     function asyncPlayCurrentTrack() {
-      return asyncCheckForLoginPromptIfNeeded().then(service.musicProvider.asyncPlayCurrentTrack);
+      return asyncCheckForLoginPromptIfNeeded().then(MUSIC_PROVIDER.asyncPlayCurrentTrack);
     }
 
     function asyncPauseCurrentTrack() {
-      return asyncCheckForLoginPromptIfNeeded().then(service.musicProvider.asyncPauseCurrentTrack);
+      return asyncCheckForLoginPromptIfNeeded().then(MUSIC_PROVIDER.asyncPauseCurrentTrack);
     }
 
     function asyncGetProfilePlaylist(offset, limit) {
       return asyncCheckForLoginPromptIfNeeded().then(function () {
-        return service.musicProvider.asyncGetProfilePlaylist(offset, limit);
+        return MUSIC_PROVIDER.asyncGetProfilePlaylist(offset, limit);
       });
     }
 
     function asyncImportPlaylists(playlists) {
       return asyncCheckForLoginPromptIfNeeded().then(function () {
-        return service.musicProvider.asyncImportPlaylists(playlists);
+        return MUSIC_PROVIDER.asyncImportPlaylists(playlists);
       });
     }
 
     function asyncImportTracks(tracks) {
-      return service.musicProvider.asyncImportTracks(tracks);
+      return MUSIC_PROVIDER.asyncImportTracks(tracks);
     }
 
     function asyncGetTrackInfo(genericTrack) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncGetTrackInfo(genericTrack);
+          return MUSIC_PROVIDER.asyncGetTrackInfo(genericTrack);
         });
     }
 
@@ -238,45 +321,46 @@
     function asyncGetSupportedGenres() {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncGetSupportedGenres();
+          return MUSIC_PROVIDER.asyncGetSupportedGenres();
         });
     }
 
     function asyncSetGenres(genres) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncSetGenres(genres);
+          return MUSIC_PROVIDER.asyncSetGenres(genres);
         });
     }
 
     function asyncGetGenres() {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return service.musicProvider.asyncGetGenres();
+          return MUSIC_PROVIDER.asyncGetGenres();
         });
     }
 
-    function asyncInitialise(returnsALoginPromise, returnsAnEventHandlingPromise ) {
-      
-      
-      service.musicProvider = null;
-      service.musicProviderIdentifier = null;
-      service.asyncLoginResource =  null;
-      service.asyncEventResource = null;
+    function asyncInitialise(returnsALoginPromise, returnsAnEventHandlingPromise) {
+
+
+      MUSIC_PROVIDER = null;
+      MUSIC_PROVIDER_IDENTIFIER = null;
+      LOGIN_HANDLER_PROMISE = null;
+      asyncBroadcastEvent = null;
+      IS_LOGGED_IN = null;
 
 
       var deferred = $q.defer();
       if (returnsALoginPromise) {
-        service.returnsALoginPromise = returnsALoginPromise;
+        LOGIN_HANDLER_PROMISE = returnsALoginPromise;
       } else {
         throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle the update of its access credentials, calling MusicProviderService.asyncLogin()"))
       }
 
       if (returnsAnEventHandlingPromise) {
-        service.returnsAnEventHandlingPromise = returnsAnEventHandlingPromise;
+        asyncBroadcastEvent = returnsAnEventHandlingPromise;
       } else {
         throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle events from the player. See EventIdentifier"))
-      }    
+      }
 
 
       asyncGetMusicProvider().then(
@@ -298,10 +382,7 @@
     };
 
     var service = {
-      // vars
-      musicProvider: null,
-      musicProviderIdentifier: null,
-      asyncLoginResource: null,
+
 
       // funcs
       asyncInitialise: asyncInitialise,

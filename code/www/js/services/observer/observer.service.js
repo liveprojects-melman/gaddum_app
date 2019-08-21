@@ -195,7 +195,7 @@
         }
 
 
-        function seekObservationsLike(observation){
+        function asyncSeekObservationsLike(observation){
     
         }
 
@@ -226,7 +226,7 @@
             // do intialise to update settings from DB
             asyncInitialise : asyncInitialise,
             asyncCreateObservation: asyncCreateObservation,
-            asyncSeekObservations: asyncSeekObservations
+            asyncSeekObservations: asyncSeekObservationsLike
         };
 
         return service;
