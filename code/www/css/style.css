@@ -960,6 +960,7 @@ input::placeholder{
     margin: 0 auto;
     white-space: nowrap;
     overflow: hidden;
+    top: 3rem;
     position: absolute;
    
   }
@@ -1152,7 +1153,7 @@ margin:10px;
     width: 50%;
     left: 25%;
     top: auto;
-    bottom: 3.5rem;
+    bottom: 2.7rem;
     height: auto;
     text-align: center;
     background-color:white;
@@ -1173,6 +1174,9 @@ margin:10px;
     height: 80%;
     top:5%;
     background-image: var(--color-secondaryBackground);
+}
+.profileDirective{
+    background-image: var(--color-primaryBackground);
 }
 
 .modalGenresCheckboxes{
