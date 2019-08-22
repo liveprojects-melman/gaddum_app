@@ -83,11 +83,13 @@
       if (IS_LOGGED_IN != loggedIn) {
 
         if (loggedIn) {
+          $rootScope.$broadcast("player:ready", true);
           asyncBroadcastEvent(
             EventIdentifier.build(
               EventIdentifier.LOGGED_IN
             ));
         } else {
+          $rootScope.$broadcast("player:ready",false);
           asyncBroadcastEvent(
             EventIdentifier.build(
               EventIdentifier.LOGGED_OUT
