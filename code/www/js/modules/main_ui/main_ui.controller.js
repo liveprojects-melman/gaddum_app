@@ -19,7 +19,7 @@
     });
 
     mlc.playeropen = "";
-    mls.playerHasBeenOpened = false;
+    mlc.playerHasBeenOpened = false;
 
     $scope.$on('player:ready', function(event,data) {
       mlc.playeropen = data?"playeropen":"";
@@ -28,7 +28,7 @@
       }
     });
 
-    $scope.$on('marquee:read', function(event,data) {
+    $scope.$on('marquee:ready', function(event,data) {
       mlc.playeropen = data?"marqueeopen":(mlc.playerHasBeenOpened?"playeropen":"");
     });
   }
