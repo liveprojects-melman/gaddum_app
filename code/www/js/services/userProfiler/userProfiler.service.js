@@ -7,6 +7,7 @@
         .factory('userProfilerService', userProfilerService);
 
     userProfilerService.$inject = [
+        '$q',
         'ErrorIdentifier',
         'GenericTrack',
         'MoodedPlaylist',
@@ -19,6 +20,7 @@
     ];
 
     function userProfilerService(
+        $q,
         ErrorIdentifier,
         GenericTrack,
         MoodedPlaylist,

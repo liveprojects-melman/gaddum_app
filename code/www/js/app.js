@@ -63,6 +63,7 @@ angular.module('gaddum', [
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
+    'userProfilerService',
     'permissionsService',
     'permissionsListenerService',
     'playerService',
@@ -76,6 +77,7 @@ angular.module('gaddum', [
       startupSrvc,
       loginModal,
       gaddumMusicProviderService,
+      userProfilerService,
       permissionsService,
       permissionsListenerService,
       playerService
@@ -149,7 +151,7 @@ angular.module('gaddum', [
                           $state.go('gaddum.profile');
                           deferred.resolve();
                         },
-                        referred.reject
+                        deferred.reject
                       );
                     },
                     deferred.reject

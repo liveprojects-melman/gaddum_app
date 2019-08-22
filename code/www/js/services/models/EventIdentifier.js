@@ -26,13 +26,13 @@
     EventIdentifier.PLAYLIST_END = -11; // no more tracks available in playlist.
     EventIdentifier.PLAYLIST_NONE = -12; // there is nothing to play.
 
-    function EventIdentifier(code, payload) {
+    function EventIdentifier(id, payload) {
       // Public properties, assigned to the instance ('this')
-      this.code = code;
+      this.id = id;
       this.payload = payload;
 
-    this.getCode = function() {
-      return this.code;
+    this.getId = function() {
+      return this.id;
     }
     this.getPayload = function() {
       return this.payload;
@@ -44,10 +44,10 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    EventIdentifier.build = function (code, payload) {
+    EventIdentifier.build = function (id, payload) {
       
         return new EventIdentifier(
-          code, payload
+          id, payload
         );
 
     };

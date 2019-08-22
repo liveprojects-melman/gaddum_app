@@ -357,12 +357,6 @@
             asyncControlSkipPrev: asyncControlSkipPrev,
 
 
-            // requests to restart the track in the playlist
-            // writes an Observation to the database
-            // returns the TrackInfo object for the selected track,
-            // or null if there are no more tracks
-            asyncControlBegin: asyncControlBegin,
-
             // requests to start the paused track
             // writes an Observation to the database
             asyncControlPlay: asyncControlPlay,

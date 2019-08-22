@@ -116,7 +116,7 @@
         function () {
 
 
-          switch (event.getCode()) {
+          switch (event.getId()) {
             case EventIdentifier.TRACK_NEW: // a new track has been queued
               onTrackNew(event.getMessage());
               break;

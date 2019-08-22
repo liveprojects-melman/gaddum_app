@@ -1000,7 +1000,7 @@
     // play the  spotify player. 
     // rejects on catastophic errors.
     // a missing track is not catastrophic
-    function asyncSetTrack(genericTrack){
+    function asyncPlayCurrentTrack(){
 
 
       var deferred = $q.defer();
