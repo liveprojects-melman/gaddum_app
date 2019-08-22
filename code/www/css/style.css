@@ -472,7 +472,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
   }
 }
 
-.fadeout {
+.fadeout.ng-leave,
+.fadeout > .ng-leave {
   animation-name: fadeout;
   animation-duration: 0.25s;
 }
@@ -497,6 +498,32 @@ ion-side-menu-content/*.menu-content.pane*/ {
   .slide-in-down > .ng-leave {
     -webkit-transition: all ease-in-out 250ms;
     transition: all ease-in-out 250ms;
+    animation-name: fadeout;
+    animation-duration: 0.5s
+  }
+.slide-in-up {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+  
+  .slide-in-up.ng-enter,
+  .slide-in-up > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+    transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+  }
+  
+  .slide-in-up.ng-enter-active,
+  .slide-in-up > .ng-enter-active {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  
+  .slide-in-up.ng-leave,
+  .slide-in-up > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
+    animation-name: fadeout;
+    animation-duration: 0.5s
   }
 .selectSpan{
     display: block;
