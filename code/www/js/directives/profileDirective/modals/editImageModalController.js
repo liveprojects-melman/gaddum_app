@@ -98,20 +98,20 @@
     ];
 
     var colours = [
-      ["Graphite", '#111'],
-      ["Peach", '#F97'],
-      ["Taupe", "#197"],
-      ["Deep Ocean", "#159"],
-      ["Advocat", "#FF7"],
-      ["Letterbox", "#F43"],
-      ["Teastain", "#BA8"],
-      ["Burgundy", "#534"],
-      ["Orange", "#D63"],
-      ["Comback", "#463"],
-      ["Babluey", "#A9F"],
-      ["Aqua", "#ADF"],
-      ["Blush", "#F68"],
-      ["Prev C", '#111']
+      ["Graphite", '#111111'],
+      ["Peach", '#FF9977'],
+      ["Taupe", "#119977"],
+      ["Deep Ocean", "#115599"],
+      ["Advocat", "#FFFF77"],
+      ["Letterbox", "#FF4433"],
+      ["Teastain", "#BBAA88"],
+      ["Burgundy", "#553344"],
+      ["Orange", "#DD6633"],
+      ["Comback", "#446633"],
+      ["Babluey", "#AA99FF"],
+      ["Aqua", "#AADDFF"],
+      ["Blush", "#FF6688"],
+      ["Prev C", '#111111']
     ];
     vm.colourChoices = colours;
     vm.colourChoice = 0; // SET TO PROFILE CHOICE! @TODO!

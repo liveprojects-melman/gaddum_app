@@ -102,7 +102,7 @@
 
     service.setSleep = function setSleep(newState) {
       jft.switch_sleep(Boolean(newState));
-      service.isRunning = Boolean(newState);
+      service.isRunning = Boolean(!newState);
       service.face.criteria = {};
 
     };
