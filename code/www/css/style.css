@@ -1116,7 +1116,8 @@ input::placeholder{
   #genreToggle{
     position: absolute;
     top: 28%;
-    max-width: 100%;
+    max-width: 70%;
+    width: 70%;
     max-height: 5% !important;
     overflow: hidden;
     text-overflow: ellipsis;
