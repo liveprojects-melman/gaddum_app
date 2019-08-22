@@ -133,17 +133,20 @@
             );
         }
 
-        function asyncComplete() {
+        // the current track is unplayable
+        // mark it as bad, and recommend another
+        function asyncTrackIsBadGetAnother(){
             $timeout(
                 function(){
                     resolve(GenericTrack.build(
-                        'Now I\'m Here',
+                        'Lilly of the Valley',
                         'Sheer Heart Attack',
                         'Queen'
                     ));
                 }
             );
         }
+
 
         // --- Finder
 

@@ -964,11 +964,16 @@
   }
 
 
+    // sets the current track.
+    // emits events according to what happens
+    // look up trackInfo in cache.
+    // if not there, search on line for it.
+    // Cache the results.
+    // hold a track info object.
+    // rejects on catastophic errors.
+    // a missing track is not catastrophic
     function asyncSetTrack(genericTrack){
-      // look up trackInfo in cache.
-      // if not there, search on line for it.
-      // Cache the results.
-      // hold a track info object.
+
 
       var deferred = $q.defer();
 
@@ -986,12 +991,17 @@
       return deferred.promise;
     }
 
-    function asyncPlayCurrentTrack(){
-      // if spotify player is not playing
-      // use the current TrackInfo object to 
-      // obtain correct track id. 
-      // Update spotify player.
-      // play the  spotify player. 
+
+    // emits events according to what happens
+    // if spotify player is not playing
+    // use the current TrackInfo object to 
+    // obtain correct track id. 
+    // Update spotify player.
+    // play the  spotify player. 
+    // rejects on catastophic errors.
+    // a missing track is not catastrophic
+    function asyncSetTrack(genericTrack){
+
 
       var deferred = $q.defer();
 

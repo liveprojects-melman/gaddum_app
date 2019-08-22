@@ -87,7 +87,25 @@
 
     }
 
+    function onInternetDown(){
+      console.log("no internet");
+    }
 
+    function onInternetUp(){
+      console.log("internet available");
+    }
+
+    function onPlaylistNew(){
+      console.log("new playlist");
+    }
+
+    function onPlaylistEnd(){
+      console.log("end of playlist");
+    }
+
+    function onPlaylistNone(){
+      console.log("no playlist");
+    }
 
     function asyncHandleEvent(event) {
 
@@ -129,7 +147,9 @@
             case EventIdentifier.PLAYLIST_END: // no more tracks available in playlist.
               onPlaylistEnd();
               break;    
-
+              case EventIdentifier.PLAYLIST_NONE: // no playlist has been loaded
+              onPlaylistNone();
+              break;    
           };
 
         });
@@ -162,7 +182,7 @@
         onControlError
       );
     };
-    //TODO: Need controls for playing again from the begining of the track 
+
 
     function initialise() {
       playerService.initialise(asyncHandleEvent);

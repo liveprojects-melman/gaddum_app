@@ -24,6 +24,7 @@
     EventIdentifier.INTERNET_UP = -9; // internet connection found
     EventIdentifier.PLAYLIST_NEW  = -10; // a new playlist is available
     EventIdentifier.PLAYLIST_END = -11; // no more tracks available in playlist.
+    EventIdentifier.PLAYLIST_NONE = -12; // there is nothing to play.
 
     function EventIdentifier(code, payload) {
       // Public properties, assigned to the instance ('this')
