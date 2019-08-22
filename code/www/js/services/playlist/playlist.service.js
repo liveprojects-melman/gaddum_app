@@ -78,7 +78,7 @@
         function () {
 
           if (moodedPlaylists) {
-            userProfilerService.loader.loadMoodedPlaylists(moodedPlaylists);
+            userProfilerService.loader.asyncLoadMoodedPlaylists(moodedPlaylists);
 
             deferred.resolve();
 
