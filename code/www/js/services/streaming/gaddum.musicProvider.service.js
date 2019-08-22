@@ -280,10 +280,22 @@
     }
 
     function asyncSetTrack(genericTrack) {
-      return asyncCheckForLoginPromptIfNeeded().then(
+      var deferred = $q.defer();
+      asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return MUSIC_PROVIDER.asyncSetTrack(genericTrack);
+          MUSIC_PROVIDER.asyncSetTrack(genericTrack).then(
+            function(trackInfo){
+              var eventCode = EventIdentifier.TRACK_NOT_FOUND;
+              if(trackInfo){
+                eventCode = EventIdentifier.TRACK_NEW;
+              }
+              asyncBroadcastEvent(
+                EventIdentifier.build(eventCode,trackInfo));
+            },
+            deferred.reject
+          );
         });
+        return deferred.promise;
     }
 
     function asyncPlayCurrentTrack() {

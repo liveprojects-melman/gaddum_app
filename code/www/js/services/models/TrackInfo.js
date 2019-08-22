@@ -12,16 +12,19 @@
   function TrackInfo(
 
   ) {
-    function TrackInfo(name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider) {
+
+
+
+    function TrackInfo(name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id) {
       // Public properties, assigned to the instance ('this')
       this.name = name;
       this.album = album;
       this.artist = artist;
       this.duration_s = duration_s;
       this.web_uri = web_uri;
-      this.artwork_uri = artwork_uri;
+      this.thumbnail_uri = thumbnail_uri;
       this.player_uri = player_uri;
-      this.service_provider = service_provider;
+      this.provider_id = provider_id;
 
     this. getName = function(){
       return this.name;
@@ -44,7 +47,7 @@
     }
 
     this.getArtworkUri = function(){
-      return this.artwork_uri;
+      return this.thumbnail_uri;
     }
 
     this.getPlayerUri = function(){
@@ -52,7 +55,7 @@
     }
 
     this.getServiceProvider = function(){
-      return this.service_provider;
+      return this.provider_id;
     }
 
   }
@@ -61,7 +64,7 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TrackInfo.build = function (name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider) {
+    TrackInfo.build = function (name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id) {
 
       
       if(!name) name = "";
@@ -69,16 +72,28 @@
       if(!artist) artist = "";
       if(!duration_s) duration_s =0;
       if(!web_uri) web_uri ="";
-      if(!artwork_uri) artwork_uri = "";
+      if(!thumbnail_uri) thumbnail_uri = "";
       if(!player_uri) player_uri = "";
-      if(!service_provider) service_provider = "";
+      if(!provider_id) provider_id = "";
 
         return new TrackInfo(
-          name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
+          name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id
         );
  
 
     };
+
+    TrackInfo.buildFromObject = function (incoming) {
+      var result = new TrackInfo();
+
+      result = angular.merge(result, incoming);
+
+      return result;
+
+    };
+
+
+
 
     /**
      * Return the constructor function

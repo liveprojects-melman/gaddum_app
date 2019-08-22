@@ -571,6 +571,40 @@
 
         }
 
+        function asyncGetTrackInfos(genericTrack, musicProvider) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_track_infos",
+                {
+                    name: genericTrack.getName(),
+                    album: genericTrack.getAlbum(),
+                    artist: genericTrack.getArtist(),
+                    duration_s: genericTrack.getDuration_s(),
+                    id: genericTrack.getId(),
+                    provider_id: musicProvider
+                },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(TrackInfo.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }        
+
+
+
 
         function asyncSeekPlaylists(name, id) {
             var deferred = $q.defer();
@@ -670,6 +704,9 @@
             return deferred.promise;
 
         }
+
+
+
 
         // pushes a generic track object into the DB
         // - ignores its Id
@@ -1131,6 +1168,11 @@
 
 
 
+        
+
+
+
+
         // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
         // "timestamp_s": "1565165883",
         // "mood_id" : "physical",// MAY BE NULL
@@ -1269,6 +1311,7 @@
 
 
             asyncImportTrackInfo: asyncImportTrackInfo,
+            asyncImportTrackReference: asyncImportTrackReference,
             asyncGetArtwork: asyncGetArtwork,
 
             asyncCreatePlaylist: asyncCreatePlaylist,
@@ -1277,6 +1320,14 @@
             asyncSeekPlaylists: asyncSeekPlaylists,
             asyncGetGenericTracksInPlaylist: asyncGetGenericTracksInPlaylist,
             asyncSetGenericTracksInPlaylist: asyncSetGenericTracksInPlaylist,
+
+
+            utilities :
+            { 
+                toTrackReference: toTrackReference
+            }
+
+
         };
 
 

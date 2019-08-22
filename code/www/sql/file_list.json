@@ -107,6 +107,19 @@
         }
     },
     {
+        "name": "get_track_infos(name, album, artist, duration_s, id, provider_id)",
+        "function": "get_track_infos",
+        "path": "www/sql/get_tracks.sql",
+        "default_parameters": {
+            "name" : "Killer Queen",
+            "album": "Sheer Heart Attack",
+            "artist" : "Queen",
+            "duration_s" : 240,
+            "id": "1750eea3-5a77-4884-a01f-b7f34261cd8a",
+            "provider_id" : "gaddumMusicProviderSpotifyService"
+        }
+    },
+    {
         "name": "import_artwork(web_uri, base64_image)",
         "function": "import_artwork",
         "path": "www/sql/import_artwork.sql",

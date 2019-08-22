@@ -44,8 +44,8 @@
 
 
 
-    function onControlOK(genericTrack) {
-      console.log("control OK. Generic Track being passed to Music Provider: " + genericTrack.getname());
+    function onControlOK() {
+      console.log("control OK.");
       // use this opportunity to put a busy spinner up, while we wait for an event
     }
 
@@ -96,7 +96,7 @@
     }
 
     function onPlaylistNew(){
-      console.log("new playlist");
+      console.log("new playlist: controls disabled / spinner until we get track...");
     }
 
     function onPlaylistEnd(){

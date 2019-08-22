@@ -304,6 +304,7 @@
     
 
         function asyncControlPlay() {
+            var deferred = $q.defer();
             console.log("control Play.");
             var defered = $q.defer();
             gaddumMusicProviderService.asyncPlayCurrentTrack().then(
