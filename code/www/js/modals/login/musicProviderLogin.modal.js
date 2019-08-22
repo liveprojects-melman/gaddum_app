@@ -4,25 +4,25 @@
     angular
         .module('gaddum.login')
         .factory('loginModal', loginModal);
-    loginModal.$inject = ['$ionicModal', '$rootScope', '$q', '$timeout','ErrorIdentifier'];
+    loginModal.$inject = ['$ionicModal', '$rootScope', '$q', '$timeout', 'ErrorIdentifier'];
     function loginModal($ionicModal, $rootScope, $q, $timeout, ErrorIdentifier) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
                 focusFirstInput: true,
                 controller: 'loginModalController as mc',
-                
+
             };
         $scope.$on("modal.hidden", function (modal) {
-            
+
             onClickOff();
-            
+
         });
         var modalSave = null;
         var parmeter = null;
         var isWorking = false;
         var loginSuccessful = false;
-        var isClosing =  false;
+        var isClosing = false;
 
 
         function open(params, fnCallbackOk, fnCallbackCancel) {
@@ -30,139 +30,141 @@
 
             parmeter = params;
             $scope.fnCallbackOk = fnCallbackOk;
-            $scope.fnCallbackCancel=fnCallbackCancel;
+            $scope.fnCallbackCancel = fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/modals/login/musicProviderLogin.modal.html',
                 myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
-  
-                
+
+
                 return modalInstance.show();
             });
-            
+
         }
 
-        function notifyLoginFail(){
+        function notifyLoginFail() {
             loginSuccessful = false;
             $scope.fnCallbackCancel();
             close();
         }
 
-        function notifyLoginSuccess(){
+        function notifyLoginSuccess() {
             loginSuccessful = true;
             $scope.fnCallbackOk();
             close();
         }
 
-        function getParams(){
+        function getParams() {
             return parmeter;
         }
 
         function close() {
             isClosing = true; // we are closing the dialog
             isWorking = false;   // to anyone waiting, the operation is complete
-            modalSave.hide();            
+            modalSave.hide();
         }
 
-        function onClickOff(){
-            if(modalSave){
-                if(!modalSave._isShown){
-                    $timeout(function(){
+        function onClickOff() {
+            if (modalSave) {
+                if (!modalSave._isShown) {
+                    $timeout(function () {
                         modalSave.remove();
                         modalSave = null;
-                    },500);
+                    }, 500);
                 }
             }
-            if(modalSave){
-                if(!isClosing){
-                    loginSuccessful = false;
-                    isWorking = false;
-                    $scope.fnCallbackCancel();
+            if (modalSave) {
+                if (!modalSave._isShown) {
+                    if (!isClosing) {
+                        loginSuccessful = false;
+                        isWorking = false;
+                        $scope.fnCallbackCancel();
+                    }
                 }
             }
         }
 
 
-        function asyncWaitAndCheck(){
+        function asyncWaitAndCheck() {
             var deferred = $q.defer();
 
-            $timeout(function(){
-                if(!isWorking){
-                    
+            $timeout(function () {
+                if (!isWorking) {
+
                     deferred.resolve();
-                }else{
-                    
+                } else {
+
                     deferred.reject();
                 }
-            },1000);
+            }, 1000);
 
             return deferred.promise;
         }
 
 
         function asyncWaitUntilClosed() {
-            
+
             var deferred = $q.defer();
-          
+
             function doQuery() {
-              console.log("waiting..");  
-              asyncWaitAndCheck()
-                .then(
-                    function closed() {
-                        console.log("login process completed.");
-                        deferred.resolve();
-                    },
-                    function stillOpen(){
-                        console.log("login ongoing...");
-                        doQuery();
-                    });
+                console.log("waiting..");
+                asyncWaitAndCheck()
+                    .then(
+                        function closed() {
+                            console.log("login process completed.");
+                            deferred.resolve();
+                        },
+                        function stillOpen() {
+                            console.log("login ongoing...");
+                            doQuery();
+                        });
             }
             doQuery();
             return deferred.promise
         }
 
-        function asyncWaitForLogin(){
+        function asyncWaitForLogin() {
             var deferred = $q.defer();
-                asyncWaitUntilClosed().then(
-                    function(){
-                        if(loginSuccessful == true){
-                            console.log("logged in.");
-                            deferred.resolve(true);
-                        }else{
-                            console.log("login aborted.");
-                            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER,"We waited while you tried to log in, but no joy."));
-                        }
+            asyncWaitUntilClosed().then(
+                function () {
+                    if (loginSuccessful == true) {
+                        console.log("logged in.");
+                        deferred.resolve(true);
+                    } else {
+                        console.log("login aborted.");
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "We waited while you tried to log in, but no joy."));
                     }
-                );
-            return deferred.promise;   
+                }
+            );
+            return deferred.promise;
         }
 
 
-        function asyncDoLogin(){
+        function asyncDoLogin() {
             var deferred = $q.defer();
 
-            open(null, 
-                function onOK(){
+            open(null,
+                function onOK() {
                     isWorking = false;
                     loginSuccessful = true;
                     deferred.resolve(true);
                 },
-                function onCancel(){
+                function onCancel() {
                     isWorking = false;
                     loginSuccessful = false;
-                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER,"Oh, no! We couldn't log you in!"));
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "Oh, no! We couldn't log you in!"));
                 }
-                );
+            );
 
             return deferred.promise;
         }
 
-        function promiseLogin(){
+        function promiseLogin() {
 
-            if(isWorking){
+            if (isWorking) {
                 return asyncWaitForLogin();
-            }else{
+            } else {
                 isWorking = true;
                 return asyncDoLogin();
             }
@@ -175,7 +177,7 @@
         var myModal = {
             open: open,
             close: close,
-            getParams:getParams,
+            getParams: getParams,
             promiseLogin: promiseLogin,
             notifyLoginFail: notifyLoginFail,
             notifyLoginSuccess: notifyLoginSuccess
