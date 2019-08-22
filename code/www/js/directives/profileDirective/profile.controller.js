@@ -183,6 +183,7 @@
                     vm.selectedGenres = results[1];
                     vm.userGenres = vm.selectedGenres/* .join(", ") */;
                     vm.displayGenres = vm.userGenres.join(", ");
+                    vm.genreScrollChecker();
                     deferred.resolve();
                 },
                 function fail(error) {
