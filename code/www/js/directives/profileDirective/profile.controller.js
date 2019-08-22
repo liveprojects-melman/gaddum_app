@@ -278,6 +278,7 @@
 
                 if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
                     vm.scrollGenre = true;
+                    vm.displayGenres=displayGenres+", "
                 } else {
                     vm.scrollGenre = false;
                 }
