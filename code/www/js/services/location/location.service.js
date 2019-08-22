@@ -1,8 +1,7 @@
-import { resolve } from "dns";
-import { rejects } from "assert";
-
 (function () {
     'use strict';
+
+    console.log("HERE: locationService");
 
     angular
         .module('gaddum.location')

@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  console.log("HERE (PlaylistController)");
+
   angular
     .module('gaddum.playlistDirective')
     .controller('playlistController', control);

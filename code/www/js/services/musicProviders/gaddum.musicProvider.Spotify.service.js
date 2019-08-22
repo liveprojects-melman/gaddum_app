@@ -48,7 +48,8 @@
 
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
-
+    var EVENT_HANDLER_PROMISE = null;
+    var CURRENT_TRACK_INFO = null;
 
 
     var AUTH_CONFIG = null;
@@ -93,12 +94,12 @@
 
       var accessToken = response.accessToken;
       var refreshToken = response.encryptedRefreshToken;
-      var expires_at = response.expiresAt;
+      var expiresAt = response.expiresAt;
 
 
 
       promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', accessToken));
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expires_at));
+      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expiresAt));
       promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token', refreshToken));
 
       CACHED_ACCESS_CREDENTIALS = AccessCredentials.build(accessToken, expiresAt, refreshToken);
@@ -244,9 +245,19 @@
 
     // ------ PUBLIC
 
-    function asyncInit(musicProviderIdentifier) {
-      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
+    function asyncInitialise(musicProviderIdentifier, eventHandlerPromise) {
 
+      if(!musicProviderIdentifier){
+        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no musicProviderIdentifier.");
+      }
+
+      if(!eventHandlerPromise){
+        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
+      }
+
+
+      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
+      EVENT_HANDLER_PROMISE = eventHandlerPromise;
       AUTH_CONFIG = {
         clientId: null,
         encryptionSecret: null,
@@ -468,7 +479,7 @@
 
 
     // --- needs a tidy
-    function playTrack(TID) {
+    function asyncPlay(TID) {
       return $q(function (resolve, reject) {
         var deviceID = device.uuid;
         asyncGetAccessCredentials().then(function (result) {
@@ -481,7 +492,7 @@
         });
       });
     }
-    function pause() {
+    function asyncPause() {
       return $q(function (resolve, reject) {
         cordova.plugins.spotify.pause()
         then(function () {
@@ -935,11 +946,147 @@
     }
 
 
+    function buildDummyTrackObject() {
 
+
+      TrackInfo.build(
+          "Some Name",
+          "Some Album",
+          "Some Artist",
+          2800,
+          "https://blh.com/spotifytracks/erwghwerpgoehrgpoeiwhgogi/erpgiehgpuerhgerh/",
+          "https://blh.com/pics/ergerjgwpofwejew/ewflwefjgpo.jpg",
+          "ergjerigergoierhgoiergiheroi",
+          "gaddumMusicProviderSpotifyService"
+      );
+
+
+  }
+
+
+    // sets the current track.
+    // emits events according to what happens
+    // look up trackInfo in cache.
+    // if not there, search on line for it.
+    // Cache the results.
+    // hold a track info object.
+    // rejects on catastophic errors.
+    // a missing track is not catastrophic
+    function asyncSetTrack(genericTrack){
+
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+        
+          CURRENT_TRACK_INFO = buildDummyTrackObject();
+        
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+    }
+
+
+    // emits events according to what happens
+    // if spotify player is not playing
+    // use the current TrackInfo object to 
+    // obtain correct track id. 
+    // Update spotify player.
+    // play the  spotify player. 
+    // rejects on catastophic errors.
+    // a missing track is not catastrophic
+    function asyncPlayCurrentTrack(){
+
+
+      var deferred = $q.defer();
+
+      // Dummy for now.
+
+      $timeout(
+
+        function(){
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_START,
+                CURRENT_TRACK_INFO)
+              );
+          },1000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                10)
+              );
+          },2000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                50)
+              );
+          },3000);
+
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_PROGRESS_PERCENT,
+                80)
+              );
+          },4000);
+
+          $timeout(function(){
+            EVENT_HANDLER_PROMISE(
+              EventIndentifier.build(
+                EventIdentifier.TRACK_END,
+                80)
+              );
+          },5000);
+
+
+
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+
+
+
+    }
+
+    function asyncPauseCurrentTrack(){
+      // pause the spotify player.
+
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function(){
+        
+          deferred.resolve();
+        }
+
+      );
+
+      return deferred.promise;
+
+
+    }
 
 
     var service = {
-      asyncInit: asyncInit,
+      asyncInitialise: asyncInitialise,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
@@ -947,14 +1094,18 @@
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
-      playTrack: playTrack,
-      pause: pause,
+
+      asyncSetTrackTrack: asyncSetTrack,
+      asyncPlayCurrentTrack, asyncPlayCurrentTrack,
+      asyncPauseCurrentTrack: asyncPauseCurrentTrack,
+      
+      
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncSeekTracks: asyncSeekTracks,
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
-      asyncImportPlaylists: asyncImportPlaylists
-
+      asyncImportPlaylists: asyncImportPlaylists,
+      asyncImportTracks: asyncImportTracks
 
     };
 

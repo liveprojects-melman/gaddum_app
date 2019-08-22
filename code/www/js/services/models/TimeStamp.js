@@ -18,11 +18,11 @@
     }
 
 
-    this.getJavaEpocMs = function(){
+    this.getJavaEpocMs = function () {
       return this.javaepoch_ms;
     }
 
-    this.getJavaEpocS = function(){
+    this.getJavaEpocS = function () {
       return this.javaepoch_ms / 1000;
     }
 
@@ -34,7 +34,7 @@
 
       var ms = 0;
 
-      if(date == null){
+      if (date == null) {
         date = new Date();
       }
 
@@ -47,15 +47,16 @@
       }
 
       return new TimeStamp(ms);
-    };
 
+    }
+
+
+
+
+    /**
+     * Return the constructor function
+     */
+    return TimeStamp;
   };
 
-
-  /**
-   * Return the constructor function
-   */
-  return TimeStamp;
-
-
-}) ();
+})();

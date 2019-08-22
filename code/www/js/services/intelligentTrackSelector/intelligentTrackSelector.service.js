@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-    .module('gaddum.intelligenttrackselector')
-    .factory('intelligentTrackSelector', intelligentTrackSelector);
+        .module('gaddum.intelligenttrackselector')
+        .factory('intelligentTrackSelector', intelligentTrackSelector);
 
     intelligentTrackSelector.$inject = [
         'ErrorIdentifier',
@@ -25,273 +25,146 @@
         moment
     ) {
 
+        var MAX_SKIP_COUNT = null;
+        var SKIP_THRESHOLD_S = null;
+        var SUPPORTED_MOOD_IDS = null;
+        var MOOD_ID_TRACK_LOOKUP = null;
 
-        var m_moodToPlayList = undefined;
-        var m_moodId = undefined;
-        var m_trackSkipCount = undefined;
-        var m_timeOfLastSkip = undefined;
-        var m_currentTrackIndex = undefined;
-        var m_supportedMoodIds = undefined;
-
-        var SETTINGS = {
-            MAX_SKIP_COUNT: {
-                id: 'track_selector_max_skips',
-                value: 0
-            },
-            MAX_TRACK_DURATION_FOR_SKIP_S: {
-                id: 'track_selector_max_track_duration_for_skip_s',
-                value: 0
-            },
-        };
+        var m_currentMoodId = null;
+        var m_trackSkipCount = 0;
+        var m_timeOfLastSkip = null;
 
 
+        var m_trackHistory = [];
+
+        function createTrackList() {
+            var result = {};
+
+            result.trackIndex = 0;
+            result.genericTracks = [];
+
+            return result;
+        }
+
+        function createHistoryEntry(moodId, trackIndex){
+            return {
+                mood: moodId,
+                index: trackIndex
+            }
+        }
+
+        function clearHistory(){
+            m_trackHistory = [];
+        }
+
+        function addHistory(moodId, trackIndex){
+            m_trackHistory.push(createHistoryEntry(moodId, trackIndex)); 
+        }
 
 
         // makes a dictionary of moodIds, with associated empty playlists
-        function initialiseMoodedPlaylists(supportedMoodIds) {
-            m_moodToPlayList = {};
+        function createMoodIdTrackLookup(supportedMoodIds) {
+            var result = {};
             supportedMoodIds.forEach(function (supportedMoodId) {
                 var id = supportedMoodId.getId();
-                m_moodToPlayList = {};
-
-                m_moodToPlaylist[id] = MoodedPlaylist.build(
-                    supportedMoodId,
-                    Playlist.build()
-                );
+                result[id].anti = supportedMoodId.getIdAnti(); // mood to flip to
+                result[id].list = createTrackList();
 
             });
+            return result;
         }
 
-        function asyncInitialiseMoodedPlaylists(supportedMoodIds) {
-            var deferred = $q.defer();
+        function addToTrackLookup(moodedPlaylists, lookup){
 
-            $timeout(
+            moodedPlaylists.forEach(
+                function (moodedPlayList) {
 
-                function () {
-                    initialiseMoodedPlaylist(supportedMoodIds);
-                    deferred.resolve();
+                    var id = moodedPlaylist.getMoodId().getId();
+
+                    lookup[id].anti = moodedPlaylist.getMoodId().getIdAnti();
+                    lookup[id].list.trackIndex = 0;
+                    var array = lookup[id].list.genericTracks;
+                    array = array.concat(moodedPlaylist.getGenericTracks());
+                    lookup[id].list.genericTracks = array;
 
                 }
             );
-
-            return deferred.promise();
+            return lookup;
         }
 
+        
 
-        function asyncInitialiseSettings() {
-            var deferred = $q.defer();
+        function initialise(supportedMoodIds, maxSkipCount, skipThreshold_s) {
 
-            var promises = [];
+            MAX_SKIP_COUNT = maxSkipCount;
+            SKIP_THRESHOLD_S = skipThreshold_s;
+            SUPPORTED_MOOD_IDS = supportedMoodIds;
+            
 
-            promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_SKIP_COUNT.id));
-            promises.push(dataApiService.asyncGetSetting(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
-
-            $q.all(promises).then(
-                function (result) {
-                    SETTINGS.MAX_SKIP_COUNT.value = result[0];
-                    SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S = result[1];
-                    deferred.resolve(result);
-                },
-                function (error) {
-                    deferred.reject(error);
-                }
-            );
-
-
-        }
-
-        function asyncInitialise(supportedMoodIds) {
-            var m_moodToPlayList = null;
             var m_moodId = null;
             var m_trackSkipCount = 0;
             var m_timeOfLastSkip = null;
-            var m_currentTrackIndex = 0;
-            return asyncInitialiseMoodedPlaylists(supportedMoodIds);
+
         }
 
 
-        function isTimeASkip(currentTimeAsDate){
+        function isTimeASkip(currentTimeAsDate) {
             var result = false;
             var current = moment(currentTimeAsDate);
             var start = moment(m_timeOfLastSkip)
             var diff_s = moment.duration(current.diff(start)).asSeconds();
-            if(diff_s > SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value){
+            if (diff_s > SKIP_THRESHOLD_S) {
                 result = true;
-            } 
+            }
             return result;
         }
+
 
         // --- player
 
         function resetCounters() {
-            var m_moodId = m_moodedPlaylists[0].getMoodId().getId();
             var m_trackSkipCount = 0;
             var m_timeOfLastSkip = moment();
-            var m_currentTrackIndex = 0;
-        }
-
-
-        function selectTrack(){
-
         }
 
 
 
 
-        function getNext() {
+
+
+
+        function next() {
+            if (isTimeASkip()) {
+                if (m_trackSkipCount > MAX_SKIP_COUNT) {
+                    
+                }
+            }
+        }
+
+
+        function prev() {
             if(isTimeASkip()){
-                if(m_trackSkipCount > SETTINGS.MAX_SKIP_COUNT.value){
-                    makeObservation(currentTrack,);
-                }
+
             }
-        }
+         }
 
 
-        function asyncNext() {
-            $timeout(
-                function () {
 
-                    resolve(GenericTrack.build(
-                        'Killer Queen',
-                        'Sheer Heart Attack',
-                        'Queen'
-                    ));
-                }
-            );
-        }
 
-        function asyncPrev() {
-            $timeout(
-                function () {
-                    resolve(GenericTrack.build(
-                        'Lilly of the Valley',
-                        'Sheer Heart Attack',
-                        'Queen'
-                    ));
-                }
-            );
-        }
-
-        function begin() {
+        function loadMoodedPlaylists(moodedPlaylists) {
             resetCounters();
-            return selectTrack();
-        }
-
-
-        function asyncBegin() {
-            $timeout(
-                function () {
-                    resolve(GenericTrack.build(
-                        'Now I\'m Here',
-                        'Sheer Heart Attack',
-                        'Queen'
-                    ));
-                }
-            );
-        }
-
-        function asyncComplete() {
-            $timeout(
-                function () {
-                    resolve(GenericTrack.build(
-                        'Now I\'m Here',
-                        'Sheer Heart Attack',
-                        'Queen'
-                    ));
-                }
-            );
-        }
-
-        // --- Finder
-
-        function asyncFindPlaylists() {
-        }
-
-        // --- Loader
-
-
-        // converts an array of mooded playlists into a lookup
-        // expects the array to possibly contain multiple mooded playlists having the same mood type. 
-        // If this is the case, the playlists are collated.
-        // structure looks like:
-        // {
-        //   mood_id : {
-        //       * your mooded playlist *
-        //   }
-        // }
-        function convertArrayToLookup(moodedPlaylists) {
-            result = {};
-
-            if (moodedPlaylists) {
-                moodedPlaylists.forEach(function (incoming) {
-                    var id = incoming.getMoodId().getId();
-                    var incumbent = result[id];
-                    if (!result[id]) {
-                        result[id] = moodedPlaylist;
-                    } else {
-                        incumbent.getPlaylist().add(incoming.getPlaylist());
-                    }
-                });
-            }
-
-            return result;
-        }
-
-
-        function loadUserSelectedMoodedPlaylists(moodedPlaylists) {
-
-            m_moodedPlaylists = [];
-            m_moodToPlaylist = {};
-
-            if (moodedPlaylists) {
-                m_moodedPlaylists = moodedPlaylists;
-                m_moodToPlayList = convertArrayToLookup();
-            } else {
-                //do nothing
-            }
-        }
-
-
-
-
-        function asyncLoadMoodedPlaylists(moodedPlaylists) {
-            var deferred = $q.defer();
-
-            $timeout(function () {
-                try {
-                    initialiseMoodedPlaylist();
-                    loadUserSelectedMoodedPlaylists(moodedPlaylists);
-                    resolve();
-                } catch (e) {
-                    reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, e.message));
-                }
-            });
-            return deferred.promise;
-
-        }
-
-        // --- Statement
-
-        function asyncApplyStatement() {
+            resetHistory();
+            MOOD_ID_TRACK_LOOKUP = createMoodIdTrackLookup(SUPPORTED_MOOD_IDS);
+            addToTrackLookup(moodedPlaylists,MOOD_ID_TRACK_LOOKUP);
+            setCurrentMood(moodedPlaylist[0].getMoodId().getId());
         }
 
         var service = {
-            initialise,
-            player: {
-                asyncNext: asyncNext,
-                asyncPrev: asyncPrev,
-                asyncBegin: asyncBegin,
-                asyncComplete: asyncComplete
-            },
-            finder: {
-                asyncFindPlaylists: asyncFindPlaylists
-            },
-            loader: {
-                asyncLoadMoodedPlaylists: asyncLoadMoodedPlaylists
-            },
-            statement: {
-                asyncApplyStatement: asyncApplyStatement
-            }
+            initialise: initialise,
+            loadMoodedPlaylists: loadMoodedPlaylists,
+            next: next,
+            prev: prev
+
 
         };
 

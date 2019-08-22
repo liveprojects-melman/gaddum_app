@@ -7,14 +7,12 @@
 
   main_uiController.$inject = [
     '$scope',
-    '$ionicSlideBoxDelegate',
-    'gaddumStreamingService'
+    '$ionicSlideBoxDelegate'
   ];
 
   function main_uiController(
     $scope,
-    $ionicSlideBoxDelegate,
-    gaddumStreamingService
+    $ionicSlideBoxDelegate
   ) {
     var mlc = angular.extend(this, {
 

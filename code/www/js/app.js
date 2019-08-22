@@ -14,7 +14,6 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
-  'ng-fi-text',
   'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
@@ -44,9 +43,14 @@ angular.module('gaddum', [
   'playlistViewModule',
   'playlistEditModule',
   'gaddum.playlistDirective',
+  'gaddum.location',
+  'gaddum.postcode',
+  'gaddum.observer',
+  'gaddum.spinner',
   'gaddum.intelligenttrackselector',
-  'playlistCreateModule',
-  'gaddum.spinner'
+  'gaddum.userprofiler',
+  'gaddum.time',
+  'playlistCreateModule'
 
 ])
   .run([
@@ -59,6 +63,7 @@ angular.module('gaddum', [
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
+    'userProfilerService',
     'permissionsService',
     'permissionsListenerService',
     'playerService',
@@ -72,10 +77,11 @@ angular.module('gaddum', [
       startupSrvc,
       loginModal,
       gaddumMusicProviderService,
+      userProfilerService,
       permissionsService,
       permissionsListenerService,
       playerService
-      ) {
+    ) {
 
       $rootScope.$on('slideChanged', function (a) {
         var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
@@ -125,37 +131,40 @@ angular.module('gaddum', [
           StatusBar.styleDefault();
         }
 
-
-
-
-
-
-
         function asyncStart() {
           var deferred = $q.defer();
 
-          startupSrvc.asyncInitialise().then(
-            function () {
-              gaddumMusicProviderService.asyncInitialise(
-                loginModal.promiseLogin,
-                playerService.promiseHandleEvent
-              ).then(
-                function(){
-                  permissionsListenerService.initialise(null);
-                  $state.go('gaddum.profile');
-                  deferred.resolve();
-                },
-                deferred.reject
-              );
-            },
-            deferred.reject
-          )
+          startupSrvc.asyncInitialise()
+            .then(
+              function () {
+                gaddumMusicProviderService.asyncInitialise(
+                  loginModal.promiseLogin,
+                  playerService.promiseHandleEvent
+                )
+                  .then(
+                    function () {
+                      userProfilerService.asyncInitialise(
+                        playerService.promiseHandleEvent
+                      ).then(
+                        function () {
+                          permissionsListenerService.initialise(null);
+                          $state.go('gaddum.profile');
+                          deferred.resolve();
+                        },
+                        deferred.reject
+                      );
+                    },
+                    deferred.reject
+                  );
+              },
+              deferred.reject
+            )
 
           return deferred.promise;
         }
 
 
-        
+
         permissionsService.returnPermissions().then(
           function (response) {
             if (response.hasAllRequiredPermissions) {

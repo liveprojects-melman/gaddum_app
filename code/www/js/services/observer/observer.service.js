@@ -1,8 +1,7 @@
-import { resolve } from "dns";
-import { rejects } from "assert";
-
 (function () {
     'use strict';
+
+    console.log("HERE: observerService");
 
     angular
         .module('gaddum.observer')
@@ -196,7 +195,7 @@ import { rejects } from "assert";
         }
 
 
-        function seekObservationsLike(observation){
+        function asyncSeekObservationsLike(observation){
     
         }
 
@@ -227,7 +226,7 @@ import { rejects } from "assert";
             // do intialise to update settings from DB
             asyncInitialise : asyncInitialise,
             asyncCreateObservation: asyncCreateObservation,
-            asyncSeekObservations: asyncSeekObservations
+            asyncSeekObservations: asyncSeekObservationsLike
         };
 
         return service;

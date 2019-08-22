@@ -2,7 +2,7 @@
   'use strict;'
 
   angular
-    .module('gaddum.playlists' )
+    .module('gaddum.playlists')
     .factory('playlistService', playlistService)
     ;
 
@@ -12,7 +12,8 @@
     'GenericTrack',
     '$q',
     'gaddumMusicProviderService',
-    '$timeout'
+    '$timeout',
+    'userProfilerService'
   ];
   function playlistService(
     dataApiService,
@@ -20,85 +21,68 @@
     GenericTrack,
     $q,
     gaddumMusicProviderService,
-    $timeout
+    $timeout,
+    userProfilerService
+
   ) {
     var isBusy = false;
-    function getIsBusy(){
+    function getIsBusy() {
       return isBusy;
     }
-    function asyncCreatePlaylist(name){
+    function asyncCreatePlaylist(name) {
       return dataApiService.asyncCreatePlaylist(name);
     }
 
-    function asyncSeekPlaylists(searchName){      
+    function asyncSeekPlaylists(searchName) {
       return dataApiService.asyncSeekPlaylists(searchName);
     }
 
-    function asyncUpdatePlaylist(playlistIdentifier){
+    function asyncUpdatePlaylist(playlistIdentifier) {
       return dataApiService.asyncUpdatePlaylist(playlistIdentifier);
     }
-    
-    function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks){
+
+    function asyncSetPlaylistTracks(playlistIdentifier, arrayGenericTracks) {
       isBusy = true;
       console.log("tracks are ", arrayGenericTracks);
-      return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks).then(function(result){
+      return dataApiService.asyncSetGenericTracksInPlaylist(playlistIdentifier, arrayGenericTracks).then(function (result) {
         isBusy = false;
       });
     }
 
-    function asyncGetPlaylistTracks(playlistIdentifier){
+    function asyncGetPlaylistTracks(playlistIdentifier) {
       return dataApiService.asyncGetGenericTracksInPlaylist(playlistIdentifier);
     }
 
-    function asyncRemovePlaylist(playlistIdentifier){
+    function asyncRemovePlaylist(playlistIdentifier) {
       return dataApiService.asyncRemovePlaylist(playlistIdentifier);
     }
-    function asyncImportPlaylist(playlistArray){
+    function asyncImportPlaylist(playlistArray) {
       isBusy = true;
       return gaddumMusicProviderService.asyncImportPlaylists(playlistArray).then(function (result) {
         isBusy = false;
       });
     }
-    function asyncImportTrack(trackInfo){
-      var deferred = $q.defer();
-      console.log("async play trackInfo:", trackInfo);
-      $timeout(
-
-        function(){
-
-          if(trackInfo){
-
-            // TODO: Mr Cooper 
-            deferred.resolve();
-
-          }else{
-            deferred.reject();
-          }
-
-
-        }
-
-      );
-
-
-      return deferred.promise;
-
+    function asyncImportTracks(trackInfoArray) {
+      isBusy = true;
+      return gaddumMusicProviderService.asyncImportTracks(trackInfoArray).then(function (result) {
+        isBusy = false;
+      });
     }
 
-    function asyncPlay(moodedPlaylists){
+    function asyncPlay(moodedPlaylists) {
 
       var deferred = $q.defer();
       console.log("async play MoodedPlaylist:", moodedPlaylists);
       $timeout(
 
-        function(){
+        function () {
 
-          if(moodedPlaylists){
+          if (moodedPlaylists) {
+            userProfilerService.loader.asyncLoadMoodedPlaylists(moodedPlaylists);
 
-            // TODO: Mr Cooper 
             deferred.resolve();
 
-          }else{
+          } else {
             deferred.reject();
           }
 
@@ -112,46 +96,24 @@
 
     }
 
-    function asyncMakeTrackStatement(StatCrit){
-
-      var deferred = $q.defer();
-      console.log("asyncMakeTrackStatement StatCrit:", StatCrit);
-      $timeout(
-
-        function(){
-
-          if(StatCrit){
-
-            // TODO: Mr Cooper 
-            deferred.resolve();
-
-          }else{
-            deferred.reject();
-          }
-
-
-        }
-
-      );
-
-
-      return deferred.promise;
-
+    function asyncMakeTrackStatement(statementCriteria) {
+      return userProfilerService.statement.asyncApplyStatement(statementCriteria);
     }
 
 
     var service = {
-      asyncCreatePlaylist:asyncCreatePlaylist,
-      asyncSeekPlaylists:asyncSeekPlaylists,
+      asyncCreatePlaylist: asyncCreatePlaylist,
+      asyncSeekPlaylists: asyncSeekPlaylists,
       asyncUpdatePlaylist: asyncUpdatePlaylist,
-      asyncSetPlaylistTracks:asyncSetPlaylistTracks,
-      asyncGetPlaylistTracks:asyncGetPlaylistTracks,
-      asyncRemovePlaylist:asyncRemovePlaylist,
-      getIsBusy:getIsBusy,
-      asyncImportPlaylist:asyncImportPlaylist,
-      asyncMakeTrackStatement:asyncMakeTrackStatement,
-      asyncPlay: asyncPlay,
-      asyncImportTrack:asyncImportTrack
+      asyncSetPlaylistTracks: asyncSetPlaylistTracks,
+      asyncGetPlaylistTracks: asyncGetPlaylistTracks,
+      asyncRemovePlaylist: asyncRemovePlaylist,
+      getIsBusy: getIsBusy,
+      asyncImportPlaylist: asyncImportPlaylist,
+      asyncImportTracks: asyncImportTracks,
+      asyncMakeTrackStatement: asyncMakeTrackStatement,
+      asyncPlay: asyncPlay
+
 
     };
 

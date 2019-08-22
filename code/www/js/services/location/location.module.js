@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('gaddum.observer', [
+		.module('gaddum.location', [
 		])
 
 })();
