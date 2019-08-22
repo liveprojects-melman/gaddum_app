@@ -4,8 +4,8 @@
     angular
         .module('editImageModalModule', ['colorpicker'])
         .factory('editImageModal', editImageModal);
-        editImageModal.$inject = ['$ionicModal', '$rootScope', '$timeout'];
-    function editImageModal($ionicModal, $rootScope , $timeout) {
+    editImageModal.$inject = ['$ionicModal', '$rootScope', '$timeout'];
+    function editImageModal($ionicModal, $rootScope, $timeout) {
         var $scope = $rootScope.$new(),
             myModalInstanceOptions = {
                 scope: null,
@@ -17,16 +17,16 @@
         });
         var modalSave = null;
         var parmeter = null;
-        var encodedImage=[];
+        var encodedImage = [];
 
         var myModal = {
             open: open,
             close: close,
-            getParams:getParams,
-            callback:callback,
-            cancel:cancel,
-            imgUpdate:imgUpdate,
-            getEncodedImage:getEncodedImage
+            getParams: getParams,
+            callback: callback,
+            cancel: cancel,
+            imgUpdate: imgUpdate,
+            getEncodedImage: getEncodedImage
         };
         return myModal;
 
@@ -35,7 +35,7 @@
 
             parmeter = params;
             $scope.fnCallbackOk = fnCallbackOk;
-            $scope.fnCallbackCancel=fnCallbackCancel;
+            $scope.fnCallbackCancel = fnCallbackCancel;
             $ionicModal.fromTemplateUrl(
                 'js/directives/profileDirective/modals/editImageModal.html',
                 myModalInstanceOptions
@@ -48,19 +48,19 @@
                 return service.modalInstance.show();
             });
         }
-        function getParams(){
+        function getParams() {
             return parmeter;
         }
         function close() {
-            $scope.fnCallbackOk(encodedImage);
-            if (modalSave){
-                if(modalSave._isShown){
-                    $timeout(function(){
-                        modalSave.remove();
-                        modalSave = null;
-                        
-                    },500);
-                }
+            if (modalSave) {
+
+                $timeout(function () {
+                    $scope.fnCallbackOk(encodedImage);
+                    modalSave.remove();
+                    modalSave = null;
+
+                }, 500);
+
             }
         }
         function closeAndRemove(modalInstance) {
@@ -70,19 +70,19 @@
                 });
         }
 
-        function callback(newData){
+        function callback(newData) {
             $scope.fnCallbackOk(encodedImage);
         }
 
-        function imgUpdate(modalImage,modalColor){
-            encodedImage=[modalImage,modalColor];
+        function imgUpdate(modalImage, modalColor) {
+            encodedImage = [modalImage, modalColor];
         }
 
-        function cancel(){
-            $scope.fnCallbackOk(encodedImage);
+        function cancel() {
+            //$scope.fnCallbackOk(encodedImage);
             //$scope.fnCallbackCancel();
         }
-        function getEncodedImage(){
+        function getEncodedImage() {
             return encodedImage;
         }
     }

@@ -14,6 +14,7 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
+  'ng-fi-text',
   'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
@@ -44,7 +45,8 @@ angular.module('gaddum', [
   'playlistEditModule',
   'gaddum.playlistDirective',
   'gaddum.intelligenttrackselector',
-  'playlistCreateModule'
+  'playlistCreateModule',
+  'gaddum.spinner'
 
 ])
   .run([

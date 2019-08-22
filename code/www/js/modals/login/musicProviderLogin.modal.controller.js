@@ -11,7 +11,8 @@
     '$scope',
     'gaddumMusicProviderService',
     'MusicProviderIdentifier',
-    '$q'
+    '$q',
+    'spinnerService'
 
   ];
 
@@ -21,7 +22,8 @@
     $scope,
     gaddumMusicProviderService,
     MusicProviderIdentifier,
-    $q
+    $q,
+    spinnerService
   ) {
 
     var DEFAULT_SELECTED_NAMED_IDENTIFIER = MusicProviderIdentifier.build("Select ...", "");
@@ -29,11 +31,13 @@
 
     function onLoginSuccess() {
       ac.busy = false;
+      spinnerService.spinnerOff();
       loginModal.notifyLoginSuccess();
     }
 
     function onLoginFail() {
       ac.busy = false;
+      spinnerService.spinnerOff();
     }
 
     function cancelLogin() {
@@ -42,7 +46,7 @@
 
     function asyncLogin() {
       ac.busy = true;
-
+      spinnerService.spinnerOn();
       console.log("setting music provider.");
       gaddumMusicProviderService.asyncSetMusicProvider(ac.selectedNamedIdentifier)
         .then(

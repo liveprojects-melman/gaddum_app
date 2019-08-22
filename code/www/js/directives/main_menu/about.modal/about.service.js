@@ -15,17 +15,17 @@
 
    
       function appVersion(){
-          console.log(AppVersion.version);
+        //   console.log(AppVersion.version);
           return AppVersion.version;
       }
       function componentsLicenses(){
           return "we got these things called licenses?";
       }
       function projectPersonnel(){
-          return "Kei Gibbings, J.T, D.M, L.C";
+          return "Laurie Cooper, Kei Gibbings, Dave Mee, Jothan Taylor";
       }
       function gaddumLink(){
-          return "gaddum Link Here";
+          return "Gaddum";
       }
     var service = {
         appVersion:appVersion,

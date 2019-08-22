@@ -23,7 +23,7 @@
   </div>
   <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" />
   <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" />
-  <button ng-disabled="!vm.selectbutton" ng-click="vm.selectModal()" class="moodSelect" ><span class="selectSpan">{{vm.selectedMoodId.id}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
+  <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect" ><span class="selectSpan">{{vm.selectedMoodId.id}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
 </div>
 <!-- this is jankey ng-hide didnt work with css transition so we hide the element(visablity:hidden) slow fade -->
 <div ng-click="vm.removeHelpTips()" ng-class="{fade:vm.helpTips}">

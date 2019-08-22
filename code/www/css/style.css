@@ -472,7 +472,8 @@ ion-side-menu-content/*.menu-content.pane*/ {
   }
 }
 
-.fadeout {
+.fadeout.ng-leave,
+.fadeout > .ng-leave {
   animation-name: fadeout;
   animation-duration: 0.25s;
 }
@@ -497,6 +498,32 @@ ion-side-menu-content/*.menu-content.pane*/ {
   .slide-in-down > .ng-leave {
     -webkit-transition: all ease-in-out 250ms;
     transition: all ease-in-out 250ms;
+    animation-name: fadeout;
+    animation-duration: 0.5s
+  }
+.slide-in-up {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+  
+  .slide-in-up.ng-enter,
+  .slide-in-up > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+    transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 400ms;
+  }
+  
+  .slide-in-up.ng-enter-active,
+  .slide-in-up > .ng-enter-active {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  
+  .slide-in-up.ng-leave,
+  .slide-in-up > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
+    animation-name: fadeout;
+    animation-duration: 0.5s
   }
 .selectSpan{
     display: block;
@@ -919,6 +946,7 @@ input::placeholder{
     margin-top: 10px !important;
     height: 1.5rem;
     width: 1.5rem;
+    display: inline-block;
 }
 .settingsCheckbox{
     float: right;
@@ -959,6 +987,7 @@ input::placeholder{
     margin: 0 auto;
     white-space: nowrap;
     overflow: hidden;
+    top: 3rem;
     position: absolute;
    
   }
@@ -998,7 +1027,21 @@ input::placeholder{
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      height: 10%;
   }
+    #scaleProfileName {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        min-height:2rem;
+        min-width:600px;
+        width:100%;
+        background-color: #c0ffee;
+
+    }
 #genreStatic{
     width: calc( 100% - 80px );
     
@@ -1026,10 +1069,11 @@ input::placeholder{
 }
 #rerollNameBtn{
     position: absolute;
-    right: 0%;
-    width: 30%;
+    right: 6%;
+    width: 17%;
     height: 8%!important;
-    top: 13%;
+    top: 16%;
+    min-width: 0%!important;
 }
 #genreslist{
   /* position: relative; */
@@ -1136,7 +1180,7 @@ margin:10px;
     width: 50%;
     left: 25%;
     top: auto;
-    bottom: 3.5rem;
+    bottom: 2.7rem;
     height: auto;
     text-align: center;
     background-color:white;
@@ -1158,9 +1202,12 @@ margin:10px;
     top:5%;
     background-image: var(--color-secondaryBackground);
 }
+.profileDirective{
+    background-image: var(--color-primaryBackground);
+}
 
 .modalGenresCheckboxes{
-    width: 50%;
+    width: 80%;
     height: 60%;
     position: absolute;
     left: 7%;
@@ -1265,6 +1312,7 @@ div#controls{
   }
   #slideboxwrapper.marqueeopen {
     padding-bottom:100px !important;
+    background-color: red;
   }
   #slideboxwrapper.playeropen {
     padding-bottom:52px;
@@ -1542,17 +1590,24 @@ div#scroller.ng-hide {
     left: 29%;
 }
 .playlistDisplayName{
-    padding-left:90px;
+    padding-left: 90px;
+    padding-top: 15px;
     font-size: 12px !important;
     color: darkslategray;
+    width: 100%;
+    display: inline;
+    position: absolute;
 }
 .playlistNameText{
-    padding-left:90px;
-    padding-top: 5px;
+    padding-top: 45px;
     font-weight: 700 !important;
-    color:black;
+    left: 90px;
+    bottom: 5px;
+    color: black;
     display: inline-block;
-    width: 100%;
+    width: 70%;
+    position: absolute;
+    white-space: normal !important;
 }
 .playlistArt{
     width:80px; 
@@ -1635,7 +1690,7 @@ div#scroller.ng-hide {
     height: 10%;
     margin: 0;
     position: absolute;
-    top: 0%;
+    top: 3%;
 }
 #profileEditModalRerollNameDiv{
     position: absolute;
@@ -1845,4 +1900,20 @@ div#scroller.ng-hide {
     position: absolute;
     right: 0;
     top: 0;
+}
+.headerSpinner{
+    width: 50px;
+    height: 50px;
+}
+.aboutImgLeft{
+    border: black 2px solid;
+    height: 100%;
+    margin-left:10%;
+    float: left;
+}
+.aboutImgRight{
+    border: black 2px solid;
+    height: 100%;
+    margin-right:10%;
+    float: right;
 }

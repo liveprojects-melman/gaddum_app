@@ -25,6 +25,7 @@
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
        <link href="css/ionic.app.css" rel="stylesheet">
   -->
+  <script src="lib/jQuery/jquery-3.4.1.min.js"></script>
 
   <script src="lib/external/js/lodash.min.js"></script>
   <script src="lib/external/js/moment.min.js"></script>
@@ -250,8 +251,11 @@
   <script src="js/modals/playlist.create.modal/PlaylistCreateModal.js"></script>
   <script src="js/modals/playlist.create.modal/PlaylistCreateModalController.js"></script>
 <!-- PLAYLIST MODALS END -->
-
-
+<!-- SPINNER DIRECTIVE -->
+  <script src="js/directives/headerSpinner/spinner.directive.js"></script>
+  <script src="js/directives/headerSpinner/spinner.controller.js"></script>
+  <script src="js/services/spinner/spinner.service.js"></script>
+<!-- SPINNER DIRECTIVE END -->
   <!-- settings -->
   <script src="js/services/settings/settings.module.js"></script>
   <!-- <script src="js/services/settings/userSettings.service.dummy.js"></script> -->
@@ -307,6 +311,7 @@
   <script src="js/wrappers/format/moment.service.js"></script>
   <script src="lib/external/js/angular-marquee/marquee.js"></script>
   <script src="lib/external/js/ion-slide-box-tabs/ionSlideBoxTabs.js"></script>
+  <script src="lib/ng-fi-text/ng-fi-text.js"></script>
 
   <!-- ADDED END -->
 
@@ -316,6 +321,7 @@
     <permissions_directive></permissions_directive>
 
   <div  class="bar bar-header" align-title="center">
+    <spinner_directive></spinner_directive>
     <h1 class="title">
       gaddum
     </h1>

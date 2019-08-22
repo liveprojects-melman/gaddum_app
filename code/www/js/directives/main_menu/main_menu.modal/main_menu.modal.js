@@ -11,7 +11,7 @@
                 scope: null,
                 focusFirstInput: true,
                 controller: 'mainMenuModalController as mc',
-                
+                animation: " slide-in-down"
             };
         $scope.$on("modal.hidden", function (modal) {
             

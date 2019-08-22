@@ -1,22 +1,26 @@
-
 <div class="modal aboutModal" ng-controller="AboutModalController as ac">
-  
-    <ion-content>
+
+  <ion-content>
     <div style="width:100%;">
-          
+
       <h3 class="modalTitle">About</h3>
     </div>
-  <div class="hasHeaderExtra">
-    <h2>App Version: </h2>
-    <p>{{ac.appVersion}}</p>
-    <h2>Components and Licenses:</h2>
-    <p>{{ac.componentsLicenses}}</p>
-    <h2>Project Personnel:</h2>
-    <p>{{ac.projectPersonnel}}</p>
-    <h2>Gaddum Link:</h2>
-    <p>{{ac.gaddumLink}}</p>
+    <div class="hasHeaderExtra">
+      <div style ="height: 20%;">
+        
+        <a href="https://www.gaddumcentre.co.uk/"><img class="aboutImgLeft" src="css/GaddumLogo.jpg" /></a>
+        <a href="https://digitallabs.mmu.ac.uk//"><img class="aboutImgRight" src="css/DigitalLabsLogo_512x512.png" /></a>
+      </div>
+      <p> This Product Was Created By <a href="https://digitallabs.mmu.ac.uk//">DigitalLabs</a> For <a href="https://www.gaddumcentre.co.uk/">{{ac.gaddumLink}}</a></p>
+      <h2>App Version: </h2>
+      <p>{{ac.appVersion}}</p>
+      <h2>Components and Licenses:</h2>
+      <p>{{ac.componentsLicenses}}</p>
+      <h2>Project Personnel:</h2>
+      <p>{{ac.projectPersonnel}}</p>
+
     </div>
   </ion-content>
-  </div>
- 
+</div>
+
 </div>
