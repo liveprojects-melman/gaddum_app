@@ -1689,6 +1689,8 @@ div#scroller.ng-hide {
     margin: 0;
     position: absolute;
     top: 3%;
+    font-weight: 900;
+    color: rgb(50,50,50);
 }
 #profileEditModalRerollNameDiv{
     position: absolute;
@@ -1701,6 +1703,8 @@ div#scroller.ng-hide {
     top: 20%;
     height: 7%;
     margin: 0;
+    font-weight: 900;
+    color: rgb(50,50,50);
 }
 .howAreYouSpinner{
     left:25%;
@@ -1930,5 +1934,4 @@ div#scroller.ng-hide {
     min-width: 23%;
     max-width: 25%;
     text-align: center;
-    color: #fa8b1d
 }
