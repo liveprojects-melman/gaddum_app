@@ -1,7 +1,9 @@
 /* Empty. Add your own CSS if you like */
 :root {
     --color-primaryBackground: linear-gradient(to bottom,#cb0009,#fa8b1d);
-    --color-secondaryBackground: linear-gradient(to left,lightblue,rgb(255, 100, 20));
+    /* --color-secondaryBackground: linear-gradient(to left,lightblue,rgb(255, 100, 20)); */
+    /* --color-secondaryBackground: linear-gradient(to top,rgb(243, 74, 74),rgb(255, 153, 89)); */
+    --color-secondaryBackground: linear-gradient(to bottom,rgb(243, 74, 74),rgb(255, 153, 89));
     --color-listOdd:  #6244fc;
     --color-listEven: #646aca;
   }
@@ -1689,6 +1691,8 @@ div#scroller.ng-hide {
     margin: 0;
     position: absolute;
     top: 3%;
+    font-weight: 900;
+    color: rgb(50,50,50);
 }
 #profileEditModalRerollNameDiv{
     position: absolute;
@@ -1701,6 +1705,8 @@ div#scroller.ng-hide {
     top: 20%;
     height: 7%;
     margin: 0;
+    font-weight: 900;
+    color: rgb(50,50,50);
 }
 .howAreYouSpinner{
     left:25%;
@@ -1928,6 +1934,16 @@ div#scroller.ng-hide {
     top: 70%;
     right: 0%;
     min-width: 23%;
-    max-width: 29%;
+    max-width: 25%;
     text-align: center;
+}
+/* #gaddum-shuttle button[ng-click="gpc.handlePlayPress()"]{
+    font-size: 50%!important;
+    background-color: pink;
+} */
+/* #gaddum-shuttle button[ng-click="gpc.handlePlayPress()"]::before{
+    font-size: 305%;
+} */
+#gaddum-shuttle button::before{
+    font-size: 305%;
 }
