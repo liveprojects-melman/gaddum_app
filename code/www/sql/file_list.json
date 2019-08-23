@@ -109,7 +109,7 @@
     {
         "name": "get_track_infos(name, album, artist, duration_s, id, provider_id)",
         "function": "get_track_infos",
-        "path": "www/sql/get_tracks.sql",
+        "path": "www/sql/get_track_infos.sql",
         "default_parameters": {
             "name" : "Killer Queen",
             "album": "Sheer Heart Attack",

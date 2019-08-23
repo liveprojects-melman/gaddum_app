@@ -291,6 +291,7 @@
               }
               asyncBroadcastEvent(
                 EventIdentifier.build(eventCode,trackInfo));
+              deferred.resolve(trackInfo);
             },
             deferred.reject
           );

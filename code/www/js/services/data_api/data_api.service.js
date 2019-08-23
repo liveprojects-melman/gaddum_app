@@ -14,6 +14,7 @@
         'GenericTrack',
         'GenericImportTrack',
         'TrackReference',
+        'TrackInfo',
         'CachedImage',
         'MusicProviderIdentifier'
     ];
@@ -27,6 +28,7 @@
         GenericTrack,
         GenericImportTrack,
         TrackReference,
+        TrackInfo,
         CachedImage,
         MusicProviderIdentifier
     ) {
@@ -582,7 +584,7 @@
                     artist: genericTrack.getArtist(),
                     duration_s: genericTrack.getDuration_s(),
                     id: genericTrack.getId(),
-                    provider_id: musicProvider
+                    provider_id: musicProvider.getId()
                 },
                 function (response) {
                     var items = mappingService.getResponses(response.rows);

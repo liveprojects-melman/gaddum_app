@@ -56,7 +56,7 @@
     }
 
     function onTrackNew(trackInfo) {
-      console.log("track playing: " + trackInfo.getName());
+      console.log("new track: " + trackInfo.getName());
       gpc.state.playing = true;
   
     }

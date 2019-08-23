@@ -126,7 +126,8 @@
                         'c07d8279-3609-4143-8a0d-3f0b508839ef',
                         'Lilly of the Valley',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
@@ -140,7 +141,8 @@
                         '12e1c931-83fe-4948-95c2-4955c68d60d9',
                         'Now I\'m Here',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
@@ -155,7 +157,8 @@
                         null,
                         'Lilly of the Valley',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );

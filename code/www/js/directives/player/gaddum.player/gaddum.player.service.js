@@ -94,7 +94,12 @@
                 function onTrack(genericTrack) {
                     if(genericTrack){
                         gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                            deferred.resolve,
+                            function(trackInfo){
+                                if(trackInfo){
+                                    gaddumMusicProviderService.asyncPlayCurrentTrack();
+                                }
+                                deferred.resolve();
+                            },
                             deferred.reject
                         );
                     }else{
@@ -112,7 +117,18 @@
                 function onTrack(genericTrack) {
                     if(genericTrack){
                         gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                            deferred.resolve,
+                            function gotTrack(){
+                                gaddumMusicProviderService.asyncPlayCurrentTrack().then(
+                                    function(trackInfo){
+                                        if(trackInfo){
+                                            gaddumMusicProviderService.asyncPlayCurrentTrack();
+                                        }
+                                        deferred.resolve();
+                                    },
+                                    deferred.reject
+                                );
+                            }
+                            ,
                             deferred.reject
                         );
                     }else{

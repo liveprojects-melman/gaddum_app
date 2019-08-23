@@ -983,7 +983,7 @@
         spotifyTrack.duration_ms / 1000,
         spotifyTrack.href,
         spotifyTrack.album.images[0].url,
-        spotifyTrack.id,
+        spotifyTrack.uri,
         MUSIC_PROVIDER_IDENTIFIER.getId()
       );
       return result;
