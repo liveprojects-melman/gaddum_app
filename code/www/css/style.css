@@ -1915,3 +1915,19 @@ div#scroller.ng-hide {
     margin-right:10%;
     float: right;
 }
+#profileEditNameTooltip{
+    position: absolute;
+    top: 22%;
+    right: 0%;
+    min-width: 20%;
+    max-width: 25%;
+    text-align: center;
+}
+#profileEditImageTooltip{
+    position: absolute;
+    top: 70%;
+    right: 0%;
+    min-width: 23%;
+    max-width: 29%;
+    text-align: center;
+}
