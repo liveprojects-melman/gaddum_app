@@ -1306,6 +1306,7 @@
             asyncAddObservation: asyncAddObservation,
             asyncSeekTracks: asyncSeekTracks,
             asyncGetTracks: asyncGetTracks,
+            asyncGetTrackInfos: asyncGetTrackInfos,
 
             asyncAssociatePlaylistAndTracks: asyncAssociatePlaylistAndTracks,
 

@@ -10,8 +10,9 @@
     playerService.$inject = [
         '$timeout',
         '$q',
-        'gaddumMusicProviderService'
-
+        'gaddumMusicProviderService',
+        'userProfilerService',
+        'EventIdentifier'
     ];
 
 
@@ -73,7 +74,9 @@
     function playerService(
         $timeout,
         $q,
-        gaddumMusicProviderService
+        gaddumMusicProviderService,
+        userProfilerService,
+        EventIdentifier,
 
     ) {
 
@@ -90,7 +93,7 @@
             userProfilerService.player.asyncNext().then(
                 function onTrack(genericTrack) {
                     if(genericTrack){
-                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
                             deferred.resolve,
                             deferred.reject
                         );
@@ -108,7 +111,7 @@
             userProfilerService.player.asyncPrev().then(
                 function onTrack(genericTrack) {
                     if(genericTrack){
-                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
                             deferred.resolve,
                             deferred.reject
                         );
@@ -126,7 +129,7 @@
             userProfilerService.player.asyncBegin().then(
                 function onTrack(genericTrack) {
                     if(genericTrack){
-                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
                             deferred.resolve,
                             deferred.reject
                         );
@@ -153,7 +156,9 @@
                                 deferred.reject
                             );
                         }else{
-                            asyncBroadcastEvent(EventIndicator.PLAYLIST_END);
+                            asyncBroadcastEvent(
+                                EventIdentifier.build(
+                                    EventIdentifier.PLAYLIST_END));
                             deferred.resolve(CONSUMED);
                         }
                     },
@@ -249,7 +254,9 @@
                         // event handler barfed. 
                         function eventErrored(error){
                             // we'll just make sure the user can't do anything else until they have chosen another playlist.
-                            asyncBroadcastEvent(eventIdentifier.build(EventIdentifier.PLAYLIST_NONE)); 
+                            asyncBroadcastEvent(
+                                EventIdentifier.build(
+                                    EventIdentifier.PLAYLIST_NONE)); 
                             deferred.resolve();  // can't make the event source handle it
                         }
                         
@@ -270,9 +277,13 @@
                 function noTrack(error){
                     // this also gets called on the music provider barfing with an error, so this is also auto recovery.
                     if(!error){
-                        asyncBroadcastEvent(EventIndicator.PLAYLIST_END,null);
+                        asyncBroadcastEvent(
+                            EventIdentifier.build(
+                                EventIdentifier.PLAYLIST_END,null));
                     }else{
-                        asyncBroadcastEvent(EventIndicator.PLAYLIST_NONE,null);
+                        asyncBroadcastEvent(
+                            EventIdentifier.build(
+                                EventIdentifier.PLAYLIST_NONE,null));
                     }
                 }
             );
@@ -291,9 +302,13 @@
                 },
                 function noTrack(error){
                     if(!error){
-                        asyncBroadcastEvent(EventIndicator.PLAYLIST_NEW,null);
+                        asyncBroadcastEvent(
+                            EventIdentifier.build(
+                                EventIdentifier.PLAYLIST_NEW,null));
                     }else{
-                        asyncBroadcastEvent(EventIndicator.PLAYLIST_NONE,null);
+                        asyncBroadcastEvent(
+                            EventIdentifier.build(
+                                EventIdentifier.PLAYLIST_NONE,null));
                     }
                 }
             );
@@ -311,7 +326,9 @@
                 deferred.resolve,
                 function(error){
                     // try and recover by forcing the user to attempt re-doing the playlist
-                    asyncBroadcastEvent(EventIndicator.PLAYLIST_NONE,null);
+                    asyncBroadcastEvent(
+                        EventIdentifier.build(
+                        EventIdentifier.PLAYLIST_NONE,null));
                     deferred.resolve; 
                 }
             );
@@ -327,7 +344,9 @@
                 deferred.resolve,
                 function(error){
                     // try and recover by forcing the user to attempt re-doing the playlist
-                    asyncBroadcastEvent(EventIndicator.PLAYLIST_NONE,null);
+                    asyncBroadcastEvent(
+                        EventIdentifier.build(
+                        EventIdentifier.PLAYLIST_NONE,null));
                     deferred.resolve; 
                 }
             );

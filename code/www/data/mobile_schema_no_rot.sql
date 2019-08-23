@@ -1,10 +1,289 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Tue Aug 20 17:18:02 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Aug 23 18:18:51 2019
 --
 -- Text encoding used: UTF-8
 --
 -- PRAGMA foreign_keys = off;
 -- BEGIN TRANSACTION;
+
+-- Table: playlists_to_tracks
+DROP TABLE IF EXISTS playlists_to_tracks;
+
+CREATE TABLE playlists_to_tracks (
+    id          TEXT    PRIMARY KEY
+                        UNIQUE
+                        NOT NULL,
+    playlist_id TEXT    REFERENCES playlists (id) ON DELETE CASCADE
+                                                  ON UPDATE CASCADE
+                                                  MATCH SIMPLE
+                        NOT NULL,
+    track_id    TEXT    REFERENCES tracks (id) ON DELETE CASCADE
+                                               ON UPDATE CASCADE
+                                               MATCH SIMPLE
+                        NOT NULL,
+    [order]     INTEGER NOT NULL
+);
+
+
+-- Table: supported_moods
+DROP TABLE IF EXISTS supported_moods;
+
+CREATE TABLE supported_moods (
+    id                TEXT PRIMARY KEY ASC ON CONFLICT FAIL
+                           NOT NULL,
+    name              TEXT NOT NULL
+                           UNIQUE,
+    icon_resource     TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
+                                                            ON UPDATE CASCADE
+                                                            MATCH SIMPLE,
+    music_resource    TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
+                                                            ON UPDATE CASCADE
+                                                            MATCH SIMPLE,
+    emoticon_resource TEXT
+);
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'peaceful',
+                                'peaceful',
+                                NULL,
+                                NULL,
+                                '😇'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'angry',
+                                'angry',
+                                NULL,
+                                NULL,
+                                '😡'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'restful',
+                                'restful',
+                                NULL,
+                                NULL,
+                                '😌'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'crazy',
+                                'crazy',
+                                NULL,
+                                NULL,
+                                '😜'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'sad',
+                                'sad',
+                                NULL,
+                                NULL,
+                                '😟'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'happy',
+                                'happy',
+                                NULL,
+                                NULL,
+                                '😀'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'tired',
+                                'tired',
+                                NULL,
+                                NULL,
+                                '😴'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'physical',
+                                'physical',
+                                NULL,
+                                NULL,
+                                '💪'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'bored',
+                                'bored',
+                                NULL,
+                                NULL,
+                                '🙄'
+                            );
+
+INSERT INTO supported_moods (
+                                id,
+                                name,
+                                icon_resource,
+                                music_resource,
+                                emoticon_resource
+                            )
+                            VALUES (
+                                'focussed',
+                                'focussed',
+                                NULL,
+                                NULL,
+                                '🤔'
+                            );
+
+
+-- Table: encryption_keys
+DROP TABLE IF EXISTS encryption_keys;
+
+CREATE TABLE encryption_keys (
+    id         TEXT PRIMARY KEY
+                    UNIQUE
+                    NOT NULL,
+    base64_key TEXT NOT NULL
+);
+
+
+-- Table: gifted_playlists
+DROP TABLE IF EXISTS gifted_playlists;
+
+CREATE TABLE gifted_playlists (
+    id           TEXT    REFERENCES playlists (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                         NOT NULL
+                         UNIQUE,
+    mood_enabled BOOLEAN
+);
+
+
+-- Table: playlists_to_profiles
+DROP TABLE IF EXISTS playlists_to_profiles;
+
+CREATE TABLE playlists_to_profiles (
+    playlist TEXT REFERENCES playlists (id) ON DELETE CASCADE
+                                            ON UPDATE CASCADE
+                                            MATCH SIMPLE
+                  NOT NULL,
+    profile  TEXT REFERENCES profiles (id) ON DELETE CASCADE
+                                           ON UPDATE CASCADE
+                                           MATCH SIMPLE
+                  NOT NULL
+);
+
+
+-- Table: image_cache
+DROP TABLE IF EXISTS image_cache;
+
+CREATE TABLE image_cache (
+    web_uri      TEXT NOT NULL
+                      UNIQUE
+                      PRIMARY KEY,
+    base64_image TEXT NOT NULL
+);
+
+
+-- Table: supported_input_types
+DROP TABLE IF EXISTS supported_input_types;
+
+CREATE TABLE supported_input_types (
+    name TEXT PRIMARY KEY
+            NOT NULL
+            UNIQUE
+);
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'boolean'
+                                  );
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'integer'
+                                  );
+
+INSERT INTO supported_input_types (
+                                      name
+                                  )
+                                  VALUES (
+                                      'text'
+                                  );
+
+
+-- Table: playlists
+DROP TABLE IF EXISTS playlists;
+
+CREATE TABLE playlists (
+    id   TEXT PRIMARY KEY
+              UNIQUE
+              NOT NULL,
+    name TEXT
+);
+
 
 -- Table: settings
 DROP TABLE IF EXISTS settings;
@@ -194,6 +473,24 @@ INSERT INTO settings (
                      );
 
 
+-- Table: profiles_to_encryption_keys
+DROP TABLE IF EXISTS profiles_to_encryption_keys;
+
+CREATE TABLE profiles_to_encryption_keys (
+    id             TEXT PRIMARY KEY
+                        UNIQUE
+                        NOT NULL,
+    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
+                                                 ON UPDATE CASCADE
+                                                 MATCH SIMPLE
+                        NOT NULL,
+    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
+                                                        ON UPDATE CASCADE
+                                                        MATCH SIMPLE
+                        NOT NULL
+);
+
+
 -- Table: user_settings
 DROP TABLE IF EXISTS user_settings;
 
@@ -287,159 +584,56 @@ INSERT INTO user_settings (
                           );
 
 
--- Table: image_cache
-DROP TABLE IF EXISTS image_cache;
+-- Table: connections
+DROP TABLE IF EXISTS connections;
 
-CREATE TABLE image_cache (
-    web_uri      TEXT NOT NULL
-                      UNIQUE
-                      PRIMARY KEY,
-    base64_image TEXT NOT NULL
+CREATE TABLE connections (
+    id                              TEXT    PRIMARY KEY
+                                            UNIQUE
+                                            NOT NULL,
+    connection_state                INTEGER REFERENCES supported_connection_states (id) ON DELETE CASCADE
+                                                                                        ON UPDATE SET DEFAULT
+                                                                                        MATCH SIMPLE,
+    target_profile                  TEXT    REFERENCES profiles (id) ON DELETE CASCADE
+                                                                     ON UPDATE CASCADE
+                                                                     MATCH SIMPLE,
+    state_change_timestamp_epoch_ms INTEGER NOT NULL,
+    provider_device_id              TEXT    NOT NULL,
+    provider_connection_id          TEXT
 );
 
 
--- Table: music_provider_settings
-DROP TABLE IF EXISTS music_provider_settings;
+-- Table: track_references
+DROP TABLE IF EXISTS track_references;
 
-CREATE TABLE music_provider_settings (
-    provider   TEXT   REFERENCES music_providers (id) ON DELETE SET DEFAULT
-                                                      ON UPDATE CASCADE
-                                                      MATCH SIMPLE
-                      NOT NULL,
-    id         STRING NOT NULL,
-    value      TEXT,
-    value_type TEXT   NOT NULL
+CREATE TABLE track_references (
+    id            TEXT PRIMARY KEY
+                       NOT NULL
+                       UNIQUE,
+    web_uri       TEXT,
+    player_uri    TEXT,
+    provider_id   TEXT REFERENCES music_providers (id) ON DELETE CASCADE
+                                                       ON UPDATE CASCADE
+                                                       MATCH SIMPLE,
+    thumbnail_uri TEXT,
+    track_id      TEXT REFERENCES tracks (id) ON DELETE CASCADE
+                                              ON UPDATE CASCADE
+                                              MATCH SIMPLE
+                       NOT NULL
 );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'homepage_url',
-                                        NULL,
-                                        'string'
-                                    );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'client_id',
-                                        'e09602dc211e406a99b2a1d74215b03e',
-                                        'string'
-                                    );
+-- Table: base64_resources
+DROP TABLE IF EXISTS base64_resources;
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'redirect_url',
-                                        'gaddumspotify://callback',
-                                        'string'
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'token_refresh_url',
-                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
-                                        'string '
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'token_exchange_url',
-                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
-                                        'string '
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'access_token',
-                                        NULL,
-                                        'string'
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'refresh_token',
-                                        NULL,
-                                        'string'
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'expires_at',
-                                        NULL,
-                                        'integer'
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'base64_csv_genre_tags',
-                                        'YWNvdXN0aWMsYWZyb2JlYXQsYWx0LXJvY2ssYWx0ZXJuYXRpdmUsYW1iaWVudCxhbmltZSxibGFjay1tZXRhbCxibHVlZ3Jhc3MsYmx1ZXMsYm9zc2Fub3ZhLGJyYXppbCxicmVha2JlYXQsYnJpdGlzaCxjYW50b3BvcCxjaGljYWdvLWhvdXNlLGNoaWxkcmVuLGNoaWxsLGNsYXNzaWNhbCxjbHViLGNvbWVkeSxjb3VudHJ5LGRhbmNlLGRhbmNlaGFsbCxkZWF0aC1tZXRhbCxkZWVwLWhvdXNlLGRldHJvaXQtdGVjaG5vLGRpc2NvLGRpc25leSxkcnVtLWFuZC1iYXNzLGR1YixkdWJzdGVwLGVkbSxlbGVjdHJvLGVsZWN0cm9uaWMsZW1vLGZvbGssZm9ycm8sZnJlbmNoLGZ1bmssZ2FyYWdlLGdlcm1hbixnb3NwZWwsZ290aCxncmluZGNvcmUsZ3Jvb3ZlLGdydW5nZSxndWl0YXIsaGFwcHksaGFyZC1yb2NrLGhhcmRjb3JlLGhhcmRzdHlsZSxoZWF2eS1tZXRhbCxoaXAtaG9wLGhvbGlkYXlzLGhvbmt5LXRvbmssaG91c2UsaWRtLGluZGlhbixpbmRpZSxpbmRpZS1wb3AsaW5kdXN0cmlhbCxpcmFuaWFuLGotZGFuY2Usai1pZG9sLGotcG9wLGotcm9jayxqYXp6LGstcG9wLGtpZHMsbGF0aW4sbGF0aW5vLG1hbGF5LG1hbmRvcG9wLG1ldGFsLG1ldGFsLW1pc2MsbWV0YWxjb3JlLG1pbmltYWwtdGVjaG5vLG1vdmllcyxtcGIsbmV3LWFnZSxuZXctcmVsZWFzZSxvcGVyYSxwYWdvZGUscGFydHkscGhpbGlwcGluZXMtb3BtLHBpYW5vLHBvcCxwb3AtZmlsbSxwb3N0LWR1YnN0ZXAscG93ZXItcG9wLHByb2dyZXNzaXZlLWhvdXNlLHBzeWNoLXJvY2sscHVuayxwdW5rLXJvY2ssci1uLWIscmFpbnktZGF5LHJlZ2dhZSxyZWdnYWV0b24scm9hZC10cmlwLHJvY2sscm9jay1uLXJvbGwscm9ja2FiaWxseSxyb21hbmNlLHNhZCxzYWxzYSxzYW1iYSxzZXJ0YW5lam8sc2hvdy10dW5lcyxzaW5nZXItc29uZ3dyaXRlcixza2Esc2xlZXAsc29uZ3dyaXRlcixzb3VsLHNvdW5kdHJhY2tzLHNwYW5pc2gsc3R1ZHksc3VtbWVyLHN3ZWRpc2gsc3ludGgtcG9wLHRhbmdvLHRlY2hubyx0cmFuY2UsdHJpcC1ob3AsdHVya2lzaCx3b3JrLW91dCx3b3JsZC1tdXNpYw==',
-                                        'string'
-                                    );
-
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'base64_csv_selected_genre_tags',
-                                        NULL,
-                                        'string'
-                                    );
+CREATE TABLE base64_resources (
+    id        TEXT    PRIMARY KEY
+                      NOT NULL
+                      UNIQUE,
+    content   TEXT,
+    is_url    BOOLEAN,
+    mime_type TEXT    NOT NULL
+);
 
 
 -- Table: queue
@@ -452,6 +646,31 @@ CREATE TABLE queue (
     timestamp INTEGER NOT NULL,
     item      STRING  NOT NULL,
     type      STRING  NOT NULL
+);
+
+
+-- Table: profiles
+DROP TABLE IF EXISTS profiles;
+
+CREATE TABLE profiles (
+    id                TEXT PRIMARY KEY
+                           UNIQUE
+                           NOT NULL,
+    name              TEXT,
+    avatar_graphic_id TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
+                                                            ON UPDATE CASCADE
+);
+
+
+-- Table: supported_connection_states
+DROP TABLE IF EXISTS supported_connection_states;
+
+CREATE TABLE supported_connection_states (
+    id   INTEGER PRIMARY KEY
+                 UNIQUE
+                 NOT NULL,
+    name TEXT    UNIQUE
+                 NOT NULL
 );
 
 
@@ -793,61 +1012,6 @@ INSERT INTO supported_face_criteria (
                                     );
 
 
--- Table: playlists
-DROP TABLE IF EXISTS playlists;
-
-CREATE TABLE playlists (
-    id   TEXT PRIMARY KEY
-              UNIQUE
-              NOT NULL,
-    name TEXT
-);
-
-
--- Table: gifted_playlists
-DROP TABLE IF EXISTS gifted_playlists;
-
-CREATE TABLE gifted_playlists (
-    id           TEXT    REFERENCES playlists (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                         NOT NULL
-                         UNIQUE,
-    mood_enabled BOOLEAN
-);
-
-
--- Table: profiles_to_encryption_keys
-DROP TABLE IF EXISTS profiles_to_encryption_keys;
-
-CREATE TABLE profiles_to_encryption_keys (
-    id             TEXT PRIMARY KEY
-                        UNIQUE
-                        NOT NULL,
-    profile        TEXT REFERENCES profiles (id) ON DELETE CASCADE
-                                                 ON UPDATE CASCADE
-                                                 MATCH SIMPLE
-                        NOT NULL,
-    encryption_key TEXT REFERENCES encryption_keys (id) ON DELETE CASCADE
-                                                        ON UPDATE CASCADE
-                                                        MATCH SIMPLE
-                        NOT NULL
-);
-
-
--- Table: profiles
-DROP TABLE IF EXISTS profiles;
-
-CREATE TABLE profiles (
-    id                TEXT PRIMARY KEY
-                           UNIQUE
-                           NOT NULL,
-    name              TEXT,
-    avatar_graphic_id TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
-                                                            ON UPDATE CASCADE
-);
-
-
 -- Table: supported_timeslots
 DROP TABLE IF EXISTS supported_timeslots;
 
@@ -1123,377 +1287,6 @@ INSERT INTO supported_timeslots (
                                     '23:59:59',
                                     24
                                 );
-
-
--- Table: mood_pairings
-DROP TABLE IF EXISTS mood_pairings;
-
-CREATE TABLE mood_pairings (
-    mood_hot  TEXT PRIMARY KEY
-                   REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL,
-    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
-                                                   ON UPDATE CASCADE
-                                                   MATCH SIMPLE
-                   UNIQUE
-                   NOT NULL
-);
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'focussed',
-                              'bored'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'physical',
-                              'tired'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'happy',
-                              'sad'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'crazy',
-                              'restful'
-                          );
-
-INSERT INTO mood_pairings (
-                              mood_hot,
-                              mood_cool
-                          )
-                          VALUES (
-                              'angry',
-                              'peaceful'
-                          );
-
-
--- Table: tracks
-DROP TABLE IF EXISTS tracks;
-
-CREATE TABLE tracks (
-    id         TEXT    PRIMARY KEY
-                       NOT NULL
-                       UNIQUE,
-    name       TEXT,
-    album      TEXT,
-    artist     TIME,
-    duration_s INTEGER NOT NULL
-);
-
-
--- Table: music_providers
-DROP TABLE IF EXISTS music_providers;
-
-CREATE TABLE music_providers (
-    id   TEXT PRIMARY KEY
-              UNIQUE
-              NOT NULL,
-    name TEXT NOT NULL
-);
-
-INSERT INTO music_providers (
-                                id,
-                                name
-                            )
-                            VALUES (
-                                'gaddumMusicProviderSpotifyService',
-                                'Spotify'
-                            );
-
-
--- Table: playlists_to_profiles
-DROP TABLE IF EXISTS playlists_to_profiles;
-
-CREATE TABLE playlists_to_profiles (
-    playlist TEXT REFERENCES playlists (id) ON DELETE CASCADE
-                                            ON UPDATE CASCADE
-                                            MATCH SIMPLE
-                  NOT NULL,
-    profile  TEXT REFERENCES profiles (id) ON DELETE CASCADE
-                                           ON UPDATE CASCADE
-                                           MATCH SIMPLE
-                  NOT NULL
-);
-
-
--- Table: supported_connection_states
-DROP TABLE IF EXISTS supported_connection_states;
-
-CREATE TABLE supported_connection_states (
-    id   INTEGER PRIMARY KEY
-                 UNIQUE
-                 NOT NULL,
-    name TEXT    UNIQUE
-                 NOT NULL
-);
-
-
--- Table: observations
-DROP TABLE IF EXISTS observations;
-
-CREATE TABLE observations (
-    id            TEXT    PRIMARY KEY
-                          UNIQUE
-                          NOT NULL,
-    timestamp_s   INTEGER NOT NULL,
-    mood_id       INTEGER REFERENCES supported_moods (id) ON DELETE NO ACTION
-                                                          ON UPDATE CASCADE
-                                                          MATCH SIMPLE,
-    timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
-                                                              ON UPDATE CASCADE
-                                                              MATCH SIMPLE
-                          NOT NULL,
-    location_lat  DOUBLE,
-    location_lon  DOUBLE,
-    location_code TIME,
-    track_percent INTEGER NOT NULL,
-    num_repeats   INTEGER NOT NULL,
-    mood_suitable BOOLEAN NOT NULL,
-    track         TEXT    REFERENCES tracks (id) ON DELETE CASCADE
-                                                 ON UPDATE CASCADE
-                                                 MATCH SIMPLE
-);
-
-
--- Table: supported_moods
-DROP TABLE IF EXISTS supported_moods;
-
-CREATE TABLE supported_moods (
-    id                TEXT PRIMARY KEY ASC ON CONFLICT FAIL
-                           NOT NULL,
-    name              TEXT NOT NULL
-                           UNIQUE,
-    icon_resource     TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
-                                                            ON UPDATE CASCADE
-                                                            MATCH SIMPLE,
-    music_resource    TEXT REFERENCES base64_resources (id) ON DELETE SET NULL
-                                                            ON UPDATE CASCADE
-                                                            MATCH SIMPLE,
-    emoticon_resource TEXT
-);
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'peaceful',
-                                'peaceful',
-                                NULL,
-                                NULL,
-                                '😇'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'angry',
-                                'angry',
-                                NULL,
-                                NULL,
-                                '😡'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'restful',
-                                'restful',
-                                NULL,
-                                NULL,
-                                '😌'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'crazy',
-                                'crazy',
-                                NULL,
-                                NULL,
-                                '😜'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'sad',
-                                'sad',
-                                NULL,
-                                NULL,
-                                '😟'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'happy',
-                                'happy',
-                                NULL,
-                                NULL,
-                                '😀'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'tired',
-                                'tired',
-                                NULL,
-                                NULL,
-                                '😴'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'physical',
-                                'physical',
-                                NULL,
-                                NULL,
-                                '💪'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'bored',
-                                'bored',
-                                NULL,
-                                NULL,
-                                '🙄'
-                            );
-
-INSERT INTO supported_moods (
-                                id,
-                                name,
-                                icon_resource,
-                                music_resource,
-                                emoticon_resource
-                            )
-                            VALUES (
-                                'focussed',
-                                'focussed',
-                                NULL,
-                                NULL,
-                                '🤔'
-                            );
-
-
--- Table: base64_resources
-DROP TABLE IF EXISTS base64_resources;
-
-CREATE TABLE base64_resources (
-    id        TEXT    PRIMARY KEY
-                      NOT NULL
-                      UNIQUE,
-    content   TEXT,
-    is_url    BOOLEAN,
-    mime_type TEXT    NOT NULL
-);
-
-
--- Table: track_references
-DROP TABLE IF EXISTS track_references;
-
-CREATE TABLE track_references (
-    id            TEXT PRIMARY KEY
-                       NOT NULL
-                       UNIQUE,
-    web_uri       TEXT,
-    player_uri    TEXT,
-    provider_id   TEXT REFERENCES music_providers (id) ON DELETE CASCADE
-                                                       ON UPDATE CASCADE
-                                                       MATCH SIMPLE,
-    thumbnail_uri TEXT,
-    track_id      TEXT REFERENCES tracks (id) ON DELETE CASCADE
-                                              ON UPDATE CASCADE
-                                              MATCH SIMPLE
-                       NOT NULL
-);
-
-
--- Table: connections
-DROP TABLE IF EXISTS connections;
-
-CREATE TABLE connections (
-    id                              TEXT    PRIMARY KEY
-                                            UNIQUE
-                                            NOT NULL,
-    connection_state                INTEGER REFERENCES supported_connection_states (id) ON DELETE CASCADE
-                                                                                        ON UPDATE SET DEFAULT
-                                                                                        MATCH SIMPLE,
-    target_profile                  TEXT    REFERENCES profiles (id) ON DELETE CASCADE
-                                                                     ON UPDATE CASCADE
-                                                                     MATCH SIMPLE,
-    state_change_timestamp_epoch_ms INTEGER NOT NULL,
-    provider_device_id              TEXT    NOT NULL,
-    provider_connection_id          TEXT
-);
 
 
 -- Table: criteria_to_moods
@@ -1876,65 +1669,317 @@ INSERT INTO criteria_to_moods (
                               );
 
 
--- Table: supported_input_types
-DROP TABLE IF EXISTS supported_input_types;
+-- Table: mood_pairings
+DROP TABLE IF EXISTS mood_pairings;
 
-CREATE TABLE supported_input_types (
-    name TEXT PRIMARY KEY
-            NOT NULL
-            UNIQUE
+CREATE TABLE mood_pairings (
+    mood_hot  TEXT PRIMARY KEY
+                   REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL,
+    mood_cool TEXT REFERENCES supported_moods (id) ON DELETE CASCADE
+                                                   ON UPDATE CASCADE
+                                                   MATCH SIMPLE
+                   UNIQUE
+                   NOT NULL
 );
 
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'boolean'
-                                  );
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'focussed',
+                              'bored'
+                          );
 
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'integer'
-                                  );
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'physical',
+                              'tired'
+                          );
 
-INSERT INTO supported_input_types (
-                                      name
-                                  )
-                                  VALUES (
-                                      'text'
-                                  );
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'happy',
+                              'sad'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'crazy',
+                              'restful'
+                          );
+
+INSERT INTO mood_pairings (
+                              mood_hot,
+                              mood_cool
+                          )
+                          VALUES (
+                              'angry',
+                              'peaceful'
+                          );
 
 
--- Table: encryption_keys
-DROP TABLE IF EXISTS encryption_keys;
+-- Table: music_providers
+DROP TABLE IF EXISTS music_providers;
 
-CREATE TABLE encryption_keys (
-    id         TEXT PRIMARY KEY
-                    UNIQUE
-                    NOT NULL,
-    base64_key TEXT NOT NULL
+CREATE TABLE music_providers (
+    id   TEXT PRIMARY KEY
+              UNIQUE
+              NOT NULL,
+    name TEXT NOT NULL
+);
+
+INSERT INTO music_providers (
+                                id,
+                                name
+                            )
+                            VALUES (
+                                'gaddumMusicProviderSpotifyService',
+                                'Spotify'
+                            );
+
+
+-- Table: observations
+DROP TABLE IF EXISTS observations;
+
+CREATE TABLE observations (
+    id            TEXT    PRIMARY KEY
+                          UNIQUE
+                          NOT NULL,
+    timestamp_s   INTEGER NOT NULL,
+    mood_id       INTEGER REFERENCES supported_moods (id) ON DELETE NO ACTION
+                                                          ON UPDATE CASCADE
+                                                          MATCH SIMPLE,
+    timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
+                                                              ON UPDATE CASCADE
+                                                              MATCH SIMPLE
+                          NOT NULL,
+    location_lat  DOUBLE,
+    location_lon  DOUBLE,
+    location_code TIME,
+    track_percent INTEGER NOT NULL,
+    num_repeats   INTEGER NOT NULL,
+    mood_suitable BOOLEAN NOT NULL,
+    track         TEXT    REFERENCES tracks (id) ON DELETE CASCADE
+                                                 ON UPDATE CASCADE
+                                                 MATCH SIMPLE
 );
 
 
--- Table: playlists_to_tracks
-DROP TABLE IF EXISTS playlists_to_tracks;
+-- Table: music_provider_settings
+DROP TABLE IF EXISTS music_provider_settings;
 
-CREATE TABLE playlists_to_tracks (
-    id          TEXT    PRIMARY KEY
-                        UNIQUE
-                        NOT NULL,
-    playlist_id TEXT    REFERENCES playlists (id) ON DELETE CASCADE
-                                                  ON UPDATE CASCADE
-                                                  MATCH SIMPLE
-                        NOT NULL,
-    track_id    TEXT    REFERENCES tracks (id) ON DELETE CASCADE
-                                               ON UPDATE CASCADE
-                                               MATCH SIMPLE
-                        NOT NULL,
-    [order]     INTEGER NOT NULL
+CREATE TABLE music_provider_settings (
+    provider   TEXT   REFERENCES music_providers (id) ON DELETE SET DEFAULT
+                                                      ON UPDATE CASCADE
+                                                      MATCH SIMPLE
+                      NOT NULL,
+    id         STRING NOT NULL,
+    value      TEXT,
+    value_type TEXT   NOT NULL
 );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'homepage_url',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'client_id',
+                                        'e09602dc211e406a99b2a1d74215b03e',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'redirect_url',
+                                        'gaddumspotify://callback',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_refresh_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
+                                        'string '
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_exchange_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
+                                        'string '
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'access_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'refresh_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'expires_at',
+                                        NULL,
+                                        'integer'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'base64_csv_genre_tags',
+                                        'YWNvdXN0aWMsYWZyb2JlYXQsYWx0LXJvY2ssYWx0ZXJuYXRpdmUsYW1iaWVudCxhbmltZSxibGFjay1tZXRhbCxibHVlZ3Jhc3MsYmx1ZXMsYm9zc2Fub3ZhLGJyYXppbCxicmVha2JlYXQsYnJpdGlzaCxjYW50b3BvcCxjaGljYWdvLWhvdXNlLGNoaWxkcmVuLGNoaWxsLGNsYXNzaWNhbCxjbHViLGNvbWVkeSxjb3VudHJ5LGRhbmNlLGRhbmNlaGFsbCxkZWF0aC1tZXRhbCxkZWVwLWhvdXNlLGRldHJvaXQtdGVjaG5vLGRpc2NvLGRpc25leSxkcnVtLWFuZC1iYXNzLGR1YixkdWJzdGVwLGVkbSxlbGVjdHJvLGVsZWN0cm9uaWMsZW1vLGZvbGssZm9ycm8sZnJlbmNoLGZ1bmssZ2FyYWdlLGdlcm1hbixnb3NwZWwsZ290aCxncmluZGNvcmUsZ3Jvb3ZlLGdydW5nZSxndWl0YXIsaGFwcHksaGFyZC1yb2NrLGhhcmRjb3JlLGhhcmRzdHlsZSxoZWF2eS1tZXRhbCxoaXAtaG9wLGhvbGlkYXlzLGhvbmt5LXRvbmssaG91c2UsaWRtLGluZGlhbixpbmRpZSxpbmRpZS1wb3AsaW5kdXN0cmlhbCxpcmFuaWFuLGotZGFuY2Usai1pZG9sLGotcG9wLGotcm9jayxqYXp6LGstcG9wLGtpZHMsbGF0aW4sbGF0aW5vLG1hbGF5LG1hbmRvcG9wLG1ldGFsLG1ldGFsLW1pc2MsbWV0YWxjb3JlLG1pbmltYWwtdGVjaG5vLG1vdmllcyxtcGIsbmV3LWFnZSxuZXctcmVsZWFzZSxvcGVyYSxwYWdvZGUscGFydHkscGhpbGlwcGluZXMtb3BtLHBpYW5vLHBvcCxwb3AtZmlsbSxwb3N0LWR1YnN0ZXAscG93ZXItcG9wLHByb2dyZXNzaXZlLWhvdXNlLHBzeWNoLXJvY2sscHVuayxwdW5rLXJvY2ssci1uLWIscmFpbnktZGF5LHJlZ2dhZSxyZWdnYWV0b24scm9hZC10cmlwLHJvY2sscm9jay1uLXJvbGwscm9ja2FiaWxseSxyb21hbmNlLHNhZCxzYWxzYSxzYW1iYSxzZXJ0YW5lam8sc2hvdy10dW5lcyxzaW5nZXItc29uZ3dyaXRlcixza2Esc2xlZXAsc29uZ3dyaXRlcixzb3VsLHNvdW5kdHJhY2tzLHNwYW5pc2gsc3R1ZHksc3VtbWVyLHN3ZWRpc2gsc3ludGgtcG9wLHRhbmdvLHRlY2hubyx0cmFuY2UsdHJpcC1ob3AsdHVya2lzaCx3b3JrLW91dCx3b3JsZC1tdXNpYw==',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'base64_csv_selected_genre_tags',
+                                        NULL,
+                                        'string'
+                                    );
+
+
+-- Table: tracks
+DROP TABLE IF EXISTS tracks;
+
+CREATE TABLE tracks (
+    id         TEXT    PRIMARY KEY
+                       NOT NULL
+                       UNIQUE,
+    name       TEXT,
+    album      TEXT,
+    artist     TIME,
+    duration_s INTEGER NOT NULL
+);
+
+INSERT INTO tracks (
+                       id,
+                       name,
+                       album,
+                       artist,
+                       duration_s
+                   )
+                   VALUES (
+                       '4773cabe-a649-4af3-9a9c-768b5fd990fd',
+                       'Killer Queen',
+                       'Sheer Heart Attack',
+                       'Queen',
+                       90
+                   );
+
+INSERT INTO tracks (
+                       id,
+                       name,
+                       album,
+                       artist,
+                       duration_s
+                   )
+                   VALUES (
+                       'c07d8279-3609-4143-8a0d-3f0b508839ef',
+                       'Lilly of the Valley',
+                       'Sheer Heart Attack',
+                       'Queen',
+                       90
+                   );
+
+INSERT INTO tracks (
+                       id,
+                       name,
+                       album,
+                       artist,
+                       duration_s
+                   )
+                   VALUES (
+                       '12e1c931-83fe-4948-95c2-4955c68d60d9',
+                       'Now I''m Here',
+                       'Sheer Heart Attack',
+                       'Queen',
+                       90
+                   );
 
 
 -- COMMIT TRANSACTION;

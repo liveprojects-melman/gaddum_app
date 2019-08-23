@@ -973,28 +973,13 @@
     }
 
 
-    function buildDummyTrackObject() {
 
-
-      TrackInfo.build(
-        "Some Name",
-        "Some Album",
-        "Some Artist",
-        2800,
-        "https://blh.com/spotifytracks/erwghwerpgoehrgpoeiwhgogi/erpgiehgpuerhgerh/",
-        "https://blh.com/pics/ergerjgwpofwejew/ewflwefjgpo.jpg",
-        "ergjerigergoierhgoiergiheroi",
-        "gaddumMusicProviderSpotifyService"
-      );
-
-
-    }
 
     function spotifyTrackToTrackInfo(spotifyTrack) {
       var result = TrackInfo.build(
         spotifyTrack.name,
         spotifyTrack.album.name,
-        spotifyTrack.artist.artists[0].name,
+        spotifyTrack.artists[0].name,
         spotifyTrack.duration_ms / 1000,
         spotifyTrack.href,
         spotifyTrack.album.images[0].url,
@@ -1024,18 +1009,24 @@
       asyncGetAccessCredentials().then(
         function (resultToken) {
           var baseSearchString = 'https://api.spotify.com/v1/search?q=';
-          var config = { headers: { 'Authorization': 'Bearer ${resultToken.accessToken}' } };
+          
+          var config = { 
+            headers: { 
+              'Authorization': 'Bearer ' + resultToken.accessToken
+            } 
+          };
 
           searchString = baseSearchString +
-            'artist:' + genericTrack.getArtist() +
-            'album:' + genericTrack.getAlbum() +
+            'artist:' + genericTrack.getArtist() + " " +
+            'album:' + genericTrack.getAlbum() + " " +
             'track:' + genericTrack.getName() +
             '&type=track' +
             '&limit=1' +
             '&offset=0';
 
-          $http.get(
-            encodeURI(searchString), config)
+          var uri = encodeURI(searchString);
+
+          $http.get(uri,config)
             .then(
               function gotA200(result) {
 
@@ -1055,6 +1046,7 @@
             );
         }
       );
+      return deferred.promise;
     }
 
 
@@ -1063,7 +1055,7 @@
 
     function asyncGetTrackInfo(genericTrack) {
 
-      var deferred = $q.deferred();
+      var deferred = $q.defer();
 
       $timeout(
         function () {
@@ -1333,7 +1325,7 @@
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
 
-      asyncSetTrackTrack: asyncSetTrack,
+      asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack, asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
       asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,

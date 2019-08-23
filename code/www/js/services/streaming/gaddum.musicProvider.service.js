@@ -355,14 +355,14 @@
 
       asyncCheckForLoginPromptIfNeeded().then(
         function(){
-          MUSIC_PROVIDER.asyncPlayCurrentTrack.then(
+          MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess(){
               startPositionPolling();
             },
             function onError(){
               stopPositionPolling();
               asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_ERROR)
+                EventIdentifier.build(EventIdentifier.TRACK_ERROR,"Problem with playing the track. Is there one loaded?")
               );              
             }
           )

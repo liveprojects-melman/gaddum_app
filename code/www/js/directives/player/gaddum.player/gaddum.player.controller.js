@@ -73,7 +73,7 @@
     }
 
     function onTrackError(error) {
-      console.log("track error: " + error.getMessage());
+      console.log("track error: " + error);
 
     }
 
@@ -118,16 +118,16 @@
 
           switch (event.getId()) {
             case EventIdentifier.TRACK_NEW: // a new track has been queued
-              onTrackNew(event.getMessage());
+              onTrackNew(event.getPayload());
               break;
             case EventIdentifier.TRACK_PAUSED:// the playing of the selected track has been paused
-              onTrackPaused(event.getMessage());
+              onTrackPaused(event.getPayload());
               break;
             case EventIdentifier.TRACK_PROGRESS_PERCENT: // progress through selected track
-              onTrackProgressPercent(event.getMessage());
+              onTrackProgressPercent(event.getPayload());
               break;
             case EventIdentifier.TRACK_ERROR: // an error has occured playing the track / the track is not available.
-              onTrackError(event.getMessage());
+              onTrackError(event.getPayload());
               break;
             case EventIdentifier.LOGGED_IN: // we are now logged in
               onLoggedIn();
@@ -136,10 +136,10 @@
               onLoggedOut();
               break;
             case EventIdentifier.INTERNET_DOWN: // internet connection lost
-              onInternetDown(event.getMessage());
+              onInternetDown(event.getPayload());
               break;
             case EventIdentifier.INTERNET_UP: // internet connection found
-              onInternetUp(event.getMessage());
+              onInternetUp(event.getPayload());
               break;
             case EventIdentifier.PLAYLIST_NEW: // a new playlist is available
               onPlaylistNew();
