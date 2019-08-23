@@ -15,10 +15,23 @@
     ng-init="vm.createProfileGraphic(vm.profile.profile_id)" height=160 width=160
      ng-click="vm.profileImageEdit()"></canvas>
    <!--  <div style="position:absolute; bottom:5%; width: 100%;">
-      
-      
-
     </div> -->
+
+    <p class="icon ion-arrow-up-a" ng-show="vm.defaultName" ng-hide="!vm.defaultName" style="
+    position: absolute;
+    top: 22%;
+    right: 0%;
+    width: 27%;
+">Tap here to roll a new name</p>
+
+<p class="icon ion-arrow-up-a" ng-show="vm.defaultImage" ng-hide="!vm.defaultImage" style="
+    position: absolute;
+    top: 70%;
+    right: 0%;
+    width: 28%;
+">Tap here to edit your profile image</p>
+
+    
 
     <ion-footer-bar align-title="left" class="bar" style="position:absolute; bottom:0%; width: 100%; background-color: transparent">
       <div class="bar bar-footer" style="background-color: transparent">
