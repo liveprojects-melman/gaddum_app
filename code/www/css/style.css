@@ -1928,6 +1928,7 @@ div#scroller.ng-hide {
     top: 70%;
     right: 0%;
     min-width: 23%;
-    max-width: 29%;
+    max-width: 25%;
     text-align: center;
+    color: #fa8b1d
 }
