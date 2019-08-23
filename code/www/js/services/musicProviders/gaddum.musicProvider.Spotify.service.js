@@ -1009,11 +1009,11 @@
       asyncGetAccessCredentials().then(
         function (resultToken) {
           var baseSearchString = 'https://api.spotify.com/v1/search?q=';
-          
-          var config = { 
-            headers: { 
+
+          var config = {
+            headers: {
               'Authorization': 'Bearer ' + resultToken.accessToken
-            } 
+            }
           };
 
           searchString = baseSearchString +
@@ -1026,7 +1026,7 @@
 
           var uri = encodeURI(searchString);
 
-          $http.get(uri,config)
+          $http.get(uri, config)
             .then(
               function gotA200(result) {
 
@@ -1265,13 +1265,17 @@
                   asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
-                    deferred.reject
+                    function (err) {
+                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                    }
                   );
                 } else {
                   asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
-                    deferred.reject
+                    function (err) {
+                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                    }
                   );
                 }
               },
@@ -1284,7 +1288,7 @@
             deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
           }
 
-          deferred.resolve();
+
         }
 
       );
