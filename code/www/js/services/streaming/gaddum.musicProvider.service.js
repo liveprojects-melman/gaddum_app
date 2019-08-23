@@ -298,12 +298,88 @@
         return deferred.promise;
     }
 
+
+    var POLLING = false;
+    var POLL_UPDATE_TIME_MS = 1000;
+
+    function asyncPollAndBroadcast(){
+      var deferred = $q.defer();
+      MUSIC_PROVIDER.asyncGetCurrentTrackProgressPercent().then(
+        function onProgress(percent){
+          if(percent == 0){
+            POLLING = false;
+          }else{
+            if(percent > 0){
+              asyncBroadcastEvent(
+                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
+              );
+            }
+            if(percent == 100){
+              POLLING = false;
+            }
+          }
+        },
+        function onError(){
+          POLLING = false;
+        }
+      );
+
+      return deferred.promise;
+    }
+
+    function doPollAndRepeat(){
+      if(POLLING){
+        asyncPollAndBroadcast().then(
+          $timeout(
+            function(){
+              doPollAndRepeat();
+            }, POLL_UPDATE_TIME_MS
+          )
+        );
+      }
+    }
+
+    function startPositionPolling(){
+      if(!POLLING){
+        POLLING = true;
+        doPollAndRepeat();
+      }
+    }
+
+    function stopPositionPolling(){
+      POLLING = false;
+    }
+
     function asyncPlayCurrentTrack() {
-      return asyncCheckForLoginPromptIfNeeded().then(MUSIC_PROVIDER.asyncPlayCurrentTrack);
+      var deferred = $q.defer();
+
+      asyncCheckForLoginPromptIfNeeded().then(
+        function(){
+          MUSIC_PROVIDER.asyncPlayCurrentTrack.then(
+            function onSuccess(){
+              startPositionPolling();
+            },
+            function onError(){
+              stopPositionPolling();
+              asyncBroadcastEvent(
+                EventIdentifier.build(EventIdentifier.TRACK_ERROR)
+              );              
+            }
+          )
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
     }
 
     function asyncPauseCurrentTrack() {
-      return asyncCheckForLoginPromptIfNeeded().then(MUSIC_PROVIDER.asyncPauseCurrentTrack);
+      return asyncCheckForLoginPromptIfNeeded().then(
+        MUSIC_PROVIDER.asyncPauseCurrentTrack.then(
+          stopPositionPolling,
+          stopPositionPolling
+        )
+      );
     }
 
     function asyncGetProfilePlaylist(offset, limit) {
@@ -408,6 +484,7 @@
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
+     
 
 
       asyncGetSupportedGenres: asyncGetSupportedGenres,
