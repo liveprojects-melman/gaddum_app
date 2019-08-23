@@ -376,7 +376,7 @@
 
     function asyncPauseCurrentTrack() {
       return asyncCheckForLoginPromptIfNeeded().then(
-        MUSIC_PROVIDER.asyncPauseCurrentTrack.then(
+        MUSIC_PROVIDER.asyncPauseCurrentTrack().then(
           stopPositionPolling,
           stopPositionPolling
         )
