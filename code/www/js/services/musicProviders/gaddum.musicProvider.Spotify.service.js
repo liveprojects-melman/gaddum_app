@@ -13,6 +13,7 @@
     'SearchModifier',
     '$http',
     'ErrorIdentifier',
+    'EventIdentifier',
     'AccessCredentials',
     'SearchModifier',
     'gaddumMusicProviderService',
@@ -31,6 +32,7 @@
     SearchModifier,
     $http,
     ErrorIdentifier,
+    EventIdentifier,
     AccessCredentials,
     SearchModifier,
     gaddumMusicProviderService,
@@ -45,14 +47,14 @@
 
     // ------ UTILITY
 
-
+    var HTTP_OK = 200;
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
     var EVENT_HANDLER_PROMISE = null;
     var CURRENT_TRACK_INFO = null;
 
-
     var AUTH_CONFIG = null;
+
 
 
 
@@ -245,14 +247,37 @@
 
     // ------ PUBLIC
 
+
+    function asyncBroadcastEvent(event) {
+      var deferred = $q.defer();
+
+      $timeout(
+
+        function () {
+          if (EVENT_HANDLER_PROMISE) {
+            EVENT_HANDLER_PROMISE(event).then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }
+        }
+
+      );
+
+
+      return deferred.promise;
+    }
+
+
+
     function asyncInitialise(musicProviderIdentifier, eventHandlerPromise) {
 
-      if(!musicProviderIdentifier){
-        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no musicProviderIdentifier.");
+      if (!musicProviderIdentifier) {
+        throw ("gaddumMusicProviderSpotifyService:asyncInitialise: no musicProviderIdentifier.");
       }
 
-      if(!eventHandlerPromise){
-        throw("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
+      if (!eventHandlerPromise) {
+        throw ("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
       }
 
 
@@ -267,6 +292,8 @@
         tokenExchangeUrl: null,
         tokenRefreshUrl: null
       }
+
+
 
       var deferred = $q.defer();
       var promises = [];
@@ -946,22 +973,118 @@
     }
 
 
-    function buildDummyTrackObject() {
 
 
-      TrackInfo.build(
-          "Some Name",
-          "Some Album",
-          "Some Artist",
-          2800,
-          "https://blh.com/spotifytracks/erwghwerpgoehrgpoeiwhgogi/erpgiehgpuerhgerh/",
-          "https://blh.com/pics/ergerjgwpofwejew/ewflwefjgpo.jpg",
-          "ergjerigergoierhgoiergiheroi",
-          "gaddumMusicProviderSpotifyService"
+    function spotifyTrackToTrackInfo(spotifyTrack) {
+      var result = TrackInfo.build(
+        spotifyTrack.name,
+        spotifyTrack.album.name,
+        spotifyTrack.artists[0].name,
+        spotifyTrack.duration_ms / 1000,
+        spotifyTrack.href,
+        spotifyTrack.album.images[0].url,
+        spotifyTrack.uri,
+        MUSIC_PROVIDER_IDENTIFIER.getId()
+      );
+      return result;
+    }
+
+
+    function asyncCacheTrackInfo(trackInfo, genericTrack) {
+
+      // create the reference to be cached
+      var trackReference = dataApiService.utilities.toTrackReference(genericTrack, trackInfo);
+
+      // associate the spotify reference with the original track.
+      return dataApiService.asyncImportTrackReference(trackReference);
+
+
+    }
+
+
+
+    function asyncSeekTrackOnline(genericTrack) {
+      var deferred = $q.defer();
+
+      asyncGetAccessCredentials().then(
+        function (resultToken) {
+          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
+
+          var config = {
+            headers: {
+              'Authorization': 'Bearer ' + resultToken.accessToken
+            }
+          };
+
+          searchString = baseSearchString +
+            'artist:' + genericTrack.getArtist() + " " +
+            'album:' + genericTrack.getAlbum() + " " +
+            'track:' + genericTrack.getName() +
+            '&type=track' +
+            '&limit=1' +
+            '&offset=0';
+
+          var uri = encodeURI(searchString);
+
+          $http.get(uri, config)
+            .then(
+              function gotA200(result) {
+
+                var item = result.data.tracks.items[0];
+
+                // this is the closest Spotify can get to the incoming generic track
+                var trackInfo = spotifyTrackToTrackInfo(item);
+
+                // give the system the *actual* details of the track.
+                deferred.resolve(trackInfo);
+              },
+              function notA200(response) {
+                // there's an error from the server. We may be logged out. Reflect this in the error.
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
+              }
+
+            );
+        }
+      );
+      return deferred.promise;
+    }
+
+
+
+
+
+    function asyncGetTrackInfo(genericTrack) {
+
+      var deferred = $q.defer();
+
+      $timeout(
+        function () {
+          dataApiService.asyncGetTrackInfos(
+            genericTrack,
+            MUSIC_PROVIDER_IDENTIFIER
+          ).then(
+            function (items) {
+              if (items && items.length > 0) {
+                // track found in cache
+                var trackInfo = TrackInfo.buildFromObject(items[0]);
+                deferred.resolve(trackInfo);
+              } else {
+                deferred.resolve(); // nothing found
+              }
+            },
+            function (error) {
+              deferred.reject(ErrorIdentifier.build(ErrorIdentifier.DATABASE, error.message));
+            }
+          );
+        }
       );
 
 
-  }
+      return deferred.promise;
+
+    }
+
+
 
 
     // sets the current track.
@@ -972,24 +1095,149 @@
     // hold a track info object.
     // rejects on catastophic errors.
     // a missing track is not catastrophic
-    function asyncSetTrack(genericTrack){
-
+    function asyncSetTrack(genericTrack) {
+      CURRENT_TRACK_INFO = null;
 
       var deferred = $q.defer();
 
       $timeout(
 
-        function(){
-        
-          CURRENT_TRACK_INFO = buildDummyTrackObject();
-        
-          deferred.resolve();
+        function () {
+
+
+          // search cache for track
+
+          asyncGetTrackInfo(genericTrack).then(
+            function (trackInfo) {
+              if (trackInfo) {
+                // found a cached track
+                CURRENT_TRACK_INFO = trackInfo;
+                deferred.resolve(trackInfo);
+              } else {
+                // search spotify for something we can use
+                asyncSeekTrackOnline(genericTrack).then(
+                  function (trackInfo) {
+                    if (trackInfo) {
+                      // now cache the result. Associate with the generic track, though.
+                      asyncCacheTrackInfo(trackInfo, genericTrack).then(
+                        function () {
+                          CURRENT_TRACK_INFO = trackInfo;
+                          deferred.resolve(trackInfo)
+                        },
+                        deferred.reject //database error
+                      );
+                    } else {
+                      // nothing found;
+                      deferred.resolve();
+                    }
+                  },
+                  deferred.reject //network error
+                );
+              }
+            },
+            deferred.reject //database error
+          );
+        }
+      );
+      return deferred.promise;
+    }
+
+
+    function asyncPauseCurrentTrack() {
+
+      return cordova.plugins.spotify.pause();
+
+    }
+
+    function asyncPlayTrackResume(trackInfo) {
+
+      return cordova.plugins.spotify.resume();
+
+    }
+
+    function asyncPlayTrackFromBegining(trackInfo) {
+      var deferred = $q.defer();
+      $timeout(
+
+        function () {
+          if (trackInfo) {
+            if (AUTH_CONFIG) {
+              asyncGetAccessCredentials().then(
+                function onAuth(authToken) {
+                  cordova.plugins.spotify.play(trackInfo.getPlayerUri(), {
+                    clientId: AUTH_CONFIG.clientId,
+                    token: authToken.getAccessToken()
+                  })
+                    .then(
+                      function onPlaying() {
+                        deferred.resolve(trackInfo);
+                      },
+                      function onPlayFail(error) {
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but SDK said no."));
+                      }
+                    );
+                },
+                function onNoAuth() {
+                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but no access credentials."));
+                }
+              );
+            } else {
+              deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but AUTH_CONFIG is null."));
+            }
+          } else {
+            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
+          }
         }
 
       );
 
       return deferred.promise;
     }
+
+
+
+
+
+    function calculateTrackProgressPercent(trackTime_ms) {
+
+      var result = 0;
+
+      if (CURRENT_TRACK_INFO) {
+        var total_s = CURRENT_TRACK_INFO.duration_s;
+        if (total_s && total_s > 0) {
+          result = trackTime_ms / 1000 * total_s * 100;
+        }
+      }
+
+      return result;
+
+    }
+
+
+    function asyncGetCurrentTrackProgressPercent() {
+      var deferred = $q.defer();
+      $timeout(
+        function () {
+          if (CURRENT_TRACK_INFO) {
+            cordova.plugins.spotify.getPosition().then(
+              function (position_ms) {
+                deferred.resolve(calculateTrackProgressPercent(position_ms));
+              },
+              function () {
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "problems getting track progress. Plugin aborted unexpectedly."));
+              });
+          } else {
+            deferred.resolve(0);
+          }
+        }
+      );
+
+      return deferred.promise;
+    }
+
+
+
+
 
 
     // emits events according to what happens
@@ -1000,8 +1248,7 @@
     // play the  spotify player. 
     // rejects on catastophic errors.
     // a missing track is not catastrophic
-    function asyncPlayCurrentTrack(){
-
+    function asyncPlayCurrentTrack() {
 
       var deferred = $q.defer();
 
@@ -1009,52 +1256,39 @@
 
       $timeout(
 
-        function(){
+        function () {
 
-          $timeout(function(){
-            EVENT_HANDLER_PROMISE(
-              EventIndentifier.build(
-                EventIdentifier.TRACK_START,
-                CURRENT_TRACK_INFO)
-              );
-          },1000);
+          if (CURRENT_TRACK_INFO) {
+            cordova.plugins.spotify.getPosition().then(
+              function (position_ms) {
+                if (position_ms == 0) {
+                  asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
+                    deferred.resolve
+                    ,
+                    function (err) {
+                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                    }
+                  );
+                } else {
+                  asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
+                    deferred.resolve
+                    ,
+                    function (err) {
+                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                    }
+                  );
+                }
+              },
+              function (err) {
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but plugin returned an error."));
+              }
+            );
 
-          $timeout(function(){
-            EVENT_HANDLER_PROMISE(
-              EventIndentifier.build(
-                EventIdentifier.TRACK_PROGRESS_PERCENT,
-                10)
-              );
-          },2000);
-
-          $timeout(function(){
-            EVENT_HANDLER_PROMISE(
-              EventIndentifier.build(
-                EventIdentifier.TRACK_PROGRESS_PERCENT,
-                50)
-              );
-          },3000);
-
-
-          $timeout(function(){
-            EVENT_HANDLER_PROMISE(
-              EventIndentifier.build(
-                EventIdentifier.TRACK_PROGRESS_PERCENT,
-                80)
-              );
-          },4000);
-
-          $timeout(function(){
-            EVENT_HANDLER_PROMISE(
-              EventIndentifier.build(
-                EventIdentifier.TRACK_END,
-                80)
-              );
-          },5000);
+          } else {
+            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
+          }
 
 
-
-          deferred.resolve();
         }
 
       );
@@ -1065,15 +1299,15 @@
 
     }
 
-    function asyncPauseCurrentTrack(){
+    function asyncPauseCurrentTrack() {
       // pause the spotify player.
 
       var deferred = $q.defer();
 
       $timeout(
 
-        function(){
-        
+        function () {
+
           deferred.resolve();
         }
 
@@ -1095,11 +1329,12 @@
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
 
-      asyncSetTrackTrack: asyncSetTrack,
+      asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack, asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
-      
-      
+      asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
+
+
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncSeekTracks: asyncSeekTracks,
 

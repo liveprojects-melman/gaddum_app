@@ -23,7 +23,9 @@
       showGenres: false,
       updateGenres:[],
       allGenres:[],
-      pictureColor:"#FF00FF"
+      pictureColor:"#FF00FF",
+      defaultName:false,
+      defaultImage:false
     });
     var scale = 8;
     var fnames = [
@@ -111,11 +113,13 @@
         vm.pictureColor = profile.avatar_graphic.colour;
       };
 //      console.log("disp img",vm.displayImage);
-      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null) {
-        vm.displayImage=[128,128,128,128,128,128,128,128];
+      if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null||vm.displayImage.join()=="0,102,102,24,24,102,102,0") {
+        vm.displayImage=[0, 102, 102, 24, 24, 102, 102, 0];
+        vm.defaultImage=true;
       }
       if (vm.fullName===null||vm.fullName==="") {
         vm.fullName="Defaulthony Nameson";
+        vm.defaultName=true;
       }
       vm.genresAsString=vm.params[1].userGenres.join(", ");
 //      console.log(vm.params);
@@ -151,6 +155,8 @@
       var fname = fnames[Math.floor(Math.random() * fnames.length)];
       var lname = lnames[Math.floor(Math.random() * lnames.length)];
       vm.fullName = fname + " " + lname;
+      // setTimeout(function(){  vm.defaultName=false; $scope.$apply(); }, 0);
+      vm.defaultName=false;
     };
 
     vm.checkboxCheck = function () {
@@ -310,6 +316,8 @@
       vm.displayImage=newImage[0];
       vm.pictureColor=newImage[1];
       vm.createProfileGraphic();
+      vm.defaultImage=false;
+      
     };
 
     vm.imgUpdateCancel = function imgUpdateCancel(image){

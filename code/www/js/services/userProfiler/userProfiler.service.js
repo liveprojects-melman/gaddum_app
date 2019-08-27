@@ -99,37 +99,50 @@
         // --- player
 
         function asyncNext() {
+
+            var deferred = $q.defer();
+
             $timeout(
                 function(){
 
-                    resolve(GenericTrack.build(
+                    deferred.resolve(GenericTrack.build(
+                        '4773cabe-a649-4af3-9a9c-768b5fd990fd',
                         'Killer Queen',
                         'Sheer Heart Attack',
                         'Queen'
                     ));
                 }
             );
+
+            return deferred.promise;
+
         }
 
         function asyncPrev() {
+            var deferred = $q.defer();
             $timeout(
                 function(){
-                    resolve(GenericTrack.build(
+                    deferred.resolve(GenericTrack.build(
+                        'c07d8279-3609-4143-8a0d-3f0b508839ef',
                         'Lilly of the Valley',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
+            return deferred.promise;
         }
 
         function asyncBegin() {
             $timeout(
                 function(){
                     resolve(GenericTrack.build(
+                        '12e1c931-83fe-4948-95c2-4955c68d60d9',
                         'Now I\'m Here',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
@@ -141,9 +154,11 @@
             $timeout(
                 function(){
                     resolve(GenericTrack.build(
+                        null,
                         'Lilly of the Valley',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
@@ -187,7 +202,8 @@
             player: {
                 asyncBegin: asyncBegin, 
                 asyncNext: asyncNext,
-                asyncPrev: asyncPrev
+                asyncPrev: asyncPrev,
+                asyncTrackIsBadGetAnother, asyncTrackIsBadGetAnother
             },
             finder: {
                 asyncFindPlaylists: asyncFindPlaylists
