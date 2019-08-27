@@ -14,7 +14,8 @@
     '$q',
     'dataApiService',
     'MusicProviderIdentifier',
-    'EventIdentifier'
+    'EventIdentifier',
+    '$rootScope'
   ];
 
   function gaddumMusicProviderService(
@@ -24,7 +25,8 @@
     $q,
     dataApiService,
     MusicProviderIdentifier,
-    EventIdentifier
+    EventIdentifier,
+    $rootScope
   ) {
 
       // vars
