@@ -77,7 +77,7 @@
     function defaultDisplay() {
       vm.moodDisplay.name = null;
       vm.moodDisplay.id = null;
-      vm.moodDisplay.emoji = '😶';
+      vm.moodDisplay.emoji = '?';
     }
 
 
