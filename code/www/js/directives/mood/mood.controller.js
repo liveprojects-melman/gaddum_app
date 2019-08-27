@@ -54,7 +54,7 @@
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext("webgl");
+      var ctx = canvas.getContext();
 
       emotionReaderService.setListener(fnCallback);
 
