@@ -12,7 +12,7 @@
         .state('gaddum', {
           url: '/',
           virtual: true,
-          cache:false,
+          cache:true,
 //          abstract: true,
           views: {
             'gaddum': {
