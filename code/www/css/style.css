@@ -434,6 +434,20 @@ ion-side-menu-content/*.menu-content.pane*/ {
     background-color: white;
     vertical-align: baseline;    
 }
+.moodPlay{
+    position: absolute;
+    border-radius:0.7em;
+    border-bottom: #444;
+    border:.2em solid black;
+    right: 25%;
+    bottom:5%;
+    min-width: 50%;
+    height: 14%;
+    min-height: 8%;
+    font-size: 1.3rem;
+    background-color: white;
+    vertical-align: baseline;  
+}
 .modalSelector{
     position: absolute;
     border-radius:0.7em;
@@ -566,9 +580,20 @@ input::placeholder{
     text-align: center;
     font-size: 100px;
     position: absolute;
-    width: 100%;
-    top: 25%;
+    width: 125px;
+    left: 32%;
+    top: 12.5%;
+    height: 150px;
+    line-height: 125px;
+    border-radius: 10em;
+    background-color: rgb(67, 138, 202);
+
 }
+.shadow {
+    -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    /* Similar syntax to box-shadow */
+  }
 .sleepLabel{
     position: absolute;
     right: 20%;

@@ -15,15 +15,24 @@
     <canvas id="canvas"  style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
   </div>
 
-  <div class="moodEmoji">
+  <div ng-click="vm.wake()" class="moodEmoji shadow">
     {{vm.moodDisplay.emoji}}
+    <p style="
+          font-size: 12px;
+          top: 70px;
+          position: absolute;
+          left: 28%;
+          font-weight: 600;
+          ">press me!!
+    </p>
   </div>
   <div ng-hide=!vm.detecting class="moodSpinnerDiv">
     <ion-spinner class="moodSpinner" paused="true" name="circles" ></ion-spinner>
   </div>
-  <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" />
-  <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" />
-  <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect" ><span class="selectSpan">{{vm.selectedMoodId.id}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
+  <!-- <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" /> -->
+  <!-- <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" /> -->
+  <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect shadow" ><span class="selectSpan">{{vm.selectedMoodId.id}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
+  <button ng-disabled="vm.disableButton" ng-click="vm.playMood()" class="moodPlay shadow" ><span class="selectSpan">THATS ME </span></button>
 </div>
 <!-- this is jankey ng-hide didnt work with css transition so we hide the element(visablity:hidden) slow fade -->
 <div ng-click="vm.removeHelpTips()" ng-class="{fade:vm.helpTips}">

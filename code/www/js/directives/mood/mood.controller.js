@@ -54,7 +54,7 @@
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext("webgl1");
+      var ctx = canvas.getContext("");
 
       emotionReaderService.setListener(fnCallback);
 
@@ -77,7 +77,8 @@
     function defaultDisplay() {
       vm.moodDisplay.name = null;
       vm.moodDisplay.id = null;
-      vm.moodDisplay.emoji = '😶';
+      // vm.moodDisplay.emoji = '😶';
+      vm.moodDisplay.emoji = '?';
     }
 
 
