@@ -28,10 +28,10 @@
     <div ng-hide=!vm.detecting class="moodSpinnerDiv">
       <ion-spinner class="moodSpinner" paused="true" name="circles"></ion-spinner>
     </div>
-    <div ng-click="vm.wake()" class="button button-balanced moodCameraButton " style="border:0.2rem black solid;" >
+    <!-- <div ng-click="vm.wake()" class="button button-balanced moodCameraButton " style="border:0.2rem black solid;" >
       <img src="css/icons8-camera.svg">
 
-    </div>
+    </div> -->
     <!-- <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" /> -->
     <!-- <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" /> -->
     <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.selectedMoodId.id}}
