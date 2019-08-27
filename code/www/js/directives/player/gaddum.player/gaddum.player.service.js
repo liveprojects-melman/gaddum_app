@@ -76,8 +76,7 @@
         $q,
         gaddumMusicProviderService,
         userProfilerService,
-        EventIdentifier,
-
+        EventIdentifier /* , TRAILING COMMAS BREAK IOS RUNTIMES! */
     ) {
 
 
