@@ -41,7 +41,8 @@
       moodDisplay: {},
       detecting: true,
       helpTips: null,  //this shows/hides the speech boxes 
-      disableButton:false
+      disableButton:false,
+      emotionSelected:false
     });
 
     var _interval_ms = 100;
@@ -87,6 +88,7 @@
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
+        vm.emotionSelected = true;
       } else {
         defaultDisplay();
 
@@ -203,6 +205,7 @@
 
 
     function init() {
+      vm.emotionSelected = false;
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
       spinnerService.spinnerOn();
@@ -230,6 +233,7 @@
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
             spinnerService.spinnerOff();
             vm.disableButton = false;
+            wake();
             update();
           });
         }

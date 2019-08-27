@@ -1025,6 +1025,9 @@ input::placeholder{
     line-height: 42px;
     cursor: pointer;
 }
+.disableButton{
+    background-color: lightgrey !important;
+}
 .genres {
     margin: 0 auto;
     white-space: nowrap;
