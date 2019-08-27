@@ -40,7 +40,9 @@
       "songtitle": "some song",
       "artistname": "some artist"
     };
-
+    gpc.tryToUnderstandWhatIsHappening = setInterval(function(){
+      console.log("gpc.state:",gpc.state);
+    },2000);
 
 
 
@@ -58,7 +60,6 @@
     function onTrackNew(trackInfo) {
       console.log("new track: " + trackInfo.getName());
       gpc.state.playing = true;
-  
     }
 
 
