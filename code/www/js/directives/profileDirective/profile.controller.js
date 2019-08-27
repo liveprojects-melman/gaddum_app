@@ -87,11 +87,13 @@
                         vm.profileEdit();
                     };
                     vm.busy = false;
+                    vm.nameTextResizer();
                     spinnerService.spinnerOff();
                 },
                     function fail(error) {
                         console.log("FAIL!!!!!!!");
                         vm.busy = false;
+                        vm.nameTextResizer();
                         spinnerService.spinnerOff();
                     }
                 );
@@ -110,6 +112,7 @@
             asyncPopulateProfile().then(
                 function success() {
                     vm.name = vm.userProfile.profile.avatar_name;
+                    vm.nameTextResizer();
                     spinnerService.spinnerOff();
                 }
             );
@@ -208,7 +211,7 @@
                     } else {
                         vm.name="";
                     }
-                    
+                    vm.nameTextResizer();
                     vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
                     /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
                         document.getElementById("qrCodeDiv").style.visibility="hidden";
@@ -285,6 +288,64 @@
                 }
             }
         };
+
+        vm.nameTextResizer = function () {
+            //if text is smaller
+            //make it bigger until its max size (36px)?
+            //if its bigger
+            //make it smaller until it fits
+
+            if (document.getElementById("nameHeader")!=null&&document.getElementById("nameHeader")!=""&&vm.name!=null&&vm.name!=""){
+                var profileNameFont=document.getElementById("nameHeader").style.font;
+                var nameText=vm.name;
+               
+                var maxNoScrollWidth = document.body.clientWidth - (80);
+                //var nameFontSize=document.getElementById("nameHeader").style.fontSize;
+                for (var i = 0; i < 36; i++) {
+                    //nameFontSize=document.getElementById("nameHeader").style.fontSize;
+                    console.log("testing name at "+i+"px");
+                    if (nameTextWidth(nameText,profileNameFont,i+"px")<maxNoScrollWidth) {
+                        console.log(i+"px is smaller");
+                    }else{
+                        var j=i-2;
+                        console.log(i+"px is too big, setting name at"+j+"px");
+                        document.getElementById("nameHeader").style.fontSize=j+"px";
+                        break;
+                    }
+                    
+                    
+                    
+                    /* if (nameTextWidth(nameText,profileNameFont,nameFontSize)<maxNoScrollWidth) {                //if its smaller
+                        document.getElementById("nameHeader").style.fontSize=i+"px";
+                        nameFontSize=document.getElementById("nameHeader").style.fontSize;                      //amek bigger
+                        if (nameTextWidth(nameText,profileNameFont,nameFontSize)>maxNoScrollWidth) {            //if too big
+                            document.getElementById("nameHeader").style.fontSize=(i-1)+"px";                     //revert to 1 smaller and break loop
+                            break;
+                        }
+                    } else{
+                        document.getElementById("nameHeader").style.fontSize=i+"px";
+                    } */
+                }
+            }
+        };
+
+        function nameTextWidth(text, fontProp,textFontSize) {
+            var tag = document.createElement("div");
+            tag.style.position = "absolute";
+            tag.style.left = "-99in";
+            tag.style.whiteSpace = "nowrap";
+            tag.style.font = fontProp;
+            tag.innerHTML = text;
+            tag.style.fontSize=textFontSize;
+
+            document.body.appendChild(tag);
+
+            var result = tag.clientWidth;
+
+            document.body.removeChild(tag);
+
+            return result;
+        }
 
         function textWidth(text, fontProp) {
             var tag = document.createElement("div");
