@@ -1205,7 +1205,7 @@
       if (CURRENT_TRACK_INFO) {
         var total_s = CURRENT_TRACK_INFO.duration_s;
         if (total_s && total_s > 0) {
-          result = trackTime_ms / 1000 * total_s * 100;
+          result = ((trackTime_ms / 1000) / total_s) * 100;
         }
       }
 
@@ -1236,9 +1236,36 @@
     }
 
 
+    function asyncPlayTrack() {
+      var deferred = $q.defer();
+
+      // Dummy for now.
+
+      $timeout(
+
+        function () {
+
+          if (CURRENT_TRACK_INFO) {
+            asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
+              deferred.resolve
+              ,
+              function (err) {
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+              }
+            );
 
 
+          } else {
+            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
+          }
 
+
+        }
+
+      );
+
+      return deferred.promise;
+    }
 
     // emits events according to what happens
     // if spotify player is not playing
@@ -1330,7 +1357,8 @@
       asyncGetGenres: asyncGetGenres,
 
       asyncSetTrack: asyncSetTrack,
-      asyncPlayCurrentTrack, asyncPlayCurrentTrack,
+      asyncPlayCurrentTrack: asyncPlayCurrentTrack,
+      asyncPlayTrack: asyncPlayTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
       asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
 
