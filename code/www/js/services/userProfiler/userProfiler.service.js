@@ -124,8 +124,8 @@
                 function(){
                     deferred.resolve(GenericTrack.build(
                         'c07d8279-3609-4143-8a0d-3f0b508839ef',
-                        'Lilly of the Valley',
-                        'Sheer Heart Attack',
+                        'Lily of the Valley',
+                        'Sheer Heart Attack ',
                         'Queen',
                         90
                     ));

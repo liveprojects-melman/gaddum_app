@@ -355,7 +355,7 @@
         function asyncControlPause() {
             console.log("control Pause.");
 
-            var defered = $q.defer();
+            var deferred = $q.defer();
             gaddumMusicProviderService.asyncPauseCurrentTrack().then(
                 deferred.resolve,
                 function(error){

@@ -363,12 +363,14 @@
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess(){
               startPositionPolling();
+              deferred.resolve(true);
             },
             function onError(){
               stopPositionPolling();
               asyncBroadcastEvent(
                 EventIdentifier.build(EventIdentifier.TRACK_ERROR,"Problem with playing the track. Does your account allow you to play tracks?")
-              );              
+              ); 
+              deferred.reject();             
             }
           )
         },

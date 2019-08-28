@@ -1009,18 +1009,18 @@
       asyncGetAccessCredentials().then(
         function (resultToken) {
           var baseSearchString = 'https://api.spotify.com/v1/search?q=';
-
-          var config = {
-            headers: {
-              'Authorization': 'Bearer ' + resultToken.accessToken
-            }
-          };
+          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
+          // var config = {
+          //   headers: {
+          //     'Authorization': 'Bearer ' + resultToken.accessToken
+          //   }
+          // };
 
           searchString = baseSearchString +
-            'artist:' + genericTrack.getArtist() + " " +
-            'album:' + genericTrack.getAlbum() + " " +
-            'track:' + genericTrack.getName() +
-            '&type=track' +
+            'artist:"' + genericTrack.getArtist() + '" ' +
+            'album:"' + genericTrack.getAlbum() + '" ' +
+            'track:"' + genericTrack.getName() +
+            '"&type=track' +
             '&limit=1' +
             '&offset=0';
 
@@ -1143,11 +1143,11 @@
     }
 
 
-    function asyncPauseCurrentTrack() {
+    // function asyncPauseCurrentTrack() {
 
-      return cordova.plugins.spotify.pause();
+    //   return cordova.plugins.spotify.pause();
 
-    }
+    // }
 
     function asyncPlayTrackResume(trackInfo) {
 
@@ -1308,7 +1308,7 @@
 
         function () {
 
-          deferred.resolve();
+          deferred.resolve(cordova.plugins.spotify.pause());
         }
 
       );
