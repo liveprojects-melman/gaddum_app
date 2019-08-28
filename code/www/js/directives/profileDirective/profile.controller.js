@@ -303,12 +303,12 @@
                 //var nameFontSize=document.getElementById("nameHeader").style.fontSize;
                 for (var i = 0; i < 36; i++) {
                     //nameFontSize=document.getElementById("nameHeader").style.fontSize;
-                    console.log("testing name at "+i+"px");
+                    //console.log("testing name at "+i+"px");
                     if (nameTextWidth(nameText,profileNameFont,i+"px")<maxNoScrollWidth) {
-                        console.log(i+"px is smaller");
+                        //console.log(i+"px is smaller");
                     }else{
                         var j=i-2;
-                        console.log(i+"px is too big, setting name at"+j+"px");
+                        //console.log(i+"px is too big, setting name at"+j+"px");
                         document.getElementById("nameHeader").style.fontSize=j+"px";
                         break;
                     }
