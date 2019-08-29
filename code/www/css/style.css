@@ -402,10 +402,17 @@ ion-side-menu-content/*.menu-content.pane*/ {
     display: inline;
     position: absolute;
 }
-.moodCamera{
+.moodArrow{
     position: absolute;
-    top:44%;
-    left:47%;
+    top:49%;
+    left:45%;
+    font-size: 40px
+}
+.moodArrow2{
+    position: absolute;
+    bottom:22%;
+    left:45%;
+    font-size: 40px
 }
 .moodUpArrow{
     position: absolute;
@@ -426,13 +433,30 @@ ion-side-menu-content/*.menu-content.pane*/ {
     border-bottom: #444;
     border:.2em solid black;
     right: 25%;
-    top: 50%;
+    bottom: 29%;
     min-width: 50%;
     height: 14%;
     min-height: 8%;
     font-size: 1.3rem;
     background-color: white;
     vertical-align: baseline;    
+}
+.moodSelect > .selectSpan{
+    text-align: left;
+    /* width: 60%; */
+}
+.moodEmojiText{
+    font-size: 20px;
+          top: 50px;
+          position: absolute;
+          font-weight: 600;
+          overflow-wrap: normal;
+          white-space: normal;
+          line-height: normal;
+}
+.textShadow{
+    color:white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, 1px 1px 0 black, -1px 1px 0 black;
 }
 .moodCameraButton{
     width: 20%;
@@ -461,6 +485,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
     background-color: white;
     vertical-align: baseline;   
     cursor: pointer; 
+}
+.moodPlay > .selectSpan{
+    text-align: center;
+    display: contents;
 }
 .shadow {
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
@@ -599,13 +627,13 @@ input::placeholder{
     text-align: center;
     font-size: 100px;
     position: absolute;
-    width: 125px;
-    left: 32%;
+    width: 150px;
+    left: 28%;
     top: 12.5%;
     height: 150px;
     line-height: 125px;
-    border:0.2rem black solid;
-    border-radius: 1rem;
+    border: 0.2rem black solid;
+    border-radius: 4rem;
     background-color: rgb(67, 138, 202);
     cursor: pointer;
 }

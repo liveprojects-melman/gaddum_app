@@ -77,7 +77,7 @@
 
     function defaultDisplay() {
       vm.moodDisplay.name = null;
-      vm.moodDisplay.id = null;
+      vm.moodDisplay.id = 'Mood?';
       vm.moodDisplay.emoji = '?';
     }
 
@@ -208,6 +208,7 @@
       vm.emotionSelected = false;
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
+      vm.detecting = false;
       spinnerService.spinnerOn();
       vm.disableButton = true;
       if (vm.firstTime === true) {
@@ -223,6 +224,7 @@
           beginInitialiseCapture(function () {
             asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
               spinnerService.spinnerOff();
+              sleep();
               vm.disableButton = false;
               update();
             });
@@ -233,7 +235,7 @@
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
             spinnerService.spinnerOff();
             vm.disableButton = false;
-            wake();
+            sleep();
             update();
           });
         }
@@ -271,6 +273,7 @@
         if (emotionReaderService.isRunning) {
           emotionReaderService.setSleep(true);
           vm.detecting = false;
+          spinnerService.spinnerOff();
           isSleeping = true;
         }
         else {
@@ -279,6 +282,7 @@
           }
           else {
             vm.detecting = false;
+            spinnerService.spinnerOff();
           }
 
         }
@@ -291,6 +295,7 @@
         emotionReaderService.setSleep(false);
         vm.detecting = true;
         isSleeping = false;
+        spinnerService.spinnerOn();
       }
 
     }
