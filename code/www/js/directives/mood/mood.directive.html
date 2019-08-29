@@ -3,10 +3,10 @@
 
   <div class="moodElementsDiv">
     <div style="text-align: center" class="moodArrow">
-      <span>↓</span>
+      <span><img src="css/Down_arrow.svg" style="width:50px"/></span>
     </div>
     <div style="text-align: center" class="moodArrow2">
-        <span>↓</span>
+        <span><img src="css/Down_arrow.svg" style="width:50px"/></span>
       </div>
     <!-- <div ng-hide=false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
       <span ng-show="vm.cameraError===true">❌</span>
@@ -38,13 +38,13 @@
       <span ng-show="vm.cameraError!=true  && vm.detecting===false">
         <p style="font-family: fantasy;">{{vm.moodDisplay.emoji}}</p>
         <p style="
-                    font-size: 12px;
+                    font-size: 20px;
                     top: 60px;
                     position: absolute;
-                    left: 28%;
+                    left: 21%;
                     font-weight: 600;
-                    ">press
-          me!!
+                    ">Press
+          Me!
         </p>
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true">
@@ -67,7 +67,7 @@
     <!-- <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" /> -->
     <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.id}}
       </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
-    <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected===true)? '' : 'disableButton')" ng-click="vm.playMood()"
+    <button ng-disabled="!vm.emotionSelected" ng-click="vm.playMood()"
       class="moodPlay "><span class="selectSpan">That's
         Me </span></button>
   </div>
