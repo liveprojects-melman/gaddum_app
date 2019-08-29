@@ -1,8 +1,8 @@
-(function () {
-  'use strict;'
+(function() {
+  'use strict';
 
   angular
-    .module('gaddum.mood')
+    .module('gaddum.mood',[])
     .factory('moodService', moodService)
     ;
 
@@ -10,7 +10,6 @@
     'dataApiService',
     '$q',
     'MoodIdentifier'
-
   ];
   function moodService(
     dataApiService,
