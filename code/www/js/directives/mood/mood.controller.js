@@ -41,7 +41,8 @@
       moodDisplay: {},
       detecting: true,
       helpTips: null,  //this shows/hides the speech boxes 
-      disableButton:false
+      disableButton:false,
+      emotionSelected:false
     });
 
     var _interval_ms = 100;
@@ -76,8 +77,8 @@
 
     function defaultDisplay() {
       vm.moodDisplay.name = null;
-      vm.moodDisplay.id = null;
-      vm.moodDisplay.emoji = '😶';
+      vm.moodDisplay.id = 'Mood?';
+      vm.moodDisplay.emoji = '?';
     }
 
 
@@ -87,6 +88,7 @@
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
+        vm.emotionSelected = true;
       } else {
         defaultDisplay();
 
@@ -203,8 +205,10 @@
 
 
     function init() {
+      vm.emotionSelected = false;
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
+      vm.detecting = false;
       spinnerService.spinnerOn();
       vm.disableButton = true;
       if (vm.firstTime === true) {
@@ -220,6 +224,7 @@
           beginInitialiseCapture(function () {
             asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
               spinnerService.spinnerOff();
+              sleep();
               vm.disableButton = false;
               update();
             });
@@ -230,6 +235,7 @@
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
             spinnerService.spinnerOff();
             vm.disableButton = false;
+            sleep();
             update();
           });
         }
@@ -267,6 +273,7 @@
         if (emotionReaderService.isRunning) {
           emotionReaderService.setSleep(true);
           vm.detecting = false;
+          spinnerService.spinnerOff();
           isSleeping = true;
         }
         else {
@@ -275,6 +282,7 @@
           }
           else {
             vm.detecting = false;
+            spinnerService.spinnerOff();
           }
 
         }
@@ -287,6 +295,7 @@
         emotionReaderService.setSleep(false);
         vm.detecting = true;
         isSleeping = false;
+        spinnerService.spinnerOn();
       }
 
     }

@@ -159,26 +159,34 @@
     }
 
     gpc.handleBackPress = function handleBackPress() {
-      playerService.asyncControlSkipPrev().then(
-        onControlOK,
+      playerService.asyncControlSkipPrev().then(function(){
+        onControlOK();
+        gpc.state.playing = true;
+      },
         onControlError
       );
     };
     gpc.handlePausePress = function handlePausePress() {
-      playerService.asyncControlPause().then(
-        onControlOK,
+      playerService.asyncControlPause().then(function(){
+        onControlOK();
+        gpc.state.playing = false;
+      },
         onControlError
       );
     };
     gpc.handlePlayPress = function handlePlayPress() {
-      playerService.asyncControlPlay().then(
-        onControlOK,
+      playerService.asyncControlPlay().then(function(){
+        onControlOK();
+        gpc.state.playing = true;
+      },
         onControlError
       );
     };
     gpc.handleNextPress = function handleNextPress() {
-      playerService.asyncControlSkipNext().then(
-        onControlOK,
+      playerService.asyncControlSkipNext().then(function(){
+        onControlOK();
+        gpc.state.playing = true;
+      },
         onControlError
       );
     };
