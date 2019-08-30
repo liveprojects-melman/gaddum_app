@@ -3,10 +3,10 @@
 
   <div class="moodElementsDiv">
     <div style="text-align: center" class="moodArrow">
-      <span><img src="css/Down_arrow.svg" style="width:50px"/></span>
+      <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
     </div>
     <div style="text-align: center" class="moodArrow2">
-        <span><img src="css/Down_arrow.svg" style="width:50px"/></span>
+        <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
       </div>
     <!-- <div ng-hide=false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
       <span ng-show="vm.cameraError===true">❌</span>
@@ -30,29 +30,32 @@
       <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
     </div>
 
-    <div ng-click="vm.wake()" class="moodEmoji textShadow">
+    <div ng-click="vm.wakeUpCamera()" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
       <span ng-show="vm.cameraError===true">
         <p class="moodEmojiText">Whoops No Camera
         </p>
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===false">
-        <p style="font-family: fantasy;">{{vm.moodDisplay.emoji}}</p>
-        <p style="
-                    font-size: 20px;
-                    top: 60px;
-                    position: absolute;
-                    left: 21%;
-                    font-weight: 600;
-                    ">Press
-          Me!
-        </p>
+        <p >{{vm.moodDisplay.emoji}}</p>
+        <p ng-hide="vm.emotionSelected" class="moodQuestionMark">?</p>
       </span>
-      <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true">
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+        font-size: 24px;
+        top: 64px;
+        position: absolute;
+        left: 9%;
+        font-weight: 600;">Press Me!
+        </p>
+        <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText===true" >
+            <p class="moodEmojiText">Look In The Camera
+            </p>
+          </span>
+      <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText!=true">
         <p class="moodEmojiText">Finding Your Face
         </p>
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected===true">
-        <p class="moodEmojiText">Hello How Are You?
+        <p class="moodEmojiText">Guessing Your Mood
         </p>
       </span>
     </div>
@@ -63,11 +66,9 @@
       <img src="css/icons8-camera.svg">
 
     </div> -->
-    <!-- <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" /> -->
-    <!-- <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" /> -->
     <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.id}}
       </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
-    <button ng-disabled="!vm.emotionSelected" ng-click="vm.playMood()"
+    <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected)? 'goButton':'')" ng-click="vm.playMood()"
       class="moodPlay "><span class="selectSpan">That's
         Me </span></button>
   </div>

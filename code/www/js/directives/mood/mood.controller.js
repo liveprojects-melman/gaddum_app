@@ -42,7 +42,8 @@
       detecting: true,
       helpTips: null,  //this shows/hides the speech boxes 
       disableButton:false,
-      emotionSelected:false
+      emotionSelected:false,
+      lookAtTheCameraText:false
     });
 
     var _interval_ms = 100;
@@ -77,8 +78,8 @@
 
     function defaultDisplay() {
       vm.moodDisplay.name = null;
-      vm.moodDisplay.id = 'Mood?';
-      vm.moodDisplay.emoji = '?';
+      vm.moodDisplay.id = 'No Mood!';
+      vm.moodDisplay.emoji = '😶';
     }
 
 
@@ -290,6 +291,13 @@
 
 
     }
+    function wakeUpCamera(){
+      vm.lookAtTheCameraText = true;
+      wake();
+      $timeout(function(){
+        vm.lookAtTheCameraText = false;
+      },2500);
+    }
     function wake() {
       if (!emotionReaderService.isRunning) {
         emotionReaderService.setSleep(false);
@@ -312,6 +320,7 @@
     }
     vm.onItemSelect = onItemSelect;
     vm.selectModal = selectModal;
+    vm.wakeUpCamera = wakeUpCamera;
     vm.wake = wake;
     vm.sleep = sleep;
     vm.onItemSelected = onItemSelected;
