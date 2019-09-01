@@ -2,42 +2,75 @@
 
 
   <div class="moodElementsDiv">
-    <div ng-hide=false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
+    <div style="text-align: center" class="moodArrow">
+      <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
+    </div>
+    <div style="text-align: center" class="moodArrow2">
+        <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
+      </div>
+    <!-- <div ng-hide=false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
       <span ng-show="vm.cameraError===true">❌</span>
-      <span ng-show="vm.cameraError!=true  && vm.isRunning===false">📷</span>
+      <span ng-show="vm.cameraError!=true  && vm.isRunning===false">
+          <p style="font-family: fantasy;">{{vm.moodDisplay.emoji}}</p>
+          <p style="
+                  font-size: 12px;
+                  top: 70px;
+                  position: absolute;
+                  left: 28%;
+                  font-weight: 600;
+                  ">press
+            me!!
+          </p>
+      </span>
       <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected!=true">📸</span>
       <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected===true">👍</span>
-    </div>
+    </div> -->
 
     <div ng-hide=true style="text-align: center">
       <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
     </div>
 
-    <div ng-click="vm.wake()" class="moodEmoji ">
-      {{vm.moodDisplay.emoji}}
-      <p style="
-              font-size: 12px;
-              top: 70px;
-              position: absolute;
-              left: 28%;
-              font-weight: 600;
-              ">press
-        me!!
-      </p>
+    <div ng-click="vm.wakeUpCamera()" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
+      <span ng-show="vm.cameraError===true">
+        <p class="moodEmojiText">Whoops No Camera
+        </p>
+      </span>
+      <span ng-show="vm.cameraError!=true  && vm.detecting===false">
+        <p >{{vm.moodDisplay.emoji}}</p>
+        <p ng-hide="vm.emotionSelected" class="moodQuestionMark">?</p>
+      </span>
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+        font-size: 24px;
+        top: 64px;
+        position: absolute;
+        left: 9%;
+        font-weight: 600;">Press Me!
+        </p>
+        <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText===true" >
+            <p class="moodEmojiText">Look In The Camera
+            </p>
+          </span>
+      <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText!=true">
+        <p class="moodEmojiText">Finding Your Face
+        </p>
+      </span>
+      <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected===true">
+        <p class="moodEmojiText">Guessing Your Mood
+        </p>
+      </span>
     </div>
-    <div ng-hide=!vm.detecting class="moodSpinnerDiv">
+    <!-- <div ng-hide=!vm.detecting class="moodSpinnerDiv">
       <ion-spinner class="moodSpinner" paused="true" name="circles"></ion-spinner>
-    </div>
+    </div> -->
     <!-- <div ng-click="vm.wake()" class="button button-balanced moodCameraButton " style="border:0.2rem black solid;" >
       <img src="css/icons8-camera.svg">
 
     </div> -->
-    <!-- <img src="css/arrow-downv1.svg" ng-click="vm.sleep()" class="moodDownArrow" /> -->
-    <!-- <img src="css/arrow-upv1.svg" ng-click="vm.wake()" class="moodUpArrow" /> -->
-    <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.selectedMoodId.id}}
+    <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.id}}
       </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
-    <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected===true)? '' : 'disableButton')" ng-click="vm.playMood()" class="moodPlay "><span class="selectSpan">THATS
-        ME </span></button>
+    <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected)? 'goButton':'')" ng-click="vm.playMood()"
+      class="moodPlay "><span class="selectSpan">That's
+        Me </span></button>
   </div>
   <!-- this is jankey ng-hide didnt work with css transition so we hide the element(visablity:hidden) slow fade -->
   <!-- <div ng-click="vm.removeHelpTips()" ng-class="{fade:vm.helpTips}">

@@ -6,6 +6,7 @@
     --color-secondaryBackground: linear-gradient(to bottom,rgb(243, 74, 74),rgb(255, 153, 89));
     --color-listOdd:  #6244fc;
     --color-listEven: #646aca;
+    --color-moodBubble: rgb(67, 138, 202);
   }
 
 /* headers and titles */
@@ -402,37 +403,63 @@ ion-side-menu-content/*.menu-content.pane*/ {
     display: inline;
     position: absolute;
 }
-.moodCamera{
+.moodArrow{
     position: absolute;
-    top:44%;
-    left:47%;
+    top: 43%;
+    left: 50%;
+    font-size: 40px;
+    transform: translate(-50%);
 }
-.moodUpArrow{
+.moodArrow2{
     position: absolute;
-    right: 11%;
-    top: 25%;
+    bottom: 16%;
+    left: 50%;
+    font-size: 40px;
+    transform: translate(-50%);
 }
-.moodDownArrow{
+.moodQuestionMark{
     position: absolute;
-    left: 10%;
-    top: 54%;
+    top: 0;
+    left: 45px;
+    font-family: fantasy;
 }
 .moodElementsDiv{
     height:90%;
 }
 .moodSelect{
+    width: 75%;
+    left: 12.5%;
+    font-size: 2.3rem;
+    text-align: center;
+    border: solid 3px black;
+    border-radius: 2em;
+    background-color: var(--color-moodBubble) !important;
+    color: black;
     position: absolute;
-    border-radius:0.7em;
-    border-bottom: #444;
-    border:.2em solid black;
+    height: 15%;
+    line-height: 30px;
     right: 25%;
-    top: 50%;
+    bottom: 31%;
     min-width: 50%;
-    height: 14%;
     min-height: 8%;
-    font-size: 1.3rem;
-    background-color: white;
     vertical-align: baseline;    
+}
+.moodSelect > .selectSpan{
+    text-align: left;
+    /* width: 60%; */
+}
+.moodEmojiText{
+    font-size: 20px;
+          top: 50px;
+          position: absolute;
+          font-weight: 600;
+          overflow-wrap: normal;
+          white-space: normal;
+          line-height: normal;
+}
+.textShadow{
+    color:white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, 1px 1px 0 black, -1px 1px 0 black;
 }
 .moodCameraButton{
     width: 20%;
@@ -448,19 +475,21 @@ ion-side-menu-content/*.menu-content.pane*/ {
     left: 5px;
 }
 .moodPlay{
-    position: absolute;
-    border-radius:0.7em;
-    border-bottom: #444;
-    border:.2em solid black;
-    right: 25%;
+    width: 75%;
+    margin-left: 12.5%;
+    font-size: 2.3rem;
+    text-align: center;
+    border: solid 3px black;
+    border-radius: 2em;
+    background-color: var(--color-moodBubble) !important;
+    color: black;
     bottom: 5%;
-    min-width: 50%;
-    height: 14%;
-    min-height: 8%;
-    font-size: 1.3rem;
-    background-color: white;
-    vertical-align: baseline;   
-    cursor: pointer; 
+    position: absolute;
+    height: 15%;
+    line-height: 20px;
+}
+.moodPlay > .selectSpan{
+    float: none;
 }
 .shadow {
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
@@ -597,18 +626,19 @@ input::placeholder{
 
 .moodEmoji{
     text-align: center;
-    font-size: 100px;
+    font-size: 90px;
     position: absolute;
-    width: 125px;
-    left: 32%;
-    top: 12.5%;
-    height: 150px;
-    line-height: 125px;
-    border:0.2rem black solid;
-    border-radius: 1rem;
-    background-color: rgb(67, 138, 202);
+    width: 140px;
+    left: 31%;
+    top: 10%;
+    height: 140px;
+    line-height: 122px;
+    border: 0.2rem black solid;
+    border-radius: 5rem;
+    background-color: var(--color-moodBubble);
     cursor: pointer;
 }
+
 .sleepLabel{
     position: absolute;
     right: 20%;
@@ -1026,8 +1056,8 @@ input::placeholder{
     line-height: 42px;
     cursor: pointer;
 }
-.disableButton{
-    background-color: lightgrey !important;
+.goButton{
+    background-color:  #33cd5f !important;
 }
 .genres {
     margin: 0 auto;
@@ -1430,17 +1460,20 @@ div#scroller.ng-hide {
     text-align: center;
     border:solid 1px black;
     border-radius: 2em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble) !important;
     color:black;
     bottom:1%;
     position: absolute;
+}
+.howAreYouButton > .selectSpan{
+    float: none;
 }
 .emojiPeaceful{
     width:auto;
     margin-left:5%;
     border-radius: 10em;
     border:solid 1px black;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiAngry{
     width:auto;
@@ -1448,14 +1481,14 @@ div#scroller.ng-hide {
     margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiRestful{
     width:auto;
     margin-left:28%;
     border-radius: 10em;
     border:solid 1px black;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiCrazy{
     width:auto;
@@ -1463,7 +1496,7 @@ div#scroller.ng-hide {
     margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiSad{
     width:auto;
@@ -1471,7 +1504,7 @@ div#scroller.ng-hide {
     margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiHappy{
     width:auto;
@@ -1479,14 +1512,14 @@ div#scroller.ng-hide {
     border:solid 1px black;
     margin-right:28%;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiTired{
     width:auto;
     margin-left:28%;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiPhysical{
     width:auto;
@@ -1494,7 +1527,7 @@ div#scroller.ng-hide {
     margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiBored{
     width:auto;
@@ -1502,7 +1535,7 @@ div#scroller.ng-hide {
     margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiFocussed{
     width:auto;
@@ -1510,7 +1543,7 @@ div#scroller.ng-hide {
     margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
-    background-color: rgb(67, 138, 202);
+    background-color: var(--color-moodBubble);
 }
 .emojiSize{
     font-size: 3rem !important;
@@ -1558,7 +1591,7 @@ div#scroller.ng-hide {
     transition: all  1s;
   }
 .selectedItemRed{
-      background-color: rgb(255, 75, 20) !important;
+      background-color: #33cd5f !important;
   }
 
   .selectButtonLogin{
