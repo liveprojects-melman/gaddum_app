@@ -276,10 +276,10 @@
       return promise;
     }
 
-    function asyncSuggestTracks(genres, moodIds, limit){
+    function asyncSuggestTracks(genres, moodId, limit){
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return MUSIC_PROVIDER.asyncSuggestTracks(genres, tags, limit, page);
+          return MUSIC_PROVIDER.asyncSuggestTracks(genres, moodId, limit);
         });    
     }
 
@@ -502,7 +502,7 @@
 
       asyncSeekTracks: asyncSeekTracks,
       asyncSuggestTracks: asyncSuggestTracks,
-      
+
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,

@@ -253,8 +253,13 @@
     function asyncSuggestAPlaylist(genre, moodId){
       var deferred = $q.defer();
       gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, MAX_SEEK_SIZE).then(
-        function (genericTracks) {
-          deferred.resolve(MoodedPlaylist.build(moodId,genericTracks));
+        function (trackInfos) {
+          // import the suggstions - we need them in the database, to be able to observe them.
+          gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
+            function(genericTracks){ // actually, GenericImportTracks, but same thing really :-)
+              deferred.resolve(MoodedPlaylist.build(moodId,genericTracks));
+            }
+          );
         },
         deferred.reject
       );
@@ -322,10 +327,6 @@
         },
         defered.reject
       );
-
-
-
-
 
       return deferred.promise;
 

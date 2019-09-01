@@ -55,7 +55,8 @@
 
     var AUTH_CONFIG = null;
 
-    var TRACK_SUGGESTION_LIMIT =20;
+    var TRACK_SUGGESTION_LIMIT = 20;
+    var MOOD_TO_ATTRIBUTE_LOOKUP = null;
 
 
 
@@ -244,6 +245,39 @@
 
 
 
+    function asyncGetMoodAttributesLookup() {
+
+      var deferred = $q.deferred;
+
+      dataApiService.asyncGetSupportedMoodIds().then(
+
+        function (mood_ids) {
+          var promises = [];
+          var lookup = {};
+
+          mood_ids.forEach(function (mood_id) {
+            promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER, mood_id));
+          });
+
+          $q.all().then(
+            function (results) {
+              for (var index = 0; index < mood_ids.length; index++) {
+                var mood_id = mood_ids[index];
+                var attributes = results[index];
+                lookup[mood_id] = attributes[index];
+              }
+              deferred.resolve(lookup);
+            },
+            deferred.reject
+          );
+        },
+        deferred.reject
+      );
+      return deferred.promise;
+    }
+
+
+
 
     // ------ PUBLIC
 
@@ -314,7 +348,14 @@
       promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'token_refresh_url').then(
         function (result) {
           AUTH_CONFIG.tokenRefreshUrl = result;
-        })); 
+        }));
+
+      promises.push(asyncGetMoodAttributesLookup.then(
+        function (result) {
+          MOOD_TO_ATTRIBUTE_LOOKUP = result;
+        })
+      );
+
 
       $q.all(promises).then(
         function (results) {
@@ -972,19 +1013,9 @@
       });
     }
 
-
-
-
-    
-
-
-
-
-
-    function asyncSuggestTracks(genres, moodIds, limit){
+    function asyncSuggestTracks(genres, moodIds, limit, page) {
       var deferred = $q.defer();
-      
-
+      TRACK_SUGGESTION_LIMIT
       asyncGetAccessCredentials().then(
         function (resultToken) {
           var baseSearchString = 'https://api.spotify.com/v1/search?q=';
@@ -1058,6 +1089,126 @@
 
 
 
+    function createGenreSeed(genres) {
+      var result = "";
+
+      if(genres){
+        try{
+          var elements = "";
+          for(var index=0; index < genres.length; index++){
+            elements += genres[index];
+            if(index < genres.length - 1){
+              elements += ',';
+            }
+          }
+          if(elements.length>0){
+            result = "seed_genres=" + elements;
+          }
+        }catch(e){
+          console.log("gaddumMusicProviderSpotifyService: createGenreSeed: warning: error occurred creating seed.");
+        }
+      }
+      return result;
+
+    }
+
+    function createTunableAttributesSeed(moodId) {
+      var result = "";
+
+      if(moodId){
+      try {
+        var attributes = MOOD_TO_ATTRIBUTE_LOOKUP[moodId.getId()];
+
+        for (var index = 0; index < attributes.length; index++) {
+          var attribute = attributes[index];
+          var element = "target_" + attribute.attribute + "=" + attribute.value;
+          result += element;
+          if(index < attributes.length - 1){
+            result += '&';
+          }
+        }
+
+      } catch (e) {
+        console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
+      }
+    }
+
+      return result;
+    }
+
+
+    function createSearchComponent(genres, moodId){
+
+      var genreComponent = createGenreSeed(genres);
+      var attributeComponent = createTunableAttributesSeed(moodId);
+
+      var result = "";
+
+      if(genreComponent.length > 0){
+        result = genreComponent;
+      }
+      if(result.length > 0){
+        if(attributeComponent.length > 0){
+          result += '&';
+        }
+      }
+      result += attributeComponent;
+
+      return result;
+    }
+
+
+    function createSearchParameters(genres, moodId, limit){
+      var result = "";
+      var searchComponent = creatSearchComponent(genres, moodId);
+      var limitComponent = "limit="+limit;
+
+      if(searchComponent.length > 0){
+        result = searchComponent + "&";
+      }
+
+      result = searchComponent+limitComponent;
+
+      return result;
+
+    }
+
+    function asyncSuggestTracks(genres, moodId, limit) {
+      var deferred = $q.defer();
+
+      asyncGetAccessCredentials().then(
+        function (resultToken) {
+          var baseSearchString = 'https://api.spotify.com/v1/recommendations?';
+          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
+
+          searchString = baseSearchString + createSearchParameters(genres, moodId, limit);
+
+          var uri = encodeURI(searchString);
+
+          $http.get(uri, config)
+            .then(
+              function gotA200(result) {
+
+                var item = result.data.tracks.items[0];
+
+                // this is the closest Spotify can get to the incoming generic track
+                var trackInfo = spotifyTrackToTrackInfo(item);
+
+                // give the system the *actual* details of the track.
+                deferred.resolve(trackInfo);
+              },
+              function notA200(response) {
+                // there's an error from the server. We may be logged out. Reflect this in the error.
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
+              }
+
+            );
+        }
+      );
+      return deferred.promise;
+    }
+
+
 
 
     function asyncSeekTrackOnline(genericTrack) {
@@ -1065,15 +1216,8 @@
 
       asyncGetAccessCredentials().then(
         function (resultToken) {
-
-
-          curl -X GET "seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50&market=US" -H "Authorization: Bearer {your access token}"
-
-
-          var baseSearchString = 'https://api.spotify.com/v1/recommendations?';
+          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
           var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
-
-
 
 
           searchString = baseSearchString +
@@ -1392,8 +1536,8 @@
 
 
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
-      asyncSuggestTracks: asyncSuggestTracks,
       asyncSeekTracks: asyncSeekTracks,
+      asyncSuggestTracks: asyncSuggestTracks,
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
       asyncImportPlaylists: asyncImportPlaylists,
