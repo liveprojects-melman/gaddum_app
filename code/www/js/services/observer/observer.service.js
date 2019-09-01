@@ -54,6 +54,12 @@
                     id: "collection_play_history",
                     value: false
                 }
+            },
+            DATA:{
+                SECTION_COLLECTION_LIMIT:{
+                    id: "observation_section_collection_limit",
+                    value = 20
+                }
             }
         };
 
@@ -194,9 +200,41 @@
             return dataApiService.addObservation(observation);
         }
 
+        
 
-        function asyncSeekObservationsLike(observation){
-    
+
+
+        function asyncSeekObservations( mood, timeStamp, location){
+            
+            var deferred = $q.defer();
+
+            $timeout(
+                function(){
+                    
+                    var timeSlot = timeService.findTimeSlot(timeStamp);
+                    
+                    postcodeService.asyncLocationToPostcode(location).then(
+                        function (postCode){
+                            dataApiService.seekObservations(mood, timeSlot, postCode, location, PER_SECTION_LIMIT).then(
+                                function(results){
+                                    var rawObservations = [];
+                                    results.forEach(
+                                        function(result){
+                                            rawObservations.push(RawObservation.buildFromObject(result));
+                                        }
+                                    );
+                                    deferred.resolve(rawObservations);
+                                },
+                                deferred.reject
+                            );
+                        },
+                        deferred.reject
+                    );     
+                }
+            );
+  
+            return deferred.promise;
+
         }
 
 
@@ -226,7 +264,7 @@
             // do intialise to update settings from DB
             asyncInitialise : asyncInitialise,
             asyncCreateObservation: asyncCreateObservation,
-            asyncSeekObservations: asyncSeekObservationsLike
+            asyncSeekObservations: asyncSeekObservations
         };
 
         return service;

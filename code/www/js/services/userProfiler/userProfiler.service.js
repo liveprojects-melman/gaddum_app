@@ -168,8 +168,131 @@
 
         // --- Finder
 
-        function asyncFindPlaylists() {
+
+
+        function rawObservationsToTrackIds(rawObservations){
+            var container = {};
+            var result = [];
+
+            rawObservations.forEach(
+                
+                function(rawObservation){
+                    var trackId = rawObservation.getTrackId();
+                    var priority = rawObservation.getPriority();
+               
+                    if(trackId){
+                        // deduplicate the trackid, and make sure we get the correct priority for the track (1 is best)
+                        if(container[priority] == null){
+                            container[priority] = {};
+                        }
+                        container[priority][trackid] = {};
+                    }
+                }
+            );
+
+            // container is now a dictionary of tracks and associated priorities.
+            // push into results in order of priority
+            Object.getKeys(container).forEach(
+                function(priority){
+                    //rely on order of priority, not insertion, since these keys are integers
+                    Object.getKeys(container[priority]).forEach(
+                        function(trackId){
+                            result.push(trackId);
+                        }
+                    );
+                }
+            );
+            
+            return result;
+
+
+
         }
+
+
+        function asyncLookupTrackIds(trackIds){ 
+
+            var deferred = $q.defer();
+
+            var promises = [];
+
+            trackIds.forEach(
+                function(trackId){
+                    promises.push[dataApiService.asyncGetTrackFromId(trackId)];
+                }
+            );
+
+            $q.all(promises).then(
+                deferred.resolve
+                ,
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
+        function asyncFindPlaylist(moodId, timeStamp, location){
+            var deferred = $q.defer();
+            observerService.seekObservations(moodId, timeStamp, location).then(
+                function(rawObservations){
+                    var trackIds = rawObservationsToTrackIds(rawObservations);
+                    asyncLookupTrackIds(trackIds).then( 
+                        function(genericTracks){
+                           var result = MoodedPlaylist.build(moodId,gnericTracks);              
+                            deferred.resolve(result);
+                        },
+                        deferred.reject
+                    );
+
+                },
+                deferred.reject
+
+            );
+            return deferred.promise;
+        }
+
+
+
+
+        function asyncFindPlaylists(moodedSearchCriteria) {
+            var deferred = $q.defer();
+            if(moodedSearchCriteria instanceof MoodedSearchCriteria){
+                
+                $timeout(
+
+                    function(){
+                        
+                        var promises = [];
+                        var moodIds = moodedSearchCriteria.getMoodIds(); 
+                        var timeStamp = moodedSearchCriteria.getTimestamp();
+                        var location = moodedSearchCriteria.getLocation();
+
+                        moodIds.forEach(
+                            function(moodId){
+                                promises.push(
+                                    asyncFindPlaylist(moodId, timeStamp, location)
+                                );
+                            } 
+                        );
+                        $q.all(promises).then(
+                            deferred.resolve
+                            ,
+                            deferred.reject
+                        );
+                    }
+                );
+            }else{
+                throw("userProfiler.finder.asyncFindPlaylist: needs a MoodedSearchCriteria");
+            }
+            return deferred.promise;
+        }
+
+
+
+
+
 
         // --- Loader
 

@@ -276,6 +276,14 @@
       return promise;
     }
 
+    function asyncSuggestTracks(genres, moodIds, limit){
+      return asyncCheckForLoginPromptIfNeeded().then(
+        function () {
+          return MUSIC_PROVIDER.asyncSuggestTracks(genres, tags, limit, page);
+        });    
+    }
+
+
     function asyncSeekTracks(searchTerm, trackSearchCriteria, limit, page) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
@@ -355,55 +363,9 @@
       POLLING = false;
     }
 
-    function asyncGetTrackPosition(){
-      var deferred = $q.defer();
 
-      asyncCheckForLoginPromptIfNeeded().then(
-        function(){
-          MUSIC_PROVIDER.asyncGetCurrentTrackProgressPercent().then(
-            function onSuccess(position_ms){
-              startPositionPolling();
-              deferred.resolve(position_ms);
-            },
-            function onError(err){
-              stopPositionPolling();
-              asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_ERROR,"Problem getting the position of the track. Are you currently Playing a song?")
-              ); 
-              deferred.reject();             
-            }
-          )
-        },
-        deferred.reject
-      );
 
-      return deferred.promise;
-    }
 
-    function asyncPlayTrack(){
-      var deferred = $q.defer();
-
-      asyncCheckForLoginPromptIfNeeded().then(
-        function(){
-          MUSIC_PROVIDER.asyncPlayTrack().then(
-            function onSuccess(){
-              startPositionPolling();
-              deferred.resolve(true);
-            },
-            function onError(){
-              stopPositionPolling();
-              asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_ERROR,"Problem with playing the track. Does your account allow you to play tracks?")
-              ); 
-              deferred.reject();             
-            }
-          )
-        },
-        deferred.reject
-      );
-
-      return deferred.promise;
-    }
 
     function asyncPlayCurrentTrack() {
       var deferred = $q.defer();
@@ -537,14 +499,13 @@
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
+
       asyncSeekTracks: asyncSeekTracks,
+      asyncSuggestTracks: asyncSuggestTracks,
+      
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
-      asyncPlayTrack: asyncPlayTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
-      asyncGetTrackPosition: asyncGetTrackPosition,
-     
-
 
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,

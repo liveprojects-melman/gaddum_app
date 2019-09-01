@@ -231,7 +231,7 @@
     }
     function play(track) {
       console.log("track", track);
-      currentTrack = GenericTrack.build(track.getPlayerUri(), track.getName(), track.getAlbum(), track.getArtist(), track.getDuration_s());
+      currentTrack = GenericTrack.build(null, track.getName(), track.getAlbum(), track.getArtist(), track.getDuration_s());
       console.log("current", currentTrack);
       howAreYou();
     }

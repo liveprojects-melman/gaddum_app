@@ -346,23 +346,49 @@
         }
 
 
-        function asyncGetAllProviderSettings(provider_id) {
+        function asyncGetProviderMoodAttributes(provider_id, mood_id) {
             var deferred = $q.defer();
 
             mappingService.query(
-                "get_all_provider_settings",
+                "get_provider_mood_to_attributes",
                 {
-                    provider_id: provider_id
+                    provider_id: provider_id,
+                    mood_id: mood_id
                 },
-                function (result) {
-                    var rows = mappingService.getResponses(result.rows);
+                function (response) {
+                    var rows = mappingService.getResponses(response.rows);
 
-                    deferred.resolve(rows);
+                    var attributes = [];
 
+                    rows.forEach(
+
+                        function (candidate) {
+                            try {
+                                var value = candidate.value; // default is 'string'
+                                if (candidate.value_type === 'float') {
+                                    value = parseFloat(candidate.value);
+                                } else if (candidate.value_type === 'integer') {
+                                    value = parseInt(candidate.value);
+                                } else if (candidate.value_type == 'boolean') {
+                                    if (candidate.value == 'true') {
+                                        value = true;
+                                    } else {
+                                        value = false;
+                                    }
+                                }
+                                candidate.value = value;
+                                attributes.push(candidate);
+
+                            } catch (e) {
+                                console.log("dataApiService: asyncGetProviderMoodAttributes: warning: unparsable attribute: " + candidate.attribute);
+                            }
+                        }
+                    );
+                    deferred.resolve(attributes);
                 }
                 ,
                 function (error) {
-                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncGetProviderSetting: problem accessing db: " + error.message));
+                    deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncGetProviderMoodAttributes: problem accessing db: " + error.message));
                 }
             );
             return deferred.promise;
@@ -603,16 +629,39 @@
 
             return deferred.promise;
 
-        }        
+        }
+
+        function asyncGetTrackFromId(trackId) {
+            var deferred = $q.defer();
+
+            mappingService.query(
+                "get_track",
+                {
+                    id: trackId
+                },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var result = null;
+                    if (items) {
+                        results = GenericTrack.buildFromObject(items[0]);
 
 
+                    }
+                    deferred.resolve(result);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
 
 
         function asyncSeekPlaylists(name, id) {
             var deferred = $q.defer();
 
             console.log("----------");
-            console.log("looking for playlist: " + " name: " +  name + " id: " + id);
+            console.log("looking for playlist: " + " name: " + name + " id: " + id);
 
             mappingService.query(
                 "seek_playlists",
@@ -926,8 +975,8 @@
             var deferred = $q.defer();
 
             $timeout(
-                function(){
-                    if(trackInfo){
+                function () {
+                    if (trackInfo) {
 
                         var genericTrack = toGenericTrack(trackInfo);
 
@@ -948,21 +997,21 @@
                                                 },
                                                 deferred.reject
                                             )
-        
+
                                         } else {
                                             deferred.resolve(genericImportTrack);
                                         }
                                     },
-                                    function(){deferred.resolve(null);} // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                                    function () { deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
                                 )
-        
+
                             },
-                            function(){deferred.resolve(null);} // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                            function () { deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
                         );
 
 
-                    }else{
-                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncImportTrackInfo: parameters are missing." ));
+                    } else {
+                        deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "asyncImportTrackInfo: parameters are missing."));
                     }
 
                 }
@@ -970,11 +1019,11 @@
 
             );
 
-         
 
 
 
- 
+
+
 
             return deferred.promise;
 
@@ -985,7 +1034,7 @@
             console.log("----------");
             console.log("looking for playlist: " + playlistIdentifier.getId());
             mappingService.query(
-                "get_tracks_in_playlist", 
+                "get_tracks_in_playlist",
                 {
                     playlist_id: playlistIdentifier.getId()
                 },
@@ -1022,15 +1071,15 @@
             }
 
             mappingService.query("associate_playlist_track", args,
-                function(){
+                function () {
                     deferred.resolve(
                         args
                     );
                 },
-                function(error){
+                function (error) {
                     deferred.reject(error);//TODO: Better handling of this, without stopping parallel promise chain
                 }
-  
+
             );
 
             return deferred.promise;
@@ -1130,31 +1179,31 @@
 
             $timeout(
                 function () {
-                    if(playlistIdentifier && arrayGenericTracks && arrayGenericTracks.length > 0){
+                    if (playlistIdentifier && arrayGenericTracks && arrayGenericTracks.length > 0) {
                         asyncRemovePlaylist(playlistIdentifier).then(
-                            function(){
+                            function () {
                                 asyncUpdatePlaylist(playlistIdentifier).then( // take advantage of upsert-type function here
-                                    function(){
+                                    function () {
                                         asyncAssociatePlaylistAndTracks(playlistIdentifier, arrayGenericTracks).then(
-                                            function(){
+                                            function () {
                                                 deferred.resolve(playlistIdentifier);
                                             },
-                                            function(error){
+                                            function (error) {
                                                 deferred.reject(error);
                                             }
                                         );
                                     },
-                                    function(error){
+                                    function (error) {
                                         deferred.reject(error);
                                     }
                                 );
                             },
-                            function(error){
+                            function (error) {
                                 deferred.reject(error);
                             }
                         );
 
-                    }else{
+                    } else {
                         deferred.resolve(playlistIdentifier)
                     }
                 }
@@ -1170,7 +1219,7 @@
 
 
 
-        
+
 
 
 
@@ -1280,6 +1329,79 @@
         }
 
 
+        function asyncSeekObservations(moodIdentifier, timeSlot, postCode, location, limit) {
+
+            var deferred = $q.defer();
+            console.log("----------");
+            console.log("seeking observations");
+            $timeout(
+
+                function () {
+
+                    var mood_id = "";
+                    var timeslot_id = "";
+                    var postcode_id = "";
+                    var lat = 0.0;
+                    var lon = 0.0;
+
+
+                    if (moodIdentifier) {
+                        mood_id = moodIdentifier.getId();
+                    }
+
+                    if (timeSlot) {
+                        timeslot_id = timeSlot.getId();
+                    }
+
+                    if (postCode) {
+                        postcode_id = postCode.getPostCode();
+                    }
+
+                    if (location) {
+                        lat = location.getLat();
+                        lon = location.getLon();
+                    }
+
+
+                    mappingService.query("seek_observations", {
+                        mood_id: mood_id,
+                        timeslot: timeslot_id,
+                        location_code: postcode_id,
+                        location_lat: lat,
+                        location_lon: lon,
+                        limit: limit
+
+                    },
+                        function (response) {
+                            var items = mappingService.getResponses(response.rows);
+                            var results = [];
+                            if (items) {
+                                items.forEach(
+                                    function (item) {
+                                        results.push(Observation.buildFromObject(item));
+                                    }
+                                );
+                            }
+                            deferred.resolve(results);
+                        },
+                        deferred.reject
+                    );
+
+
+
+                }
+
+            );
+
+
+            return deferred.promise;
+
+        }
+
+
+
+
+
         var service = {
             asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
             asyncGetSelectedMusicProvider: asyncGetSelectedMusicProvider,
@@ -1298,7 +1420,9 @@
             asyncGetSetting: asyncGetSetting,
             asyncClearSetting: asyncClearSetting,
 
-            asyncGetAllProviderSettings: asyncGetAllProviderSettings,
+
+            asyncGetProviderMoodAttributes: asyncGetProviderMoodAttributes,
+
             asyncCreateProviderSetting: asyncCreateProviderSetting,
             asyncGetProviderSetting: asyncGetProviderSetting,
             asyncSetProviderSetting: asyncSetProviderSetting,
@@ -1306,9 +1430,13 @@
 
 
             asyncAddObservation: asyncAddObservation,
+            asyncSeekObservations: asyncSeekObservations,
+
+
             asyncSeekTracks: asyncSeekTracks,
             asyncGetTracks: asyncGetTracks,
             asyncGetTrackInfos: asyncGetTrackInfos,
+            asyncGetTrackFromId: asyncGetTrackFromId,
 
             asyncAssociatePlaylistAndTracks: asyncAssociatePlaylistAndTracks,
 
@@ -1325,8 +1453,8 @@
             asyncSetGenericTracksInPlaylist: asyncSetGenericTracksInPlaylist,
 
 
-            utilities :
-            { 
+            utilities:
+            {
                 toTrackReference: toTrackReference
             }
 

@@ -26,6 +26,10 @@
       return this.javaepoch_ms / 1000;
     }
 
+    this.getDate() = function(){
+      return moment(this.javaepoch_ms).
+    }
+
     /** 
      * Static method, assigned to class
      * Instance ('this') is not available in static context

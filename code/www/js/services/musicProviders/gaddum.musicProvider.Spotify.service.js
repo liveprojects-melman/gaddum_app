@@ -55,7 +55,7 @@
 
     var AUTH_CONFIG = null;
 
-
+    var TRACK_SUGGESTION_LIMIT =20;
 
 
 
@@ -314,7 +314,7 @@
       promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'token_refresh_url').then(
         function (result) {
           AUTH_CONFIG.tokenRefreshUrl = result;
-        }));
+        })); 
 
       $q.all(promises).then(
         function (results) {
@@ -975,6 +975,60 @@
 
 
 
+    
+
+
+
+
+
+    function asyncSuggestTracks(genres, moodIds, limit){
+      var deferred = $q.defer();
+      
+
+      asyncGetAccessCredentials().then(
+        function (resultToken) {
+          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
+          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
+          // var config = {
+          //   headers: {
+          //     'Authorization': 'Bearer ' + resultToken.accessToken
+          //   }
+          // };
+
+          searchString = baseSearchString +
+            'artist:"' + genericTrack.getArtist() + '" ' +
+            'album:"' + genericTrack.getAlbum() + '" ' +
+            'track:"' + genericTrack.getName() +
+            '"&type=track' +
+            '&limit=1' +
+            '&offset=0';
+
+          var uri = encodeURI(searchString);
+
+          $http.get(uri, config)
+            .then(
+              function gotA200(result) {
+
+                var item = result.data.tracks.items[0];
+
+                // this is the closest Spotify can get to the incoming generic track
+                var trackInfo = spotifyTrackToTrackInfo(item);
+
+                // give the system the *actual* details of the track.
+                deferred.resolve(trackInfo);
+              },
+              function notA200(response) {
+                // there's an error from the server. We may be logged out. Reflect this in the error.
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
+              }
+
+            );
+        }
+      );
+      return deferred.promise;
+
+    }
+
     function spotifyTrackToTrackInfo(spotifyTrack) {
       var result = TrackInfo.build(
         spotifyTrack.name,
@@ -1003,18 +1057,24 @@
 
 
 
+
+
+
     function asyncSeekTrackOnline(genericTrack) {
       var deferred = $q.defer();
 
       asyncGetAccessCredentials().then(
         function (resultToken) {
-          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
+
+
+          curl -X GET "seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50&market=US" -H "Authorization: Bearer {your access token}"
+
+
+          var baseSearchString = 'https://api.spotify.com/v1/recommendations?';
           var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
-          // var config = {
-          //   headers: {
-          //     'Authorization': 'Bearer ' + resultToken.accessToken
-          //   }
-          // };
+
+
+
 
           searchString = baseSearchString +
             'artist:"' + genericTrack.getArtist() + '" ' +
@@ -1236,37 +1296,6 @@
     }
 
 
-    function asyncPlayTrack() {
-      var deferred = $q.defer();
-
-      // Dummy for now.
-
-      $timeout(
-
-        function () {
-
-          if (CURRENT_TRACK_INFO) {
-            asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
-              deferred.resolve
-              ,
-              function (err) {
-                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
-              }
-            );
-
-
-          } else {
-            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
-          }
-
-
-        }
-
-      );
-
-      return deferred.promise;
-    }
-
     // emits events according to what happens
     // if spotify player is not playing
     // use the current TrackInfo object to 
@@ -1358,12 +1387,12 @@
 
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
-      asyncPlayTrack: asyncPlayTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
       asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
 
 
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
+      asyncSuggestTracks: asyncSuggestTracks,
       asyncSeekTracks: asyncSeekTracks,
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,

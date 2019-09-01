@@ -35,7 +35,7 @@
     };
 
     Location.buildEmpty = function () {
-      return new Location(null, null, null);
+      return new Location(null, null);
     };
 
 

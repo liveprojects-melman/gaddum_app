@@ -96,7 +96,7 @@
                         gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
                             function(trackInfo){
                                 if(trackInfo){
-                                    gaddumMusicProviderService.asyncPlayTrack();
+                                    gaddumMusicProviderService.asyncPlayCurrentTrack();
                                 }
                                 deferred.resolve();
                             },
@@ -113,67 +113,30 @@
 
         function asyncDoSkipPrev() {
             var deferred = $q.defer();
-            gaddumMusicProviderService.asyncGetTrackPosition().then(
-                function(position_ms){
-                    if(position_ms >= 5){
-                        console.log("pos",position_ms);
-                        gaddumMusicProviderService.asyncPlayTrack();
-                    }
-                    else{
-                        userProfilerService.player.asyncPrev().then(
-                            function onTrack(genericTrack) {
-                                if(genericTrack){
-                                    gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                                        function gotTrack(){
-                                            gaddumMusicProviderService.asyncPlayTrack().then(
-                                                function(){
-                                                    
-                                                    deferred.resolve();
-                                                },
-                                                deferred.reject
-                                            );
+            userProfilerService.player.asyncPrev().then(
+                function onTrack(genericTrack) {
+                    if(genericTrack){
+                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
+                            function gotTrack(){
+                                gaddumMusicProviderService.asyncPlayCurrentTrack().then(
+                                    function(trackInfo){
+                                        if(trackInfo){
+                                            gaddumMusicProviderService.asyncPlayCurrentTrack();
                                         }
-                                        ,
-                                        deferred.reject
-                                    );
-                                }else{
-                                    deferred.reject();
-                                }
-                            },
+                                        deferred.resolve();
+                                    },
+                                    deferred.reject
+                                );
+                            }
+                            ,
                             deferred.reject
                         );
+                    }else{
+                        deferred.reject();
                     }
                 },
                 deferred.reject
             );
-            // userProfilerService.player.asyncPrev().then(
-            //     function onTrack(genericTrack) {
-            //         if(genericTrack){
-            //             gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-            //                 function gotTrack(){
-            //                     gaddumMusicProviderService.asyncGetTrackPosition().then(
-            //                         function(position_ms){
-            //                             if(position_ms >= 5000){
-            //                                 console.log("pos",position_ms);
-            //                                 gaddumMusicProviderService.asyncPlayTrack();
-            //                             }
-            //                             else{
-
-            //                             }
-            //                             deferred.resolve();
-            //                         },
-            //                         deferred.reject
-            //                     );
-            //                 }
-            //                 ,
-            //                 deferred.reject
-            //             );
-            //         }else{
-            //             deferred.reject();
-            //         }
-            //     },
-            //     deferred.reject
-            // );
             return deferred.promise;
         }
 

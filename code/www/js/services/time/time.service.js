@@ -54,13 +54,22 @@
         }
 
 
-        function findTimeSlot(timeAsDate) {
+        function findTimeSlot(timeStamp) {
 
             if (!m_timeslots) {
                 throw ("timeService: not initialised.")
             }
 
-            var candidate = moment(timeAsDate).asHours();
+            if(timeStamp == null){
+                timeStamp = TimeStamp.build();
+            }else{
+                if(!(timeStamp instanceof TimeStamp)){
+                    throw("timeService.findTimeSlot: needs a TimeStamp.");
+                }
+            }
+
+
+            var candidate = moment(timeStamp.getJavaEpocMs).asHours();
             var result = -1;
 
             for (var index = 0; index < m_timeslots.length; index++) {
@@ -83,7 +92,7 @@
 
 
         function getCurrentTimeSlot(){
-            return findTimeSlot(new Date());
+            return findTimeSlot(TimeStamp.build());
         }
 
         function getTimeStamp(date){
