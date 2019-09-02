@@ -37,14 +37,22 @@
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===false">
         <p >{{vm.moodDisplay.emoji}}</p>
-        <p ng-hide="vm.emotionSelected" class="moodQuestionMark">?</p>
+        <!-- <p ng-hide="vm.emotionSelected" class="moodQuestionMark">?</p> -->
       </span>
       <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
         font-size: 24px;
-        top: 64px;
+        top: -50px;
         position: absolute;
         left: 9%;
-        font-weight: 600;">Press Me!
+        font-weight: 600;">Press Me
+        </p>
+        <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+        font-size: 24px;
+        top: 64px;
+        position: absolute;
+        left: -40%;
+        width: 250px;
+        font-weight: 600;">To Find Your Mood!
         </p>
         <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText===true" >
             <p class="moodEmojiText">Look In The Camera
