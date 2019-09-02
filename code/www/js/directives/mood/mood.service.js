@@ -10,23 +10,25 @@
     'dataApiService',
     '$q',
     'MoodIdentifier',
-    'player',
-    'observationService',
-    'userProfilerService'
+    'userProfilerService',
+    'locationService',
+    'TimeStamp',
+    'MoodedSearchCriteria'
 
   ];
   function moodService(
     dataApiService,
     $q,
     MoodIdentifier,
-    gaddumPlayerService,
-    observationService,
-    userProfilerService
+    userProfilerService,
+    locationService,
+    TimeStamp,
+    MoodedSearchCriteria
   ) {
 
 
     var MAX_SEEK_SIZE = 10;
-    var MAX_SEEK_PAGE = 20;
+
 
     var g_dictMoodExpressionDetectionCriteria = {};
 
@@ -299,12 +301,14 @@
     }
 
 
-    function asyncNotifyNewMood(mood) {
+    function asyncNotifyNewMood(mood_id) {
       var deferred = $q.defer();
 
 
       locationService.asyncGetImmediateLocation().then(
         function (location) {
+
+          var mood = g_dictSupportedMoodIds[mood_id];
 
           var antiMood = g_dictSupportedMoodIds[mood.getIdAnti()];
           var timeStamp = TimeStamp.build(new Date());
@@ -325,7 +329,7 @@
             deferred.reject
           );
         },
-        defered.reject
+        deferred.reject
       );
 
       return deferred.promise;
@@ -339,7 +343,7 @@
       asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
       lookupMoodId: lookupMoodId,
       faceToMoodId: faceToMoodId,
-      asyncMoodIdToResources: asyncMoodIdToResource,
+      asyncMoodIdToResources: asyncMoodIdToResources,
       asyncNotifyNewMood: asyncNotifyNewMood
     };
 

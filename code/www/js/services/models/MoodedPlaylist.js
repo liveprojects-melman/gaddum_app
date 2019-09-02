@@ -79,7 +79,7 @@
       return result;
     }
 
-    MoodedPlayList.combinePlaylists = function (arrayIncumbents, arrayCandidates) {
+    MoodedPlaylist.combinePlaylists = function (arrayIncumbents, arrayCandidates) {
       if(arrayIncumbents && arrayCandidates){
         for(var index = 0; index < arrayCandidates.length; index++){
           var candidate = arrayCandidates[index];

@@ -247,24 +247,25 @@
 
     function asyncGetMoodAttributesLookup() {
 
-      var deferred = $q.deferred;
+      var deferred = $q.defer();
 
       dataApiService.asyncGetSupportedMoodIds().then(
 
-        function (mood_ids) {
+        function (moodIds) {
           var promises = [];
           var lookup = {};
 
-          mood_ids.forEach(function (mood_id) {
-            promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER, mood_id));
+          moodIds.forEach(function (moodId) {
+           
+            promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER.id, moodId.id));
           });
 
-          $q.all().then(
+          $q.all(promises).then(
             function (results) {
-              for (var index = 0; index < mood_ids.length; index++) {
-                var mood_id = mood_ids[index];
+              for (var index = 0; index < moodIds.length; index++) {
+                var mood_id = moodIds[index].id;
                 var attributes = results[index];
-                lookup[mood_id] = attributes[index];
+                lookup[mood_id] = attributes;
               }
               deferred.resolve(lookup);
             },
@@ -350,7 +351,7 @@
           AUTH_CONFIG.tokenRefreshUrl = result;
         }));
 
-      promises.push(asyncGetMoodAttributesLookup.then(
+      promises.push(asyncGetMoodAttributesLookup().then(
         function (result) {
           MOOD_TO_ATTRIBUTE_LOOKUP = result;
         })

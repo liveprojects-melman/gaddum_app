@@ -12,6 +12,7 @@
     postcodeService.$inject = [
         '$q',
         '$http',
+        '$timeout',
         'Location',
         'ErrorIdentifier'
 
@@ -19,6 +20,7 @@
     function postcodeService(
         $q,
         $http,
+        $timeout,
         Location,
         ErrorIdentifier
     ) {

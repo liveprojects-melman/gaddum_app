@@ -1407,6 +1407,7 @@
             asyncGetSelectedMusicProvider: asyncGetSelectedMusicProvider,
             asyncSetSelectedMusicProvider: asyncSetSelectedMusicProvider,
 
+            asyncGetSupportedTimeSlots:asyncGetSupportedTimeSlots,
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,

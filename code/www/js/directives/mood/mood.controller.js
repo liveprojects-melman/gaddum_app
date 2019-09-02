@@ -173,6 +173,9 @@
 
     }
 
+
+
+
     function asyncPopulateMoodResourceDict(moodIds, candidate) {
       var deferred = $q.defer();
       var promiseArray = [];
@@ -307,8 +310,8 @@
         isSleeping = false;
         spinnerService.spinnerOn();
       }
-
     }
+
     function selectModal() {
       sleep();
 
@@ -320,6 +323,31 @@
     function fnCallbackCancel() {
       console.log("modal canceled");
     }
+
+    function playMood(){
+      var deferred = $q.defer();
+      spinnerService.spinnerOn();
+      console.log("Getting Tracks for: " + lastMoodId);
+
+    
+      moodService.asyncNotifyNewMood(lastMoodId).then(
+        function(){
+          spinnerService.spinnerOff();
+        },
+        function(errorIdentifier){
+          console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
+          spinnerService.spinnerOff();
+
+        }
+      );
+
+
+
+      return deferred.promise;
+
+    }
+
+
     vm.onItemSelect = onItemSelect;
     vm.selectModal = selectModal;
     vm.wakeUpCamera = wakeUpCamera;
@@ -327,6 +355,7 @@
     vm.sleep = sleep;
     vm.onItemSelected = onItemSelected;
     vm.removeHelpTips = removeHelpTips;
+    vm.playMood = playMood;
 
     init();
     // function DialogController($scope, $mdDialog) {

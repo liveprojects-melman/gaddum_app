@@ -8,6 +8,7 @@
         .factory('observerService', observerService);
 
     observerService.$inject = [
+        '$q',
         'ErrorIdentifier',
         'GenericTrack',
         'MoodedPlaylist',
@@ -25,6 +26,7 @@
     ];
 
     function observerService(
+        $q,
         ErrorIdentifier,
         GenericTrack,
         MoodedPlaylist,
@@ -58,7 +60,7 @@
             DATA:{
                 SECTION_COLLECTION_LIMIT:{
                     id: "observation_section_collection_limit",
-                    value = 20
+                    value: 20
                 }
             }
         };
@@ -71,13 +73,14 @@
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.id));
-          
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.SECTION_COLLECTION_LIMIT.id));
 
             $q.all(promises).then(
                 function (result) {
                     SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.value = result[0];
                     SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.value = result[1];
                     SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.value = result[2];
+                    SETTINGS.DATA.SECTION_COLLECTION_LIMIT.values = result[3];
                     
                     deferred.resolve(result);
                 },
@@ -215,7 +218,7 @@
                     
                     postcodeService.asyncLocationToPostcode(location).then(
                         function (postCode){
-                            dataApiService.seekObservations(mood, timeSlot, postCode, location, PER_SECTION_LIMIT).then(
+                            dataApiService.seekObservations(mood, timeSlot, postCode, location, SETTINGS.DATA.SECTION_COLLECTION_LIMIT.value).then(
                                 function(results){
                                     var rawObservations = [];
                                     results.forEach(

@@ -15,7 +15,8 @@
         'dataApiService',
         '$timeout',
         'observerService',
-        'EventIdentifier'
+        'EventIdentifier',
+        'MoodedSearchCriteria'
 
     ];
 
@@ -28,7 +29,8 @@
         dataApiService,
         $timeout,
         observerService,
-        EventIdentifier
+        EventIdentifier,
+        MoodedSearchCriteria
 
     ) {
 
@@ -235,7 +237,7 @@
 
         function asyncFindPlaylist(moodId, timeStamp, location){
             var deferred = $q.defer();
-            observerService.seekObservations(moodId, timeStamp, location).then(
+            observerService.asyncSeekObservations(moodId, timeStamp, location).then(
                 function(rawObservations){
                     var trackIds = rawObservationsToTrackIds(rawObservations);
                     asyncLookupTrackIds(trackIds).then( 
