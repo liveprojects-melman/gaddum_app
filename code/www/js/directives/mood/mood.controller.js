@@ -295,7 +295,7 @@
       vm.lookAtTheCameraText = true;
       wake();
       vm.emotionSelected=false;
-      // defaultDisplay();
+      defaultDisplay();
       $timeout(function(){
         vm.lookAtTheCameraText = false;
       },2500);
