@@ -1,10 +1,10 @@
 <div class="modal HowAreYouModalBox" ng-controller="howAreYouModalController as mc">
 
   <ion-content class="howAreYouModal">
-    <div class="overLay slideHowAre" ng-hide=!mc.itemSelected>
+    <div class="overLay slideHowAre" style=" background-image: none;" ng-hide=!mc.itemSelected>
       <h3 class="modalTitle">{{mc.emotionSelected.name}}</h3>
     </div>
-    <div style="width:100%;">
+    <div ng-hide="mc.itemSelected" class="slideHowAre" style="width:100%;">
 
       <h3 class="modalTitle">How Are You?</h3>
     </div>

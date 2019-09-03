@@ -109,7 +109,8 @@
                         '4773cabe-a649-4af3-9a9c-768b5fd990fd',
                         'Killer Queen',
                         'Sheer Heart Attack',
-                        'Queen'
+                        'Queen',
+                        90
                     ));
                 }
             );
@@ -124,8 +125,8 @@
                 function(){
                     deferred.resolve(GenericTrack.build(
                         'c07d8279-3609-4143-8a0d-3f0b508839ef',
-                        'Lilly of the Valley',
-                        'Sheer Heart Attack',
+                        'Lily of the Valley',
+                        'Sheer Heart Attack ',
                         'Queen',
                         90
                     ));
@@ -155,7 +156,7 @@
                 function(){
                     resolve(GenericTrack.build(
                         null,
-                        'Lilly of the Valley',
+                        'Lily of the Valley',
                         'Sheer Heart Attack',
                         'Queen',
                         90

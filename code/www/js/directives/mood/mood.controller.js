@@ -41,7 +41,9 @@
       moodDisplay: {},
       detecting: true,
       helpTips: null,  //this shows/hides the speech boxes 
-      disableButton:false
+      disableButton:false,
+      emotionSelected:false,
+      lookAtTheCameraText:false
     });
 
     var _interval_ms = 100;
@@ -54,7 +56,7 @@
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext();
+      var ctx = canvas.getContext("webgl1");
 
       emotionReaderService.setListener(fnCallback);
 
@@ -76,9 +78,8 @@
 
     function defaultDisplay() {
       vm.moodDisplay.name = null;
-      vm.moodDisplay.id = null;
-      // vm.moodDisplay.emoji = '😶';
-      vm.moodDisplay.emoji = '?';
+      vm.moodDisplay.id = 'No Mood!';
+      vm.moodDisplay.emoji = '😶';
     }
 
 
@@ -88,6 +89,7 @@
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
+        vm.emotionSelected = true;
       } else {
         defaultDisplay();
 
@@ -204,8 +206,10 @@
 
 
     function init() {
+      vm.emotionSelected = false;
       console.log("first: ", vm.firstTime);
       console.log("moodidDict: ", moodIdDict);
+      vm.detecting = false;
       spinnerService.spinnerOn();
       vm.disableButton = true;
       if (vm.firstTime === true) {
@@ -221,6 +225,7 @@
           beginInitialiseCapture(function () {
             asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
               spinnerService.spinnerOff();
+              sleep();
               vm.disableButton = false;
               update();
             });
@@ -231,6 +236,7 @@
           asyncPopulateMoodResourceDict(vm.allEmotions, moodIdDict).then(function () {
             spinnerService.spinnerOff();
             vm.disableButton = false;
+            sleep();
             update();
           });
         }
@@ -268,6 +274,7 @@
         if (emotionReaderService.isRunning) {
           emotionReaderService.setSleep(true);
           vm.detecting = false;
+          spinnerService.spinnerOff();
           isSleeping = true;
         }
         else {
@@ -276,6 +283,7 @@
           }
           else {
             vm.detecting = false;
+            spinnerService.spinnerOff();
           }
 
         }
@@ -283,11 +291,21 @@
 
 
     }
+    function wakeUpCamera(){
+      vm.lookAtTheCameraText = true;
+      wake();
+      vm.emotionSelected=false;
+      defaultDisplay();
+      $timeout(function(){
+        vm.lookAtTheCameraText = false;
+      },2500);
+    }
     function wake() {
       if (!emotionReaderService.isRunning) {
         emotionReaderService.setSleep(false);
         vm.detecting = true;
         isSleeping = false;
+        spinnerService.spinnerOn();
       }
 
     }
@@ -304,6 +322,7 @@
     }
     vm.onItemSelect = onItemSelect;
     vm.selectModal = selectModal;
+    vm.wakeUpCamera = wakeUpCamera;
     vm.wake = wake;
     vm.sleep = sleep;
     vm.onItemSelected = onItemSelected;

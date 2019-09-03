@@ -8,12 +8,14 @@
   gaddumMoodServiceMasterSwitchService.$inject = [
 
     'emotionReaderService',
-    '$timeout'
+    '$timeout',
+    'spinnerService'
   ];
   function gaddumMoodServiceMasterSwitchService (
 
     emotionReaderService,
-    $timeout
+    $timeout,
+    spinnerService
   ) {
     var service = {
       state: {
@@ -32,6 +34,7 @@
               console.log("offForReal");
               emotionReaderService.setSleep(true);
               service.state.on = false;
+              spinnerService.spinnerOff();
             }
             else{
               if(emotionReaderService.isSleeping){
