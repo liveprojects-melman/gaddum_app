@@ -37,8 +37,8 @@
       busy: false
     };
     gpc.marquee = {
-      "songtitle": "some song",
-      "artistname": "some artist"
+      "songtitle": "",
+      "artistname": ""
     };
 
 
@@ -52,13 +52,15 @@
     function onControlError(error) {
       console.log("control error. Track: " + error.message());
       gpc.state.playing = true;
-
     }
 
     function onTrackNew(trackInfo) {
       console.log("new track: " + trackInfo.getName());
+      console.log(" - artist:" + trackInfo.getArtist());
+      gpc.marquee.songtitle = trackInfo.getName();
+      gpc.marquee.artistname = trackInfo.getName();
       gpc.state.playing = true;
-  
+
     }
 
 
@@ -79,12 +81,12 @@
 
     function onLoggedIn(){
       console.log("logged in");
-
+      gpc.state.ready = true;
     }
 
     function onLoggedOut(){
       console.log("logged out");
-
+      gpc.state.ready = false;
     }
 
     function onInternetDown(){
