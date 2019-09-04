@@ -30,10 +30,14 @@
       <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
     </div>
 
-    <div ng-click="vm.wakeUpCamera()" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
-      <span ng-show="vm.cameraError===true">
-        <p class="moodEmojiText">Whoops No Camera
+    <div ng-click="vm.wakeUpCamera()" ng-disabled="vm.cameraError" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
+      <span ng-show="vm.cameraError===true && vm.emotionSelected===false">
+          <p >❌</p>
+        <p class="moodEmojiText">Whoops No Camera!
         </p>
+      </span>
+      <span ng-show="vm.cameraError===true && vm.emotionSelected===true">
+        <p >{{vm.moodDisplay.emoji}}</p>
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===false">
         <p >{{vm.moodDisplay.emoji}}</p>
@@ -41,10 +45,18 @@
       </span>
       <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
         font-size: 24px;
-        top: 64px;
+        top: -50px;
         position: absolute;
         left: 9%;
-        font-weight: 600;">Press Me!
+        font-weight: 600;">Press Me
+        </p>
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+        font-size: 24px;
+        top: 64px;
+        position: absolute;
+        left: -40%;
+        width:250px;
+        font-weight: 600;">To Find Your Mood!
         </p>
         <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected!=true && vm.lookAtTheCameraText===true" >
             <p class="moodEmojiText">Look In The Camera
