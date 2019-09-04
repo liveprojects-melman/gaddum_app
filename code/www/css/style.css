@@ -1469,101 +1469,81 @@ div#scroller.ng-hide {
     float: none;
 }
 .emojiPeaceful{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     margin-left:5%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiAngry{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     float:right;
     margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiRestful{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     margin-left:28%;
     border-radius: 10em;
     border:solid 1px black;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiCrazy{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     float:right;
     margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiSad{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     margin-left:5%;
     margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiHappy{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     float:right;
     border:solid 1px black;
     margin-right:28%;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiTired{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     margin-left:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiPhysical{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     float: right;
     margin-right:5%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiBored{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     margin-left:5%;
     margin-right: 1rem;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiFocussed{
-    width:4.5rem;
-    height: 4.5rem;
+    width:auto;
     float:right;
     margin-right:28%;
     border:solid 1px black;
     border-radius: 10em;
     background-color: var(--color-moodBubble);
-    padding:0;
 }
 .emojiSize{
     font-size: 3rem !important;

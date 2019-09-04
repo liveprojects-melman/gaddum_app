@@ -56,7 +56,7 @@
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext("");
+      var ctx = canvas.getContext("webgl1");
 
       emotionReaderService.setListener(fnCallback);
 
@@ -121,7 +121,7 @@
 
     function doUpdate() {
       var deferred = $q.defer();
-      vm.cameraError = emotionReaderService.cameraError;
+
       $timeout(
 
         function () {
@@ -295,7 +295,7 @@
       vm.lookAtTheCameraText = true;
       wake();
       vm.emotionSelected=false;
-      // defaultDisplay();
+      defaultDisplay();
       $timeout(function(){
         vm.lookAtTheCameraText = false;
       },2500);
