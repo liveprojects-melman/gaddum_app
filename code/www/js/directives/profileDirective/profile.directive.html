@@ -19,7 +19,7 @@
       </span>
     </p>
   </div>
-  <canvas class="profileImageCanvas" id="profileImage" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'"
+  <canvas class="profileImageCanvas" ng-click="vm.profileEdit()" id="profileImage" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'"
     ng-init="vm.createProfileGraphic()" height=80 width=80
     ></canvas>
   <div class="qrdiv" ng-hide="vm.busy" id="qrCodeDiv">
