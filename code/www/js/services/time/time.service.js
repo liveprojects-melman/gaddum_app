@@ -80,7 +80,7 @@
                 var timeslot = m_timeslots[index];
 
                 if (timeslot.isDateWithinTimeSlot(candidate)) {
-                    result = timeslot.id;
+                    result = timeslot;
                     break;
                 }
 

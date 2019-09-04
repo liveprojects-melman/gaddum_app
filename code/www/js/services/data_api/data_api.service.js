@@ -1354,7 +1354,7 @@
                     }
 
                     if (postCode) {
-                        postcode_id = postCode.getPostCode();
+                        postcode_id = postCode.getPostcode();
                     }
 
                     if (location) {

@@ -35,7 +35,7 @@
 
       this.isDateWithinTimeSlot = function (date) {
         var result = false;
-        var candidate = moment(date,'HH:mm');
+        var candidate = moment(date,'HH:mm:ss');
 
 
         if (candidate.isSameOrAfter(this.startParsed)) {
@@ -63,8 +63,8 @@
 
       result = angular.merge(result, candidate);
 
-      result.startParsed = moment(result.start_time, 'HH:mm');
-      result.endParsed = moment(result.end_time, 'HH:mm');
+      result.startParsed = moment(result.start_time, 'HH:mm:ss');
+      result.endParsed = moment(result.end_time, 'HH:mm:ss');
 
 
 

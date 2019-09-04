@@ -13,7 +13,9 @@
     'userProfilerService',
     'locationService',
     'TimeStamp',
-    'MoodedSearchCriteria'
+    'MoodedSearchCriteria',
+    'gaddumMusicProviderService',
+    'MoodedPlaylist'
 
   ];
   function moodService(
@@ -23,7 +25,9 @@
     userProfilerService,
     locationService,
     TimeStamp,
-    MoodedSearchCriteria
+    MoodedSearchCriteria,
+    gaddumMusicProviderService,
+    MoodedPlaylist
   ) {
 
 
@@ -252,14 +256,14 @@
 
 
 
-    function asyncSuggestAPlaylist(genre, moodId){
+    function asyncSuggestAPlaylist(genre, moodId) {
       var deferred = $q.defer();
       gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, MAX_SEEK_SIZE).then(
         function (trackInfos) {
           // import the suggstions - we need them in the database, to be able to observe them.
           gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
-            function(genericTracks){ // actually, GenericImportTracks, but same thing really :-)
-              deferred.resolve(MoodedPlaylist.build(moodId,genericTracks));
+            function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
+              deferred.resolve(MoodedPlaylist.build(moodId, genericTracks));
             }
           );
         },
@@ -269,25 +273,48 @@
     }
 
 
-    function asyncSuggestPlaylists(moodedSearchCriteria) {
-   
+    function asyncGetGenres() {
       var deferred = $q.defer();
-      
-      // get the user's preferred genres
-      profileService.asyncGetGenres().then(
+      gaddumMusicProviderService.asyncGetGenres().then( // user-selected
         function (genres) {
+          if (!genres || genres.length == 0) { // catch-all
+            gaddumMusicProviderService.asyncGetSupportedGenres().then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
+
+    }
+
+
+
+
+
+    function asyncSuggestPlaylists(moodedSearchCriteria) {
+
+      var deferred = $q.defer();
+
+      // get the user's preferred genres - or all generes if the user has selected none.
+      asyncGetGenres().then(
+        function (genres) {
+
           // pick ONE genre
           var genre = pickRandomElement(genres);
-          
+
           var promises = [];
           moodedSearchCriteria.getMoodIds().forEach(
             function (moodId) {
-              promises.push(asyncSuggestAPlaylist(genre, moodId));
+              promises.push(asyncSuggestAPlaylist([genre], moodId));
             }
           );
-          
+
           $q.all(promises).then(
-            function(playlists){
+            function (playlists) {
               deferred.resolve(playlists);
             },
             deferred.reject
@@ -321,7 +348,7 @@
                   userProfilerService.loader.asyncLoadMoodedPlaylists(resultPlaylists).then(
                     deferred.resolve,
                     deferred.reject
-                  );   
+                  );
                 },
                 deferred.reject
               );

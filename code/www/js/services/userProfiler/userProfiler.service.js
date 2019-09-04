@@ -194,7 +194,7 @@
 
             // container is now a dictionary of tracks and associated priorities.
             // push into results in order of priority
-            Object.getKeys(container).forEach(
+            Object.keys(container).forEach(
                 function(priority){
                     //rely on order of priority, not insertion, since these keys are integers
                     Object.getKeys(container[priority]).forEach(
@@ -242,7 +242,7 @@
                     var trackIds = rawObservationsToTrackIds(rawObservations);
                     asyncLookupTrackIds(trackIds).then( 
                         function(genericTracks){
-                           var result = MoodedPlaylist.build(moodId,gnericTracks);              
+                           var result = MoodedPlaylist.build(moodId,genericTracks);              
                             deferred.resolve(result);
                         },
                         deferred.reject

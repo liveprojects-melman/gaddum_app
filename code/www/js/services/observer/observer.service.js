@@ -218,7 +218,7 @@
                     
                     postcodeService.asyncLocationToPostcode(location).then(
                         function (postCode){
-                            dataApiService.seekObservations(mood, timeSlot, postCode, location, SETTINGS.DATA.SECTION_COLLECTION_LIMIT.value).then(
+                            dataApiService.asyncSeekObservations(mood, timeSlot, postCode, location, SETTINGS.DATA.SECTION_COLLECTION_LIMIT.value).then(
                                 function(results){
                                     var rawObservations = [];
                                     results.forEach(

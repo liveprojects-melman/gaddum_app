@@ -14,7 +14,8 @@
         '$http',
         '$timeout',
         'Location',
-        'ErrorIdentifier'
+        'ErrorIdentifier',
+        'Postcode'
 
     ];
     function postcodeService(
@@ -22,22 +23,20 @@
         $http,
         $timeout,
         Location,
-        ErrorIdentifier
+        ErrorIdentifier,
+        Postcode
     ) {
 
 
- 
+        var POSTCODE_SEARCH_RADIUS = 50; // less than this risks a result of 'null'.
+        var POSTCODE_SEARCH_LIMIT = 1;
 
 
-
-
-
-
-        // coords: an object with a 'latitude' and 'longitude' property
+        // location: an object with a 'latitude' and 'longitude' property
         // radius: integer specifying radius (optional)
         // limit: maximum result count (optional)
         // after promise: returns a list of postcode objects
-        function asyncGetPostcode(coords, requested_radius, requested_limit) {
+        function asyncGetPostcode(location, requested_radius, requested_limit) {
             var defer = $q.defer();
             $timeout(
                 function () {
@@ -46,10 +45,12 @@
                     var radius = Math.min(requested_radius, 1999); // API sets maximum radius of 1999
 
                     var requestUrl = "";
-                    if (angular.isObject(coords) === true) {
-                        if ((coords.latitude) && (coords.longitude)) {
-                            requestUrl = "https://api.postcodes.io/postcodes?lon=" + coords.longitude + "&lat=" + coords.latitude;
-                        }
+                    if (angular.isObject(location) === true) {
+                        var lat = location.getLat();
+                        var lon = location.getLon();
+                        
+                        requestUrl = "https://api.postcodes.io/postcodes?lon=" + lon + "&lat=" + lat;
+                        
                         if ((angular.isDefined(radius) === true) && (Number.isInteger(radius) === true)) {
                             requestUrl = requestUrl + "&radius=" + radius;
                         }
@@ -151,7 +152,25 @@
 
 
         function asyncLocationToPostcode(location) {
-            return asyncGetPostcode(location, 10);
+            var deferred = $q.defer();
+
+            asyncGetPostcode(location, POSTCODE_SEARCH_RADIUS, POSTCODE_SEARCH_LIMIT).then(
+                function(response){
+                    var result = null;
+                    try{
+                        var strPostcode = response.data.result[0].postcode;
+                        result = Postcode.build(strPostcode);
+                    }catch(e){
+                        console.log("postcodeService: asyncLocationToPostcode: warning: returning null.");
+                    }
+                    deferred.resolve(result);
+                },
+                deferred.reject
+            );
+
+
+
+            return deferred.promise;
         }
 
 

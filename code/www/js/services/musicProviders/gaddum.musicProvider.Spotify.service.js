@@ -426,7 +426,7 @@
 
     function base64ToTagArray(base64Enc) { // throws
       var result = [];
-      if (base64Enc != null) {
+      if ((base64Enc != null) &&(base64Enc.length > 0) ) {
         var csv = atob(base64Enc);
         var array = csv.split(',');
         array.forEach(
@@ -1014,52 +1014,7 @@
       });
     }
 
-    function asyncSuggestTracks(genres, moodIds, limit, page) {
-      var deferred = $q.defer();
-      TRACK_SUGGESTION_LIMIT
-      asyncGetAccessCredentials().then(
-        function (resultToken) {
-          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
-          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
-          // var config = {
-          //   headers: {
-          //     'Authorization': 'Bearer ' + resultToken.accessToken
-          //   }
-          // };
 
-          searchString = baseSearchString +
-            'artist:"' + genericTrack.getArtist() + '" ' +
-            'album:"' + genericTrack.getAlbum() + '" ' +
-            'track:"' + genericTrack.getName() +
-            '"&type=track' +
-            '&limit=1' +
-            '&offset=0';
-
-          var uri = encodeURI(searchString);
-
-          $http.get(uri, config)
-            .then(
-              function gotA200(result) {
-
-                var item = result.data.tracks.items[0];
-
-                // this is the closest Spotify can get to the incoming generic track
-                var trackInfo = spotifyTrackToTrackInfo(item);
-
-                // give the system the *actual* details of the track.
-                deferred.resolve(trackInfo);
-              },
-              function notA200(response) {
-                // there's an error from the server. We may be logged out. Reflect this in the error.
-                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
-              }
-
-            );
-        }
-      );
-      return deferred.promise;
-
-    }
 
     function spotifyTrackToTrackInfo(spotifyTrack) {
       var result = TrackInfo.build(
@@ -1161,11 +1116,11 @@
 
     function createSearchParameters(genres, moodId, limit){
       var result = "";
-      var searchComponent = creatSearchComponent(genres, moodId);
+      var searchComponent = createSearchComponent(genres, moodId);
       var limitComponent = "limit="+limit;
 
       if(searchComponent.length > 0){
-        result = searchComponent + "&";
+        searchComponent += "&";
       }
 
       result = searchComponent+limitComponent;
@@ -1185,22 +1140,29 @@
           searchString = baseSearchString + createSearchParameters(genres, moodId, limit);
 
           var uri = encodeURI(searchString);
-
+          
           $http.get(uri, config)
             .then(
               function gotA200(result) {
+                try{
+                  var results = [];
+                  var tracks = result.data.tracks;
 
-                var item = result.data.tracks.items[0];
+                  tracks.forEach(
+                    function(track){
+                        results.push(spotifyTrackToTrackInfo(track));
+                    }
+                  );
+                  deferred.resolve(results);
 
-                // this is the closest Spotify can get to the incoming generic track
-                var trackInfo = spotifyTrackToTrackInfo(item);
-
-                // give the system the *actual* details of the track.
-                deferred.resolve(trackInfo);
+                }catch(error){
+                  // the tracks being supplied aren't in the format we need. Changed API?
+                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "bad data retrieved."));
+                }
               },
               function notA200(response) {
                 // there's an error from the server. We may be logged out. Reflect this in the error.
-                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response.status));
               }
 
             );
