@@ -97,6 +97,8 @@
 
     function onPlaylistNew(){
       console.log("new playlist: controls disabled / spinner until we get track...");
+      
+      playerService.asyncControlPlay(); 
     }
 
     function onPlaylistEnd(){
@@ -200,6 +202,8 @@
       console.log("gaddum.player - ready = ",data);
       gpc.show = data?true:false;
     });
+
+    initialise();
 
     return gpc;
   }

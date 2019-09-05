@@ -51,13 +51,13 @@
         };
 
 
-        g_firstBegin = true;
-        g_arrayMoodedPlaylists = [];
-        g_currentPlaylist = null;
-        g_dictMoodedPlaylists = {};
-        g_arrayTrackHistory = [];
-        g_trackStartTime_ms = null;
-        g_numSkips = 0;
+        var g_firstBegin = true;
+        var g_arrayMoodedPlaylists = [];
+        var g_currentPlaylist = null;
+        var g_dictMoodedPlaylists = {};
+        var g_arrayTrackHistory = [];
+        var g_trackStartTime_ms = null;
+        var g_numSkips = 0;
 
         function asyncBroadcastEvent(event) {
             var deferred = $q.defer();
@@ -83,8 +83,9 @@
 
 
         function asyncObserveCurrentTrack(moodSuitable){
-            var trackTime_ms =  new Date() - g_trackStartTime_ms;
-            var mood = g.currentPlaylist.getMoodId();
+            var currentTime = new Date().getTime();
+            var trackTime_ms = currentTime - g_trackStartTime_ms;
+            var mood = g_currentPlaylist.getMoodId();
             var genericTrack = g_currentPlaylist.getGenericTracks()[g_currentPlaylist.currentTrackIndex];
             var trackDuration_ms = genericTrack.getDuration_s() * 1000;
             var numRepeats = genericTrack.numRepeats; //  we added this in prepareMoodedPlaylists
@@ -110,6 +111,8 @@
 
 
             var deferred = $q.defer();
+            var promises = [];
+
 
             $timeout(
 
@@ -122,7 +125,6 @@
                         function (results) {
                             SETTINGS.MAX_SKIP_COUNT.value = results[0];
                             SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value = results[1];
-
                         },
                         deferred.reject
                     );
@@ -167,9 +169,9 @@
             }
 
             try {
-                g_trackStartTime_ms = new Date();
+                g_trackStartTime_ms = new Date().getTime();
                 g_currentPlaylist.currentTrackIndex += increment;
-                var genericTrack = g_currentPlaylist[g_currentPlaylist.currentTrackIndex];
+                var genericTrack = g_currentPlaylist.getGenericTracks()[g_currentPlaylist.currentTrackIndex];
                 result = genericTrack;
             } catch (e) { } // no-op
 
@@ -259,6 +261,7 @@
             if (g_trackStartTime_ms == null) {
                 throw ("userProfilerService.asyncNext: use asyncBegin on a new playlist");
             } else {
+                var currentTime_ms = new Date().getTime();
                 if ((currentTime_ms - g_trackStartTime_ms) < (SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S * 1000)) {
                     return asyncOnTrackSkippedNext();
                 } else {
@@ -274,6 +277,7 @@
             if (g_trackStartTime_ms == null) {
                 throw ("userProfilerService.asyncPrev: use asyncBegin on a new playlist");
             } else {
+                var currentTime_ms = new Date().getTime();
                 if ((currentTime_ms - g_trackStartTime_ms) < (SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S * 1000)) {
                     return asyncOnTrackSkippedPrev();
                 } else {
@@ -515,7 +519,7 @@
             initialisePlaylists(arrayMoodedPlaylists);
             initialiseCounters();
 
-            asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_NEW, null));
+            return asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_NEW, null));
         }
 
         // --- Statement

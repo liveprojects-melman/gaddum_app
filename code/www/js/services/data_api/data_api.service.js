@@ -957,6 +957,7 @@
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
+                    genericTrack.getDuration_s(),
                     trackReference.getPlayerUri(),
                     trackReference.getThumbnailUri());
             } else {

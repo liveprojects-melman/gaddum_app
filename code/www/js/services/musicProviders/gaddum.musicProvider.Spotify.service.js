@@ -256,7 +256,7 @@
           var lookup = {};
 
           moodIds.forEach(function (moodId) {
-           
+
             promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER.id, moodId.id));
           });
 
@@ -426,7 +426,7 @@
 
     function base64ToTagArray(base64Enc) { // throws
       var result = [];
-      if ((base64Enc != null) &&(base64Enc.length > 0) ) {
+      if ((base64Enc != null) && (base64Enc.length > 0)) {
         var csv = atob(base64Enc);
         var array = csv.split(',');
         array.forEach(
@@ -1048,19 +1048,19 @@
     function createGenreSeed(genres) {
       var result = "";
 
-      if(genres){
-        try{
+      if (genres) {
+        try {
           var elements = "";
-          for(var index=0; index < genres.length; index++){
+          for (var index = 0; index < genres.length; index++) {
             elements += genres[index];
-            if(index < genres.length - 1){
+            if (index < genres.length - 1) {
               elements += ',';
             }
           }
-          if(elements.length>0){
+          if (elements.length > 0) {
             result = "seed_genres=" + elements;
           }
-        }catch(e){
+        } catch (e) {
           console.log("gaddumMusicProviderSpotifyService: createGenreSeed: warning: error occurred creating seed.");
         }
       }
@@ -1071,40 +1071,40 @@
     function createTunableAttributesSeed(moodId) {
       var result = "";
 
-      if(moodId){
-      try {
-        var attributes = MOOD_TO_ATTRIBUTE_LOOKUP[moodId.getId()];
+      if (moodId) {
+        try {
+          var attributes = MOOD_TO_ATTRIBUTE_LOOKUP[moodId.getId()];
 
-        for (var index = 0; index < attributes.length; index++) {
-          var attribute = attributes[index];
-          var element = "target_" + attribute.attribute + "=" + attribute.value;
-          result += element;
-          if(index < attributes.length - 1){
-            result += '&';
+          for (var index = 0; index < attributes.length; index++) {
+            var attribute = attributes[index];
+            var element = "target_" + attribute.attribute + "=" + attribute.value;
+            result += element;
+            if (index < attributes.length - 1) {
+              result += '&';
+            }
           }
-        }
 
-      } catch (e) {
-        console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
+        } catch (e) {
+          console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
+        }
       }
-    }
 
       return result;
     }
 
 
-    function createSearchComponent(genres, moodId){
+    function createSearchComponent(genres, moodId) {
 
       var genreComponent = createGenreSeed(genres);
       var attributeComponent = createTunableAttributesSeed(moodId);
 
       var result = "";
 
-      if(genreComponent.length > 0){
+      if (genreComponent.length > 0) {
         result = genreComponent;
       }
-      if(result.length > 0){
-        if(attributeComponent.length > 0){
+      if (result.length > 0) {
+        if (attributeComponent.length > 0) {
           result += '&';
         }
       }
@@ -1114,16 +1114,16 @@
     }
 
 
-    function createSearchParameters(genres, moodId, limit){
+    function createSearchParameters(genres, moodId, limit) {
       var result = "";
       var searchComponent = createSearchComponent(genres, moodId);
-      var limitComponent = "limit="+limit;
+      var limitComponent = "limit=" + limit;
 
-      if(searchComponent.length > 0){
+      if (searchComponent.length > 0) {
         searchComponent += "&";
       }
 
-      result = searchComponent+limitComponent;
+      result = searchComponent + limitComponent;
 
       return result;
 
@@ -1140,22 +1140,22 @@
           searchString = baseSearchString + createSearchParameters(genres, moodId, limit);
 
           var uri = encodeURI(searchString);
-          
+
           $http.get(uri, config)
             .then(
               function gotA200(result) {
-                try{
+                try {
                   var results = [];
                   var tracks = result.data.tracks;
 
                   tracks.forEach(
-                    function(track){
-                        results.push(spotifyTrackToTrackInfo(track));
+                    function (track) {
+                      results.push(spotifyTrackToTrackInfo(track));
                     }
                   );
                   deferred.resolve(results);
 
-                }catch(error){
+                } catch (error) {
                   // the tracks being supplied aren't in the format we need. Changed API?
                   deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "bad data retrieved."));
                 }
@@ -1252,6 +1252,33 @@
     }
 
 
+    function asyncTeardownCurrentTrack() {
+
+
+      var deferred = $q.defer();
+
+      $timeout(
+        function () {
+
+          if (CURRENT_TRACK_INFO) {
+            CURRENT_TRACK_INFO = null;
+            cordova.plugins.spotify.pause().then(
+              function () {
+                cordova.plugins.spotify.seekTo(0).then(
+                  deferred.resolve,
+                  deferred.resolve
+                );
+              },
+              deferred.resolve
+            );
+          }else{
+            deferred.resolve();
+          }
+        }
+      );
+      return deferred.promise;
+    }
+
 
 
     // sets the current track.
@@ -1263,17 +1290,14 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncSetTrack(genericTrack) {
-      CURRENT_TRACK_INFO = null;
+
+
 
       var deferred = $q.defer();
 
-      $timeout(
-
+      asyncTeardownCurrentTrack().then(
         function () {
-
-
           // search cache for track
-
           asyncGetTrackInfo(genericTrack).then(
             function (trackInfo) {
               if (trackInfo) {
@@ -1304,7 +1328,8 @@
             },
             deferred.reject //database error
           );
-        }
+        },
+        deferred.reject
       );
       return deferred.promise;
     }
@@ -1424,7 +1449,7 @@
           if (CURRENT_TRACK_INFO) {
             cordova.plugins.spotify.getPosition().then(
               function (position_ms) {
-                if (position_ms == 0) {
+                if (position_ms <= 2) { // we try and set whatever track is currently playing back to zero, to indicate we have stopped playing. Cordova.spotify sets it to 1.
                   asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
