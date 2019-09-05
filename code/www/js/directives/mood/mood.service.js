@@ -282,6 +282,8 @@
               deferred.resolve,
               deferred.reject
             );
+          }else{
+            deferred.resolve(genres);
           }
         },
         deferred.reject

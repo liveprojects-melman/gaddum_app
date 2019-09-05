@@ -47,7 +47,7 @@
 
     // ------ UTILITY
 
-    var HTTP_OK = 200;
+    var SETTLE_TIME_MS = 2000;
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
     var EVENT_HANDLER_PROMISE = null;
@@ -1251,9 +1251,22 @@
 
     }
 
+    function asyncWaitToSettle(){
+      var deferred = $q.defer();
+
+      $timeout(
+        function(){
+          deferred.resolve();
+        },SETTLE_TIME_MS
+      );
+
+      return deferred.promise;
+    }
+
 
     function asyncTeardownCurrentTrack() {
 
+      console.log("spotifyService:asyncTeardownCurrentTrack");
 
       var deferred = $q.defer();
 
@@ -1265,8 +1278,8 @@
             cordova.plugins.spotify.pause().then(
               function () {
                 cordova.plugins.spotify.seekTo(0).then(
-                  deferred.resolve,
-                  deferred.resolve
+                  asyncWaitToSettle,
+                  asyncWaitToSettle
                 );
               },
               deferred.resolve
@@ -1291,7 +1304,7 @@
     // a missing track is not catastrophic
     function asyncSetTrack(genericTrack) {
 
-
+      console.log("spotifyService:asyncSetTrack");
 
       var deferred = $q.defer();
 
@@ -1437,7 +1450,7 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncPlayCurrentTrack() {
-
+      console.log("spotifyService:playCurrentTrack");
       var deferred = $q.defer();
 
       // Dummy for now.
@@ -1449,7 +1462,7 @@
           if (CURRENT_TRACK_INFO) {
             cordova.plugins.spotify.getPosition().then(
               function (position_ms) {
-                if (position_ms <= 2) { // we try and set whatever track is currently playing back to zero, to indicate we have stopped playing. Cordova.spotify sets it to 1.
+                if (position_ms == 0) { // we try and set whatever track is currently playing back to zero, to indicate we have stopped playing. Cordova.spotify sets it to 1.
                   asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
