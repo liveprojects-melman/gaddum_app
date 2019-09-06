@@ -25,7 +25,7 @@
     this.getAccessToken = function() {
       return this.accessToken;
     }
-    this.getExpiresAt =function() {
+    this.getExpiresAt = function() {
       return this.expiresAt;
     }
     this.getRefreshToken = function() {
@@ -33,9 +33,9 @@
     }
 
     this.hasExpired = function() {
-      var currentTimeJavaEpoch_s = Date.now() / 1000;
+      var currentTimeJavaEpoch_ms = Date.now();
 
-      var result = currentTimeJavaEpoch_s >= this.expiresAt;
+      var result = currentTimeJavaEpoch_ms >= this.expiresAt;
 
       return result;
     }

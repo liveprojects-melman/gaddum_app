@@ -63,12 +63,14 @@
     };
 
     var NOT_FOUND = -1;
-    function seekPlaylist(playlists, id) {
+    function seekPlaylist(playlists, candidate) {
       var result = NOT_FOUND;
       try {
-        for (var index = 0; index < array.length; index++) {
+        var candidateId = candidate.getMoodId().getId();
+        for (var index = 0; index < playlists.length; index++) {
           var playlist = playlists[index];
-          if (playlist.getId() == id) {
+          var playlistId = playlist.getMoodId().getId();
+          if (playlistId == candidateId) {
             result = index;
             break;
           }
@@ -79,7 +81,7 @@
       return result;
     }
 
-    MoodedPlayList.combinePlaylists = function (arrayIncumbents, arrayCandidates) {
+    MoodedPlaylist.combinePlaylists = function (arrayIncumbents, arrayCandidates) {
       if(arrayIncumbents && arrayCandidates){
         for(var index = 0; index < arrayCandidates.length; index++){
           var candidate = arrayCandidates[index];
@@ -92,6 +94,7 @@
           }
         }
       }
+      return arrayIncumbents;
     }
 
 

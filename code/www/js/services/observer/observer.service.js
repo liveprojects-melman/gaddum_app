@@ -8,6 +8,7 @@
         .factory('observerService', observerService);
 
     observerService.$inject = [
+        '$q',
         'ErrorIdentifier',
         'GenericTrack',
         'MoodedPlaylist',
@@ -20,11 +21,13 @@
         'postcodeService',
         'TimeSlot',
         'timeService',
-        '$timeout'
+        '$timeout',
+        'Observation'
 
     ];
 
     function observerService(
+        $q,
         ErrorIdentifier,
         GenericTrack,
         MoodedPlaylist,
@@ -37,13 +40,14 @@
         postcodeService,
         TimeSlot,
         timeService,
-        $timeout
+        $timeout,
+        Observation
     ) {
 
         var SETTINGS = {
             PRIVACY: {
                 COLLECT_LOCATION_HISTORY: {
-                    id:"collection_location_history",
+                    id: "collection_location_history",
                     value: false
                 },
                 COLLECT_MOOD_HISTORY: {
@@ -55,10 +59,10 @@
                     value: false
                 }
             },
-            DATA:{
-                SECTION_COLLECTION_LIMIT:{
+            DATA: {
+                SECTION_COLLECTION_LIMIT: {
                     id: "observation_section_collection_limit",
-                    value = 20
+                    value: 20
                 }
             }
         };
@@ -71,14 +75,15 @@
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.id));
-          
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.SECTION_COLLECTION_LIMIT.id));
 
             $q.all(promises).then(
                 function (result) {
                     SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.value = result[0];
                     SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.value = result[1];
                     SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.value = result[2];
-                    
+                    SETTINGS.DATA.SECTION_COLLECTION_LIMIT.values = result[3];
+
                     deferred.resolve(result);
                 },
                 function (error) {
@@ -92,134 +97,142 @@
 
 
 
-        function asyncInitialise(){
+        function asyncInitialise() {
             return asyncInitialiseSettings();
-        } 
+        }
 
 
 
 
-        function gateMood(container, mood){
-            
-            if(SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.value){
+        function gateMood(container, mood) {
+
+            if (SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.value) {
                 container.mood = mood;
             }
             return container;
         }
 
-        function gateGenericTrack(container, genericTrack){
-            
-            if(SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.value){
+        function gateGenericTrack(container, genericTrack) {
+
+            if (SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.value) {
                 container.genericTrack = genericTrack;
             }
             return container;
         }
-        
 
 
 
-        function asyncGatelocation(container){
-            var deferred = $q.defer;
 
-            if(SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.value){
-                
-                locationService.asyncGetLocation().then(
-                    function(location){
-                        container.location = location;
-                        postcodeService.asyncLocationToPostcode(location).then(
-                            function(postcode){
-                                container.postcode = postcode;
-                                promise.resolve(container);
+        function asyncGatelocation(container) {
+            var deferred = $q.defer();
+
+            $timeout(
+
+                function () {
+                    if (SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.value) {
+
+                        locationService.asyncGetLocation().then(
+                            function (location) {
+                                container.location = location;
+                                postcodeService.asyncLocationToPostcode(location).then(
+                                    function (postcode) {
+                                        container.postcode = postcode;
+                                        deferred.resolve(container);
+                                    },
+                                    function (error) {
+                                        deferred.reject(error);
+                                    }
+                                );
                             },
-                            function(error){
-                                promise.reject(error);
+                            function (error) {
+                                deferred.reject(error);
                             }
                         );
-                    },
-                    function(error){
-                        promise.reject(error);
+                    } else {
+                        deferred.resolve(container);
                     }
-                );
-            }else{
-                
-                $timeout(
-                    function(){
-                        promise.resolve(container);
-                    });
-            }
-            return deferred.promise;
-        }
-
-
-
-
-        function asyncCreateConditionalObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack){
-            var deferred = $q.defer();
-            
-            var result = {
-                id : utilitiesService.createUuid(),
-                timeStamp : timeService.getTimeStamp(),
-                timeSlot : timeService.getCurrentTimeSlot(),
-                moodSuitable : moodSuitable,
-                trackPercent: trackPercent,
-                numRepeats : numRepeats
-            }
-
-            function buildFromResult(result){
-                return Observation.build(
-                    result.id,
-                    result.timeStamp,
-                    result.mood, 
-                    result.timeSlot, 
-                    result.location, 
-                    result.postcode, 
-                    result.trackPercent,
-                    result.numRepeats, 
-                    result.moodSuitable, 
-                    result.genericTrack
-                );
-            }
-
-            gateMood(result,mood);
-            gateGenericTrack(result, genericTrack);
-            asyncGatelocation(result).then(
-                function onSuccess(){
-                    resolve(buildFromResult(result));
-                },
-                function onError(error){
-                    reject(error, buildFromResult(result));
                 }
+
             );
 
-
-
             return deferred.promise;
         }
 
-        function asyncAddObservation(observation){
-            return dataApiService.addObservation(observation);
-        }
-
-        
 
 
 
-        function asyncSeekObservations( mood, timeStamp, location){
-            
+        function asyncCreateConditionalObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack) {
             var deferred = $q.defer();
 
             $timeout(
                 function(){
-                    
+                    var result = {
+                        id: utilitiesService.createUuid(),
+                        timeStamp: timeService.getTimeStamp(),
+                        timeSlot: timeService.getCurrentTimeSlot(),
+                        moodSuitable: moodSuitable,
+                        trackPercent: trackPercent,
+                        numRepeats: numRepeats
+                    }
+        
+                    function buildFromResult(result) {
+                        return Observation.build(
+                            result.id,
+                            result.timeStamp,
+                            result.mood,
+                            result.timeSlot,
+                            result.location,
+                            result.postcode,
+                            result.trackPercent,
+                            result.numRepeats,
+                            result.moodSuitable,
+                            result.genericTrack
+                        );
+                    }
+        
+                    gateMood(result, mood);
+                    gateGenericTrack(result, genericTrack);
+                    asyncGatelocation(result).then(
+                        function onSuccess() {
+                            deferred.resolve(buildFromResult(result));
+                        },
+                        function onError(error) {
+                            deferred.reject(error, buildFromResult(result));
+                        }
+                    );
+        
+                }
+            );
+            
+
+
+            return deferred.promise;
+        }
+
+        function asyncAddObservation(observation) {
+            return dataApiService.asyncAddObservation(observation);
+        }
+
+
+
+
+
+        function asyncSeekObservations(mood, timeStamp, location) {
+
+            var deferred = $q.defer();
+
+            $timeout(
+                function () {
+
                     var timeSlot = timeService.findTimeSlot(timeStamp);
-                    
+
                     postcodeService.asyncLocationToPostcode(location).then(
-                        function (postCode){
-                            dataApiService.seekObservations(mood, timeSlot, postCode, location, PER_SECTION_LIMIT).then(
-                                function(results){
+                        function (postCode) {
+                            dataApiService.asyncSeekObservations(mood, timeSlot, postCode, location, SETTINGS.DATA.SECTION_COLLECTION_LIMIT.value).then(
+                                function (results) {
                                     var rawObservations = [];
                                     results.forEach(
-                                        function(result){
+                                        function (result) {
                                             rawObservations.push(RawObservation.buildFromObject(result));
                                         }
                                     );
@@ -229,30 +242,30 @@
                             );
                         },
                         deferred.reject
-                    );     
+                    );
                 }
             );
-  
+
             return deferred.promise;
 
         }
 
 
-        function asyncCreateObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack){
+        function asyncCreateObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack) {
             var deferred = $q.defer();
             asyncCreateConditionalObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack).then(
 
-                function onCreateObservation(observation){
+                function onCreateObservation(observation) {
                     asyncAddObservation(observation).then(
-                        function onWriteObservation(){
+                        function onWriteObservation() {
                             deferred.resolve(observation);
                         },
-                        function(err){
+                        function (err) {
                             deferred.reject(err);
                         }
                     );
                 },
-                function(err){
+                function (err) {
                     deferred.resolve(err);
                 }
 
@@ -262,7 +275,7 @@
 
         var service = {
             // do intialise to update settings from DB
-            asyncInitialise : asyncInitialise,
+            asyncInitialise: asyncInitialise,
             asyncCreateObservation: asyncCreateObservation,
             asyncSeekObservations: asyncSeekObservations
         };

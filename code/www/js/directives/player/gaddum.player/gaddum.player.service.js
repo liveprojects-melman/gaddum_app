@@ -242,9 +242,9 @@
 
         function asyncHandleEvent(eventIdentifier) {
             switch (eventIdentifier.getId()) {
-                case eventIdentifier.TRACK_NOT_FOUND:
+                case EventIdentifier.TRACK_NOT_FOUND:
                     return asyncHandleTrackNotFound();
-                case eventIdentifier.PLAYLIST_NEW:
+                case EventIdentifier.PLAYLIST_NEW:
                     return asyncHandlePlaylistNew();
                 default:
                     return asyncHandleDefault();    
@@ -259,7 +259,7 @@
             $timeout(
                 function () {
                     asyncHandleEvent(eventIdentifier).then(
-                        function enventHandled(isConsumed) {
+                        function eventHandled(isConsumed) {
                             if (!isConsumed) {
                                 asyncBroadcastEvent(eventIdentifier);
                                 deferred.resolve();

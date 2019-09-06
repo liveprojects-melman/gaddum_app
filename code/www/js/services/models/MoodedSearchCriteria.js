@@ -51,7 +51,7 @@
         if(!moodIds){
           moodIds = null;
         }else{
-          if(typeof(moodIds) != 'array'){
+          if(!Array.isArray(moodIds)){
             throw("MoodedSearchCriteria.build: moodIds needs to be an array.");
           }
           if(moodIds.length > 0){

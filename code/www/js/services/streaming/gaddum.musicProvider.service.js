@@ -276,10 +276,10 @@
       return promise;
     }
 
-    function asyncSuggestTracks(genres, moodIds, limit){
+    function asyncSuggestTracks(genres, moodId, limit){
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          return MUSIC_PROVIDER.asyncSuggestTracks(genres, tags, limit, page);
+          return MUSIC_PROVIDER.asyncSuggestTracks(genres, moodId, limit);
         });    
     }
 
@@ -319,6 +319,7 @@
       var deferred = $q.defer();
       MUSIC_PROVIDER.asyncGetCurrentTrackProgressPercent().then(
         function onProgress(percent){
+          //console.log("asyncPollAndBroadcast: onProgress: percent " + percent);
           if(percent == 0){
             POLLING = false;
           }else{
@@ -374,6 +375,7 @@
         function(){
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess(){
+              console.log("starting polling...");
               startPositionPolling();
               deferred.resolve(true);
             },
@@ -502,7 +504,7 @@
 
       asyncSeekTracks: asyncSeekTracks,
       asyncSuggestTracks: asyncSuggestTracks,
-      
+
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,

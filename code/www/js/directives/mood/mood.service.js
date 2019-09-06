@@ -10,23 +10,29 @@
     'dataApiService',
     '$q',
     'MoodIdentifier',
-    'player',
-    'observationService',
-    'userProfilerService'
+    'userProfilerService',
+    'locationService',
+    'TimeStamp',
+    'MoodedSearchCriteria',
+    'gaddumMusicProviderService',
+    'MoodedPlaylist'
 
   ];
   function moodService(
     dataApiService,
     $q,
     MoodIdentifier,
-    gaddumPlayerService,
-    observationService,
-    userProfilerService
+    userProfilerService,
+    locationService,
+    TimeStamp,
+    MoodedSearchCriteria,
+    gaddumMusicProviderService,
+    MoodedPlaylist
   ) {
 
 
     var MAX_SEEK_SIZE = 10;
-    var MAX_SEEK_PAGE = 20;
+
 
     var g_dictMoodExpressionDetectionCriteria = {};
 
@@ -250,11 +256,16 @@
 
 
 
-    function asyncSuggestAPlaylist(genre, moodId){
+    function asyncSuggestAPlaylist(genre, moodId) {
       var deferred = $q.defer();
       gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, MAX_SEEK_SIZE).then(
-        function (genericTracks) {
-          deferred.resolve(MoodedPlaylist.build(moodId,genericTracks));
+        function (trackInfos) {
+          // import the suggstions - we need them in the database, to be able to observe them.
+          gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
+            function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
+              deferred.resolve(MoodedPlaylist.build(moodId, genericTracks));
+            }
+          );
         },
         deferred.reject
       );
@@ -262,25 +273,50 @@
     }
 
 
-    function asyncSuggestPlaylists(moodedSearchCriteria) {
-   
+    function asyncGetGenres() {
       var deferred = $q.defer();
-      
-      // get the user's preferred genres
-      profileService.asyncGetGenres().then(
+      gaddumMusicProviderService.asyncGetGenres().then( // user-selected
         function (genres) {
+          if (!genres || genres.length == 0) { // catch-all
+            gaddumMusicProviderService.asyncGetSupportedGenres().then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }else{
+            deferred.resolve(genres);
+          }
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
+
+    }
+
+
+
+
+
+    function asyncSuggestPlaylists(moodedSearchCriteria) {
+
+      var deferred = $q.defer();
+
+      // get the user's preferred genres - or all generes if the user has selected none.
+      asyncGetGenres().then(
+        function (genres) {
+
           // pick ONE genre
           var genre = pickRandomElement(genres);
-          
+
           var promises = [];
           moodedSearchCriteria.getMoodIds().forEach(
             function (moodId) {
-              promises.push(asyncSuggestAPlaylist(genre, moodId));
+              promises.push(asyncSuggestAPlaylist([genre], moodId));
             }
           );
-          
+
           $q.all(promises).then(
-            function(playlists){
+            function (playlists) {
               deferred.resolve(playlists);
             },
             deferred.reject
@@ -294,12 +330,14 @@
     }
 
 
-    function asyncNotifyNewMood(mood) {
+    function asyncNotifyNewMood(mood_id) {
       var deferred = $q.defer();
 
 
       locationService.asyncGetImmediateLocation().then(
         function (location) {
+
+          var mood = g_dictSupportedMoodIds[mood_id];
 
           var antiMood = g_dictSupportedMoodIds[mood.getIdAnti()];
           var timeStamp = TimeStamp.build(new Date());
@@ -312,7 +350,7 @@
                   userProfilerService.loader.asyncLoadMoodedPlaylists(resultPlaylists).then(
                     deferred.resolve,
                     deferred.reject
-                  );   
+                  );
                 },
                 deferred.reject
               );
@@ -320,12 +358,8 @@
             deferred.reject
           );
         },
-        defered.reject
+        deferred.reject
       );
-
-
-
-
 
       return deferred.promise;
 
@@ -338,7 +372,7 @@
       asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
       lookupMoodId: lookupMoodId,
       faceToMoodId: faceToMoodId,
-      asyncMoodIdToResources: asyncMoodIdToResource,
+      asyncMoodIdToResources: asyncMoodIdToResources,
       asyncNotifyNewMood: asyncNotifyNewMood
     };
 

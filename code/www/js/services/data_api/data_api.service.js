@@ -957,6 +957,7 @@
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
+                    genericTrack.getDuration_s(),
                     trackReference.getPlayerUri(),
                     trackReference.getThumbnailUri());
             } else {
@@ -1354,7 +1355,7 @@
                     }
 
                     if (postCode) {
-                        postcode_id = postCode.getPostCode();
+                        postcode_id = postCode.getPostcode();
                     }
 
                     if (location) {
@@ -1407,6 +1408,7 @@
             asyncGetSelectedMusicProvider: asyncGetSelectedMusicProvider,
             asyncSetSelectedMusicProvider: asyncSetSelectedMusicProvider,
 
+            asyncGetSupportedTimeSlots:asyncGetSupportedTimeSlots,
             asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
             asyncGetMoodDetectionParameters: asyncGetMoodDetectionParameters,
             asyncMoodIdToResources: asyncMoodIdToResources,

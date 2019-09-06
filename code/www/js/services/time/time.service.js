@@ -6,6 +6,7 @@
         .factory('timeService', timeService);
 
     timeService.$inject = [
+        '$q',
         'ErrorIdentifier',
         'dataApiService',
         '$timeout',
@@ -16,6 +17,7 @@
     ];
 
     function timeService(
+        $q,
         ErrorIdentifier,
         dataApiService,
         $timeout,
@@ -29,7 +31,7 @@
 
         function asyncInitialise() {
             var deferred = $q.defer();
-            dataApiService.getSupportedTimeSlots().then(
+            dataApiService.asyncGetSupportedTimeSlots().then(
                 function success(candidates) {
                     var result = [];
                     try {
@@ -46,7 +48,7 @@
                 },
                 function error(err) {
                     m_timeslots = [];
-                    deferred.reject[err];
+                    deferred.reject(err);
                 }
             );
 
@@ -69,14 +71,16 @@
             }
 
 
-            var candidate = moment(timeStamp.getJavaEpocMs).asHours();
+            var candidate = moment(timeStamp.getJavaEpocMs()).toDate();
+
+
             var result = -1;
 
             for (var index = 0; index < m_timeslots.length; index++) {
                 var timeslot = m_timeslots[index];
 
-                if (timeslot.isDateWithinTimeslot(candidate)) {
-                    result = timeslot.id;
+                if (timeslot.isDateWithinTimeSlot(candidate)) {
+                    result = timeslot;
                     break;
                 }
 

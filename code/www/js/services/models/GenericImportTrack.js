@@ -12,12 +12,13 @@
   function GenericImportTrack(
 
   ) {
-    function GenericImportTrack(id,name, album, artist,providerTrackRef, providerArtworkRef) {
+    function GenericImportTrack(id,name, album, artist, duration_s,providerTrackRef, providerArtworkRef) {
       // Public properties, assigned to the instance ('this')
       this.id = id;
       this.name = name;
       this.album = album;
       this.artist = artist;
+      this.duration_s = duration_s;
       this.provider_track_ref = providerTrackRef;
       this.provider_artwork_ref = providerArtworkRef;
 
@@ -40,6 +41,10 @@
       return this.artist;
     }
 
+    this.getDuration_s = function(){
+      return this.duration_s;
+    }
+
     this.getProviderTrackRef = function(){
       return this.provider_track_ref;
     }
@@ -53,10 +58,10 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    GenericImportTrack.build = function (id, name, album, artist, providerTrackRef, providerArtworkRef) {
+    GenericImportTrack.build = function (id, name, album, artist, duration_s, providerTrackRef, providerArtworkRef) {
       
         return new GenericImportTrack(
-          id, name, album, artist, providerTrackRef, providerArtworkRef
+          id, name, album, artist, duration_s, providerTrackRef, providerArtworkRef
         );
  
 

@@ -47,7 +47,7 @@
 
     // ------ UTILITY
 
-    var HTTP_OK = 200;
+    var SETTLE_TIME_MS = 2000;
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
     var EVENT_HANDLER_PROMISE = null;
@@ -55,7 +55,8 @@
 
     var AUTH_CONFIG = null;
 
-    var TRACK_SUGGESTION_LIMIT =20;
+    var TRACK_SUGGESTION_LIMIT = 20;
+    var MOOD_TO_ATTRIBUTE_LOOKUP = null;
 
 
 
@@ -244,6 +245,40 @@
 
 
 
+    function asyncGetMoodAttributesLookup() {
+
+      var deferred = $q.defer();
+
+      dataApiService.asyncGetSupportedMoodIds().then(
+
+        function (moodIds) {
+          var promises = [];
+          var lookup = {};
+
+          moodIds.forEach(function (moodId) {
+
+            promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER.id, moodId.id));
+          });
+
+          $q.all(promises).then(
+            function (results) {
+              for (var index = 0; index < moodIds.length; index++) {
+                var mood_id = moodIds[index].id;
+                var attributes = results[index];
+                lookup[mood_id] = attributes;
+              }
+              deferred.resolve(lookup);
+            },
+            deferred.reject
+          );
+        },
+        deferred.reject
+      );
+      return deferred.promise;
+    }
+
+
+
 
     // ------ PUBLIC
 
@@ -314,7 +349,14 @@
       promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'token_refresh_url').then(
         function (result) {
           AUTH_CONFIG.tokenRefreshUrl = result;
-        })); 
+        }));
+
+      promises.push(asyncGetMoodAttributesLookup().then(
+        function (result) {
+          MOOD_TO_ATTRIBUTE_LOOKUP = result;
+        })
+      );
+
 
       $q.all(promises).then(
         function (results) {
@@ -384,7 +426,7 @@
 
     function base64ToTagArray(base64Enc) { // throws
       var result = [];
-      if (base64Enc != null) {
+      if ((base64Enc != null) && (base64Enc.length > 0)) {
         var csv = atob(base64Enc);
         var array = csv.split(',');
         array.forEach(
@@ -974,61 +1016,6 @@
 
 
 
-
-    
-
-
-
-
-
-    function asyncSuggestTracks(genres, moodIds, limit){
-      var deferred = $q.defer();
-      
-
-      asyncGetAccessCredentials().then(
-        function (resultToken) {
-          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
-          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
-          // var config = {
-          //   headers: {
-          //     'Authorization': 'Bearer ' + resultToken.accessToken
-          //   }
-          // };
-
-          searchString = baseSearchString +
-            'artist:"' + genericTrack.getArtist() + '" ' +
-            'album:"' + genericTrack.getAlbum() + '" ' +
-            'track:"' + genericTrack.getName() +
-            '"&type=track' +
-            '&limit=1' +
-            '&offset=0';
-
-          var uri = encodeURI(searchString);
-
-          $http.get(uri, config)
-            .then(
-              function gotA200(result) {
-
-                var item = result.data.tracks.items[0];
-
-                // this is the closest Spotify can get to the incoming generic track
-                var trackInfo = spotifyTrackToTrackInfo(item);
-
-                // give the system the *actual* details of the track.
-                deferred.resolve(trackInfo);
-              },
-              function notA200(response) {
-                // there's an error from the server. We may be logged out. Reflect this in the error.
-                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response))
-              }
-
-            );
-        }
-      );
-      return deferred.promise;
-
-    }
-
     function spotifyTrackToTrackInfo(spotifyTrack) {
       var result = TrackInfo.build(
         spotifyTrack.name,
@@ -1058,6 +1045,133 @@
 
 
 
+    function createGenreSeed(genres) {
+      var result = "";
+
+      if (genres) {
+        try {
+          var elements = "";
+          for (var index = 0; index < genres.length; index++) {
+            elements += genres[index];
+            if (index < genres.length - 1) {
+              elements += ',';
+            }
+          }
+          if (elements.length > 0) {
+            result = "seed_genres=" + elements;
+          }
+        } catch (e) {
+          console.log("gaddumMusicProviderSpotifyService: createGenreSeed: warning: error occurred creating seed.");
+        }
+      }
+      return result;
+
+    }
+
+    function createTunableAttributesSeed(moodId) {
+      var result = "";
+
+      if (moodId) {
+        try {
+          var attributes = MOOD_TO_ATTRIBUTE_LOOKUP[moodId.getId()];
+
+          for (var index = 0; index < attributes.length; index++) {
+            var attribute = attributes[index];
+            var element = "target_" + attribute.attribute + "=" + attribute.value;
+            result += element;
+            if (index < attributes.length - 1) {
+              result += '&';
+            }
+          }
+
+        } catch (e) {
+          console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
+        }
+      }
+
+      return result;
+    }
+
+
+    function createSearchComponent(genres, moodId) {
+
+      var genreComponent = createGenreSeed(genres);
+      var attributeComponent = createTunableAttributesSeed(moodId);
+
+      var result = "";
+
+      if (genreComponent.length > 0) {
+        result = genreComponent;
+      }
+      if (result.length > 0) {
+        if (attributeComponent.length > 0) {
+          result += '&';
+        }
+      }
+      result += attributeComponent;
+
+      return result;
+    }
+
+
+    function createSearchParameters(genres, moodId, limit) {
+      var result = "";
+      var searchComponent = createSearchComponent(genres, moodId);
+      var limitComponent = "limit=" + limit;
+
+      if (searchComponent.length > 0) {
+        searchComponent += "&";
+      }
+
+      result = searchComponent + limitComponent;
+
+      return result;
+
+    }
+
+    function asyncSuggestTracks(genres, moodId, limit) {
+      var deferred = $q.defer();
+
+      asyncGetAccessCredentials().then(
+        function (resultToken) {
+          var baseSearchString = 'https://api.spotify.com/v1/recommendations?';
+          var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
+
+          searchString = baseSearchString + createSearchParameters(genres, moodId, limit);
+
+          var uri = encodeURI(searchString);
+
+          $http.get(uri, config)
+            .then(
+              function gotA200(result) {
+                try {
+                  var results = [];
+                  var tracks = result.data.tracks;
+
+                  tracks.forEach(
+                    function (track) {
+                      results.push(spotifyTrackToTrackInfo(track));
+                    }
+                  );
+                  deferred.resolve(results);
+
+                } catch (error) {
+                  // the tracks being supplied aren't in the format we need. Changed API?
+                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "bad data retrieved."));
+                }
+              },
+              function notA200(response) {
+                // there's an error from the server. We may be logged out. Reflect this in the error.
+                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "http: " + response.status));
+              }
+
+            );
+        }
+      );
+      return deferred.promise;
+    }
+
+
 
 
     function asyncSeekTrackOnline(genericTrack) {
@@ -1065,15 +1179,8 @@
 
       asyncGetAccessCredentials().then(
         function (resultToken) {
-
-
-          curl -X GET "seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50&market=US" -H "Authorization: Bearer {your access token}"
-
-
-          var baseSearchString = 'https://api.spotify.com/v1/recommendations?';
+          var baseSearchString = 'https://api.spotify.com/v1/search?q=';
           var config = { headers: { 'Authorization': `Bearer ${resultToken.accessToken}` } };
-
-
 
 
           searchString = baseSearchString +
@@ -1144,6 +1251,53 @@
 
     }
 
+    function asyncWaitToSettle() {
+
+      console.log("spotifyService: waiting to settle.");
+
+      var deferred = $q.defer();
+
+      $timeout(
+        function () {
+          deferred.resolve();
+        }, SETTLE_TIME_MS
+      );
+
+      return deferred.promise;
+    }
+
+
+    function asyncTeardownCurrentTrack() {
+
+      console.log("spotifyService:asyncTeardownCurrentTrack");
+
+      var deferred = $q.defer();
+
+      $timeout(
+        function () {
+
+          if (CURRENT_TRACK_INFO) {
+            CURRENT_TRACK_INFO = null;
+            cordova.plugins.spotify.pause().then(
+              function () {
+                cordova.plugins.spotify.seekTo(0).then(
+                  function () {
+                    asyncWaitToSettle().then(deferred.resolve());
+                  },
+                  function () {
+                    asyncWaitToSettle().then(deferred.resolve());
+                  }
+                );
+              },
+              deferred.resolve
+            );
+          } else {
+            deferred.resolve();
+          }
+        }
+      );
+      return deferred.promise;
+    }
 
 
 
@@ -1156,17 +1310,14 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncSetTrack(genericTrack) {
-      CURRENT_TRACK_INFO = null;
+
+      console.log("spotifyService:asyncSetTrack");
 
       var deferred = $q.defer();
 
-      $timeout(
-
+      asyncTeardownCurrentTrack().then(
         function () {
-
-
           // search cache for track
-
           asyncGetTrackInfo(genericTrack).then(
             function (trackInfo) {
               if (trackInfo) {
@@ -1197,7 +1348,8 @@
             },
             deferred.reject //database error
           );
-        }
+        },
+        deferred.reject
       );
       return deferred.promise;
     }
@@ -1230,7 +1382,15 @@
                   })
                     .then(
                       function onPlaying() {
-                        deferred.resolve(trackInfo);
+                        cordova.plugins.spotify.seekTo(2)
+                          .then(
+                            function onSeekSuccess() {
+                              deferred.resolve(trackInfo);
+                            },
+                            function onSeekFail(error) {
+                              deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to seek, but SDK said no."));
+                            }
+                          )
                       },
                       function onPlayFail(error) {
                         deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but SDK said no."));
@@ -1266,6 +1426,7 @@
         var total_s = CURRENT_TRACK_INFO.duration_s;
         if (total_s && total_s > 0) {
           result = ((trackTime_ms / 1000) / total_s) * 100;
+          if (result > 100) result = 100;
         }
       }
 
@@ -1281,6 +1442,10 @@
           if (CURRENT_TRACK_INFO) {
             cordova.plugins.spotify.getPosition().then(
               function (position_ms) {
+                // spotify special case.
+                // we tear down by seeking to 0, but Spotify always sets this to 1 ms.
+                // we detect this and set to zero. 
+                if (position_ms == 1) position_ms = 0;
                 deferred.resolve(calculateTrackProgressPercent(position_ms));
               },
               function () {
@@ -1305,7 +1470,7 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncPlayCurrentTrack() {
-
+      console.log("spotifyService:playCurrentTrack");
       var deferred = $q.defer();
 
       // Dummy for now.
@@ -1315,9 +1480,10 @@
         function () {
 
           if (CURRENT_TRACK_INFO) {
-            cordova.plugins.spotify.getPosition().then(
-              function (position_ms) {
-                if (position_ms == 0) {
+            asyncGetCurrentTrackProgressPercent().then(
+              function (percent) {
+                console.log("track position percent: " + percent);
+                if (percent == 0) { // indicates we have torn down the previous track, or its a new track.
                   asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
@@ -1392,8 +1558,8 @@
 
 
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
-      asyncSuggestTracks: asyncSuggestTracks,
       asyncSeekTracks: asyncSeekTracks,
+      asyncSuggestTracks: asyncSuggestTracks,
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
       asyncImportPlaylists: asyncImportPlaylists,
