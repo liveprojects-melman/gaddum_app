@@ -22,7 +22,8 @@
         'TimeSlot',
         'timeService',
         '$timeout',
-        'Observation'
+        'Observation',
+        'RawObservation'
 
     ];
 
@@ -41,7 +42,8 @@
         TimeSlot,
         timeService,
         $timeout,
-        Observation
+        Observation,
+        RawObservation
     ) {
 
         var SETTINGS = {

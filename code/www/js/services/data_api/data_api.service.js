@@ -16,7 +16,9 @@
         'TrackReference',
         'TrackInfo',
         'CachedImage',
-        'MusicProviderIdentifier'
+        'MusicProviderIdentifier',
+        'Observation',
+        'RawObservation'
     ];
 
     function dataApiService(
@@ -30,7 +32,9 @@
         TrackReference,
         TrackInfo,
         CachedImage,
-        MusicProviderIdentifier
+        MusicProviderIdentifier,
+        Observation,
+        RawObservation
     ) {
 
 
@@ -1242,7 +1246,7 @@
             id,
             timestamp_s,
             mood_id,
-            timeSlot,
+            timeslot,
             location_lat,
             location_lon,
             location_code,
@@ -1254,17 +1258,17 @@
             fnFail
         ) {
             mappingService.query("add_observation", {
-                id,
-                timestamp_s,
-                mood_id,
-                timeSlot,
-                location_lat,
-                location_lon,
-                location_code,
-                track_percent,
-                num_repeats,
-                mood_suitable,
-                track,
+                id:id,
+                timestamp_s: timestamp_s,
+                mood_id: mood_id,
+                timeslot: timeslot,
+                location_lat: location_lat,
+                location_lon: location_lon,
+                location_code: location_code,
+                track_percent: track_percent,
+                num_repeats: num_repeats,
+                mood_suitable: mood_suitable,
+                track: track
             },
                 function (result) {
                     fnSuccess(result);
@@ -1379,7 +1383,7 @@
                             if (items) {
                                 items.forEach(
                                     function (item) {
-                                        results.push(Observation.buildFromObject(item));
+                                        results.push(RawObservation.buildFromObject(item));
                                     }
                                 );
                             }
