@@ -1252,6 +1252,9 @@
     }
 
     function asyncWaitToSettle(){
+
+      console.log("spotifyService: waiting to settle.");
+
       var deferred = $q.defer();
 
       $timeout(
@@ -1278,8 +1281,12 @@
             cordova.plugins.spotify.pause().then(
               function () {
                 cordova.plugins.spotify.seekTo(0).then(
-                  asyncWaitToSettle,
-                  asyncWaitToSettle
+                  function(){
+                    asyncWaitToSettle().then(deferred.resolve());
+                  },
+                  function(){
+                    asyncWaitToSettle().then(deferred.resolve());
+                  }
                 );
               },
               deferred.resolve
@@ -1462,7 +1469,7 @@
           if (CURRENT_TRACK_INFO) {
             cordova.plugins.spotify.getPosition().then(
               function (position_ms) {
-                if (position_ms == 0) { // we try and set whatever track is currently playing back to zero, to indicate we have stopped playing. Cordova.spotify sets it to 1.
+                if (position_ms <= 1) { // we try and set whatever track is currently playing back to zero, to indicate we have stopped playing. Cordova.spotify sets it to 1.
                   asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
                     deferred.resolve
                     ,
