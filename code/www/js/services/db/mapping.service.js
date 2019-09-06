@@ -149,7 +149,9 @@
                     //  console.log("--- END SQL ---");
                     service.private.executeSql(sql, success, fail);
                 },
-                fail);
+                function(error){
+                    fail(error);
+                });
         }
 
         service.dumpDB = function (fnSuccess) {

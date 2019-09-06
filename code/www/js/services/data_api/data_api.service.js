@@ -1007,11 +1007,13 @@
                                             deferred.resolve(genericImportTrack);
                                         }
                                     },
-                                    function () { deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                                    function (error) { 
+                                        deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
                                 )
 
                             },
-                            function () { deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
+                            function (error) { 
+                                deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
                         );
 
 
