@@ -31,9 +31,9 @@
   ) {
     var gpc = {};
     gpc.state = {
-      ready: true,
+      ready: false,
       show: true,
-      hasTrack: true,
+      hasTrack: false,
       busy: false
     };
     gpc.marquee = {
@@ -59,6 +59,7 @@
       console.log(" - artist:" + trackInfo.getArtist());
       gpc.marquee.songtitle = trackInfo.getName();
       gpc.marquee.artistname = trackInfo.getArtist();
+      gpc.state.hasTrack = true;
       gpc.state.playing = true;
     }
 
