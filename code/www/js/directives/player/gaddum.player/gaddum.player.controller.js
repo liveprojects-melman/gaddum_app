@@ -205,6 +205,9 @@
     });
 
     initialise();
+    gpc.hack = setInterval(function(){
+      "gpc.state.ready="+String(gpc.state.ready)+" gpc.state.hasTracm="+String(gpc.state.hasTrack));
+    },1000);
 
     return gpc;
   }
