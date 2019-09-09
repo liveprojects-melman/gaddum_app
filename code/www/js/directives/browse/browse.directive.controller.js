@@ -123,7 +123,7 @@
             bm.searchBrowse.push(element);
           });
           gaddumShortcutBarService.enableContext();
-
+          console.log("mmmmmMMMMMMMmmmmm",bm.searchBrowse);
 
         }).catch(function (er) {
           bm.sList = false;

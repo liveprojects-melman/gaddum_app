@@ -39,7 +39,7 @@
       <ion-item ng-repeat="browse in bm.searchBrowse" ng-class-odd="'listodd'" ng-class-even="'listeven'" can-swipe="true"
         class="item-remove-animate item item-complex browseItem" ng-touchstart="bm.preventSlideBox($event)" ng-touchend="bm.allowSlideBox($event)"
         ng-mousedown="bm.preventSlideBox($event)" ng-mouseup="bm.allowSlideBox($event)">
-        <img style="padding-bottom: 7.5px;" src="{{browse.artwork_uri}}" class="playlistArt">
+        <img style="padding-bottom: 7.5px;" src="{{browse.thumbnail_uri}}" class="playlistArt">
         <!-- <img style="width:100%; opacity:0.3; position: absolute; top:-50%;left:0;" src="{{browse.artwork_uri}}"> -->
         <p class="overflow ellipsis" style="color:black; top: 15px; width: 75%; left: 25%; position: relative;">{{browse.artist}},
           {{browse.album}}</p>

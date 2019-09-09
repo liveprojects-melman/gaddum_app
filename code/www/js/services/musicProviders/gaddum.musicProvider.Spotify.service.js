@@ -831,7 +831,7 @@
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             result.data.items.forEach(function (element) {
               //name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
-              resultArray.push(spotifyTrackToTrackInfo(track));
+              resultArray.push(spotifyTrackToTrackInfo(element.track));
             });
             return resolve(resultArray);
           });
