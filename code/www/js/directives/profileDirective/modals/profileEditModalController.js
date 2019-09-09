@@ -31,6 +31,7 @@
     var fnames = [
       "Apple",
       "Apricot",
+      "Asparagus",
       "Avocado",
       "Banana",
       "Blackberry",
@@ -91,7 +92,7 @@
       "Jelly",
       "Marmalade",
       "Mincemeat",
-      "Picle",
+      "Pickle",
       "Preserve",
       "Relish"
     ];
