@@ -58,7 +58,7 @@
       console.log("new track: " + trackInfo.getName());
       console.log(" - artist:" + trackInfo.getArtist());
       gpc.marquee.songtitle = trackInfo.getName();
-      gpc.marquee.artistname = trackInfo.getName();
+      gpc.marquee.artistname = trackInfo.getArtist();
       gpc.state.playing = true;
     }
 
