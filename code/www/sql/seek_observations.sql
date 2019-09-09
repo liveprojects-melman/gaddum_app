@@ -31,7 +31,7 @@ AND t1.mood_suitable = 'true'
 AND t1.timeslot = replacement_parameter_timeslot
 AND t1.location_code = 'replacement_parameter_location_code' -- filter first on postcode
 ORDER BY -- ordering by something related to distance from specified location 
-dist ASC, t1.timestamp_s DESC
+dist ASC, t1.timestamp_ms DESC
 
 LIMIT replacement_parameter_limit
 ),
@@ -50,7 +50,7 @@ AND t1.mood_suitable = 'true'
 AND NOT t1.timeslot = replacement_parameter_timeslot
 AND t1.location_code = 'replacement_parameter_location_code' -- filter first on postcode
 ORDER BY -- ordering by something related to distance from specified location
-dist ASC, t1.timestamp_s DESC
+dist ASC, t1.timestamp_ms DESC
 LIMIT replacement_parameter_limit
 )
 ,
@@ -62,7 +62,7 @@ AND t1.mood_id = 'replacement_parameter_mood_id'
 AND t1.mood_suitable = 'true'
 AND t1.timeslot = replacement_parameter_timeslot
 AND NOT t1.location_code = 'replacement_parameter_location_code' 
-ORDER BY t1.timestamp_s DESC
+ORDER BY t1.timestamp_ms DESC
 LIMIT replacement_parameter_limit
 )
 ,
@@ -74,7 +74,7 @@ AND t1.mood_id = 'replacement_parameter_mood_id'
 AND t1.mood_suitable = 'true'
 AND NOT t1.timeslot = replacement_parameter_timeslot 
 AND NOT t1.location_code = 'replacement_parameter_location_code'
-ORDER BY t1.timestamp_s DESC
+ORDER BY t1.timestamp_ms DESC
 LIMIT replacement_parameter_limit
 )
 ,
@@ -87,20 +87,20 @@ from observations t1 join priorities t2 on
 t2.priority = 5 
 AND t1.mood_suitable = 'true'
 AND t1.timeslot = replacement_parameter_timeslot
-ORDER BY t1.timestamp_s DESC
+ORDER BY t1.timestamp_ms DESC
 LIMIT replacement_parameter_limit
 ),
 collation as
 (
-select t1.timestamp_s, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority from m_l_t_s t1
+select t1.timestamp_ms, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority from m_l_t_s t1
 UNION ALL
-select t1.timestamp_s, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_l_s t1
+select t1.timestamp_ms, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_l_s t1
 UNION ALL
-select t1.timestamp_s, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_t_s t1
+select t1.timestamp_ms, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_t_s t1
 UNION ALL
-select t1.timestamp_s, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_s t1
+select t1.timestamp_ms, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from m_s t1
 UNION ALL
-select t1.timestamp_s, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from t_s t1
+select t1.timestamp_ms, t1.mood_id, t1.timeslot, t1.location_lat, t1.location_lon, t1.location_code, t1.track_percent, t1.num_repeats, t1.mood_suitable, t1.track, t1.priority  from t_s t1
 )
 select * from collation;
 

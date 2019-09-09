@@ -15,7 +15,7 @@
 
     function RawObservation(
       id,
-      timestamp_s,
+      timestamp_ms,
       mood_id,
       timeslot,
       location_lat,
@@ -28,7 +28,7 @@
       priority // value given as a measure of importance - derives from how the track was found in the DB.
     ) {
       this.id = id;
-      this.timestamp_s = timestamp_s;
+      this.timestamp_ms = timestamp_ms;
       this.mood_id = mood_id;
       this.timeslot = timeslot;
       this.location_lat = location_lat;
@@ -44,8 +44,8 @@
       this.getId = function () {
         return this.id;
       }
-      this.getTimeStamp_s = function () {
-        return this.timestamp_s;
+      this.getTimeStamp_ms = function () {
+        return this.timestamp_ms;
       }
       this.getMoodId = function () {
         return this.mood_id;
@@ -81,7 +81,7 @@
 
     RawObservation.build = function (
       id,
-      timestamp_s,
+      timestamp_ms,
       mood_id,
       timeslot,
       location_lat,
@@ -96,7 +96,7 @@
 
       return new RawObservation(
         id,
-        timestamp_s,
+        timestamp_ms,
         mood_id,
         timeslot,
         location_lat,

@@ -296,12 +296,12 @@
         }
     }, 
     {
-        "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
+        "name": "add_observation(id, timestamp_ms, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",
         "path": "www/sql/add_observation.sql",
         "default_parameters": {
             "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
-            "timestamp_s": "1565165883",
+            "timestamp_ms": "1565165883",
             "mood_id" : "08b2c793-a801-4bce-aaae-2442c86e6d10",
             "timeslot": 3,
             "location_lat" : 53.5041, 

@@ -1232,7 +1232,7 @@
 
 
         // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
-        // "timestamp_s": "1565165883",
+        // "timestamp_ms": "1565165883",
         // "mood_id" : "physical",// MAY BE NULL
         // "timeslot": 3,
         // "location_lat" : 53.5041, // MAY BE NULL
@@ -1246,7 +1246,7 @@
 
         function addObservation(
             id,
-            timestamp_s,
+            timestamp_ms,
             mood_id,
             timeslot,
             location_lat,
@@ -1261,7 +1261,7 @@
         ) {
             mappingService.query("add_observation", {
                 id:id,
-                timestamp_s: timestamp_s,
+                timestamp_ms: timestamp_ms,
                 mood_id: mood_id,
                 timeslot: timeslot,
                 location_lat: location_lat,
@@ -1285,7 +1285,7 @@
                 function () {
                     if (observation) {
                         var id = observation.getId();
-                        var timestamp_s = observation.getTimeStamp().getJavaEpocMS();
+                        var timestamp_ms = observation.getTimeStamp().getJavaEpocMS();
                         var mood = observation.getMood();
                         var mood_id = mood ? mood.getId() : null;
                         var timeSlot = observation.getTimeSlot().getId();
@@ -1306,7 +1306,7 @@
 
                         addObservation(
                             id,
-                            timestamp_s,
+                            timestamp_ms,
                             mood_id,
                             timeSlot,
                             location_lat,
