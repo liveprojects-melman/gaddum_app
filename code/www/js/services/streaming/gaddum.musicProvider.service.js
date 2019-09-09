@@ -330,6 +330,15 @@
             }
             if(percent == 100){
               POLLING = false;
+              asyncBroadcastEvent(
+                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
+              ).then(
+                function(){
+                  asyncBroadcastEvent(
+                    EventIdentifier.build(EventIdentifier.TRACK_END, null)
+                  );                  
+                }
+              );
             }
           }
         },

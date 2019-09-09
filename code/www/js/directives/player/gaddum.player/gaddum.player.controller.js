@@ -69,6 +69,11 @@
       gpc.state.playing = true;
     }
 
+    function onTrackEnd() {
+      console.log("track ended.");
+    }
+
+
     function onTrackProgressPercent(progress) {
       console.log("track progress: " + progress);
     }
@@ -128,6 +133,9 @@
               break;
             case EventIdentifier.TRACK_PROGRESS_PERCENT: // progress through selected track
               onTrackProgressPercent(event.getPayload());
+              break;
+            case EventIdentifier.TRACK_END: // track ended. Obvs.
+              onTrackEnd(event.getPayload());
               break;
             case EventIdentifier.TRACK_ERROR: // an error has occured playing the track / the track is not available.
               onTrackError(event.getPayload());
