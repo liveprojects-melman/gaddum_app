@@ -1012,7 +1012,7 @@
                                 )
 
                             },
-                            function (error) { 
+                            function () { 
                                 deferred.resolve(null); } // TODO: better handling of rejected import. ignore the error - we want to complete a set of promises.
                         );
 
