@@ -34,7 +34,8 @@
       ready: false,
       show: true,
       hasTrack: false,
-      busy: false
+      busy: false,
+      playing:false
     };
     gpc.marquee = {
       "songtitle": "",
@@ -51,7 +52,7 @@
 
     function onControlError(error) {
       console.log("control error. Track: " + error.message());
-      gpc.state.playing = true;
+      gpc.state.playing = false;
     }
 
     function onTrackNew(trackInfo) {
@@ -67,7 +68,7 @@
 
     function onTrackPaused(trackInfo) {
       console.log("track paused: " + trackInfo.getName());
-      gpc.state.playing = true;
+      //gpc.state.playing = false;
     }
 
     function onTrackProgressPercent(progress) {
