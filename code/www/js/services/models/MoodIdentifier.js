@@ -20,15 +20,15 @@
     
 
     this.getName =function(){
-      return name;
+      return this.name;
     }
 
     this.getId = function(){
-      return id;
+      return this.id;
     }
 
     this.getIdAnti = function(){
-      return id_anti;
+      return this.id_anti;
     }
 
   }

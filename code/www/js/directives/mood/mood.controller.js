@@ -56,7 +56,7 @@
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext("webgl1");
+      var ctx = canvas.getContext("webgl");
 
       emotionReaderService.setListener(fnCallback);
 
@@ -121,7 +121,7 @@
 
     function doUpdate() {
       var deferred = $q.defer();
-
+      vm.cameraError = emotionReaderService.cameraError;
       $timeout(
 
         function () {
@@ -172,6 +172,9 @@
       });
 
     }
+
+
+
 
     function asyncPopulateMoodResourceDict(moodIds, candidate) {
       var deferred = $q.defer();
@@ -295,7 +298,7 @@
       vm.lookAtTheCameraText = true;
       wake();
       vm.emotionSelected=false;
-      defaultDisplay();
+      // defaultDisplay();
       $timeout(function(){
         vm.lookAtTheCameraText = false;
       },2500);
@@ -307,8 +310,8 @@
         isSleeping = false;
         spinnerService.spinnerOn();
       }
-
     }
+
     function selectModal() {
       sleep();
 
@@ -320,6 +323,31 @@
     function fnCallbackCancel() {
       console.log("modal canceled");
     }
+
+    function playMood(){
+      var deferred = $q.defer();
+      spinnerService.spinnerOn();
+      console.log("Getting Tracks for: " + lastMoodId);
+
+    
+      moodService.asyncNotifyNewMood(lastMoodId).then(
+        function(){
+          spinnerService.spinnerOff();
+        },
+        function(errorIdentifier){
+          console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
+          spinnerService.spinnerOff();
+
+        }
+      );
+
+
+
+      return deferred.promise;
+
+    }
+
+
     vm.onItemSelect = onItemSelect;
     vm.selectModal = selectModal;
     vm.wakeUpCamera = wakeUpCamera;
@@ -327,6 +355,7 @@
     vm.sleep = sleep;
     vm.onItemSelected = onItemSelected;
     vm.removeHelpTips = removeHelpTips;
+    vm.playMood = playMood;
 
     init();
     // function DialogController($scope, $mdDialog) {

@@ -146,18 +146,22 @@
       howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
     }
     function fnCallbackHowAreYouOkPlay(emotion) {
-      var arrayTrack = [];
-      var currentTrack = null;
-      var mooded = null;
+
       var moodedArray = [];
-      bm.searchBrowse.forEach(function (track) {
-        currentTrack = GenericTrack.build(track.getPlayerUri(), track.getName(), track.getAlbum(), track.getArtist(), track.getDuration_s());
-        arrayTrack.push(currentTrack);
-      });
-      mooded = MoodedPlaylist.build(emotion, arrayTrack);
-      moodedArray.push(mooded);
-      playlistService.asyncPlay(moodedArray);
-      console.log(moodedArray);
+      
+      var trackInfos = bm.searchBrowse;
+
+      // import the tracks - we need them in the database, to be able to observe them.
+      gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
+        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
+          var moodedPlaylist =  MoodedPlaylist.build(moodId, genericTracks);
+          moodedArray.push(moodedPlaylist);
+          playlistService.asyncPlay(moodedArray);
+        }
+      );
+     
+
+
     }
     function fnCallbackHowAreYouCancel() {
       console.log("modal canceled");
@@ -231,7 +235,7 @@
     }
     function play(track) {
       console.log("track", track);
-      currentTrack = GenericTrack.build(track.getPlayerUri(), track.getName(), track.getAlbum(), track.getArtist(), track.getDuration_s());
+      currentTrack = track;
       console.log("current", currentTrack);
       howAreYou();
     }
@@ -240,14 +244,15 @@
       howAreYouModal.open(null, fnCallbackHowAreYouOk, fnCallbackHowAreYouCancel);
     }
     function fnCallbackHowAreYouOk(emotion) {
-      var arrayTrack = [];
-      var mooded = null;
-      var moodedArray = [];
-      arrayTrack.push(currentTrack);
-      mooded = MoodedPlaylist.build(emotion, arrayTrack);
-      moodedArray.push(mooded);
-      playlistService.asyncPlay(moodedArray);
-      console.log(moodedArray);
+      // import the tracks - we need them in the database, to be able to observe them.
+      gaddumMusicProviderService.asyncImportTracks([currentTrack]).then(
+        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)  
+          var moodedPlaylist =  MoodedPlaylist.build(emotion, genericTracks);
+          playlistService.asyncPlay([moodedPlaylist]);
+        }
+      );
+
+
     }
     function fnCallbackHowAreYouCancel() {
       console.log("modal canceled");

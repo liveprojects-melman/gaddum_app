@@ -9,14 +9,30 @@
   moodService.$inject = [
     'dataApiService',
     '$q',
-    'MoodIdentifier'
+    'MoodIdentifier',
+    'userProfilerService',
+    'locationService',
+    'TimeStamp',
+    'MoodedSearchCriteria',
+    'gaddumMusicProviderService',
+    'MoodedPlaylist'
 
   ];
   function moodService(
     dataApiService,
     $q,
-    MoodIdentifier
+    MoodIdentifier,
+    userProfilerService,
+    locationService,
+    TimeStamp,
+    MoodedSearchCriteria,
+    gaddumMusicProviderService,
+    MoodedPlaylist
   ) {
+
+
+    var MAX_SEEK_SIZE = 10;
+
 
     var g_dictMoodExpressionDetectionCriteria = {};
 
@@ -44,6 +60,13 @@
 
 
       return deferred.promise;
+    }
+
+
+    function lookupMoodId(id) {
+
+      return g_dictSupportedMoodIds[id];
+
     }
 
     function asyncGetMoodDetectionParameters(moodId, dictResult) {
@@ -174,7 +197,7 @@
                   }
                 }
               }
-              if(detected){
+              if (detected) {
                 countDetectedCriteria += 1;
                 //console.log("      "  + detectionCriterion + " : " + countDetectedCriteria + " of " + numCriteriaForMood);
               }
@@ -184,7 +207,7 @@
             // All comparisons passed. This mood has been recognised!
             //console.log("recognised: " + mood_id);
             arrayRecognisedMoods.push(mood_id);
-          }else{
+          } else {
             //console.log("none recognised");
           }
         }
@@ -210,17 +233,147 @@
     }
 
 
-    function asyncMoodIdToResources(id){
+    function asyncMoodIdToResources(id) {
       return dataApiService.asyncMoodIdToResources(id);
     }
+
+
+
+
+    function pickRandomNumber(max) {
+      return Math.floor(Math.random() * max);
+
+    }
+
+    function pickRandomElement(array) {
+      var result = null;
+      if (array) {
+        var index = Math.floor(Math.random() * array.length);
+        result = array[index];
+      }
+      return result;
+    }
+
+
+
+    function asyncSuggestAPlaylist(genre, moodId) {
+      var deferred = $q.defer();
+      gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, MAX_SEEK_SIZE).then(
+        function (trackInfos) {
+          // import the suggstions - we need them in the database, to be able to observe them.
+          gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
+            function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
+              deferred.resolve(MoodedPlaylist.build(moodId, genericTracks));
+            }
+          );
+        },
+        deferred.reject
+      );
+      return deferred.promise;
+    }
+
+
+    function asyncGetGenres() {
+      var deferred = $q.defer();
+      gaddumMusicProviderService.asyncGetGenres().then( // user-selected
+        function (genres) {
+          if (!genres || genres.length == 0) { // catch-all
+            gaddumMusicProviderService.asyncGetSupportedGenres().then(
+              deferred.resolve,
+              deferred.reject
+            );
+          }else{
+            deferred.resolve(genres);
+          }
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
+
+    }
+
+
+
+
+
+    function asyncSuggestPlaylists(moodedSearchCriteria) {
+
+      var deferred = $q.defer();
+
+      // get the user's preferred genres - or all generes if the user has selected none.
+      asyncGetGenres().then(
+        function (genres) {
+
+          // pick ONE genre
+          var genre = pickRandomElement(genres);
+
+          var promises = [];
+          moodedSearchCriteria.getMoodIds().forEach(
+            function (moodId) {
+              promises.push(asyncSuggestAPlaylist([genre], moodId));
+            }
+          );
+
+          $q.all(promises).then(
+            function (playlists) {
+              deferred.resolve(playlists);
+            },
+            deferred.reject
+          );
+
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
+    }
+
+
+    function asyncNotifyNewMood(mood_id) {
+      var deferred = $q.defer();
+
+
+      locationService.asyncGetImmediateLocation().then(
+        function (location) {
+
+          var mood = g_dictSupportedMoodIds[mood_id];
+
+          var antiMood = g_dictSupportedMoodIds[mood.getIdAnti()];
+          var timeStamp = TimeStamp.build(new Date());
+          var criteria = MoodedSearchCriteria.build([mood, antiMood], timeStamp, location);
+          userProfilerService.finder.asyncFindPlaylists(criteria).then(
+            function (internalPlaylists) {
+              asyncSuggestPlaylists(criteria).then(
+                function (externalPlaylists) {
+                  var resultPlaylists = MoodedPlaylist.combinePlaylists(internalPlaylists, externalPlaylists);
+                  userProfilerService.loader.asyncLoadMoodedPlaylists(resultPlaylists).then(
+                    deferred.resolve,
+                    deferred.reject
+                  );
+                },
+                deferred.reject
+              );
+            },
+            deferred.reject
+          );
+        },
+        deferred.reject
+      );
+
+      return deferred.promise;
+
+    }
+
 
     var service = {
 
       asyncInitialise: asyncInitialise,
       asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
+      lookupMoodId: lookupMoodId,
       faceToMoodId: faceToMoodId,
-      asyncMoodIdToResources: asyncMoodIdToResources
-
+      asyncMoodIdToResources: asyncMoodIdToResources,
+      asyncNotifyNewMood: asyncNotifyNewMood
     };
 
     return service;

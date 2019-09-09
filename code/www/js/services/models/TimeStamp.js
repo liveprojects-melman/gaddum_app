@@ -15,15 +15,21 @@
     function TimeStamp(javaepoch_ms) {
       // Public properties, assigned to the instance ('this')
       this.javaepoch_ms = javaepoch_ms;
-    }
 
 
-    this.getJavaEpocMs = function () {
-      return this.javaepoch_ms;
-    }
 
-    this.getJavaEpocS = function () {
-      return this.javaepoch_ms / 1000;
+      this.getJavaEpocMs = function () {
+        return this.javaepoch_ms;
+      }
+
+      this.getJavaEpocS = function () {
+        return this.javaepoch_ms / 1000;
+      }
+
+      this.getDate = function () {
+        return moment(this.javaepoch_ms).toDate();
+      }
+
     }
 
     /** 

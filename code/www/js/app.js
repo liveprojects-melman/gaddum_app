@@ -67,6 +67,7 @@ angular.module('gaddum', [
     'permissionsService',
     'permissionsListenerService',
     'playerService',
+    'timeService',
     function (
       $ionicPlatform,
       $state,
@@ -80,7 +81,8 @@ angular.module('gaddum', [
       userProfilerService,
       permissionsService,
       permissionsListenerService,
-      playerService
+      playerService,
+      timeService
     ) {
 
       $rootScope.$on('slideChanged', function (a) {
@@ -137,25 +139,31 @@ angular.module('gaddum', [
           startupSrvc.asyncInitialise()
             .then(
               function () {
-                gaddumMusicProviderService.asyncInitialise(
-                  loginModal.promiseLogin,
-                  playerService.promiseHandleEvent
-                )
-                  .then(
-                    function () {
-                      userProfilerService.asyncInitialise(
-                        playerService.promiseHandleEvent
-                      ).then(
+                timeService.asyncInitialise().then(
+
+                  function () {
+                    gaddumMusicProviderService.asyncInitialise(
+                      loginModal.promiseLogin,
+                      playerService.promiseHandleEvent
+                    )
+                      .then(
                         function () {
-                          permissionsListenerService.initialise(null);
-                          $state.go('gaddum.profile');
-                          deferred.resolve();
+                          userProfilerService.asyncInitialise(
+                            playerService.promiseHandleEvent
+                          ).then(
+                            function () {
+                              permissionsListenerService.initialise(null);
+                              $state.go('gaddum.profile');
+                              deferred.resolve();
+                            },
+                            deferred.reject
+                          );
                         },
                         deferred.reject
                       );
-                    },
-                    deferred.reject
-                  );
+                  },
+                  deferred.reject
+                );
               },
               deferred.reject
             )

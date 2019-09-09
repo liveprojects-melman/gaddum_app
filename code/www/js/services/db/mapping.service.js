@@ -149,7 +149,9 @@
                     //  console.log("--- END SQL ---");
                     service.private.executeSql(sql, success, fail);
                 },
-                fail);
+                function(error){
+                    fail(error);
+                });
         }
 
         service.dumpDB = function (fnSuccess) {
@@ -279,7 +281,17 @@
             return result;
         }
 
+
+
+        function substitute(text, searchFor, replaceWith){
+            var expression = "\\b(" + searchFor + ")\\b";
+
+            return  text.replace(new RegExp(expression, 'g'), replaceWith);
+        }
+
+
         //PRIVATE
+        // whole thing needs replacing with parameterised sql, now that the base lib supports it.
         service.private.substituteInSql = function (
             searchFor,
             object,
@@ -290,16 +302,27 @@
             var result = sql;
 
             try {
+                var _searchFor = service.private.applyPrefix(service.private.PARAMETER_PREFIX, searchFor);
                 var replaceWith = null;
                 if(object == null){
+
+                    // replace either numeric or string value with null
+                    // desparate kludge.
                     replaceWith = 'null';
+                    
+                    var variation1 = RegExp("\""+ _searchFor + "\"");
+                    var variation2 = RegExp("'" + _searchFor + "'");
+                    var variation3 = _searchFor; // numeric
+
+                    result = sql.replace(variation1, replaceWith);
+                    result = result.replace(variation2, replaceWith);
+                    result = substitute(result, variation3, replaceWith);
+                    console.log("mappingService: substituteInSql: warning: replaced null values");
+                    
                 }else{
                     replaceWith = object.toString();
+                    result = substitute(sql, _searchFor, replaceWith);
                 }
-                var _searchFor = service.private.applyPrefix(service.private.PARAMETER_PREFIX, searchFor);
-                var expression = "\\b(" + _searchFor + ")\\b";
-
-                result = sql.replace(new RegExp(expression, 'g'), replaceWith);
 
             } catch (e) {
                 console.log("substituteInSql: problem substituting: " + replaceWith + e);

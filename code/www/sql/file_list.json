@@ -96,6 +96,14 @@
         }
     },
     {
+        "name": "get_track(id)",
+        "function": "get_track",
+        "path": "www/sql/get_track.sql",
+        "default_parameters": {
+            "id": "1750eea3-5a77-4884-a01f-b7f34261cd8a"
+        }
+    },
+    {
         "name": "get_tracks(name, album, artist, id)",
         "function": "get_tracks",
         "path": "www/sql/get_tracks.sql",
@@ -236,6 +244,15 @@
         }
     },
     {
+        "name": "get_provider_mood_to_attributes(provider_id, mood_id)",
+        "function": "get_provider_mood_to_attributes",
+        "path": "www/sql/get_provider_mood_to_attributes.sql",
+        "default_parameters": {
+            "provider_id" : "gaddumMusicProviderSpotifyService",
+            "mood_id": "physical"
+        }
+    },
+    {
         "name": "get_supported_music_providers()",
         "function": "get_supported_music_providers",
         "path": "www/sql/get_supported_music_providers.sql",
@@ -249,6 +266,7 @@
         "default_parameters": {
         }
     },
+
     {
         "name": "associate_playlist_track()",
         "function": "associate_playlist_track",
@@ -294,6 +312,19 @@
             "mood_suitable" : true,
             "track": "467f79eb-969d-4ab0-8869-b915a9491c0d"
         }
+    },
+    {
+        "name": "seek_observations(mood_id, timeslot, location_code, location_lat, location_lon, limit)",
+        "function": "seek_observations",
+        "path": "www/sql/seek_observations.sql",
+        "default_parameters": {
+            "mood_id_id":"happy",
+            "timeslot" : 3,
+            "location_code" : "M1 5GD",
+            "location_lat" : 0.0234,
+            "location_lon" : 0.0123,
+            "limit" : 20
+        }       
     }
 
  
