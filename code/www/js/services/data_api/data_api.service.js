@@ -1285,7 +1285,7 @@
                 function () {
                     if (observation) {
                         var id = observation.getId();
-                        var timestamp_s = observation.getTimeStamp().getJavaEpocS();
+                        var timestamp_s = observation.getTimeStamp().getJavaEpocMS();
                         var mood = observation.getMood();
                         var mood_id = mood ? mood.getId() : null;
                         var timeSlot = observation.getTimeSlot().getId();
