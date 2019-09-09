@@ -206,7 +206,7 @@
 
     initialise();
     gpc.hack = setInterval(function(){
-      "gpc.state.ready="+String(gpc.state.ready)+" gpc.state.hasTracm="+String(gpc.state.hasTrack));
+      console.log("gpc.state.ready="+String(gpc.state.ready)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
     },1000);
 
     return gpc;
