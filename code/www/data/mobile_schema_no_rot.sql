@@ -724,7 +724,7 @@ CREATE TABLE tracks (
     name       TEXT,
     album      TEXT,
     artist     TIME,
-    duration_s INTEGER NOT NULL
+    duration_ms INTEGER NOT NULL
 );
 
 INSERT INTO tracks (
@@ -732,7 +732,7 @@ INSERT INTO tracks (
                        name,
                        album,
                        artist,
-                       duration_s
+                       duration_ms
                    )
                    VALUES (
                        '4773cabe-a649-4af3-9a9c-768b5fd990fd',
@@ -747,7 +747,7 @@ INSERT INTO tracks (
                        name,
                        album,
                        artist,
-                       duration_s
+                       duration_ms
                    )
                    VALUES (
                        'c07d8279-3609-4143-8a0d-3f0b508839ef',
@@ -762,7 +762,7 @@ INSERT INTO tracks (
                        name,
                        album,
                        artist,
-                       duration_s
+                       duration_ms
                    )
                    VALUES (
                        '12e1c931-83fe-4948-95c2-4955c68d60d9',

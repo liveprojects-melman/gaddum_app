@@ -87,7 +87,7 @@
             var trackTime_ms = currentTime - g_trackStartTime_ms;
             var mood = g_currentPlaylist.getMoodId();
             var genericTrack = g_currentPlaylist.getGenericTracks()[g_currentPlaylist.currentTrackIndex];
-            var trackDuration_ms = genericTrack.getDuration_s() * 1000;
+            var trackDuration_ms = genericTrack.getDuration_ms();
             var numRepeats = genericTrack.numRepeats; //  we added this in prepareMoodedPlaylists
             var trackPercent = 100;
 

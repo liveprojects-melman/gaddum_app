@@ -830,7 +830,6 @@
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
           $http.get(`https://api.spotify.com/v1/playlists/${PID}/tracks`, config).then(function (result) {
             result.data.items.forEach(function (element) {
-              //name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
               resultArray.push(spotifyTrackToTrackInfo(element.track));
             });
             return resolve(resultArray);
@@ -983,7 +982,6 @@
                     }
                   });
                   if (!isntIn) {
-                    // name, album, artist, duration_s, web_uri, artwork_uri, player_uri, service_provider
                     trackList.push(spotifyTrackToTrackInfo(track));
                   }
                 });
@@ -1004,7 +1002,7 @@
         spotifyTrack.name,
         spotifyTrack.album.name,
         spotifyTrack.artists[0].name,
-        spotifyTrack.duration_ms / 1000,
+        spotifyTrack.duration_ms,
         spotifyTrack.href,
         spotifyTrack.album.images[0].url,
         spotifyTrack.uri,
@@ -1406,9 +1404,9 @@
       var result = 0;
 
       if (CURRENT_TRACK_INFO) {
-        var total_s = CURRENT_TRACK_INFO.duration_s;
-        if (total_s && total_s > 0) {
-          result = ((trackTime_ms / 1000) / total_s) * 100;
+        var total_ms = CURRENT_TRACK_INFO.duration_ms;
+        if (total_ms && total_ms > 0) {
+          result = (trackTime_ms  / total_ms) * 100;
           if (result > 100) result = 100;
         }
       }

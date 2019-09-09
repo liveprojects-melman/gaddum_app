@@ -581,7 +581,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId()
                 },
                 function (response) {
@@ -612,7 +612,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId(),
                     provider_id: musicProvider.getId()
                 },
@@ -748,7 +748,7 @@
                 name: genericTrack.getName(),
                 album: genericTrack.getAlbum(),
                 artist: genericTrack.getArtist(),
-                duration_s: genericTrack.getDuration_s()
+                duration_ms: genericTrack.getDuration_ms()
             },
                 function () {
                     deferred.resolve(genericTrack);
@@ -765,7 +765,7 @@
 
         // pushes a generic track object into the DB
         // - ignores its Id
-        // - searches comprehensively for an exact match on name, artist, album, duration_s 
+        // - searches comprehensively for an exact match on name, artist, album, duration_ms 
         function asyncImportGenericTrack(genericTrack) {
             var deferred = $q.defer();
             // do we already have this track?
@@ -925,7 +925,7 @@
                     trackInfo.getName(),
                     trackInfo.getAlbum(),
                     trackInfo.getArtist(),
-                    trackInfo.getDuration_s()
+                    trackInfo.getDuration_ms()
                 );
             }
             return result;
@@ -961,7 +961,7 @@
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
-                    genericTrack.getDuration_s(),
+                    genericTrack.getDuration_ms(),
                     trackReference.getPlayerUri(),
                     trackReference.getThumbnailUri());
             } else {

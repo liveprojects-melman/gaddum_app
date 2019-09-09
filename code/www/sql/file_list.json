@@ -115,14 +115,14 @@
         }
     },
     {
-        "name": "get_track_infos(name, album, artist, duration_s, id, provider_id)",
+        "name": "get_track_infos(name, album, artist, duration_ms, id, provider_id)",
         "function": "get_track_infos",
         "path": "www/sql/get_track_infos.sql",
         "default_parameters": {
             "name" : "Killer Queen",
             "album": "Sheer Heart Attack",
             "artist" : "Queen",
-            "duration_s" : 240,
+            "duration_ms" : 240,
             "id": "1750eea3-5a77-4884-a01f-b7f34261cd8a",
             "provider_id" : "gaddumMusicProviderSpotifyService"
         }
@@ -167,7 +167,7 @@
         }
     }, 
     {
-        "name": "import_generic_track(id,name, album, artist, duration_s)",
+        "name": "import_generic_track(id,name, album, artist, duration_ms)",
         "function": "import_generic_track",
         "path": "www/sql/import_generic_track.sql",
         "default_parameters": {
@@ -175,7 +175,7 @@
             "name":"There Comes A Time", 
             "album":"Gladsome, Humour & Blue",
             "artist":"Martin Stephenson", 
-            "duration_s":248
+            "duration_ms":248
         }
     },    
     {
