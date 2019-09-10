@@ -31,10 +31,11 @@
   ) {
     var gpc = {};
     gpc.state = {
-      ready: true,
-      show: true,
-      hasTrack: true,
-      busy: false
+      ready: false,
+      show: false,
+      hasTrack: false,
+      busy: false,
+      playing:false
     };
     gpc.marquee = {
       "songtitle": "",
@@ -51,7 +52,7 @@
 
     function onControlError(error) {
       console.log("control error. Track: " + error.message());
-      gpc.state.playing = true;
+      gpc.state.playing = false;
     }
 
     function onTrackNew(trackInfo) {
@@ -66,7 +67,7 @@
 
     function onTrackPaused(trackInfo) {
       console.log("track paused: " + trackInfo.getName());
-      gpc.state.playing = true;
+      gpc.state.playing = false;
     }
 
     function onTrackEnd() {
@@ -209,7 +210,7 @@
 
     $scope.$on('player:ready',function(event,data) {
       console.log("gaddum.player - ready = ",data);
-      gpc.show = data?true:false;
+      gpc.state.show = data?true:false;
     });
 
     initialise();
