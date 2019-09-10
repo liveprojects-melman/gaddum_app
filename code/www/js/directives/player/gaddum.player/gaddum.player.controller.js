@@ -12,6 +12,7 @@
     '$q',
     '$state',
     '$scope',
+    '$rootScope',
     '$timeout',
     'playerService',
     'EventIdentifier',
@@ -23,6 +24,7 @@
     $q,
     $state,
     $scope,
+    $rootScope,
     $timeout,
     playerService,
     EventIdentifier,
@@ -31,10 +33,11 @@
   ) {
     var gpc = {};
     gpc.state = {
-      ready: true,
-      show: true,
-      hasTrack: true,
-      busy: false
+      ready: false,
+      show: false,
+      hasTrack: false,
+      busy: false,
+      playing:false
     };
     gpc.marquee = {
       "songtitle": "",
@@ -51,7 +54,7 @@
 
     function onControlError(error) {
       console.log("control error. Track: " + error.message());
-      gpc.state.playing = true;
+      gpc.state.playing = false;
     }
 
     function onTrackNew(trackInfo) {
@@ -59,6 +62,7 @@
       console.log(" - artist:" + trackInfo.getArtist());
       gpc.marquee.songtitle = trackInfo.getName();
       gpc.marquee.artistname = trackInfo.getArtist();
+      gpc.state.hasTrack = true;
       gpc.state.playing = true;
     }
 
@@ -66,7 +70,7 @@
 
     function onTrackPaused(trackInfo) {
       console.log("track paused: " + trackInfo.getName());
-      gpc.state.playing = true;
+      gpc.state.playing = false;
     }
 
     function onTrackEnd() {
@@ -85,11 +89,13 @@
 
     function onLoggedIn(){
       console.log("logged in");
+      $rootScope.$broadcast("player:ready", true);
       gpc.state.ready = true;
     }
 
     function onLoggedOut(){
       console.log("logged out");
+      $rootScope.$broadcast("player:ready", false);
       gpc.state.ready = false;
     }
 
@@ -209,10 +215,14 @@
 
     $scope.$on('player:ready',function(event,data) {
       console.log("gaddum.player - ready = ",data);
-      gpc.show = data?true:false;
+      gpc.state.show = data?true:false;
     });
 
     initialise();
+
+    gpc.hack = setInterval(function(){
+      console.log("gpc.state.playing="+String(gpc.state.playing)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
+    },1000);
 
     return gpc;
   }
