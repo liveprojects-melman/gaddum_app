@@ -86,13 +86,11 @@
       if (IS_LOGGED_IN != loggedIn) {
 
         if (loggedIn) {
-          $rootScope.$broadcast("player:ready", true);
           asyncBroadcastEvent(
             EventIdentifier.build(
               EventIdentifier.LOGGED_IN
             ));
         } else {
-          $rootScope.$broadcast("player:ready", false);
           asyncBroadcastEvent(
             EventIdentifier.build(
               EventIdentifier.LOGGED_OUT
@@ -247,7 +245,7 @@
                 handleLoginUpdate(loggedIn);
                 deferred.resolve(loggedIn);
               },
-              function (error) {
+              function (erro) {
                 handleLoginUpdate(false);
                 deferred.resolve(false);
               }

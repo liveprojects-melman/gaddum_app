@@ -12,6 +12,7 @@
     '$q',
     '$state',
     '$scope',
+    '$rootScope',
     '$timeout',
     'playerService',
     'EventIdentifier',
@@ -23,6 +24,7 @@
     $q,
     $state,
     $scope,
+    $rootScope,
     $timeout,
     playerService,
     EventIdentifier,
@@ -87,11 +89,13 @@
 
     function onLoggedIn(){
       console.log("logged in");
+      $rootScope.$broadcast("player:ready", true);
       gpc.state.ready = true;
     }
 
     function onLoggedOut(){
       console.log("logged out");
+      $rootScope.$broadcast("player:ready", false);
       gpc.state.ready = false;
     }
 
