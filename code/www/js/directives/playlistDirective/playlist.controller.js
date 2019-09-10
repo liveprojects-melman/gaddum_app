@@ -21,7 +21,8 @@
     'howAreYouModal',
     'MoodedPlaylist',
     'playlistCreateModal',
-    'spinnerService'
+    'spinnerService',
+    '$ionicListDelegate'
   ];
 
   function control(
@@ -38,7 +39,8 @@
     howAreYouModal,
     MoodedPlaylist,
     playlistCreateModal,
-    spinnerService
+    spinnerService,
+    $ionicListDelegate
 
   ) {
     var vm = angular.extend(this, {
@@ -119,6 +121,7 @@
     }
 
     vm.removePlaylist = function (index) {
+      $ionicListDelegate.closeOptionButtons();
       vm.busy = true;
       contextMenuDisable();
       var playlist = vm.playlistsToShow[index];
@@ -139,6 +142,7 @@
 
     vm.viewPlaylist = function (index) {
       var playlist = vm.playlistsToShow[index];
+      $ionicListDelegate.closeOptionButtons();
 
       //modal
       //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
@@ -157,6 +161,7 @@
 
     var playlistToPlay = null;
     vm.playPlaylist = function (index) {
+      $ionicListDelegate.closeOptionButtons();
       playlistToPlay = vm.playlistsToShow[index];
       howAreYouPlay();
       console.log("playPlaylist: Not yet implemented...");
