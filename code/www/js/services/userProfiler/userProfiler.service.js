@@ -412,7 +412,7 @@
 
         function asyncFindPlaylists(moodedSearchCriteria) {
             var deferred = $q.defer();
-            if (moodedSearchCriteria instanceof MoodedSearchCriteria) {
+ 
 
                 $timeout(
 
@@ -437,9 +437,7 @@
                         );
                     }
                 );
-            } else {
-                throw ("userProfiler.finder.asyncFindPlaylist: needs a MoodedSearchCriteria");
-            }
+            
             return deferred.promise;
         }
 
