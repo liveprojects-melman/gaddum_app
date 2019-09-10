@@ -23,6 +23,6 @@
     ng-init="vm.createProfileGraphic()" height=80 width=80
     ></canvas>
   <div class="qrdiv" ng-hide="vm.busy" id="qrCodeDiv">
-    <qrcode  data={{vm.encodedProfile}}  ng-click="vm.showQR()"></qrcode>
+    <qrcode  data={{vm.encodedProfile}}  ng-click="vm.showQR()" version="17"></qrcode>
   </div>
 </ion-view>
