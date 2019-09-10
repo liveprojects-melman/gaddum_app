@@ -215,8 +215,9 @@
     });
 
     initialise();
+
     gpc.hack = setInterval(function(){
-      console.log("gpc.state.ready="+String(gpc.state.ready)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
+      console.log("gpc.state.playing="+String(gpc.state.playing)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
     },1000);
 
     return gpc;
