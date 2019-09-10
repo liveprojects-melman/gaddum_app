@@ -21,6 +21,7 @@
     'gaddumContextMenuItem',
     'playlistService',
     'spinnerService',
+    '$ionicListDelegate',
 
     'friendsService',
     '$ionicModal',
@@ -45,6 +46,7 @@
     gaddumContextMenuItem,
     playlistService,
     spinnerService,
+    $ionicListDelegate,
 
     browseService,
     $ionicModal,
@@ -235,6 +237,7 @@
     }
     function play(track) {
       console.log("track", track);
+      $ionicListDelegate.closeOptionButtons();
       currentTrack = track;
       console.log("current", currentTrack);
       howAreYou();
@@ -258,6 +261,7 @@
       console.log("modal canceled");
     }
     function addToPlaylist(track) {
+      $ionicListDelegate.closeOptionButtons();
       var trackToAdd = [];
       playlistService.asyncImportTrack(track).then(function (genTrack) {
         trackToAdd.push(genTrack);
