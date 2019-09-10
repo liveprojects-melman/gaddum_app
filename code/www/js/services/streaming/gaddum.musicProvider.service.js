@@ -29,22 +29,23 @@
     $rootScope
   ) {
 
-      // vars
-      var MUSIC_PROVIDER = null;
-      var MUSIC_PROVIDER_IDENTIFIER = null;
-      var LOGIN_HANDLER_PROMISE = null;
-      var EVENT_HANDLER_PROMISE = null;
-      var IS_LOGGED_IN = null;
+    // vars
+    var MUSIC_PROVIDER = null;
+    var MUSIC_PROVIDER_IDENTIFIER = null;
+    var LOGIN_HANDLER_PROMISE = null;
+    var EVENT_HANDLER_PROMISE = null;
+    var IS_LOGGED_IN = null;
 
 
 
-    function asyncBroadcastEvent(event){
+
+    function asyncBroadcastEvent(event) {
       var deferred = $q.defer();
 
       $timeout(
 
-        function(){
-          if(EVENT_HANDLER_PROMISE){
+        function () {
+          if (EVENT_HANDLER_PROMISE) {
             EVENT_HANDLER_PROMISE(event).then(
               deferred.resolve,
               deferred.reject
@@ -59,13 +60,13 @@
     }
 
 
-    function asyncHandleLogin(){
+    function asyncHandleLogin() {
       var deferred = $q.defer();
 
       $timeout(
 
-        function(){
-          if(LOGIN_HANDLER_PROMISE){
+        function () {
+          if (LOGIN_HANDLER_PROMISE) {
             LOGIN_HANDLER_PROMISE().then(
               deferred.resolve,
               deferred.reject
@@ -91,7 +92,7 @@
               EventIdentifier.LOGGED_IN
             ));
         } else {
-          $rootScope.$broadcast("player:ready",false);
+          $rootScope.$broadcast("player:ready", false);
           asyncBroadcastEvent(
             EventIdentifier.build(
               EventIdentifier.LOGGED_OUT
@@ -236,29 +237,29 @@
 
     function asyncIsLoggedIn() {
       var deferred = $q.defer();
-      
+
       $timeout(
         function () {
           if (MUSIC_PROVIDER) {
-              MUSIC_PROVIDER.asyncIsLoggedIn().then(
+            MUSIC_PROVIDER.asyncIsLoggedIn().then(
 
-                function(loggedIn ){
-                  handleLoginUpdate(loggedIn);
-                  deferred.resolve(loggedIn);
-                },
-                function(error){
-                  handleLoginUpdate(false);
-                  deferred.resolve(false);
-                }
+              function (loggedIn) {
+                handleLoginUpdate(loggedIn);
+                deferred.resolve(loggedIn);
+              },
+              function (error) {
+                handleLoginUpdate(false);
+                deferred.resolve(false);
+              }
 
-              );
+            );
           } else {
             handleLoginUpdate(false);
             deferred.resolve(false);
           }
-      });
+        });
 
-      
+
       return deferred.promise;
     }
 
@@ -276,11 +277,11 @@
       return promise;
     }
 
-    function asyncSuggestTracks(genres, moodId, limit){
+    function asyncSuggestTracks(genres, moodId, limit) {
       return asyncCheckForLoginPromptIfNeeded().then(
         function () {
           return MUSIC_PROVIDER.asyncSuggestTracks(genres, moodId, limit);
-        });    
+        });
     }
 
 
@@ -291,58 +292,102 @@
         });
     }
 
+    function asyncTearDownCurrentTrack() {
+      var deferred = $q.defer();
+      stopPositionPolling();
+      MUSIC_PROVIDER.asyncTeardownCurrentTrack().then(
+        function () {
+          asyncBroadcastEvent(
+            EventIdentifier.build(EventIdentifier.TRACK_END, null)
+          ).then(
+            deferred.resolve,
+            deferred.reject
+          );
+        },
+        deferred.reject
+      );
+      return deferred.promise;
+    }
+
+    function asyncTearDownIfRequired() {
+      var deferred = $q.defer();
+      $timeout(
+        function () {
+          if (MUSIC_PROVIDER.getCurrentTrack()) {
+            asyncTearDownCurrentTrack().then(
+              deferred.resolve
+              ,
+              deferred.reject
+            );
+          } else {
+            deferred.resolve();
+          }
+        });
+
+
+
+      return deferred.promise;
+    }
+
     function asyncSetTrack(genericTrack) {
       var deferred = $q.defer();
       asyncCheckForLoginPromptIfNeeded().then(
         function () {
-          MUSIC_PROVIDER.asyncSetTrack(genericTrack).then(
-            function(trackInfo){
-              var eventCode = EventIdentifier.TRACK_NOT_FOUND;
-              if(trackInfo){
-                eventCode = EventIdentifier.TRACK_NEW;
+          asyncTearDownIfRequired().then(
+            function () {
+              if (genericTrack) {
+                MUSIC_PROVIDER.asyncSetTrack(genericTrack).then(
+                  function (trackInfo) {
+                    var eventCode = EventIdentifier.TRACK_NOT_FOUND;
+                    if (trackInfo) {
+                      eventCode = EventIdentifier.TRACK_NEW;
+                    }
+                    asyncBroadcastEvent(
+                      EventIdentifier.build(eventCode, trackInfo));
+                    deferred.resolve(trackInfo);
+                  },
+                  deferred.reject
+                );
+              } else {
+                deferred.resolve(null);
               }
-              asyncBroadcastEvent(
-                EventIdentifier.build(eventCode,trackInfo));
-              deferred.resolve(trackInfo);
             },
             deferred.reject
           );
-        });
-        return deferred.promise;
+        },
+        deferred.reject
+      )
+      return deferred.promise;
     }
-
 
     var POLLING = false;
     var POLL_UPDATE_TIME_MS = 1000;
 
-    function asyncPollAndBroadcast(){
+    function asyncPollAndBroadcast() {
       var deferred = $q.defer();
       MUSIC_PROVIDER.asyncGetCurrentTrackProgressPercent().then(
-        function onProgress(percent){
+        function onProgress(percent) {
           //console.log("asyncPollAndBroadcast: onProgress: percent " + percent);
-          if(percent == 0){
+          if (percent == 0) {
             POLLING = false;
-          }else{
-            if(percent > 0){
+          } else {
+            if (percent > 0) {
               asyncBroadcastEvent(
                 EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
               );
             }
-            if(percent == 100){
-              POLLING = false;
+            if (percent == 100) {
               asyncBroadcastEvent(
                 EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
               ).then(
-                function(){
-                  asyncBroadcastEvent(
-                    EventIdentifier.build(EventIdentifier.TRACK_END, null)
-                  );                  
+                function () {
+                  asyncTearDownCurrentTrack();
                 }
               );
             }
           }
         },
-        function onError(){
+        function onError() {
           POLLING = false;
         }
       );
@@ -350,11 +395,11 @@
       return deferred.promise;
     }
 
-    function doPollAndRepeat(){
-      if(POLLING){
+    function doPollAndRepeat() {
+      if (POLLING) {
         asyncPollAndBroadcast().then(
           $timeout(
-            function(){
+            function () {
               doPollAndRepeat();
             }, POLL_UPDATE_TIME_MS
           )
@@ -362,14 +407,14 @@
       }
     }
 
-    function startPositionPolling(){
-      if(!POLLING){
+    function startPositionPolling() {
+      if (!POLLING) {
         POLLING = true;
         doPollAndRepeat();
       }
     }
 
-    function stopPositionPolling(){
+    function stopPositionPolling() {
       POLLING = false;
     }
 
@@ -381,19 +426,19 @@
       var deferred = $q.defer();
 
       asyncCheckForLoginPromptIfNeeded().then(
-        function(){
+        function () {
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
-            function onSuccess(){
+            function onSuccess() {
               console.log("starting polling...");
               startPositionPolling();
               deferred.resolve(true);
             },
-            function onError(){
+            function onError() {
               stopPositionPolling();
               asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_ERROR,"Problem with playing the track. Does your account allow you to play tracks?")
-              ); 
-              deferred.reject();             
+                EventIdentifier.build(EventIdentifier.TRACK_ERROR, "Problem with playing the track. Does your account allow you to play tracks?")
+              );
+              deferred.reject();
             }
           )
         },
@@ -411,6 +456,10 @@
         )
       );
     }
+
+
+
+
 
     function asyncGetProfilePlaylist(offset, limit) {
       return asyncCheckForLoginPromptIfNeeded().then(function () {
@@ -517,6 +566,7 @@
       asyncSetTrack: asyncSetTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
+
 
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,

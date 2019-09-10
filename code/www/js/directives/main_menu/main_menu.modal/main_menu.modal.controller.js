@@ -11,7 +11,8 @@
       'AboutModal',
       'SettingsModal',
       'loginModal',
-      'gaddumMusicProviderService'
+      'gaddumMusicProviderService',
+      'pubsubService'
   ];
   
   function mainMenuModalController(
@@ -20,7 +21,8 @@
     AboutModal,
     SettingsModal,
     loginModal,
-    gaddumMusicProviderService
+    gaddumMusicProviderService,
+    pubsubService
   ) {
     var mc = angular.extend(this, {
       
@@ -64,11 +66,13 @@
       SettingsModal.open(params,fnCallbackOk,fnCallbackCancel);
       mainMenuModal.close();
     }
+
     function fnCallbackOk(){
-      console.log("modal ok");
+      pubsubService.asyncPublish("userSettingChange");
     }
+
     function fnCallbackCancel(){
-      console.log("modal cancel");
+      pubsubService.asyncPublish("userSettingChange");
     }
     mc.goToAbout = goToAbout;
     mc.goToSettings = goToSettings;

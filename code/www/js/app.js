@@ -14,6 +14,7 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
+  'gaddum.publishandsubscribe',
   'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
@@ -60,6 +61,7 @@ angular.module('gaddum', [
     '$ionicSlideBoxDelegate',
     '$window',
     '$q',
+    'pubsubService',
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
@@ -67,7 +69,9 @@ angular.module('gaddum', [
     'permissionsService',
     'permissionsListenerService',
     'playerService',
+    'observerService',
     'timeService',
+    'EventIdentifier',
     function (
       $ionicPlatform,
       $state,
@@ -75,6 +79,7 @@ angular.module('gaddum', [
       $ionicSlideBoxDelegate,
       $window,
       $q,
+      pubsubService,
       startupSrvc,
       loginModal,
       gaddumMusicProviderService,
@@ -82,7 +87,9 @@ angular.module('gaddum', [
       permissionsService,
       permissionsListenerService,
       playerService,
-      timeService
+      observerService,
+      timeService,
+      EventIdentifier
     ) {
 
       $rootScope.$on('slideChanged', function (a) {
@@ -136,6 +143,20 @@ angular.module('gaddum', [
         function asyncStart() {
           var deferred = $q.defer();
 
+
+          // --- all player events can be subscribed to
+          pubsubService.subscribe(
+            'playerEvent', playerService.promiseHandleEvent
+          );
+
+          
+          //-- registering the observer to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', observerService.asyncUpdateFromSettings
+          );
+
+
           startupSrvc.asyncInitialise()
             .then(
               function () {
@@ -144,12 +165,19 @@ angular.module('gaddum', [
                   function () {
                     gaddumMusicProviderService.asyncInitialise(
                       loginModal.promiseLogin,
-                      playerService.promiseHandleEvent
+                      function(event){
+                        return pubsubService.asyncPublish('playerEvent',event);
+                      }
                     )
                       .then(
                         function () {
                           userProfilerService.asyncInitialise(
-                            playerService.promiseHandleEvent
+                            function onChange(){
+                              return pubsubService.asyncPublish(
+                                'playerEvent',
+                                EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
+                                );
+                            }
                           ).then(
                             function () {
                               permissionsListenerService.initialise(null);
