@@ -581,7 +581,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId()
                 },
                 function (response) {
@@ -612,7 +612,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId(),
                     provider_id: musicProvider.getId()
                 },
@@ -748,7 +748,7 @@
                 name: genericTrack.getName(),
                 album: genericTrack.getAlbum(),
                 artist: genericTrack.getArtist(),
-                duration_s: genericTrack.getDuration_s()
+                duration_ms: genericTrack.getDuration_ms()
             },
                 function () {
                     deferred.resolve(genericTrack);
@@ -765,7 +765,7 @@
 
         // pushes a generic track object into the DB
         // - ignores its Id
-        // - searches comprehensively for an exact match on name, artist, album, duration_s 
+        // - searches comprehensively for an exact match on name, artist, album, duration_ms 
         function asyncImportGenericTrack(genericTrack) {
             var deferred = $q.defer();
             // do we already have this track?
@@ -925,7 +925,7 @@
                     trackInfo.getName(),
                     trackInfo.getAlbum(),
                     trackInfo.getArtist(),
-                    trackInfo.getDuration_s()
+                    trackInfo.getDuration_ms()
                 );
             }
             return result;
@@ -961,7 +961,7 @@
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
-                    genericTrack.getDuration_s(),
+                    genericTrack.getDuration_ms(),
                     trackReference.getPlayerUri(),
                     trackReference.getThumbnailUri());
             } else {
@@ -1232,7 +1232,7 @@
 
 
         // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
-        // "timestamp_s": "1565165883",
+        // "timestamp_ms": "1565165883",
         // "mood_id" : "physical",// MAY BE NULL
         // "timeslot": 3,
         // "location_lat" : 53.5041, // MAY BE NULL
@@ -1246,7 +1246,7 @@
 
         function addObservation(
             id,
-            timestamp_s,
+            timestamp_ms,
             mood_id,
             timeslot,
             location_lat,
@@ -1261,7 +1261,7 @@
         ) {
             mappingService.query("add_observation", {
                 id:id,
-                timestamp_s: timestamp_s,
+                timestamp_ms: timestamp_ms,
                 mood_id: mood_id,
                 timeslot: timeslot,
                 location_lat: location_lat,
@@ -1285,7 +1285,7 @@
                 function () {
                     if (observation) {
                         var id = observation.getId();
-                        var timestamp_s = observation.getTimeStamp().getJavaEpocS();
+                        var timestamp_ms = observation.getTimeStamp().getJavaEpocMS();
                         var mood = observation.getMood();
                         var mood_id = mood ? mood.getId() : null;
                         var timeSlot = observation.getTimeSlot().getId();
@@ -1306,7 +1306,7 @@
 
                         addObservation(
                             id,
-                            timestamp_s,
+                            timestamp_ms,
                             mood_id,
                             timeSlot,
                             location_lat,

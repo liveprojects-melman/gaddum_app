@@ -131,7 +131,7 @@
             $timeout(
                 function(){
                     var location = getLastKnownLocation();
-                    if(!position){
+                    if(!location){
                         asyncGetImmediateLocation().then(
                             function success(location){
                                 deferred.resolve(location);

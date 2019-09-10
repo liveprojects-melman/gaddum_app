@@ -1,6 +1,6 @@
 INSERT INTO observations (
                              id,
-                             timestamp_s,
+                             timestamp_ms,
                              mood_id,
                              timeslot,
                              location_lat,
@@ -13,7 +13,7 @@ INSERT INTO observations (
                          )
                          VALUES (
                              'replacement_parameter_id',
-                             'replacement_parameter_timestamp_s',
+                             'replacement_parameter_timestamp_ms',
                              'replacement_parameter_mood_id',
                              'replacement_parameter_timeslot',
                              'replacement_parameter_location_lat',

@@ -66,7 +66,7 @@
 							};
 
 							function calculateAnimationDuration(newDuration) {
-								var result = (itemWidth + containerWidth) / containerWidth * newDuration / 1000;
+								var result = (itemWidth + containerWidth) / containerWidth * newDuration;
 								if (duplicated) {
 									result = result / 2;
 								}

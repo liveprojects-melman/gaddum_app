@@ -31,6 +31,7 @@
     var fnames = [
       "Apple",
       "Apricot",
+      "Asparagus",
       "Avocado",
       "Banana",
       "Blackberry",
@@ -91,7 +92,7 @@
       "Jelly",
       "Marmalade",
       "Mincemeat",
-      "Picle",
+      "Pickle",
       "Preserve",
       "Relish"
     ];
@@ -117,7 +118,7 @@
         vm.displayImage=[0, 102, 102, 24, 24, 102, 102, 0];
         vm.defaultImage=true;
       }
-      if (vm.fullName===null||vm.fullName==="") {
+      if (vm.fullName===null||vm.fullName===""||vm.fullName=="Defaulthony Nameson") {
         vm.fullName="Defaulthony Nameson";
         vm.defaultName=true;
       }

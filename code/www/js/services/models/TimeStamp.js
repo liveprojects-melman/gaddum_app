@@ -22,8 +22,8 @@
         return this.javaepoch_ms;
       }
 
-      this.getJavaEpocS = function () {
-        return this.javaepoch_ms / 1000;
+      this.getJavaEpocMS = function () {
+        return this.javaepoch_ms;
       }
 
       this.getDate = function () {

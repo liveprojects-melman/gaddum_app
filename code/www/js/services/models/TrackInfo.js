@@ -15,12 +15,12 @@
 
 
 
-    function TrackInfo(name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id) {
+    function TrackInfo(name, album, artist, duration_ms, web_uri, thumbnail_uri, player_uri, provider_id) {
       // Public properties, assigned to the instance ('this')
       this.name = name;
       this.album = album;
       this.artist = artist;
-      this.duration_s = duration_s;
+      this.duration_ms = duration_ms;
       this.web_uri = web_uri;
       this.thumbnail_uri = thumbnail_uri;
       this.player_uri = player_uri;
@@ -38,8 +38,8 @@
       return this.artist;
     }
 
-    this.getDuration_s = function(){
-      return this.duration_s;
+    this.getDuration_ms = function(){
+      return this.duration_ms;
     }
 
     this.getWebUri = function(){
@@ -64,20 +64,20 @@
      * Static method, assigned to class
      * Instance ('this') is not available in static context
      */
-    TrackInfo.build = function (name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id) {
+    TrackInfo.build = function (name, album, artist, duration_ms, web_uri, thumbnail_uri, player_uri, provider_id) {
 
       
       if(!name) name = "";
       if(!album) album = "";
       if(!artist) artist = "";
-      if(!duration_s) duration_s =0;
+      if(!duration_ms) duration_ms =0;
       if(!web_uri) web_uri ="";
       if(!thumbnail_uri) thumbnail_uri = "";
       if(!player_uri) player_uri = "";
       if(!provider_id) provider_id = "";
 
         return new TrackInfo(
-          name, album, artist, duration_s, web_uri, thumbnail_uri, player_uri, provider_id
+          name, album, artist, duration_ms, web_uri, thumbnail_uri, player_uri, provider_id
         );
  
 
