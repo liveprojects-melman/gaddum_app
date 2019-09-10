@@ -34,7 +34,7 @@
     //           if found, broadcasts a TRACK_NEW event to listeners, with a payload of TrackInfo object
     //           if not found, broadcasts a TRACK_NOT_FOUND to listeners
     // playerService broadcasts PLAYLIST_NEW event
-    
+
 
 
     // playerService is a listener on the musicServiceProvider.
@@ -92,19 +92,18 @@
             var deferred = $q.defer();
             userProfilerService.player.asyncNext().then(
                 function onTrack(genericTrack) {
-                    if(genericTrack){
-                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                            function(trackInfo){
-                                if(trackInfo){
-                                    gaddumMusicProviderService.asyncPlayCurrentTrack();
-                                }
-                                deferred.resolve();
-                            },
-                            deferred.reject
-                        );
-                    }else{
-                        deferred.reject();
-                    }
+
+                    gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
+                        function (trackInfo) {
+                            if (trackInfo) {
+                                gaddumMusicProviderService.asyncPlayCurrentTrack();
+                            } else {
+                                asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_END));
+                            }
+                            deferred.resolve();
+                        },
+                        deferred.reject
+                    );
                 },
                 deferred.reject
             );
@@ -115,23 +114,40 @@
             var deferred = $q.defer();
             userProfilerService.player.asyncPrev().then(
                 function onTrack(genericTrack) {
-                    if(genericTrack){
-                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                            function gotTrack(){
-                                gaddumMusicProviderService.asyncPlayCurrentTrack().then(
-                                    function(trackInfo){
-                                        if(trackInfo){
-                                            gaddumMusicProviderService.asyncPlayCurrentTrack();
-                                        }
-                                        deferred.resolve();
-                                    },
-                                    deferred.reject
-                                );
+
+                    // genericTrack may be null
+                    gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
+
+                        function (trackInfo) {
+                            if (trackInfo) {
+                                gaddumMusicProviderService.asyncPlayCurrentTrack();
+                            } else {
+                                asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_NEW));
                             }
-                            ,
+                            deferred.resolve();
+                        },
+                        deferred.reject
+                    );
+                }
+                ,
+                deferred.reject
+            );
+
+
+            return deferred.promise;
+        }
+
+        function asyncDoBegin() {
+            var deferred = $q.defer();
+            userProfilerService.player.asyncBegin().then(
+                function onTrack(genericTrack) {
+                    if (genericTrack) {
+                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
+                            deferred.resolve,
                             deferred.reject
                         );
-                    }else{
+                    } else {
+                        //someone delivered us an empty playlist
                         deferred.reject();
                     }
                 },
@@ -140,74 +156,55 @@
             return deferred.promise;
         }
 
-        function asyncDoBegin() {
+        function asyncHandleTrackNotFound() {
             var deferred = $q.defer();
-            userProfilerService.player.asyncBegin().then(
+
+            asyncTrackIsBadGetAnother().then(
                 function onTrack(genericTrack) {
-                    if(genericTrack){
-                        gaddumMusicProviderService.asyncSetTrack(genericTrack).then(
-                            deferred.resolve,
+                    if (genericTrack) {
+                        gaddumMusicProviderService.setTrack(genericTrack).then(
+                            function trackSet() {
+                                deferred.resolve(CONSUMED);
+                            },
                             deferred.reject
                         );
-                    }else{
-                        //someone delivered us an empty playlist
-                        deferred.reject(); 
+                    } else {
+                        asyncBroadcastEvent(
+                            EventIdentifier.build(
+                                EventIdentifier.PLAYLIST_END));
+                        deferred.resolve(CONSUMED);
                     }
+                },
+                function () {
+                    deferred.resolve(CONSUMED);
                 },
                 deferred.reject
             );
-            return deferred.promise;
-        }        
-
-        function asyncHandleTrackNotFound() {
-            var deferred = $q.defer();
-                
-                asyncTrackIsBadGetAnother().then(
-                    function onTrack(genericTrack) {
-                        if(genericTrack){
-                            gaddumMusicProviderService.setTrack(genericTrack).then(
-                                function trackSet(){
-                                    deferred.resolve(CONSUMED);
-                                },
-                                deferred.reject
-                            );
-                        }else{
-                            asyncBroadcastEvent(
-                                EventIdentifier.build(
-                                    EventIdentifier.PLAYLIST_END));
-                            deferred.resolve(CONSUMED);
-                        }
-                    },
-                    function(){
-                        deferred.resolve(CONSUMED); 
-                    },
-                    deferred.reject
-                );
             return deferred.promise;
         }
 
         // event from the userProfilerService indicates the user has loaded a new playlist
         // send the event to other listeners, and 
         // kick-off getting the first track and queueing it.
-        function asyncHandlePlaylistNew(){
+        function asyncHandlePlaylistNew() {
             var deferred = $q.defer();
-                
-                asyncDoBegin().then(
-                    function beganOK(){
-                        deferred.resolve(PASSED); // pass the event to listeners
-                    },
-                    deferred.reject
-                );
+
+            asyncDoBegin().then(
+                function beganOK() {
+                    deferred.resolve(PASSED); // pass the event to listeners
+                },
+                deferred.reject
+            );
             return deferred.promise;
         }
 
 
 
-        function asyncHandleDefault(){
+        function asyncHandleDefault() {
             var deferred = $q.defer();
 
             $timeout(
-                function(){
+                function () {
                     deferred.resolve(PASSED); // default behaviour is to allow the event to get passed to listeners
                 }
             );
@@ -247,7 +244,7 @@
                 case EventIdentifier.PLAYLIST_NEW:
                     return asyncHandlePlaylistNew();
                 default:
-                    return asyncHandleDefault();    
+                    return asyncHandleDefault();
             }
         }
 
@@ -268,14 +265,14 @@
                             }
                         },
                         // event handler barfed. 
-                        function eventErrored(error){
+                        function eventErrored(error) {
                             // we'll just make sure the user can't do anything else until they have chosen another playlist.
                             asyncBroadcastEvent(
                                 EventIdentifier.build(
-                                    EventIdentifier.PLAYLIST_NONE)); 
+                                    EventIdentifier.PLAYLIST_NONE));
                             deferred.resolve();  // can't make the event source handle it
                         }
-                        
+
                     );
                 }
             );
@@ -285,21 +282,21 @@
         function asyncControlSkipNext() {
             console.log("control Skip Next.");
             var deferred = $q.defer();
-            
+
             asyncDoSkipNext().then(
-                function trackQueued(){
+                function trackQueued() {
                     deferred.resolve();
                 },
-                function noTrack(error){
+                function noTrack(error) {
                     // this also gets called on the music provider barfing with an error, so this is also auto recovery.
-                    if(!error){
+                    if (!error) {
                         asyncBroadcastEvent(
                             EventIdentifier.build(
-                                EventIdentifier.PLAYLIST_END,null));
-                    }else{
+                                EventIdentifier.PLAYLIST_END, null));
+                    } else {
                         asyncBroadcastEvent(
                             EventIdentifier.build(
-                                EventIdentifier.PLAYLIST_NONE,null));
+                                EventIdentifier.PLAYLIST_NONE, null));
                     }
                 }
             );
@@ -311,20 +308,20 @@
             console.log("control Skip Next.");
 
             var deferred = $q.defer();
-            
+
             asyncDoSkipPrev().then(
-                function trackQueued(){
+                function trackQueued() {
                     deferred.resolve();
                 },
-                function noTrack(error){
-                    if(!error){
+                function noTrack(error) {
+                    if (!error) {
                         asyncBroadcastEvent(
                             EventIdentifier.build(
-                                EventIdentifier.PLAYLIST_NEW,null));
-                    }else{
+                                EventIdentifier.PLAYLIST_NEW, null));
+                    } else {
                         asyncBroadcastEvent(
                             EventIdentifier.build(
-                                EventIdentifier.PLAYLIST_NONE,null));
+                                EventIdentifier.PLAYLIST_NONE, null));
                     }
                 }
             );
@@ -332,7 +329,7 @@
             return deferred.promise;
         }
 
-    
+
 
         function asyncControlPlay() {
             var deferred = $q.defer();
@@ -340,12 +337,12 @@
             var defered = $q.defer();
             gaddumMusicProviderService.asyncPlayCurrentTrack().then(
                 deferred.resolve,
-                function(error){
+                function (error) {
                     // try and recover by forcing the user to attempt re-doing the playlist
                     asyncBroadcastEvent(
                         EventIdentifier.build(
-                        EventIdentifier.PLAYLIST_NONE,null));
-                    deferred.resolve; 
+                            EventIdentifier.PLAYLIST_NONE, null));
+                    deferred.resolve;
                 }
             );
 
@@ -358,12 +355,12 @@
             var deferred = $q.defer();
             gaddumMusicProviderService.asyncPauseCurrentTrack().then(
                 deferred.resolve,
-                function(error){
+                function (error) {
                     // try and recover by forcing the user to attempt re-doing the playlist
                     asyncBroadcastEvent(
                         EventIdentifier.build(
-                        EventIdentifier.PLAYLIST_NONE,null));
-                    deferred.resolve; 
+                            EventIdentifier.PLAYLIST_NONE, null));
+                    deferred.resolve;
                 }
             );
 

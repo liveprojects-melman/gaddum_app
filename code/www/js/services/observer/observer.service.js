@@ -168,6 +168,10 @@
 
             $timeout(
                 function(){
+
+
+
+
                     var result = {
                         id: utilitiesService.createUuid(),
                         timeStamp: timeService.getTimeStamp(),
@@ -205,9 +209,7 @@
         
                 }
             );
-            
-
-
+ 
             return deferred.promise;
         }
 
@@ -278,6 +280,7 @@
         var service = {
             // do intialise to update settings from DB
             asyncInitialise: asyncInitialise,
+            asyncUpdateFromSettings: asyncInitialiseSettings,
             asyncCreateObservation: asyncCreateObservation,
             asyncSeekObservations: asyncSeekObservations
         };

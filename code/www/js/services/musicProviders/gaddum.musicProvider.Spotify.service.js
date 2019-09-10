@@ -1296,42 +1296,46 @@
 
       var deferred = $q.defer();
 
-      asyncTeardownCurrentTrack().then(
+
+      $timeout(
         function () {
-          // search cache for track
-          asyncGetTrackInfo(genericTrack).then(
-            function (trackInfo) {
-              if (trackInfo) {
-                // found a cached track
-                CURRENT_TRACK_INFO = trackInfo;
-                deferred.resolve(trackInfo);
-              } else {
-                // search spotify for something we can use
-                asyncSeekTrackOnline(genericTrack).then(
-                  function (trackInfo) {
-                    if (trackInfo) {
-                      // now cache the result. Associate with the generic track, though.
-                      asyncCacheTrackInfo(trackInfo, genericTrack).then(
-                        function () {
-                          CURRENT_TRACK_INFO = trackInfo;
-                          deferred.resolve(trackInfo)
-                        },
-                        deferred.reject //database error
-                      );
-                    } else {
-                      // nothing found;
-                      deferred.resolve();
-                    }
-                  },
-                  deferred.reject //network error
-                );
-              }
-            },
-            deferred.reject //database error
-          );
-        },
-        deferred.reject
-      );
+          if (genericTrack) { // we can feild 'null' for generic track.
+            // search cache for track
+            asyncGetTrackInfo(genericTrack).then(
+              function (trackInfo) {
+                if (trackInfo) {
+                  // found a cached track
+                  CURRENT_TRACK_INFO = trackInfo;
+                  deferred.resolve(trackInfo);
+                } else {
+                  // search spotify for something we can use
+                  asyncSeekTrackOnline(genericTrack).then(
+                    function (trackInfo) {
+                      if (trackInfo) {
+                        // now cache the result. Associate with the generic track, though.
+                        asyncCacheTrackInfo(trackInfo, genericTrack).then(
+                          function () {
+                            CURRENT_TRACK_INFO = trackInfo;
+                            deferred.resolve(trackInfo)
+                          },
+                          deferred.reject //database error
+                        );
+                      } else {
+                        // nothing found;
+                        deferred.resolve();
+                      }
+                    },
+                    deferred.reject //network error
+                  );
+                }
+              },
+              deferred.reject //database error
+            );
+          } else {
+            deferred.resolve(null);
+          }
+        });
+
       return deferred.promise;
     }
 
@@ -1406,7 +1410,7 @@
       if (CURRENT_TRACK_INFO) {
         var total_ms = CURRENT_TRACK_INFO.duration_ms;
         if (total_ms && total_ms > 0) {
-          result = (trackTime_ms  / total_ms) * 100;
+          result = (trackTime_ms / total_ms) * 100;
           if (result > 100) result = 100;
         }
       }
@@ -1441,6 +1445,10 @@
       return deferred.promise;
     }
 
+
+    function getCurrentTrack() {
+      return CURRENT_TRACK_INFO;
+    }
 
     // emits events according to what happens
     // if spotify player is not playing
@@ -1533,9 +1541,11 @@
       asyncGetGenres: asyncGetGenres,
 
       asyncSetTrack: asyncSetTrack,
+      getCurrentTrack: getCurrentTrack,
       asyncPlayCurrentTrack: asyncPlayCurrentTrack,
       asyncPauseCurrentTrack: asyncPauseCurrentTrack,
       asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
+      asyncTeardownCurrentTrack: asyncTeardownCurrentTrack,
 
 
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
