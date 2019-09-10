@@ -47,19 +47,26 @@
 
     // ------ UTILITY
 
-    var SETTLE_TIME_MS = 2000;
+  
     var MUSIC_PROVIDER_IDENTIFIER = null;
     var CACHED_ACCESS_CREDENTIALS = null;
-    var EVENT_HANDLER_PROMISE = null;
     var CURRENT_TRACK_INFO = null;
 
     var AUTH_CONFIG = null;
 
-    var TRACK_SUGGESTION_LIMIT = 20;
+    var TRACK_PLAYING = false;
     var MOOD_TO_ATTRIBUTE_LOOKUP = null;
 
 
 
+
+    function isTrackPlaying(){
+      return TRACK_PLAYING;
+    }
+
+    function setTrackPlaying(playing){
+      TRACK_PLAYING = playing;
+    }
 
 
     function createSpotifySearchModifiers() {
@@ -283,27 +290,6 @@
     // ------ PUBLIC
 
 
-    function asyncBroadcastEvent(event) {
-      var deferred = $q.defer();
-
-      $timeout(
-
-        function () {
-          if (EVENT_HANDLER_PROMISE) {
-            EVENT_HANDLER_PROMISE(event).then(
-              deferred.resolve,
-              deferred.reject
-            );
-          }
-        }
-
-      );
-
-
-      return deferred.promise;
-    }
-
-
 
     function asyncInitialise(musicProviderIdentifier, eventHandlerPromise) {
 
@@ -315,7 +301,7 @@
         throw ("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
       }
 
-
+      TRACK_PLAYING = false;
       MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
       EVENT_HANDLER_PROMISE = eventHandlerPromise;
       AUTH_CONFIG = {
@@ -752,28 +738,6 @@
 
 
 
-
-    // function asyncImportPlaylists(importPlaylists) {
-    //   return $q(function (resolve, reject) {
-    //     if (importPlaylists) {
-    //       var promises = [];
-    //       importPlaylists.forEach(function (playlist) {
-    //         promises.push(asyncGetPlaylistTracks(playlist.provider_playlist_ref)
-    //           .then(
-    //             function (results) {
-    //               console.log("tracks", results);
-    //               asyncImportTracks(results).then(resolve, reject);
-    //             },
-    //             function (error) {
-    //               console.log(error);
-    //               return reject(error);
-    //             }));
-    //       });
-    //     }
-    //     $q.all(promises).then(
-    //       resolve, reject);
-    //   })
-    // }
 
 
     function asyncImportTracks(trackInfoArray) {
@@ -1232,20 +1196,7 @@
 
     }
 
-    function asyncWaitToSettle() {
 
-      console.log("spotifyService: waiting to settle.");
-
-      var deferred = $q.defer();
-
-      $timeout(
-        function () {
-          deferred.resolve();
-        }, SETTLE_TIME_MS
-      );
-
-      return deferred.promise;
-    }
 
 
     function asyncTeardownCurrentTrack() {
@@ -1256,18 +1207,14 @@
 
       $timeout(
         function () {
-
+          setTrackPlaying(false);
           if (CURRENT_TRACK_INFO) {
             CURRENT_TRACK_INFO = null;
             cordova.plugins.spotify.pause().then(
               function () {
                 cordova.plugins.spotify.seekTo(0).then(
-                  function () {
-                    asyncWaitToSettle().then(deferred.resolve());
-                  },
-                  function () {
-                    asyncWaitToSettle().then(deferred.resolve());
-                  }
+                  deferred.resolve,
+                  deferred.resolve
                 );
               },
               deferred.resolve
@@ -1367,7 +1314,7 @@
                   })
                     .then(
                       function onPlaying() {
-                        cordova.plugins.spotify.seekTo(2)
+                        cordova.plugins.spotify.seekTo(2) //special spotify thing - we want to ensure we get past the odd progress_ms = 1 thing when the track is just loaded. See getCurrentTrackProgressPercent
                           .then(
                             function onSeekSuccess() {
                               deferred.resolve(trackInfo);
@@ -1411,7 +1358,9 @@
         var total_ms = CURRENT_TRACK_INFO.duration_ms;
         if (total_ms && total_ms > 0) {
           result = (trackTime_ms / total_ms) * 100;
-          if (result > 100) result = 100;
+          if (result > 100) {
+            result = 100;
+          }
         }
       }
 
@@ -1429,9 +1378,24 @@
               function (position_ms) {
                 // spotify special case.
                 // we tear down by seeking to 0, but Spotify always sets this to 1 ms.
-                // we detect this and set to zero. 
-                if (position_ms == 1) position_ms = 0;
-                deferred.resolve(calculateTrackProgressPercent(position_ms));
+                // we detect this and return 0
+
+                var result = 0;
+
+
+                if (position_ms == 1) {
+                  result = 0;
+                } else {
+                  if (position_ms == 0) {
+                    //track is unloaded. This means track reached the end. 
+                    result = 100;
+                  } else {
+                    result = calculateTrackProgressPercent(position_ms);
+                  }
+                }
+
+                deferred.resolve(result);
+
               },
               function () {
                 deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "problems getting track progress. Plugin aborted unexpectedly."));
@@ -1469,36 +1433,27 @@
         function () {
 
           if (CURRENT_TRACK_INFO) {
-            asyncGetCurrentTrackProgressPercent().then(
-              function (percent) {
-                console.log("track position percent: " + percent);
-                if (percent == 0) { // indicates we have torn down the previous track, or its a new track.
-                  asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
-                    deferred.resolve
-                    ,
-                    function (err) {
-                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
-                    }
-                  );
-                } else {
-                  asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
-                    deferred.resolve
-                    ,
-                    function (err) {
-                      deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
-                    }
-                  );
+            if (!isTrackPlaying()) {
+              setTrackPlaying(true);
+              asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
+                deferred.resolve
+                ,
+                function (err) {
+                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
                 }
-              },
-              function (err) {
-                deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but plugin returned an error."));
-              }
-            );
-
+              );
+            } else {
+              asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
+                deferred.resolve
+                ,
+                function (err) {
+                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                }
+              );
+            }
           } else {
             deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
           }
-
 
         }
 
