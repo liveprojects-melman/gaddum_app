@@ -40,13 +40,13 @@
             genresFontStyle: false,
             displayGenres: "",
             screenWidth: 0,
-            busy: true
+            busy: true,
+            name:""
 
 
         });
         var scale = 8;
         vm.userProfile = {
-            /* "profile": { */
                 "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
                 "avatar_name": "Defaulthony Nameson",
                 "avatar_graphic": [
@@ -60,7 +60,6 @@
                     0
                 ],
                 "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
-            /* } */
         };
 
         vm.allGenres = [];
@@ -68,32 +67,26 @@
         vm.userGenres = "";
 
         function init() {
-            //console.log("init");
             vm.screenWidth = screen.width;
             vm.name = vm.userProfile.avatar_name;
             vm.busy = true;
             spinnerService.spinnerOn();
-            /*     asyncPopulateGenres().then(function () {
-                
-                }); */
             asyncPopulateGenres().then(
                 asyncPopulateProfile()).then(function success(results) {
                     vm.genreScrollChecker();
-                    //console.log("!!!!!!!",vm.userProfile);
                     vm.checkGraphic(vm.userProfile.avatar_graphic.values);
-                    //if (vm.checkGraphic(vm.userProfile.avatar_graphic.values)) {
-                    if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
+                    if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == ""||vm.userProfile.avatar_name=="Defaulthony Nameson") && profileService.getOpenModalFlag() == false) {
                         profileService.setModalOpenFlag(true);
                         vm.profileEdit();
                     };
                     vm.busy = false;
-                    vm.nameTextResizer();
+                    //vm.nameTextResizer();
                     spinnerService.spinnerOff();
                 },
                     function fail(error) {
                         console.log("FAIL!!!!!!!");
                         vm.busy = false;
-                        vm.nameTextResizer();
+                        //vm.nameTextResizer();
                         spinnerService.spinnerOff();
                     }
                 );
@@ -112,13 +105,14 @@
             asyncPopulateProfile().then(
                 function success() {
                     vm.name = vm.userProfile.profile.avatar_name;
-                    vm.nameTextResizer();
+                    //vm.nameTextResizer();
                     spinnerService.spinnerOff();
                 }
             );
         };
         vm.setName = function (name) {
             spinnerService.spinnerOn();
+            vm.name=name;
             profileService.asyncSetAvatarName(name).then(
                 function () {
                     spinnerService.spinnerOff();
@@ -205,13 +199,17 @@
 
             profileService.asyncGetUserProfile().then(
                 function success(result) {
-                    vm.userProfile = result;
+                    angular.merge(vm.userProfile,result);
                     if (result.avatar_name!=null) {
-                        vm.name = result.avatar_name;
+                        setTimeout(function () {
+                            vm.name = result.avatar_name;
+                            //$digest here
+                            $scope.$digest();
+                        }, 0);
                     } else {
-                        vm.name="";
+                        vm.name="Defaulthony Nameson";
                     }
-                    vm.nameTextResizer();
+                    //vm.nameTextResizer();
                     vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
                     /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
                         document.getElementById("qrCodeDiv").style.visibility="hidden";
