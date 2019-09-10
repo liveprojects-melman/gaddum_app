@@ -199,6 +199,30 @@
         }
 
 
+        // event from the userProfilerService indicates the user has loaded a new playlist
+        // send the event to other listeners, and 
+        // kick-off getting the first track and queueing it.
+        function asyncHandleTrackEnd() {
+
+            var deferred = $q.defer();
+            $timeout(
+                function(){
+                
+                    $timeout(
+                        function(){
+                            asyncControlSkipNext(); //pretend the user has asked for the next track
+                        },
+                        1000
+                    );
+
+                    deferred.resolve(PASSED); // pass the event to listeners
+
+                }
+            );
+            return deferred.promise;
+        }
+
+
 
         function asyncHandleDefault() {
             var deferred = $q.defer();
@@ -218,7 +242,7 @@
 
         function asyncBroadcastEvent(event) {
             var deferred = $q.defer();
-
+            
             $timeout(
 
                 function () {
@@ -243,6 +267,8 @@
                     return asyncHandleTrackNotFound();
                 case EventIdentifier.PLAYLIST_NEW:
                     return asyncHandlePlaylistNew();
+                case EventIdentifier.TRACK_END:
+                    return asyncHandleTrackEnd();
                 default:
                     return asyncHandleDefault();
             }

@@ -296,14 +296,7 @@
       var deferred = $q.defer();
       stopPositionPolling();
       MUSIC_PROVIDER.asyncTeardownCurrentTrack().then(
-        function () {
-          asyncBroadcastEvent(
-            EventIdentifier.build(EventIdentifier.TRACK_END, null)
-          ).then(
-            deferred.resolve,
-            deferred.reject
-          );
-        },
+        deferred.resolve,
         deferred.reject
       );
       return deferred.promise;
@@ -381,7 +374,12 @@
                 EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
               ).then(
                 function () {
-                  asyncTearDownCurrentTrack();
+                  asyncBroadcastEvent(
+                    EventIdentifier.build(EventIdentifier.TRACK_END)
+                  ).then(
+                    function () {
+                      asyncTearDownCurrentTrack();
+                    });
                 }
               );
             }
@@ -430,7 +428,8 @@
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess() {
               console.log("starting polling...");
-              startPositionPolling();
+              startPositionPolling(); 
+
               deferred.resolve(true);
             },
             function onError() {
