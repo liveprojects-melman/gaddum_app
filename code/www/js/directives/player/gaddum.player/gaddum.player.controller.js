@@ -60,6 +60,7 @@
       console.log(" - artist:" + trackInfo.getArtist());
       gpc.marquee.songtitle = trackInfo.getName();
       gpc.marquee.artistname = trackInfo.getArtist();
+      gpc.state.hasTrack = true;
       gpc.state.playing = true;
     }
 
@@ -214,6 +215,9 @@
     });
 
     initialise();
+    gpc.hack = setInterval(function(){
+      console.log("gpc.state.ready="+String(gpc.state.ready)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
+    },1000);
 
     return gpc;
   }
