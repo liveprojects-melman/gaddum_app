@@ -294,7 +294,15 @@
     }
 
 
-
+    function dumpMoodedPlaylists(items){
+      items.forEach(
+          function (item) {
+              console.log("---- mooded playlist ----");
+              console.log(JSON.stringify(item, null, 2));
+              console.log("----     end    ----");
+          }
+      );   
+  }
 
 
     function asyncSuggestPlaylists(moodedSearchCriteria) {
@@ -317,6 +325,8 @@
 
           $q.all(promises).then(
             function (playlists) {
+              console.log("asyncSuggestPlaylists:");
+              dumpMoodedPlaylists(playlists);
               deferred.resolve(playlists);
             },
             deferred.reject

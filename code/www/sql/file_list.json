@@ -325,7 +325,21 @@
             "location_lon" : 0.0123,
             "limit" : 20
         }       
+    },
+    {
+        "name": "get_observations()",
+        "function": "get_observations",
+        "path": "www/sql/get_observations.sql",
+        "default_parameters": {}       
     }
-
+    ,
+    {
+        "name": "get_unobserved_tracks()",
+        "function": "get_unobserved_tracks",
+        "path": "www/sql/get_unobserved_tracks.sql",
+        "default_parameters": {
+            "limit": 20
+        }       
+    }
  
 ]

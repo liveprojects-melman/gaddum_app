@@ -1275,7 +1275,11 @@
                 function (result) {
                     fnSuccess(result);
                 }
-                , fnFail);
+                , 
+                function(error){
+                    fnFail(error);
+                }
+                );
         }
 
         function asyncAddObservation(observation) {
@@ -1407,6 +1411,59 @@
 
 
 
+        function asyncGetObservations() {
+
+            var deferred = $q.defer();
+
+            mappingService.query("get_observations", {},
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(RawObservation.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+        function asyncGetUnobservedTracks (limit){
+
+            var deferred = $q.defer();
+
+            mappingService.query("get_unobserved_tracks", {
+                limit: limit
+            },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
 
 
         var service = {
@@ -1439,6 +1496,8 @@
 
             asyncAddObservation: asyncAddObservation,
             asyncSeekObservations: asyncSeekObservations,
+            asyncGetObservations: asyncGetObservations,
+            asyncGetUnobservedTracks: asyncGetUnobservedTracks,
 
 
             asyncSeekTracks: asyncSeekTracks,

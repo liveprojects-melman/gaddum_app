@@ -149,12 +149,19 @@ angular.module('gaddum', [
             'playerEvent', playerService.promiseHandleEvent
           );
 
-          
+
           //-- registering the observer to update when there is a change to user settings.
           pubsubService.subscribe(
             // this event is published when the settings UI has completed. See the main menu. 
             'userSettingChange', observerService.asyncUpdateFromSettings
           );
+
+          //-- registering the userProfiler to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', userProfilerService.asyncUpdateFromSettings
+          );
+
 
 
           startupSrvc.asyncInitialise()
@@ -165,24 +172,28 @@ angular.module('gaddum', [
                   function () {
                     gaddumMusicProviderService.asyncInitialise(
                       loginModal.promiseLogin,
-                      function(event){
-                        return pubsubService.asyncPublish('playerEvent',event);
+                      function (event) {
+                        return pubsubService.asyncPublish('playerEvent', event);
                       }
                     )
                       .then(
                         function () {
-                          userProfilerService.asyncInitialise(
-                            function onChange(){
-                              return pubsubService.asyncPublish(
-                                'playerEvent',
-                                EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
-                                );
-                            }
-                          ).then(
+                          observerService.asyncInitialise().then(
                             function () {
-                              permissionsListenerService.initialise(null);
-                              $state.go('gaddum.profile');
-                              deferred.resolve();
+                              userProfilerService.asyncInitialise(
+                                function onChange() {
+                                  return pubsubService.asyncPublish(
+                                    'playerEvent',
+                                    EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
+                                  );
+                                }).then(
+                                  function () {
+                                    permissionsListenerService.initialise(null);
+                                    $state.go('gaddum.profile');
+                                    deferred.resolve();
+                                  },
+                                  deferred.reject
+                                );
                             },
                             deferred.reject
                           );

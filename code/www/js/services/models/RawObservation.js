@@ -75,7 +75,7 @@
         return this.track;
       }
       this.getPriority = function () {
-        return this.getPriority;
+        return this.priority;
       }
     }
 

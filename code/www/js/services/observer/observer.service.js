@@ -199,8 +199,9 @@
                     gateMood(result, mood);
                     gateGenericTrack(result, genericTrack);
                     asyncGatelocation(result).then(
-                        function onSuccess() {
-                            deferred.resolve(buildFromResult(result));
+                        function onSuccess(result) {
+                            var observation = buildFromResult(result);
+                            deferred.resolve(observation);
                         },
                         function onError(error) {
                             deferred.reject(error, buildFromResult(result));
@@ -260,11 +261,14 @@
             asyncCreateConditionalObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack).then(
 
                 function onCreateObservation(observation) {
+                    
                     asyncAddObservation(observation).then(
                         function onWriteObservation() {
                             deferred.resolve(observation);
                         },
                         function (err) {
+                            console.log("error on observation: ");
+                            console.log(JSON.stringify(observation, null, 2));
                             deferred.reject(err);
                         }
                     );
@@ -277,12 +281,18 @@
             return deferred.promise;
         }
 
+        function asyncGetObservations(){
+            return dataApiService.asyncGetObservations();
+        }
+
+
         var service = {
             // do intialise to update settings from DB
             asyncInitialise: asyncInitialise,
             asyncUpdateFromSettings: asyncInitialiseSettings,
             asyncCreateObservation: asyncCreateObservation,
-            asyncSeekObservations: asyncSeekObservations
+            asyncSeekObservations: asyncSeekObservations,
+            asyncGetObservations: asyncGetObservations
         };
 
         return service;

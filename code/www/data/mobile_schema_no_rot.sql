@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Mon Sep 9 15:48:25 2019
+-- File generated with SQLiteStudio v3.0.7 on Wed Sep 11 14:35:10 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -644,16 +644,16 @@ CREATE TABLE observations (
                           UNIQUE
                           NOT NULL,
     timestamp_ms  INTEGER NOT NULL,
-    mood_id       INTEGER REFERENCES base64_resources (id) ON DELETE NO ACTION
-                                                           ON UPDATE CASCADE
-                                                           MATCH SIMPLE,
+    mood_id       TEXT    REFERENCES supported_moods (id) ON DELETE NO ACTION
+                                                          ON UPDATE CASCADE
+                                                          MATCH SIMPLE,
     timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
                                                               ON UPDATE CASCADE
                                                               MATCH SIMPLE
                           NOT NULL,
     location_lat  DOUBLE,
     location_lon  DOUBLE,
-    location_code TIME,
+    location_code TEXT,
     track_percent INTEGER NOT NULL,
     num_repeats   INTEGER NOT NULL,
     mood_suitable BOOLEAN NOT NULL,
@@ -943,6 +943,17 @@ INSERT INTO settings (
                      VALUES (
                          'observation_section_collection_limit',
                          '20',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'unobserved_tracks_collection_limit',
+                         '5',
                          'integer'
                      );
 

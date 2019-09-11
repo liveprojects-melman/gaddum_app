@@ -126,7 +126,7 @@
         }
 
         function asyncGetLocation(){
-            var deferred = $q.defer;
+            var deferred = $q.defer();
 
             $timeout(
                 function(){

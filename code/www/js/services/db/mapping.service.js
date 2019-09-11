@@ -144,9 +144,9 @@
                 function_name,
                 parameters,
                 function (sql) {
-                      console.log("----SQL--");
-                      console.log(sql);
-                      console.log("--- END SQL ---");
+                       console.log("----SQL--");
+                       console.log(sql);
+                       console.log("--- END SQL ---");
                     service.private.executeSql(sql, success, fail);
                 },
                 function(error){
