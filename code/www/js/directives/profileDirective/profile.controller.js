@@ -472,7 +472,7 @@
                                 console.log("flag",profileService.getFirstRunFlag())
                                 if (profileService.getFirstRunFlag()==true) {
                                     profileService.setFirstRunFlag(false);
-                                    $ionicSlideBoxDelegate.slide(1);
+                                    $ionicSlideBoxDelegate.slide(3);
                                 }
                                 
                             }, 200);
