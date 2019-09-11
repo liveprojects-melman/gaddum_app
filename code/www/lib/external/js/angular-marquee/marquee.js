@@ -19,7 +19,7 @@
 				tElement.append('<div class="angular-marquee" style="float:left;">' + content.clone()[0].outerHTML + '</div>');
         var $item = $element.find('.angular-marquee');
         $item.clone().css('display','none').appendTo($element);
-				$element.wrapInner('<div style="width:100000px" class="angular-marquee-wrapper"></div>');
+				$element.wrapInner('<div style="width:100%" class="angular-marquee-wrapper"></div>');
 					return {
 						post: function(scope, element, attrs) {
 							//direction, duration,

@@ -1,15 +1,21 @@
 <div id="gaddum-player" class="animated" ng-show="gpc.state.show">
   <div id="scroller" class="animated" ng-show="gpc.state.ready===true">
-    <div angular-marquee class="animated" scroll="true" ng-show="gpc.state.playing===true" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
-    <div angular-marquee class="animated" scroll="true" ng-show="gpc.state.playing===true" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div>
-    <div angular-marquee class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
-    <div angular-marquee class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div>
+    <p class="songtitle">
+      <span>{{gpc.marquee.scroller}}</span>
+    </p>
+    <p class="songtitle songtitle2">
+      <span id="scrollTitle2">{{gpc.marquee.scroller}}</span>
+    </p>
+
+    <!-- <div class="animated" scroll="true" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
+    <!-- <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
+    <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
   </div>
   <div id="gaddum-shuttle" class="button-bar">
-    <button name="prev" class="button icon ion-skip-backward" ng-click="gpc.handleBackPress()"></button>
-    <button name="pause" class="button icon ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
-    <button name="play" class="button icon ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
-    <button name="next" class="button icon ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="prev" class="button icon ion-skip-backward" ng-click="gpc.handleBackPress()"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="pause" class="button icon ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="play" class="button icon ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="next" class="button icon ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
   </div>
   </div>
 </div>

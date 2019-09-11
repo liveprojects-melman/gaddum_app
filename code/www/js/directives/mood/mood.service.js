@@ -374,10 +374,23 @@
       return deferred.promise;
 
     }
+    var onOff= true;
+    function turnOff(){
+      onOff = false;
+    }
+
+    function turnOn(){
+      onOff = true;
+    }
+    function onOrOff(){
+      return onOff;
+    }
 
 
     var service = {
-
+      turnOff:turnOff,
+      turnOn:turnOn,
+      onOrOff:onOrOff,
       asyncInitialise: asyncInitialise,
       asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
       lookupMoodId: lookupMoodId,

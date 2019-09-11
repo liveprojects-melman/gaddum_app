@@ -165,7 +165,7 @@
 
     function update() {
       doUpdate().then(function () {
-        if (enabled) {
+        if (moodService.onOrOff()) {
 
           update();
         }

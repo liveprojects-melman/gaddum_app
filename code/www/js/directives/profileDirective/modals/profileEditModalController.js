@@ -104,6 +104,8 @@
 
     function init() {
       vm.params = profileEditModal.getParams();
+      console.log("params!",vm.params);
+      
 //      console.log("params!",vm.params);
       initialiseGenres();
       vm.fullName = vm.params[2].userProfile.avatar_name;
@@ -125,6 +127,18 @@
       vm.genresAsString=vm.params[1].userGenres.join(", ");
 //      console.log(vm.params);
       genresCheck();
+      // if(vm.params[3]){
+      //   console.log("should close");
+      //   var newData = {
+      //     "name": vm.fullName,
+      //     "genres": newGenres,
+      //     "avatar_image":vm.displayImage,//edit image 3/?
+      //     "avatar_image_colour":vm.pictureColor
+      //   };
+      //  console.log(newData);
+      //   profileEditModal.callback(newData);
+      //   profileEditModal.close();
+      // }
     }
     function emptyArrayCheck(item){
         return item===0;
