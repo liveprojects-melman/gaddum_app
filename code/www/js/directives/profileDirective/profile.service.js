@@ -197,6 +197,13 @@
             return openModalFlag;
         };
 
+        var firstRunFlag=false;
+        function setFirstRunFlag(value){
+            firstRunFlag=value;
+        };
+        function getFirstRunFlag(){
+            return firstRunFlag;
+        };
 
         service = {
             asyncGetUserProfile: asyncGetUserProfile,
@@ -210,7 +217,9 @@
             asyncSetGenres: asyncSetGenres,
             asyncGetAllGenres: asyncGetAllGenres,
             setModalOpenFlag: setModalOpenFlag,
-            getOpenModalFlag: getOpenModalFlag
+            getOpenModalFlag: getOpenModalFlag,
+            setFirstRunFlag: setFirstRunFlag,
+            getFirstRunFlag: getFirstRunFlag
 
         };
 
