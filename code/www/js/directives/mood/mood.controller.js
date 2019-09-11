@@ -43,7 +43,9 @@
       helpTips: null,  //this shows/hides the speech boxes 
       disableButton:false,
       emotionSelected:false,
-      lookAtTheCameraText:false
+      lookAtTheCameraText:false,
+      bang:false,
+      throbbing:false
     });
 
     var _interval_ms = 100;
@@ -77,7 +79,7 @@
 
 
     function defaultDisplay() {
-      vm.moodDisplay.name = null;
+      vm.moodDisplay.name = 'No Mood!';
       vm.moodDisplay.id = 'No Mood!';
       vm.moodDisplay.emoji = '😶';
     }
@@ -326,13 +328,20 @@
 
     function playMood(){
       var deferred = $q.defer();
+      vm.bang = true;
+      $timeout(function(){
+        vm.throbbing = true;
+      },500)
       spinnerService.spinnerOn();
+
       console.log("Getting Tracks for: " + lastMoodId);
 
     
       moodService.asyncNotifyNewMood(lastMoodId).then(
         function(){
           spinnerService.spinnerOff();
+          vm.bang =false;
+          vm.throbbing = false;
         },
         function(errorIdentifier){
           console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
@@ -346,6 +355,7 @@
       return deferred.promise;
 
     }
+    
 
 
     vm.onItemSelect = onItemSelect;

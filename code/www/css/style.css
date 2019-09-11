@@ -2065,10 +2065,10 @@ div#scroller.ng-hide {
 }
 .songtitle span{
     display: inline-block;
-    animation: playerScroll 10s linear infinite;
+    animation: playerScroll 20s linear infinite;
 }
 .songtitle #scrollTitle2{
-    animation-delay: 5s;
+    animation-delay: 10s;
 }
 #artistname{
     height: auto !important;
@@ -2080,5 +2080,63 @@ div#scroller.ng-hide {
     }
     100% {
       transform: translate(-150%, 0);
+    }
+  }
+  .moodExplosion{
+      position: absolute;
+      animation: bam 0.5s linear;
+      height: 75%;
+      z-index: 1;
+  }
+  .moodExplosion.ng-hide{
+    position: absolute;
+    animation: unbam 2s linear !important;
+    height: 0%;
+    z-index: 1;
+  }
+  @keyframes bam {
+    0% {
+      height: 0%;
+    }
+    100% {
+      height: 75%;
+    }
+  }
+  @keyframes unbam {
+    0% {
+      height: 75%;
+    }
+    100% {
+      height: 0%;
+    }
+  }
+  .throbIn{
+    
+    /* animation-delay: 2s; */
+    animation: throbIn 1.5s linear infinite;
+  }
+  .throbIn.ng-hide{
+      height: 0%;
+  }
+  .throbOut{
+    height: 0%;
+  }
+  @keyframes throbIn {
+    0% {
+      height: 75%;
+    }
+    50% {
+      height: 80%;
+    }
+    100% {
+        height: 75%;
+    }
+  }
+  @keyframes throbOut {
+    0% {
+      height: 80%;
+    }
+    100% {
+      height: 75%;
     }
   }

@@ -74,11 +74,10 @@
     <!-- <div ng-hide=!vm.detecting class="moodSpinnerDiv">
       <ion-spinner class="moodSpinner" paused="true" name="circles"></ion-spinner>
     </div> -->
-    <!-- <div ng-click="vm.wake()" class="button button-balanced moodCameraButton " style="border:0.2rem black solid;" >
-      <img src="css/icons8-camera.svg">
-
-    </div> -->
-    <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.id}}
+    <div style="width:100%;" >
+      <img ng-show="vm.bang" ng-class="((vm.throbbing)? 'throbIn' : 'throbOut' )" class="moodExplosion" src="css/moodExplosion.svg"/>
+    </div>
+    <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.name}}
       </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
     <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected)? 'goButton':'')" ng-click="vm.playMood()"
       class="moodPlay "><span class="selectSpan">That's
