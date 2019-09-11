@@ -1407,8 +1407,9 @@ gaddum.player {
 }
 #gaddum-player {
   position:absolute;
-  left:8px;
-  right:8px;
+  width: 100%;
+  /* left:8px;
+  right:8px; */
   background-color:rgba(255,255,255,.6);
   padding:0 0px 4px;
   margin: 0 -5px 4px;
@@ -2050,3 +2051,34 @@ div#scroller.ng-hide {
 #gaddum-shuttle button::before{
     font-size: 305%;
 }
+.songtitle{
+    margin: 0 auto;
+    overflow: hidden !important;
+    white-space: nowrap;
+    height: auto !important;
+    min-width: 100%;
+}
+.songtitle2{
+    position: absolute;
+    top: 8%;
+    left: 0%;
+}
+.songtitle span{
+    display: inline-block;
+    animation: playerScroll 10s linear infinite;
+}
+.songtitle #scrollTitle2{
+    animation-delay: 5s;
+}
+#artistname{
+    height: auto !important;
+    animation: playerScroll 10s linear infinite;
+}
+@keyframes playerScroll {
+    0% {
+      transform: translate(150%, 0);
+    }
+    100% {
+      transform: translate(-150%, 0);
+    }
+  }

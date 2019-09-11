@@ -40,8 +40,7 @@
       playing:false
     };
     gpc.marquee = {
-      "songtitle": "",
-      "artistname": ""
+      "scroller": ""
     };
 
 
@@ -60,8 +59,9 @@
     function onTrackNew(trackInfo) {
       console.log("new track: " + trackInfo.getName());
       console.log(" - artist:" + trackInfo.getArtist());
-      gpc.marquee.songtitle = trackInfo.getName();
-      gpc.marquee.artistname = trackInfo.getArtist();
+      gpc.marquee.scroller = trackInfo.getName() +" • "+ trackInfo.getArtist() +" • "+ trackInfo.getAlbum() ;
+      // gpc.marquee.artistname = trackInfo.getArtist();
+      // gpc.marquee.albumName = trackInfo.getAlbum();
       gpc.state.hasTrack = true;
       gpc.state.playing = true;
     }
@@ -75,6 +75,9 @@
 
     function onTrackEnd() {
       console.log("track ended.");
+      gpc.state.hasTrack = false;
+      gpc.state.playing = false;
+      gpc.marquee.scroller="";
     }
 
 
@@ -115,6 +118,9 @@
 
     function onPlaylistEnd(){
       console.log("end of playlist");
+      gpc.state.hasTrack = false;
+      gpc.state.playing = false;
+      gpc.marquee.scroller = "";
     }
 
     function onPlaylistNone(){

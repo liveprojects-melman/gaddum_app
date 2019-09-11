@@ -9,13 +9,15 @@
 
     'emotionReaderService',
     '$timeout',
-    'spinnerService'
+    'spinnerService',
+    'moodService'
   ];
   function gaddumMoodServiceMasterSwitchService (
 
     emotionReaderService,
     $timeout,
-    spinnerService
+    spinnerService,
+    moodService
   ) {
     var service = {
       state: {
@@ -25,6 +27,7 @@
       turnOn: function turnOn() {
         console.log("on!");
         service.state.on = true;
+        moodService.turnOn();
       },
       turnOff: function turnOff() {
         console.log("off!");
@@ -35,6 +38,7 @@
               emotionReaderService.setSleep(true);
               service.state.on = false;
               spinnerService.spinnerOff();
+              moodService.turnOff();
             }
             else{
               if(emotionReaderService.isSleeping){
