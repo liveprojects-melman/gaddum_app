@@ -36,21 +36,30 @@
         <p class="moodEmojiText">Whoops No Camera!
         </p>
       </span>
-      <span ng-show="vm.cameraError===true && vm.emotionSelected===true">
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false && vm.disableButton===true" style="
+        font-size: 20px;
+        top: 25px;
+        position: absolute;
+        left: 0%;
+        font-weight: 600;
+        white-space: normal;
+        line-height: 20px;">Starting Up Facial Recognition Please Wait
+        </p>
+      <span ng-show="vm.cameraError===true && vm.emotionSelected===true && vm.disableButton===false">
         <p >{{vm.moodDisplay.emoji}}</p>
       </span>
-      <span ng-show="vm.cameraError!=true  && vm.detecting===false">
+      <span ng-show="vm.cameraError!=true  && vm.detecting===false && vm.disableButton===false">
         <p >{{vm.moodDisplay.emoji}}</p>
         <p ng-hide="vm.emotionSelected" class="moodQuestionMark">?</p>
       </span>
-      <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false && vm.disableButton===false" style="
         font-size: 24px;
         top: -50px;
         position: absolute;
         left: 9%;
         font-weight: 600;">Press Me
         </p>
-      <p ng-show="vm.cameraError!=true  && vm.detecting===false" style="
+      <p ng-show="vm.cameraError!=true  && vm.detecting===false && vm.disableButton===false" style="
         font-size: 24px;
         top: 64px;
         position: absolute;
