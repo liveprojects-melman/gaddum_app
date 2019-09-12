@@ -472,7 +472,14 @@
                                 console.log("flag",profileService.getFirstRunFlag())
                                 if (profileService.getFirstRunFlag()==true && profileDetails.name!="Defaulthony Nameson") {
                                     profileService.setFirstRunFlag(false);
-                                    $ionicSlideBoxDelegate.slide(3);//switches to mood
+                                    var slideCounter=0;
+                                    while ( $($("#main_wrapper").find("ion-slide")[slideCounter]).attr("ion-slide-tab-label") != "Mood") {
+                                        slideCounter++;
+                                    }
+                                    $ionicSlideBoxDelegate.slide(slideCounter)
+                                    //$ionicSlideBoxDelegate.slide(3);//switches to mood
+                                    //  $($("#main_wrapper").find("ion-slide")[i]).attr("ion-slide-tab-label") === $scope.name
+                                    //replace scope.name with "Mood"
                                 }
                                 
                             }, 200);
