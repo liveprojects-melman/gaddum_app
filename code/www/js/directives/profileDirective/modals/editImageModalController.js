@@ -111,8 +111,7 @@
       ["Comback", "#446633"],
       ["Babluey", "#AA99FF"],
       ["Aqua", "#AADDFF"],
-      ["Blush", "#FF6688"],
-      ["Prev C", '#111111']
+      ["Blush", "#FF6688"]
     ];
     vm.colourChoices = colours;
     vm.colourChoice = 0; // SET TO PROFILE CHOICE! @TODO!
@@ -178,9 +177,19 @@
     function init() {
       console.log("editImageModalController: init!");
       vm.params = editImageModal.getParams();
-      colours[colours.length - 1] = ["Prev Colour", vm.params[1].avatar_image_colour];
+      if (vm.params[1].avatar_image_colour=="#FF00FF") {
+        colours[colours.length] = ["Super Cool Pink", vm.params[1].avatar_image_colour];
+        vm.colourChoices = colours;
+        vm.prevColour();
+      } else{
+        //
+        while (pixel_colours[1].colour!=vm.params[1].avatar_image_colour) {
+          vm.nextColour();
+        }
+      }
+      
       vm.colourChoices = colours;
-      vm.prevColour();
+      
       //      console.log(vm.params);
       //      console.log("paramarams",vm.params);
       vm.avimg = vm.params[0].avatar_image;
