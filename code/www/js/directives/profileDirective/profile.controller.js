@@ -335,7 +335,7 @@
                 var profileNameFont = document.getElementById("nameHeader").style.font;
                 var nameText = vm.name;
 
-                var maxNoScrollWidth = document.body.clientWidth - (80);
+                var maxNoScrollWidth = document.body.clientWidth - (85);
                 //var nameFontSize=document.getElementById("nameHeader").style.fontSize;
                 for (var i = 0; i < 36; i++) {
                     //nameFontSize=document.getElementById("nameHeader").style.fontSize;
