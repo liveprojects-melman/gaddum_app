@@ -331,7 +331,7 @@
       vm.bang = true;
       $timeout(function(){
         vm.throbbing = true;
-      },500)
+      },500);
       spinnerService.spinnerOn();
 
       console.log("Getting Tracks for: " + lastMoodId);
@@ -340,8 +340,13 @@
       moodService.asyncNotifyNewMood(lastMoodId).then(
         function(){
           spinnerService.spinnerOff();
-          vm.bang =false;
+          var explosion = document.getElementById("explosion");
           vm.throbbing = false;
+          explosion.classList.add("moodExplosionLeave");
+          $timeout(function(){
+            vm.bang =false;
+            explosion.classList.remove("moodExplosionLeave");
+          },250);
         },
         function(errorIdentifier){
           console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
