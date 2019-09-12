@@ -87,7 +87,7 @@
 
 
     function onTrackProgressPercent(progress) {
-      console.log("track progress: " + progress);
+      //console.log("track progress: " + progress);
     }
 
     function onTrackError(error) {

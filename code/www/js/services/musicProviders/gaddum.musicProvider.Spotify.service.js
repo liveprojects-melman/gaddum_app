@@ -765,11 +765,11 @@
                     results.push(response);
                   }
                 });
-                console.log("imported tracks: ------");
-                results.forEach(function (item) {
-                  console.log("id: " + item.getId() + "  name: " + item.getName());
-                });
-                console.log("end imported tracks: ------");
+                // console.log("imported tracks: ------");
+                // results.forEach(function (item) {
+                //   console.log("id: " + item.getId() + "  name: " + item.getName());
+                // });
+                // console.log("end imported tracks: ------");
 
 
                 deferred.resolve(results);

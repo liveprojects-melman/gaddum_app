@@ -79,9 +79,9 @@
         function dumpObservations(observations) {
             observations.forEach(
                 function (observation) {
-                    // console.log("---- observation----");
-                    // console.log(JSON.stringify(observation, null, 2));
-                    // console.log("----     end    ----");
+                     console.log("---- observation----");
+                     console.log(JSON.stringify(observation, null, 2));
+                     console.log("----     end    ----");
                 }
             );
         }
@@ -121,15 +121,16 @@
                                 trackPercent = (trackTime_ms * 100 / trackDuration_ms);
                             }
                             observerService.asyncCreateObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack).then(
-                                function (rawObservation) {
-                                    observerService.asyncGetObservations().then(
-                                        function (observations) {
-                                            dumpObservations(observations);
-                                            deferred.resolve();
-                                        },
-                                        deferred.reject
-                                    );
-                                }
+                                // function (rawObservation) {
+                                //     observerService.asyncGetObservations().then(
+                                //         function (observations) {
+                                //             dumpObservations(observations);
+                                //             deferred.resolve();
+                                //         },
+                                //         deferred.reject
+                                //     );
+                                // }
+                                deferred.resolve
                                 ,
                                 deferred.reject
                             );
@@ -147,7 +148,7 @@
         }
 
 
-        function asyncUpdateSettings(){
+        function asyncUpdateFromSettings(){
             var deferred = $q.defer();
             var promises = [];
 
@@ -185,7 +186,7 @@
 
             g_fnOnChange = fnOnChange;
 
-            return asyncUpdateSettings();
+            return asyncUpdateFromSettings();
 
         }
 
@@ -660,9 +661,9 @@
 
                     asyncObserveCurrentTrack(moodSuitable).then(
                         function () {
-                            console.log("asyncLoadMoodedPlaylists:");
-                            dumpMoodedPlaylists(arrayMoodedPlaylists);
-                            
+                            //console.log("asyncLoadMoodedPlaylists:");
+                            //dumpMoodedPlaylists(arrayMoodedPlaylists);
+
                             initialisePlaylists(arrayMoodedPlaylists);
                             initialiseCounters();
                             notifyChange();
@@ -698,7 +699,7 @@
 
         var service = {
             asyncInitialise: asyncInitialise,
-            asyncUpdateSettings: asyncUpdateSettings,
+            asyncUpdateFromSettings: asyncUpdateFromSettings,
             player: {
                 asyncBegin: asyncBegin,
                 asyncNext: asyncNext,
