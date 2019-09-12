@@ -470,9 +470,9 @@
                             setTimeout(function(){
                                 init();
                                 console.log("flag",profileService.getFirstRunFlag())
-                                if (profileService.getFirstRunFlag()==true) {
+                                if (profileService.getFirstRunFlag()==true && profileDetails.name!="Defaulthony Nameson") {
                                     profileService.setFirstRunFlag(false);
-                                    $ionicSlideBoxDelegate.slide(3);
+                                    $ionicSlideBoxDelegate.slide(3);//switches to mood
                                 }
                                 
                             }, 200);

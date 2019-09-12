@@ -22,7 +22,8 @@
     'MoodedPlaylist',
     'playlistCreateModal',
     'spinnerService',
-    '$ionicListDelegate'
+    '$ionicListDelegate',
+    '$timeout'
   ];
 
   function control(
@@ -40,7 +41,8 @@
     MoodedPlaylist,
     playlistCreateModal,
     spinnerService,
-    $ionicListDelegate
+    $ionicListDelegate,
+    $timeout
 
   ) {
     var vm = angular.extend(this, {
@@ -49,7 +51,9 @@
       firstSearch: true,
       playlistsToShow: {},
       busy: false,
-      searchTerm: ""
+      searchTerm: "",
+      bang:false,
+      throbbing:false
 
     });
     var scale = 8;
@@ -109,11 +113,22 @@
     }
     function importRefresh(playlistArray) {
       vm.busy = true;
+      vm.bang = true;
+      $timeout(function(){
+        vm.throbbing = true;
+      },500);
       spinnerService.spinnerOn();
       contextMenuDisable();
       playlistService.asyncImportPlaylist(playlistArray)
         .then(function (result) {
           vm.busy = false;
+          var explosion = document.getElementById("imExplosion");
+          vm.throbbing = false;
+          explosion.classList.add("moodExplosionLeave");
+          $timeout(function(){
+            vm.bang =false;
+            explosion.classList.remove("moodExplosionLeave");
+          },250);
           spinnerService.spinnerOff();
           contextMenuEnable();
           onNewSearch("");
