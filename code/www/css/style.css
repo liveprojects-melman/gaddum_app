@@ -2181,4 +2181,27 @@ div#scroller.ng-hide {
         left: 0;
     }
   }
-  
+  #componentsList{
+    position: relative;
+    bottom: 0%;
+    width: 94%;
+    height: 100%;
+    border-top: 1px dashed black;
+  }
+  #componentsList *{
+    background-color: transparent;
+    color: black;
+    border: 0;
+    text-decoration: none;
+    font-style: italic;
+  }
+  #licenseListItem{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #appVersionDiv{
+      background: transparent;
+      position: absolute;
+      top: 1%;
+      right: 1%;
+  }

@@ -22,7 +22,7 @@
     });
 
     ac.appVersion = aboutService.appVersion();
-    ac.componentsLicenses = aboutService.componentsLicenses();
+    ac.componentsLicenses = (aboutService.componentsLicenses()).licenses;
     ac.projectPersonnel = aboutService.projectPersonnel();
     ac.gaddumLink = aboutService.gaddumLink();
     

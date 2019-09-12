@@ -4,20 +4,35 @@
     <div style="width:100%;">
 
       <h3 class="modalTitle">About</h3>
+      <div id="appVersionDiv">
+        <p>Version {{ac.appVersion}}</p>
+      </div>
     </div>
     <div class="hasHeaderExtra">
-      <div style ="height: 20%;">
-        
+      <div style="height: 20%;">
+
         <a href="https://www.gaddumcentre.co.uk/"><img class="aboutImgLeft" src="css/GaddumLogo.jpg" /></a>
-        <a href="https://digitallabs.mmu.ac.uk//"><img class="aboutImgRight" src="css/DigitalLabsLogo_512x512.png" /></a>
+        <a href="https://digitallabs.mmu.ac.uk//"><img class="aboutImgRight"
+            src="css/DigitalLabsLogo_512x512.png" /></a>
       </div>
-      <p> This Product Was Created By <a href="https://digitallabs.mmu.ac.uk//">DigitalLabs</a> For <a href="https://www.gaddumcentre.co.uk/">{{ac.gaddumLink}}</a></p>
-      <h2>App Version: </h2>
-      <p>{{ac.appVersion}}</p>
-      <h2>Components and Licenses:</h2>
-      <p>{{ac.componentsLicenses}}</p>
+      <p> This Product Was Created By <a href="https://digitallabs.mmu.ac.uk//">DigitalLabs</a> For <a
+          href="https://www.gaddumcentre.co.uk/">{{ac.gaddumLink}}</a></p>
       <h2>Project Personnel:</h2>
       <p>{{ac.projectPersonnel}}</p>
+      <h2>Components and Licenses:</h2>
+      <div id="componentsList">
+        <ion-content>
+          <ion-list>
+            <ion-item>
+              <a href="https://jeeliz.com">jeelizFaceFilter
+                <img src="css/LOGO_JEELIZ_BLUE.png" width="100"></a>
+            </ion-item>
+            <ion-item id="licenseListItem" ng-repeat="licence in ac.componentsLicenses">
+              <a href={{licence.link}}>{{licence.name}}</a>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </div>
 
     </div>
   </ion-content>
