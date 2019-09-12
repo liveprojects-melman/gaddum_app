@@ -82,7 +82,7 @@
       console.log("track ended.");
       gpc.state.hasTrack = false;
       gpc.state.playing = false;
-      gpc.marquee.scroller="";
+      gpc.marquee.scroller="Waiting For Track"
     }
 
 
@@ -123,9 +123,13 @@
           var cloud = document.getElementById("cloud");
           gpc.cloud.throbbing = false;
           cloud.classList.add("playerCloudLeave");
+          cloud.classList.remove("playerCloud");
           $timeout(function(){
             gpc.cloud.show =false;
             cloud.classList.remove("playerCloudLeave");
+            $timeout(function(){
+              cloud.classList.add("playerCloud");
+            },100);
           },250);
         },3000);
       },500);
@@ -137,7 +141,7 @@
 
     function onPlaylistNew(){
       console.log("new playlist: controls disabled / spinner until we get track...");
-      
+      gpc.marquee.scroller="Waiting For Track"
       playerService.asyncControlPlay(); 
     }
 
