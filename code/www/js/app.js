@@ -51,6 +51,7 @@ angular.module('gaddum', [
   'gaddum.intelligenttrackselector',
   'gaddum.userprofiler',
   'gaddum.time',
+  'gaddum.connection',
   'playlistCreateModule'
 
 ])
@@ -65,6 +66,7 @@ angular.module('gaddum', [
     'startupSrvc',
     'loginModal',
     'gaddumMusicProviderService',
+    'connectionService',
     'userProfilerService',
     'permissionsService',
     'permissionsListenerService',
@@ -83,6 +85,7 @@ angular.module('gaddum', [
       startupSrvc,
       loginModal,
       gaddumMusicProviderService,
+      connectionService,
       userProfilerService,
       permissionsService,
       permissionsListenerService,
@@ -162,7 +165,22 @@ angular.module('gaddum', [
             'userSettingChange', userProfilerService.asyncUpdateFromSettings
           );
 
-
+          // -- the connection service warns the player when there is a change in conneciton state.
+          // -- note: hasWifi is very useful: users may not want to use when on cellular.
+          connectionService.initialise(
+            function onConnectionChange(){
+              var eventType = EventIdentifier.INTERNET_DOWN;
+              var payload = null;
+              if(connectionService.hasConnection()){
+                  eventType = EventIdentifier.INTERNET_UP;
+                  payload = {
+                    hasWifi: connectionService.isWifi()
+                  };
+              }
+              var event = EventIdentifier.build(eventType, payload);
+              pubsubService.asyncPublish('playerEvent', event);
+            }
+          );
 
           startupSrvc.asyncInitialise()
             .then(

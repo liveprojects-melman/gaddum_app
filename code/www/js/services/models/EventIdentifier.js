@@ -22,7 +22,7 @@
     EventIdentifier.LOGGED_OUT = -7; // the music provider has been logged out
     EventIdentifier.LOGGED_IN = -8; // the music provider has been logged in
     EventIdentifier.INTERNET_DOWN = -9; // internet connection lost
-    EventIdentifier.INTERNET_UP = -10; // internet connection found
+    EventIdentifier.INTERNET_UP = -10; // internet connection found // look for {hasWifi: boolean}
     EventIdentifier.PLAYLIST_NEW  = -11; // a new playlist is available
     EventIdentifier.PLAYLIST_END = -12; // no more tracks available in playlist.
     EventIdentifier.PLAYLIST_NONE = -13; // there is nothing to play.
