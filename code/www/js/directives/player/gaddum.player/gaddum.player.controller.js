@@ -42,12 +42,17 @@
     gpc.marquee = {
       "scroller": ""
     };
+    gpc.cloud = {
+      "show":false,
+      "throbing":false
+    }
 
 
 
 
     function onControlOK() {
       console.log("control OK.");
+      
       // use this opportunity to put a busy spinner up, while we wait for an event
     }
 
@@ -104,6 +109,26 @@
 
     function onInternetDown(){
       console.log("no internet");
+      gpc.state.hasTrack = false;
+      playerService.asyncControlPause().then(function(){
+        onControlOK();
+        gpc.state.playing = false;
+      },
+        onControlError
+      );
+      gpc.cloud.show = true;
+      $timeout(function(){
+        gpc.cloud.throbbing = true;
+        $timeout(function(){
+          var cloud = document.getElementById("cloud");
+          gpc.cloud.throbbing = false;
+          cloud.classList.add("playerCloudLeave");
+          $timeout(function(){
+            gpc.cloud.show =false;
+            cloud.classList.remove("playerCloudLeave");
+          },250);
+        },3000);
+      },500);
     }
 
     function onInternetUp(){

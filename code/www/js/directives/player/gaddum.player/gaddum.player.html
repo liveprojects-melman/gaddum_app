@@ -6,6 +6,9 @@
     <p class="songtitle songtitle2">
       <span id="scrollTitle2">{{gpc.marquee.scroller}}</span>
     </p>
+    <div style="width:100%;" >
+        <img style="top: 3em; z-index: 2;" id="cloud" ng-show="gpc.cloud.show" ng-class="((gpc.cloud.throbbing)? 'playerThrobIn' : 'throbOut' )" class="playerCloud" src="css/cloudFluffy.svg"/>
+      </div>
 
     <!-- <div class="animated" scroll="true" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
     <!-- <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
