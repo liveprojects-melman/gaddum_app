@@ -57,7 +57,7 @@
                         "get": "getLocationAuthorizationStatus",
                         "request": "requestLocationAuthorization"
                     },
-                    "reason": "This app requires access to location and GPS services to associate places with mood and songs.",
+                    "reason": "This app requires access to location and GPS services to help recommend music",
                     "hasPermission" : false,
                     "deniedAlways": false
                 }/* ,
@@ -72,7 +72,7 @@
                         "get": "getCameraRollAuthorizationStatus",
                         "request": "requestCameraRollAuthorization"
                     },
-                    "reason": "This app requires permission to save files to storage, to be able to take photos using the camera feature in the experience.",
+                    "reason": "This app requires permission to save files to storage, This is used to store your personal music prefences ",
                     "hasPermission" : false,
                     "deniedAlways": false
                 }*/

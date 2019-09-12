@@ -1177,8 +1177,8 @@ input::placeholder{
 
 .profileImageCanvas{
     position: absolute;
-    right: 0%;
-    top: 0%;
+    right: 5px;
+    top: 5px;
 }
 #profileModalButtonsDiv{
     position: absolute;
@@ -1930,7 +1930,7 @@ div#scroller.ng-hide {
     margin-top: 4px;
 }
 .playlistViewButton{
-    width: 25%;
+    width: 33%;
 }
 .playlistViewButtonsDiv{
     width: 100%;
@@ -2085,7 +2085,7 @@ div#scroller.ng-hide {
   .moodExplosion{
       position: absolute;
       animation: bam 0.5s linear;
-      height: 75%;
+      width: 100%;
       z-index: 1;
   }
   .playerCloud{
@@ -2099,13 +2099,15 @@ div#scroller.ng-hide {
   .moodExplosionLeave{
     position: absolute;
     animation: unbam 0.25s linear !important;
-    height: 0%;
+    width: 0%;
     z-index: 1;
   }
   .playerCloudLeave{
     position: absolute;
     animation: playUnbam 0.25s linear !important;
-    height: 0%;
+    width: 0%;
+    left: 0;
+    top: -30em !important;
     z-index: 1;
 }
   @keyframes bam {
@@ -2146,7 +2148,7 @@ div#scroller.ng-hide {
     animation: throbIn 1.5s linear infinite;
   }
   .throbIn.ng-hide{
-      height: 0%;
+      width: 0%;
   }
   .playerThrobIn{
     
@@ -2179,4 +2181,27 @@ div#scroller.ng-hide {
         left: 0;
     }
   }
-  
+  #componentsList{
+    position: relative;
+    bottom: 0%;
+    width: 94%;
+    height: 100%;
+    border-top: 1px dashed black;
+  }
+  #componentsList *{
+    background-color: transparent;
+    color: black;
+    border: 0;
+    text-decoration: none;
+    font-style: italic;
+  }
+  #licenseListItem{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #appVersionDiv{
+      background: transparent;
+      position: absolute;
+      top: 1%;
+      right: 1%;
+  }
