@@ -9,7 +9,9 @@
     <div style="width:100%;" >
         <img style="top: 3em; z-index: 2;" id="cloud" ng-show="gpc.cloud.show" ng-class="((gpc.cloud.throbbing)? 'playerThrobIn' : 'throbOut' )" class="playerCloud" src="css/cloudFluffy.svg"/>
       </div>
-
+      <div style="background-color: white; width: 98%; opacity: 0.8; height: 2px; margin: 2px;">
+        <span ng-style="{'width': gpc.marquee.width}" style="background-color: black; opacity: 0.5; position: absolute;left: 4px; height: 2px;"></span>
+      </div>
     <!-- <div class="animated" scroll="true" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
     <!-- <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
     <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
