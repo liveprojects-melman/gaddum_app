@@ -42,7 +42,7 @@
                         "get": "getCameraAuthorizationStatus",
                         "request": "requestCameraAuthorization"
                     },
-                    "reason": "This app requires access to the camera to be able to allow the augmented experience to take place.",
+                    "reason": "This app requires access to the camera to determine your mood from your face.",
                     "hasPermission" : false,
                     "deniedAlways": false
                 },
@@ -57,10 +57,10 @@
                         "get": "getLocationAuthorizationStatus",
                         "request": "requestLocationAuthorization"
                     },
-                    "reason": "This app requires access to location and GPS services to be able complete the \"visit\" achievement when you visit a Higher Education Institute.",
+                    "reason": "This app requires access to location and GPS services to associate places with mood and songs.",
                     "hasPermission" : false,
                     "deniedAlways": false
-                },
+                }/* ,
                 "write_storage": {
                     "Android": {
                         "check": "isExternalStorageAuthorized",
@@ -75,7 +75,7 @@
                     "reason": "This app requires permission to save files to storage, to be able to take photos using the camera feature in the experience.",
                     "hasPermission" : false,
                     "deniedAlways": false
-                }
+                }*/
             }
         };
 
@@ -87,7 +87,7 @@
             console.log("permissions plugin assigned - in permissionSrvc")
         });
 
-        var permissionsMap = [ 'camera', 'location', 'write_storage' ];
+        var permissionsMap = [ 'camera', 'location' /*, 'write_storage' */ ];
 
         var permissionCodes = {
             "Android": {
