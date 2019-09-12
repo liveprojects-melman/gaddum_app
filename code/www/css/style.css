@@ -2088,26 +2088,56 @@ div#scroller.ng-hide {
       height: 75%;
       z-index: 1;
   }
+  .playerCloud{
+    position: absolute;
+    animation: playBam 0.5s linear;
+    width: 100%;
+    left: 0;
+    top: -30em !important;
+    z-index: 1;
+}
   .moodExplosionLeave{
     position: absolute;
     animation: unbam 0.25s linear !important;
     height: 0%;
     z-index: 1;
   }
+  .playerCloudLeave{
+    position: absolute;
+    animation: playUnbam 0.25s linear !important;
+    height: 0%;
+    z-index: 1;
+}
   @keyframes bam {
     0% {
-      height: 0%;
+      width: 0%;
     }
     100% {
-      height: 75%;
+      width: 100%;
+    }
+  }
+  @keyframes playBam {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
     }
   }
   @keyframes unbam {
     0% {
-      height: 75%;
+      width: 100%;
     }
     100% {
-      height: 0%;
+      width: 0%;
+    }
+  }
+  @keyframes playUnbam {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0%;
     }
   }
   .throbIn{
@@ -2118,10 +2148,13 @@ div#scroller.ng-hide {
   .throbIn.ng-hide{
       height: 0%;
   }
-  .throbOut{
-    height: 0%;
+  .playerThrobIn{
+    
+    /* animation-delay: 2s; */
+    animation: throbIn 1.5s linear infinite;
   }
-  @keyframes throbIn {
+  
+  /* @keyframes throbIn {
     0% {
       height: 75%;
     }
@@ -2130,6 +2163,20 @@ div#scroller.ng-hide {
     }
     100% {
         height: 75%;
+    }
+  } */
+  @keyframes throbIn {
+    0% {
+      width: 100%;
+      left: 0;
+    }
+    50% {
+        width: 90%;
+        left: 5%;
+    }
+    100% {
+        width: 100%;
+        left: 0;
     }
   }
   
