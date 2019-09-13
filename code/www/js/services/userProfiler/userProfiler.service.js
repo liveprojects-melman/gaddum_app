@@ -223,7 +223,7 @@
                                 flipMoodedPlaylists();
                                 g_numSkips = 0;
                             }
-                            deferred.resolve(setNextTrack(0));
+                            deferred.resolve(setNextTrack());
                         },
                         deferred.reject
                     );
@@ -296,7 +296,9 @@
                 throw (message);
             } else {
                 var currentTime_ms = new Date().getTime();
-                if ((currentTime_ms - g_trackStartTime_ms) < (SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value * 1000)) {
+                var diff_ms = currentTime_ms - g_trackStartTime_ms;
+                var threshold_ms = SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value * 1000;
+                if (diff_ms < threshold_ms) {
                     result = true;
                 }
             }
@@ -642,7 +644,7 @@
                     var moodSuitable = false;
 
                     try {
-                        moodSuitable = isTrackSkipped();
+                        moodSuitable = !isTrackSkipped();
                     } catch (e) { } // ignore. Following observation will fail for the same reason
 
 
