@@ -97,6 +97,16 @@
       return arrayIncumbents;
     }
 
+    MoodedPlaylist.dumpItems = function(items){
+      items.forEach(
+          function (item) {
+              console.log("---- mooded playlist ----");
+              console.log(JSON.stringify(item, null, 2));
+              console.log("----     end    ----");
+          }
+      );   
+  }
+
 
     /**
      * Return the constructor function

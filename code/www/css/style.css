@@ -2057,39 +2057,50 @@ div#scroller.ng-hide {
     white-space: nowrap;
     height: auto !important;
     min-width: 100%;
+    display: inline-block;
+    animation: playerScroll 20s linear infinite;
+    -webkit-animation: playerScroll 20s linear infinite;
 }
 .songtitle2{
     position: absolute;
     top: 8%;
     left: 0%;
-}
-.songtitle span{
-    display: inline-block;
-    animation: playerScroll 20s linear infinite;
-}
-.songtitle #scrollTitle2{
+    -webkit-animation-delay: 10s;
     animation-delay: 10s;
 }
-#artistname{
+/* .songtitle span{
+    display: inline-block;
+    animation: playerScroll 20s linear infinite;
+    -webkit-animation: playerScroll 20s linear infinite;
+} */
+.songtitle #scrollTitle2{
+    -webkit-animation-delay: 10s;
+    animation-delay: 10s;
+}
+/* #artistname{
     height: auto !important;
     animation: playerScroll 10s linear infinite;
-}
+} */
 @keyframes playerScroll {
     0% {
-      transform: translate(150%, 0);
+        -webkit-transform: translate(150%, 0);
+        transform: translate(150%, 0);
     }
     100% {
-      transform: translate(-150%, 0);
+        -webkit-transform: translate(-150%, 0);
+        transform: translate(-150%, 0);
     }
   }
   .moodExplosion{
       position: absolute;
+      -webkit-animation: playBam 0.5s linear;
       animation: bam 0.5s linear;
       width: 100%;
       z-index: 1;
   }
   .playerCloud{
     position: absolute;
+    -webkit-animation: playBam 0.5s linear;
     animation: playBam 0.5s linear;
     width: 100%;
     left: 0;
@@ -2098,12 +2109,14 @@ div#scroller.ng-hide {
 }
   .moodExplosionLeave{
     position: absolute;
+    -webkit-animation: 0.25s linear !important;
     animation: unbam 0.25s linear !important;
     width: 0%;
     z-index: 1;
   }
   .playerCloudLeave{
     position: absolute;
+    -webkit-animation: 0.25s linear !important;
     animation: playUnbam 0.25s linear !important;
     width: 0%;
     left: 0;
@@ -2146,6 +2159,7 @@ div#scroller.ng-hide {
     
     /* animation-delay: 2s; */
     animation: throbIn 1.5s linear infinite;
+    -webkit-animation: throbIn 1.5s linear infinite;
   }
   .throbIn.ng-hide{
       width: 0%;
@@ -2154,6 +2168,7 @@ div#scroller.ng-hide {
     
     /* animation-delay: 2s; */
     animation: throbIn 1.5s linear infinite;
+    -webkit-animation: throbIn 1.5s linear infinite;
   }
   
   /* @keyframes throbIn {
@@ -2169,6 +2184,7 @@ div#scroller.ng-hide {
   } */
   @keyframes throbIn {
     0% {
+    
       width: 100%;
       left: 0;
     }

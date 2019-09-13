@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Wed Sep 11 14:35:10 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Sep 13 13:29:56 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -919,7 +919,7 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'trackselector_max_skips',
+                         'track_selector_max_skips',
                          '5',
                          'integer'
                      );
@@ -941,8 +941,8 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'observation_section_collection_limit',
-                         '20',
+                         'track_selector_mood_location_timeslot_suitability_limit',
+                         '4',
                          'integer'
                      );
 
@@ -952,8 +952,74 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'unobserved_tracks_collection_limit',
-                         '5',
+                         'track_selector_mood_unsuitable_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_location_suitability_limit',
+                         '3',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_timeslot_suitability_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_timeslot_suitability_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_unobserved_tracks_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_provider_suggestion_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_suitability_limit',
+                         '2',
                          'integer'
                      );
 

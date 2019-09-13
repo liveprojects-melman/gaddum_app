@@ -278,7 +278,7 @@
         }
 
         function getSetting(id, fnSuccess, fnFail) {
-
+            console.log("dataApiService: getSetting: " + id);
             mappingService.query("get_setting", { id: id },
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
@@ -299,7 +299,7 @@
 
                         fnSuccess(value);
                     } else {
-                        fnFail("setting not found!");
+                        fnFail("setting not found: " + id);
                     }
                 }
                 , fnFail);
@@ -647,9 +647,7 @@
                     var items = mappingService.getResponses(response.rows);
                     var result = null;
                     if (items) {
-                        results = GenericTrack.buildFromObject(items[0]);
-
-
+                        result = GenericTrack.buildFromObject(items[0]);
                     }
                     deferred.resolve(result);
                 },
@@ -1340,7 +1338,18 @@
         }
 
 
-        function asyncSeekObservations(moodIdentifier, timeSlot, postCode, location, limit) {
+        function asyncSeekObservations(
+            moodIdentifier, 
+            timeSlot, 
+            postCode, 
+            location,
+            limit_m_l_t_s,
+            limit_m_t_s,
+            limit_m_l_s,
+            limit_m_s,
+            limit_t_s,
+            limit_m_u_s
+            ) {
 
             var deferred = $q.defer();
             console.log("----------");
@@ -1380,7 +1389,12 @@
                         location_code: postcode_id,
                         location_lat: lat,
                         location_lon: lon,
-                        limit: limit
+                        limit_m_l_t_s: limit_m_l_t_s,
+                        limit_m_t_s: limit_m_t_s,
+                        limit_m_l_s: limit_m_l_s,
+                        limit_m_s: limit_m_s,
+                        limit_t_s: limit_t_s,
+                        limit_m_u_s: limit_m_u_s
 
                     },
                         function (response) {
@@ -1408,6 +1422,35 @@
             return deferred.promise;
 
         }
+
+
+        function asyncGetUnfilteredTracks(limit) {
+
+            var deferred = $q.defer();
+
+            mappingService.query("get_tracks_limited", {
+                limit: limit
+            },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
 
 
 
@@ -1463,7 +1506,7 @@
 
         }
 
-
+       
 
 
         var service = {
@@ -1502,6 +1545,7 @@
 
             asyncSeekTracks: asyncSeekTracks,
             asyncGetTracks: asyncGetTracks,
+            asyncGetUnfilteredTracks: asyncGetUnfilteredTracks,
             asyncGetTrackInfos: asyncGetTrackInfos,
             asyncGetTrackFromId: asyncGetTrackFromId,
 

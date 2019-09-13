@@ -206,8 +206,7 @@
                 function success(result) {
                     angular.merge(vm.userProfile, result);
                     if (result.avatar_name != null) {
-                        // setTimeout(function () { 
-                            console.log("RESULT",result);
+                        
                         vm.name = result.avatar_name;
                         document.getElementById("nameHeader").innerText=vm.name;
                         /* if(firstLoad){
