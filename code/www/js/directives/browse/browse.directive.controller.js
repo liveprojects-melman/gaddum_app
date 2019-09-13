@@ -145,22 +145,16 @@
       gaddumShortcutBarService.setContextMenu(conMenu);
     }
     function howAreYouPlayAllTracks() {
+      currentTrack = bm.searchBrowse;
       howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
     }
     function fnCallbackHowAreYouOkPlay(emotion) {
 
-      var moodedArray = [];
-      
-      var trackInfos = bm.searchBrowse;
-
-      // import the tracks - we need them in the database, to be able to observe them.
-      gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
-        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
-          var moodedPlaylist =  MoodedPlaylist.build(moodId, genericTracks);
-          moodedArray.push(moodedPlaylist);
-          playlistService.asyncPlay(moodedArray);
-        }
-      );
+      gaddumMusicProviderService.asyncImportTracks(currentTrack).then(
+        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)  
+          var moodedPlaylist =  MoodedPlaylist.build(emotion, genericTracks);
+          playlistService.asyncPlay([moodedPlaylist]);
+        });
      
 
 
