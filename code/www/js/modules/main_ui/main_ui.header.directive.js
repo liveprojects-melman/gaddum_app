@@ -7,7 +7,7 @@
 
       return{
         restrict: "E",
-        template: '<div class="bar bar-subheader"><a ng-show="previous!=false" ng-click="goPrev()" class="button icon-left ion-chevron-left button-clear button-dark"></a><h2 class="title">{{name}}</h2><a ng-show="next!=false" ng-click="goNext()" class="button icon-right ion-chevron-right button-clear button-dark"></a></div>',
+        template: '<div class="bar bar-subheader"><a ng-show="previous!=false" ng-click="goPrev()" class="button icon-left ion-chevron-left button-clear button-dark"></a><h2 class="title whiteBold">{{name}}</h2><a ng-show="next!=false" ng-click="goNext()" class="button icon-right ion-chevron-right button-clear button-dark"></a></div>',
         bindToController: true,
         replace: true,//true,
         //transclude: true,

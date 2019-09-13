@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-var startState = 'gaddum.profile';
+var startState = 'gaddum.playlists';
 
 angular.module('gaddum', [
   'ionic',
@@ -62,6 +62,7 @@ angular.module('gaddum', [
     '$ionicSlideBoxDelegate',
     '$window',
     '$q',
+    '$timeout',
     'pubsubService',
     'startupSrvc',
     'loginModal',
@@ -74,6 +75,7 @@ angular.module('gaddum', [
     'observerService',
     'timeService',
     'EventIdentifier',
+    'playlistService',
     function (
       $ionicPlatform,
       $state,
@@ -81,6 +83,7 @@ angular.module('gaddum', [
       $ionicSlideBoxDelegate,
       $window,
       $q,
+      $timeout,
       pubsubService,
       startupSrvc,
       loginModal,
@@ -92,7 +95,8 @@ angular.module('gaddum', [
       playerService,
       observerService,
       timeService,
-      EventIdentifier
+      EventIdentifier,
+      playlistService
     ) {
 
       $rootScope.$on('slideChanged', function (a) {
@@ -127,6 +131,8 @@ angular.module('gaddum', [
       });
 
       $ionicPlatform.ready(function () {
+        
+        
 
         //['$state','$statusBar','$window',function ($state,$statusBar,$window) {
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
@@ -206,9 +212,11 @@ angular.module('gaddum', [
                                   );
                                 }).then(
                                   function () {
+                          
                                     permissionsListenerService.initialise(null);
-                                    $state.go('gaddum.profile');
-                                    deferred.resolve();
+                                      $state.go(startState);
+                                      deferred.resolve();
+                                    
                                   },
                                   deferred.reject
                                 );

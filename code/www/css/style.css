@@ -2205,3 +2205,7 @@ div#scroller.ng-hide {
       top: 1%;
       right: 1%;
   }
+  .whiteBold{
+    color: white !important;
+    font-weight: 700 !important;
+  }
