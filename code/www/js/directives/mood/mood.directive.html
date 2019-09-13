@@ -88,7 +88,7 @@
     </div>
     <button ng-disabled="vm.disableButton" ng-click="vm.selectModal()" class="moodSelect "><span class="selectSpan">{{vm.moodDisplay.name}}
       </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
-    <button ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected)? 'goButton':'')" ng-click="vm.playMood()"
+    <button id="thatsMeButton" ng-disabled="!vm.emotionSelected" ng-class="((vm.emotionSelected)? 'goButton':'')" ng-click="vm.playMood()"
       class="moodPlay "><span class="selectSpan">That's
         Me </span></button>
   </div>

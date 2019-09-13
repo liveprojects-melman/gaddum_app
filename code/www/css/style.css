@@ -2218,3 +2218,11 @@ div#scroller.ng-hide {
     font-weight: 700;
     color: white;
   }
+  #thatsMeButton:disabled{
+    color: #323232;
+    opacity: 0.2;
+    background-color: hsl(208, 56%, 20%)!important;
+  }
+  #aboutTextDiv{
+      width: 90%;
+  }
