@@ -6,6 +6,9 @@
 
       <h3 class="playlistImportTitle">Import Playlist</h3>
     </div>
+    <div ng-hide="!mc.noPlaylist">
+      <p style="text-align: center; font-weight: 500;">Sorry we can't find any playlist on your account</p>
+    </div>
     <div>
       <ion-content class="playlistImportList">
         <ion-list class="playlistImportList">

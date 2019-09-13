@@ -38,7 +38,8 @@
       hideMore: false,
       hideSpinner:true,
       importButtonHide:false,
-      Importtext:"Import"
+      Importtext:"Import",
+      noPlaylist:false
     });
     $scope.importPlaylistWizard=importPlaylistWizard;
     function init() {
@@ -56,7 +57,11 @@
           mc.playlistArray[count].value = false;
           count = count+1;
         });
-        offset = offset+10;
+        if(count === 0){
+          mc.noPlaylist = true;
+          mc.hideMore = true;
+        }
+        offset = offset+count;
         mc.hideSpinner = true;
       });
       
