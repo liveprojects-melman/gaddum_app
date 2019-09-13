@@ -11,8 +11,11 @@
 
 
     <div class="playlistEditTitlediv">
-
-      <input type="text" class="playlistTitleEdit" ng-Model="vm.params.playlist.name" value="vm.params.name" id="searchBox"
+      <p style="left: 5px;
+      position: absolute;
+      color: white;
+      font-weight: 700;">Playlist Name: </p>
+      <input style="margin-left: 35% !important; width:60%;" type="text" class="playlistTitleEdit" ng-Model="vm.params.playlist.name" value="vm.params.name" id="searchBox"
         ng-change="vm.textChange()"></ion-input>
 
     </div>

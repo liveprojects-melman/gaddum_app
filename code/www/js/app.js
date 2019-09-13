@@ -220,7 +220,7 @@ angular.module('gaddum', [
                                           .then(
                                             function () {
                                               permissionsListenerService.initialise(null);
-                                              $state.go('gaddum.profile');
+                                              $state.go('gaddum.playlists');
                                               deferred.resolve();
                                             },
                                             deferred.reject

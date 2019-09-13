@@ -25,7 +25,8 @@
     ac.componentsLicenses = (aboutService.componentsLicenses()).licenses;
     ac.projectPersonnel = aboutService.projectPersonnel();
     ac.gaddumLink = aboutService.gaddumLink();
-    
+    ac.aboutText = aboutService.aboutText();
+    ac.privacyStatement = aboutService.privacyStatement();
 
     $scope.AboutModal=AboutModal;
     function init() {

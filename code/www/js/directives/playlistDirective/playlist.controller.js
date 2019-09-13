@@ -53,7 +53,8 @@
       busy: false,
       searchTerm: "",
       bang:false,
-      throbbing:false
+      throbbing:false,
+      hasTracks:true
 
     });
     var scale = 8;
@@ -279,6 +280,12 @@
       vm.busy = false;
       console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
+      if(vm.playlistsToShow[0]){
+        vm.hasTracks=true;
+      }
+      else{
+        vm.hasTracks=false;
+      }
     }
 
 

@@ -42,7 +42,7 @@
                         "get": "getCameraAuthorizationStatus",
                         "request": "requestCameraAuthorization"
                     },
-                    "reason": "This app requires access to the camera to be able to allow the augmented experience to take place.",
+                    "reason": "This app requires access to the camera to determine your mood from your face.",
                     "hasPermission" : false,
                     "deniedAlways": false
                 },
@@ -60,7 +60,7 @@
                     "reason": "This app requires access to location and GPS services to help recommend music",
                     "hasPermission" : false,
                     "deniedAlways": false
-                },
+                }/* ,
                 "write_storage": {
                     "Android": {
                         "check": "isExternalStorageAuthorized",
@@ -75,7 +75,7 @@
                     "reason": "This app requires permission to save files to storage, This is used to store your personal music prefences ",
                     "hasPermission" : false,
                     "deniedAlways": false
-                }
+                }*/
             }
         };
 
@@ -87,7 +87,7 @@
             console.log("permissions plugin assigned - in permissionSrvc")
         });
 
-        var permissionsMap = [ 'camera', 'location', 'write_storage' ];
+        var permissionsMap = [ 'camera', 'location' /*, 'write_storage' */ ];
 
         var permissionCodes = {
             "Android": {
