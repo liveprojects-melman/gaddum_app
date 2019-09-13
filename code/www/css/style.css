@@ -600,7 +600,10 @@ ion-side-menu-content/*.menu-content.pane*/ {
 }
 .littleSelectArrow{
     height: 90%;
-    float:right;
+float: right;
+top: 0;
+position: absolute;
+right: 5%;
 }
 .littleSelectArrowBrowse{
     height: 1.2rem;
