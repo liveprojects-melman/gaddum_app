@@ -2209,3 +2209,12 @@ div#scroller.ng-hide {
     color: white !important;
     font-weight: 700 !important;
   }
+  .playlistNoPlaylist{
+    bottom: 15px;
+    position: absolute;
+    text-align: center;
+    width: 80%;
+    left: 10%;
+    font-weight: 700;
+    color: white;
+  }

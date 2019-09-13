@@ -13,8 +13,9 @@
     <img style="top: 3em; z-index: 2;" id="imExplosion" ng-show="vm.bang" ng-class="((vm.throbbing)? 'throbIn' : 'throbOut' )" class="moodExplosion" src="css/importExplosion.svg"/>
   </div>
 
-  <div ng-hide="vm.hasTracks">
-    
+  <div class="playlistNoPlaylist" ng-hide="vm.hasTracks">
+    <p>To Add Some Playlist click the menu button at the bottom of the screen!</p>
+    <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
   </div>
 
 <div>
