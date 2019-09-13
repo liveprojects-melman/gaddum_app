@@ -47,12 +47,10 @@
                 id: 'track_selector_max_track_duration_for_skip_s',
                 value: 0
             },
-
-            SECTION_COLLECTION_LIMIT: {
-                id: "unobserved_tracks_collection_limit",
+            UNOBSERVED_TRACKS_LIMIT: {
+                id: "track_selector_unobserved_tracks_limit",
                 value: 5
             }
-
         };
 
 
@@ -76,26 +74,10 @@
 
 
 
-        function dumpObservations(observations) {
-            observations.forEach(
-                function (observation) {
-                     console.log("---- observation----");
-                     console.log(JSON.stringify(observation, null, 2));
-                     console.log("----     end    ----");
-                }
-            );
-        }
 
 
-        function dumpMoodedPlaylists(items){
-            items.forEach(
-                function (item) {
-                    console.log("---- mooded playlist ----");
-                    console.log(JSON.stringify(item, null, 2));
-                    console.log("----     end    ----");
-                }
-            );   
-        }
+
+
 
 
         function asyncObserveCurrentTrack(moodSuitable) {
@@ -124,7 +106,7 @@
                                 // function (rawObservation) {
                                 //     observerService.asyncGetObservations().then(
                                 //         function (observations) {
-                                //             dumpObservations(observations);
+                                //             Observation.dumpItems(observations);
                                 //             deferred.resolve();
                                 //         },
                                 //         deferred.reject
@@ -158,14 +140,17 @@
 
                     promises.push(allSettingsService.asyncGet(SETTINGS.MAX_SKIP_COUNT.id));
                     promises.push(allSettingsService.asyncGet(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
-                    promises.push(allSettingsService.asyncGet(SETTINGS.SECTION_COLLECTION_LIMIT.id));
+                    promises.push(allSettingsService.asyncGet(SETTINGS.UNOBSERVED_TRACKS_LIMIT.id));
+                    
+
 
 
                     $q.all(promises).then(
                         function (results) {
                             SETTINGS.MAX_SKIP_COUNT.value = results[0];
                             SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value = results[1];
-                            SETTINGS.SECTION_COLLECTION_LIMIT.value = results[2];
+                            SETTINGS.UNOBSERVED_TRACKS_LIMIT.value = results[2];
+                            
                         },
                         deferred.reject
                     );
@@ -451,12 +436,14 @@
 
             trackIds.forEach(
                 function (trackId) {
-                    promises.push[dataApiService.asyncGetTrackFromId(trackId)];
+                    promises.push(dataApiService.asyncGetTrackFromId(trackId));
                 }
             );
 
             $q.all(promises).then(
-                deferred.resolve
+                function(results){
+                    deferred.resolve(results);
+                }
                 ,
                 deferred.reject
             );
@@ -468,15 +455,16 @@
 
 
 
+
         function asyncFindPlaylistFromUnobservedTracks(moodId) {
             
             var deferred = $q.defer();
 
-            dataApiService.asyncGetUnobservedTracks(SETTINGS.SECTION_COLLECTION_LIMIT.value).then(
+            dataApiService.asyncGetUnobservedTracks(SETTINGS.UNOBSERVED_TRACKS_LIMIT.value).then(
                 function (genericTracks) {
                     var result = MoodedPlaylist.build(moodId, genericTracks);
                     console.log("asyncFindPlaylistFromUnobservedTracks:")
-                    dumpMoodedPlaylists([result]);
+                    MoodedPlaylist.dumpItems([result]);
                     deferred.resolve(result);
                 },
                 deferred.reject
@@ -495,7 +483,7 @@
                         function (genericTracks) {
                             var result = MoodedPlaylist.build(moodId, genericTracks);
                             console.log("asyncFindPlaylistByObservation:")
-                            dumpMoodedPlaylists([result]);
+                            MoodedPlaylist.dumpItems([result]);
                             deferred.resolve(result);
                         },
                         deferred.reject
@@ -661,8 +649,6 @@
 
                     asyncObserveCurrentTrack(moodSuitable).then(
                         function () {
-                            //console.log("asyncLoadMoodedPlaylists:");
-                            //dumpMoodedPlaylists(arrayMoodedPlaylists);
 
                             initialisePlaylists(arrayMoodedPlaylists);
                             initialiseCounters();

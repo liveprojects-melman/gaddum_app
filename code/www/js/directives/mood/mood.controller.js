@@ -349,7 +349,7 @@
           },250);
         },
         function(errorIdentifier){
-          console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
+          console.log("moodController: playMood: warning: " + errorIdentifier.message);
           spinnerService.spinnerOff();
 
         }

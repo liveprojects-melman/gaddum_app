@@ -334,6 +334,15 @@
     }
     ,
     {
+        "name": "get_tracks_limited()",
+        "function": "get_tracks_limited",
+        "path": "www/sql/get_tracks_limited.sql",
+        "default_parameters": {
+            "limit": 5
+        }       
+    }
+    ,
+    {
         "name": "get_unobserved_tracks()",
         "function": "get_unobserved_tracks",
         "path": "www/sql/get_unobserved_tracks.sql",

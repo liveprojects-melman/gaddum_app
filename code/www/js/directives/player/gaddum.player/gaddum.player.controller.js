@@ -89,7 +89,7 @@
 
 
     function onTrackProgressPercent(progress) {
-      console.log("track progress: " + progress);
+      //console.log("progress: "+ progress);
       gpc.marquee.width= progress+"%";
     }
 

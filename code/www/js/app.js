@@ -28,7 +28,6 @@ angular.module('gaddum', [
   'gaddum.gifts',
   'gaddum.browse',
   'gaddum.mood',
-  //  'gaddum.mood.switch'
   'gaddum.login',
   'gaddum.selector',
   'modalsProfile',
@@ -64,6 +63,7 @@ angular.module('gaddum', [
     '$q',
     'pubsubService',
     'startupSrvc',
+    'moodService',
     'loginModal',
     'gaddumMusicProviderService',
     'connectionService',
@@ -83,6 +83,7 @@ angular.module('gaddum', [
       $q,
       pubsubService,
       startupSrvc,
+      moodService,
       loginModal,
       gaddumMusicProviderService,
       connectionService,
@@ -165,17 +166,24 @@ angular.module('gaddum', [
             'userSettingChange', userProfilerService.asyncUpdateFromSettings
           );
 
+          //-- registering the moodService to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', moodService.asyncUpdateFromSettings
+          );
+
+
           // -- the connection service warns the player when there is a change in conneciton state.
           // -- note: hasWifi is very useful: users may not want to use when on cellular.
           connectionService.initialise(
-            function onConnectionChange(){
+            function onConnectionChange() {
               var eventType = EventIdentifier.INTERNET_DOWN;
               var payload = null;
-              if(connectionService.hasConnection()){
-                  eventType = EventIdentifier.INTERNET_UP;
-                  payload = {
-                    hasWifi: connectionService.isWifi()
-                  };
+              if (connectionService.hasConnection()) {
+                eventType = EventIdentifier.INTERNET_UP;
+                payload = {
+                  hasWifi: connectionService.isWifi()
+                };
               }
               var event = EventIdentifier.build(eventType, payload);
               pubsubService.asyncPublish('playerEvent', event);
@@ -185,42 +193,50 @@ angular.module('gaddum', [
           startupSrvc.asyncInitialise()
             .then(
               function () {
-                timeService.asyncInitialise().then(
-
-                  function () {
-                    gaddumMusicProviderService.asyncInitialise(
-                      loginModal.promiseLogin,
-                      function (event) {
-                        return pubsubService.asyncPublish('playerEvent', event);
-                      }
-                    )
-                      .then(
-                        function () {
-                          observerService.asyncInitialise().then(
-                            function () {
-                              userProfilerService.asyncInitialise(
-                                function onChange() {
-                                  return pubsubService.asyncPublish(
-                                    'playerEvent',
-                                    EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
-                                  );
-                                }).then(
-                                  function () {
-                                    permissionsListenerService.initialise(null);
-                                    $state.go('gaddum.profile');
-                                    deferred.resolve();
-                                  },
-                                  deferred.reject
-                                );
-                            },
-                            deferred.reject
-                          );
-                        },
-                        deferred.reject
-                      );
-                  },
-                  deferred.reject
-                );
+                timeService.asyncInitialise()
+                  .then(
+                    function () {
+                      gaddumMusicProviderService.asyncInitialise(
+                        loginModal.promiseLogin,
+                        function (event) {
+                          return pubsubService.asyncPublish('playerEvent', event);
+                        }
+                      )
+                        .then(
+                          function () {
+                            observerService.asyncInitialise()
+                              .then(
+                                function () {
+                                  userProfilerService.asyncInitialise(
+                                    function onChange() {
+                                      return pubsubService.asyncPublish(
+                                        'playerEvent',
+                                        EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
+                                      );
+                                    })
+                                    .then(
+                                      function () {
+                                        moodService.asyncInitialise()
+                                          .then(
+                                            function () {
+                                              permissionsListenerService.initialise(null);
+                                              $state.go('gaddum.profile');
+                                              deferred.resolve();
+                                            },
+                                            deferred.reject
+                                          );
+                                      },
+                                      deferred.reject
+                                    );
+                                },
+                                deferred.reject
+                              );
+                          },
+                          deferred.reject
+                        );
+                    },
+                    deferred.reject
+                  );
               },
               deferred.reject
             )
