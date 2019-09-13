@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Fri Sep 13 13:29:56 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Sep 13 16:04:53 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -931,7 +931,7 @@ INSERT INTO settings (
                      )
                      VALUES (
                          'track_selector_max_track_duration_for_skip_s',
-                         '2',
+                         '40',
                          'integer'
                      );
 
