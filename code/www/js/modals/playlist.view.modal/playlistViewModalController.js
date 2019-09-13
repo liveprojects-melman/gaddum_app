@@ -127,6 +127,7 @@
   }
   function addToPlaylist(track){
     $ionicListDelegate.closeOptionButtons();
+    console.log("track", track);
     var trackToAdd = [];
     trackToAdd.push(track);
     addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);

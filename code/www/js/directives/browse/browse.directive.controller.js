@@ -263,8 +263,9 @@
     function addToPlaylist(track) {
       $ionicListDelegate.closeOptionButtons();
       var trackToAdd = [];
-      playlistService.asyncImportTrack(track).then(function (genTrack) {
+      gaddumMusicProviderService.asyncImportTracks([track]).then(function (genTrack) {
         trackToAdd.push(genTrack);
+        console.log("track", genTrack);
         addToPlaylistWizard.open(trackToAdd, fnCallbackAddToPlaylistOk, fnCallbackAddToPlaylistCancel);
       });
     }
