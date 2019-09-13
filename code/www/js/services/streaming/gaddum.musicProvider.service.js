@@ -15,7 +15,9 @@
     'dataApiService',
     'MusicProviderIdentifier',
     'EventIdentifier',
-    '$rootScope'
+    '$rootScope',
+    'allSettingsService',
+    'TrackProgress'
   ];
 
   function gaddumMusicProviderService(
@@ -26,7 +28,9 @@
     dataApiService,
     MusicProviderIdentifier,
     EventIdentifier,
-    $rootScope
+    $rootScope,
+    allSettingsService,
+    TrackProgress
   ) {
 
     // vars
@@ -35,7 +39,40 @@
     var LOGIN_HANDLER_PROMISE = null;
     var EVENT_HANDLER_PROMISE = null;
     var IS_LOGGED_IN = null;
+    var PROGRESS_WARNING_LIMIT_PERCENT = 0;
 
+    var SETTINGS = {
+      MAX_TRACK_DURATION_FOR_SKIP_S: {
+        id: 'track_selector_max_track_duration_for_skip_s',
+        value: 0
+      }
+    };
+
+
+
+    function asyncUpdateFromSettings() {
+      var deferred = $q.defer();
+      var promises = [];
+
+      $timeout(
+
+        function () {
+          promises.push(allSettingsService.asyncGet(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
+
+          $q.all(promises).then(
+            function (results) {
+              SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value = results[0];
+            },
+            deferred.reject
+          );
+
+          deferred.resolve();
+        }
+      );
+
+
+      return deferred.promise;
+    }
 
 
 
@@ -320,6 +357,15 @@
       return deferred.promise;
     }
 
+    function calculateProgressWarningPercent(trackDuration_ms, warningDuration_ms){
+      var result = 0;
+      try{
+        result = warningDuration_ms * 100 / trackDuration_ms;
+      }catch(error){} // ignore if data is bad.
+      return result;
+    }
+
+
     function asyncSetTrack(genericTrack) {
       var deferred = $q.defer();
       asyncCheckForLoginPromptIfNeeded().then(
@@ -327,6 +373,7 @@
           asyncTearDownIfRequired().then(
             function () {
               if (genericTrack) {
+                PROGRESS_WARNING_LIMIT_PERCENT = calculateProgressWarningPercent(genericTrack.getDuration_ms(), SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value * 1000);
                 MUSIC_PROVIDER.asyncSetTrack(genericTrack).then(
                   function (trackInfo) {
                     var eventCode = EventIdentifier.TRACK_NOT_FOUND;
@@ -364,12 +411,12 @@
           } else {
             if (percent > 0) {
               asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
+                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, TrackProgress.build(percent,PROGRESS_WARNING_LIMIT_PERCENT))
               );
             }
             if (percent == 100) {
               asyncBroadcastEvent(
-                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, percent)
+                EventIdentifier.build(EventIdentifier.TRACK_PROGRESS_PERCENT, TrackProgress.build(percent,PROGRESS_WARNING_LIMIT_PERCENT))
               ).then(
                 function () {
                   asyncBroadcastEvent(
@@ -426,7 +473,7 @@
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess() {
               console.log("starting polling...");
-              startPositionPolling(); 
+              startPositionPolling();
 
               deferred.resolve(true);
             },
@@ -526,18 +573,24 @@
         throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "Music Provider Service needs a function returning a promise which will handle events fro the provider. See EventIdentifier"))
       }
 
+      asyncUpdateFromSettings().then(
+        function () {
+          asyncGetMusicProvider().then(
+            function (musicProviderIdentifier) {
+              if (musicProviderIdentifier) {
+                asyncSetMusicProvider(musicProviderIdentifier).then(
+                  deferred.resolve,
+                  deferred.reject
+                );
+              } else {
+                deferred.resolve(null);
+              }
+            },
+            deferred.reject
+          );
+        },
+        deferred.reject
 
-      asyncGetMusicProvider().then(
-        function (musicProviderIdentifier) {
-          if (musicProviderIdentifier) {
-            asyncSetMusicProvider(musicProviderIdentifier).then(
-              deferred.resolve,
-              deferred.error
-            );
-          } else {
-            deferred.resolve(null);
-          }
-        }
       );
 
 
@@ -550,6 +603,7 @@
 
       // funcs
       asyncInitialise: asyncInitialise,
+      asyncUpdateFromSettings: asyncUpdateFromSettings,
       asyncGetSupportedMusicProviders: asyncGetSupportedMusicProviders,
       asyncSetMusicProvider: asyncSetMusicProvider,
       getMusicProvider: getMusicProvider,

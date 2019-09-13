@@ -172,6 +172,11 @@ angular.module('gaddum', [
             'userSettingChange', moodService.asyncUpdateFromSettings
           );
 
+          //-- registering the musicProviderService to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', gaddumMusicProviderService.asyncUpdateFromSettings
+          );
 
           // -- the connection service warns the player when there is a change in conneciton state.
           // -- note: hasWifi is very useful: users may not want to use when on cellular.
