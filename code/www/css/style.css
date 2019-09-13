@@ -599,7 +599,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding: 0;
 }
 .littleSelectArrow{
-    height: 100%;
+    height: 90%;
     float:right;
 }
 .littleSelectArrowBrowse{
