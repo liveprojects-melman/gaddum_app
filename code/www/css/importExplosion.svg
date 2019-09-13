@@ -42,6 +42,6 @@ c-30 31 -47 53 -39 51 8 -3 62 -25 120 -48 58 -23 128 -51 155 -62 l50 -20
 <style>
   .heavy { font: bold 100px Copperplate; fill:#ffffff; }
   </style>
-    <text x="350" y="650" class="heavy">Just A Sec!</text>
-    <text x="350" y="750" class="heavy">We're On it.</text>
+    <text x="350" y="650" class="heavy" textLength="50%">Just A Sec!</text>
+    <text x="350" y="750" class="heavy" textLength="50%">We're On it.</text>
 </svg>

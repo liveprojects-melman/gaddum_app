@@ -4,6 +4,6 @@
   <style>
   .heavy { font: bold 10px Copperplate; fill:#000000; }
   </style>
-    <text x="45" y="50" class="heavy">Sorry!</text>
-    <text x="30" y="70" class="heavy">No Interwebs.</text>
+    <text x="45" y="50" class="heavy" textLength="30%">Sorry!</text>
+    <text x="30" y="70" class="heavy" textLength="50%">No Interwebs.</text>
 </svg>
