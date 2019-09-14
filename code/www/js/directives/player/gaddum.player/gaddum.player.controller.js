@@ -41,7 +41,8 @@
     };
     gpc.marquee = {
       "scroller": "",
-      "width":"0%"
+      "width":"0%",
+      "track_skip_warning": true
     };
     gpc.cloud = {
       "show":false,
@@ -70,6 +71,7 @@
       // gpc.marquee.albumName = trackInfo.getAlbum();
       gpc.state.hasTrack = true;
       gpc.state.playing = true;
+      gpc.marquee.track_skip_warning = false;
     }
 
 
@@ -91,6 +93,9 @@
     function onTrackProgressPercent(progress) {
       //console.log("progress: "+ progress);
       gpc.marquee.width= progress.getProgressPercent()+"%";
+
+      gpc.marquee.track_skip_warning = progress.isWarning();
+
     }
 
     function onTrackError(error) {
