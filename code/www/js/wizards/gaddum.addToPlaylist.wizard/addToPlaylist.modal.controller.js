@@ -38,7 +38,7 @@
       mc.state = true;
       mc.displayArray = [];
 
-      isNextDisabled = true;
+      mc.isNextDisabled = true;
 
       mc.params = addToPlaylistWizard.getParams();
       console.log(mc.params);
