@@ -12,7 +12,8 @@
     <br>
     <button id="showImageEditBtn" class="button button-stable icon-right ion-edit ion-text-center" ng-click="vm.profileImageEdit()"></button>
     <canvas class="editPageProfileCanvas" ng-attr-id="q"
-    ng-init="vm.createProfileGraphic(vm.profile.profile_id)" height=160 width=160
+      ng-init="vm.createProfileGraphic(vm.profile.profile_id)" height=160 width=160
+      ng-disabled="vm.isProfileGraphicEditOpen===true"
      ng-click="vm.profileImageEdit()"></canvas>
    <!--  <div style="position:absolute; bottom:5%; width: 100%;">
     </div> -->
