@@ -178,7 +178,7 @@
       console.log("editImageModalController: init!");
       vm.params = editImageModal.getParams();
       if (vm.params[1].avatar_image_colour=="#FF00FF") {
-        colours[colours.length] = ["Super Cool Pink", vm.params[1].avatar_image_colour];
+        colours[colours.length] = ["Sucopi", vm.params[1].avatar_image_colour];
         vm.colourChoices = colours;
         vm.prevColour();
       } else{
