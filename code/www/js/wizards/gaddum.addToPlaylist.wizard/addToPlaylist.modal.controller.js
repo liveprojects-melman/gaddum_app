@@ -29,6 +29,7 @@
   ) {
     var mc = angular.extend(this, {
       itemSelected: false,
+      isNextDisabled: false,
       emotionSelected: ''
     });
     $scope.addToPlaylistWizard = addToPlaylistWizard;
@@ -36,6 +37,9 @@
 
       mc.state = true;
       mc.displayArray = [];
+
+      isNextDisabled = true;
+
       mc.params = addToPlaylistWizard.getParams();
       console.log(mc.params);
       playlistService.asyncSeekPlaylists("").then(function (result) {
@@ -97,6 +101,7 @@
     }
     function playlistSelected(index) {
       mc.displayArray[index].value = !mc.displayArray[index].value;
+      mc.isNextDisabled = false;
     }
     mc.playlistSelected = playlistSelected;
     mc.add = add;
