@@ -63,6 +63,7 @@
           playlistService.asyncSeekPlaylists("").then(function (result) {
             mc.playlistArray = result;
             mc.displayArray= [];
+            mc.isNextDisabled = true;
             mc.playlistArray.forEach(function (element) {
               mc.displayArray.push({ name: element.getName(), value: false });
             });

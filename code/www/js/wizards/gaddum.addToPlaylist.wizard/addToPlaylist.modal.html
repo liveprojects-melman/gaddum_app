@@ -4,7 +4,7 @@
 
     <div style="width:100%;">
 
-      <h3 class="modalTitleAddPlaylist">add To Playlist</h3>
+      <h3 class="modalTitleAddPlaylist">Add to Playlist</h3>
     </div>
     <ion-content class="addToPlaylistListDiv">
       <ion-list>
@@ -21,7 +21,7 @@
     <ion-footer-bar>
       <button ng-click="mc.close()" class="button addToPlaylistButtonLeft">Cancel</button>
       <button ng-click="mc.createPlaylist()" class="button button-calm addToPlaylistButtonCenter">New</button>
-      <button ng-click="mc.changeState()" class="button button-balanced addToPlaylistButtonRight" ng-disabled="mc.itemSelected===false" x-ng-disabled="mc.isNextDisabled===true">Next</button>
+      <button ng-click="mc.changeState()" class="button button-balanced addToPlaylistButtonRight" x-ng-disabled="mc.itemSelected===false" ng-disabled="mc.isNextDisabled===true">Next</button>
     </ion-footer-bar>
   </ion-content>
 
@@ -38,7 +38,7 @@
     <ion-footer-bar>
       <button ng-click="mc.changeState()" class="button button-calm addToPlaylistButtonLeft">Previous</button>
       <button ng-click="mc.close()" class="button addToPlaylistButtonCenterTwo">Cancel</button>
-      <button ng-click="mc.add()" class="button button-balanced addToPlaylistButtonRight">Add</button>
+      <button ng-click="mc.add()" class="button button-balanced addToPlaylistButtonRight">Yes</button>
     </ion-footer-bar>
   </ion-content>
 </div>
