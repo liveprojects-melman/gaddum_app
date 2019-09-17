@@ -29,7 +29,6 @@
   ) {
     var mc = angular.extend(this, {
       itemSelected: false,
-      isNextDisabled: false,
       emotionSelected: ''
     });
     $scope.addToPlaylistWizard = addToPlaylistWizard;
@@ -38,7 +37,7 @@
       mc.state = true;
       mc.displayArray = [];
 
-      mc.isNextDisabled = true;
+      mc.itemSelected = false;
 
       mc.params = addToPlaylistWizard.getParams();
       console.log(mc.params);
@@ -63,7 +62,7 @@
           playlistService.asyncSeekPlaylists("").then(function (result) {
             mc.playlistArray = result;
             mc.displayArray= [];
-            mc.isNextDisabled = true;
+            mc.itemSelected = false;
             mc.playlistArray.forEach(function (element) {
               mc.displayArray.push({ name: element.getName(), value: false });
             });
@@ -102,14 +101,19 @@
     }
     function playlistSelected(index) {
       mc.displayArray[index].value = !mc.displayArray[index].value;
-      mc.isNextDisabled = false;
-      console.log("isNextDisabled=",mc.isNextDisabled);
+      mc.itemSelected = true;
+      console.log("isNextDisabled=",mc.isNextDisabled());
     }
+
+    function isNextDisabled() {
+      return(mc.itemSelected != true);
+    }
+
     mc.playlistSelected = playlistSelected;
     mc.add = add;
     mc.close = close;
     mc.createPlaylist = createPlaylist;
     mc.changeState = changeState;
-
+    mc.isNextDisabled = isNextDisabled;
   }
 })();
