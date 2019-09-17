@@ -29,15 +29,15 @@
 
     <div style="width:100%;">
 
-      <h3 class="modalTitleAddPlaylist">add To Playlist</h3>
+      <h3 class="modalTitleAddPlaylist">Add to Playlist</h3>
     </div>
     <div class="addToPlaylistTextDiv">
-      <p class="addToPlaylistText">You're going to add to a playlist.</p>
+      <p class="addToPlaylistText">You're going to add to the {{playlist.name}} playlist.</p>
       <p class="addToPlaylistText">Are You Sure?</p>
     </div>
     <ion-footer-bar>
-      <button ng-click="mc.changeState()" class="button button-calm addToPlaylistButtonLeft">Previous</button>
       <button ng-click="mc.close()" class="button addToPlaylistButtonCenterTwo">Cancel</button>
+      <button ng-click="mc.changeState()" class="button button-calm addToPlaylistButtonLeft">Previous</button>
       <button ng-click="mc.add()" class="button button-balanced addToPlaylistButtonRight">Yes</button>
     </ion-footer-bar>
   </ion-content>
