@@ -18,9 +18,9 @@
   </div>
   <div id="gaddum-shuttle" class="button-bar">
     <button ng-disabled="!gpc.state.hasTrack" name="prev" class="button icon ion-skip-backward" ng-click="gpc.handleBackPress()"></button>
-    <button ng-disabled="!gpc.state.hasTrack" name="pause" class="button icon ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
-    <button ng-disabled="!gpc.state.hasTrack" name="play" class="button icon ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
-    <button ng-disabled="!gpc.state.hasTrack" name="next" class="button icon ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
+    <button x-ng-disabled="!gpc.state.hasTrack" name="pause" class="button icon ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
+    <button x-ng-disabled="!gpc.state.hasTrack" name="play" class="button icon ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
+    <button x-ng-disabled="!gpc.state.hasTrack" name="next" class="button icon ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
   </div>
   </div>
 </div>
