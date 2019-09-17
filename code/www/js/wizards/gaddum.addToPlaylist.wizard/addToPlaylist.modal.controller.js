@@ -101,7 +101,7 @@
     }
     function playlistSelected(index) {
       mc.displayArray[index].value = !mc.displayArray[index].value;
-      mc.itemSelected = true;
+      mc.itemSelected = mc.displayArray[index].value;//true;
       console.log("isNextDisabled=",mc.isNextDisabled());
     }
 
