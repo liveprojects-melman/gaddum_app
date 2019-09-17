@@ -38,6 +38,8 @@
       mc.displayArray = [];
 
       mc.itemSelected = false;
+      mc.playlistName = "";
+      mc.playlistsPlural = 0;
 
       mc.params = addToPlaylistWizard.getParams();
       console.log(mc.params);
@@ -105,8 +107,11 @@
         return prevVal || elem.value===true;
       }, false);
       mc.playlistName = mc.displayArray.reduce(function(prevVal, elem) {
-        return (prevVal.length>0?prevVal+", ":prevVal)+elem.name;
+        return (prevVal.length>0?prevVal+", ":prevVal)+(elem.value===true?elem.name:"");
       }, "");
+      mc.playlistsPlural = mc.displayArray.reduce(function(prevVal,elem) {
+        return prevVal+(elem.value===true?1:0);
+      }, 0);
     }
 
     function isNextDisabled() {
