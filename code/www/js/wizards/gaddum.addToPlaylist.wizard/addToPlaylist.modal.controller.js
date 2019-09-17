@@ -104,6 +104,9 @@
       mc.itemSelected = mc.displayArray.reduce(function(prevVal, elem) {
         return prevVal || elem.value===true;
       }, false);
+      mc.playlistName = mc.displayArray.reduce(function(prevVal, elem) {
+        return (prevVal.length>0?prevVal+", ":prevVal)+elem.name;
+      }, "");
     }
 
     function isNextDisabled() {
