@@ -103,6 +103,7 @@
     function playlistSelected(index) {
       mc.displayArray[index].value = !mc.displayArray[index].value;
       mc.isNextDisabled = false;
+      console.log("isNextDisabled=",mc.isNextDisabled);
     }
     mc.playlistSelected = playlistSelected;
     mc.add = add;
