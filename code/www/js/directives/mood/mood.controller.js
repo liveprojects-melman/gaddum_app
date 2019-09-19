@@ -57,7 +57,7 @@
 
     try{
       if(window.device.platform==="iOS"){
-        vm.cameraErrorString="no iPhone Camera (yet)";
+        vm.cameraErrorString="We can't use the iPhone Camera (yet)";
       }
     } catch(e){
       //
