@@ -123,8 +123,10 @@
         vm.defaultName=true;
       }
       vm.genresAsString=vm.params[1].userGenres.join(", ");
+      
 //      console.log(vm.params);
       genresCheck();
+
       // if(vm.params[3]){
       //   console.log("should close");
       //   var newData = {
@@ -209,6 +211,9 @@
     function genresCheck(){
       if (vm.genresAsString==null||vm.genresAsString==="") {
         vm.genresAsString="No Genres Chosen";
+        vm.defaultGenres = true;
+      } else {
+        vm.defaultGenres = false;
       }
       testGenresButton();
     }
@@ -358,6 +363,7 @@
     vm.updateGenres = function updateGenres(genresData){
 //      console.log("newg",genresData);
       vm.updatedGenres=genresData.genres;
+      vm.defaultGenres = false;
     };
 
     vm.genresUpdateCancel=function genresUpdateCancel(genres){
