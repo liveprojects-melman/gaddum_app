@@ -13,7 +13,7 @@
     <div class="modalBody QRModal">
     
       <div class="bigQRdiv" ng-hide="vm.userProfile.avatar_graphic.colour=='#000000'" id="qrCodeDiv" ng-click="modal.hide()">
-        <qrcode data={{vm.encodedProfile}} size={{vm.screenWidth}} ng-click="modal.remove()"></qrcode>
+        <qrcode data={{vm.encodedProfile}} size={{vm.screenWidth}} ng-click="modal.remove()" version="17"></qrcode>
       </div>
 
     </div>
