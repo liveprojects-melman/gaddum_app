@@ -45,7 +45,8 @@
       emotionSelected:false,
       lookAtTheCameraText:false,
       bang:false,
-      throbbing:false
+      throbbing:false,
+      cameraErrorString: 'Whoops! No Camera!'
     });
 
     var _interval_ms = 100;
@@ -53,6 +54,14 @@
     var lastMoodId = null;
     var detecting = false;
     var moodIdDict = {};
+
+    try{
+      if(window.device.platform==="iOS"){
+        vm.cameraErrorString="no iPhone Camera (yet)";
+      }
+    } catch(e){
+      //
+    }
 
     function beginInitialiseCapture(fnCallback) {
 

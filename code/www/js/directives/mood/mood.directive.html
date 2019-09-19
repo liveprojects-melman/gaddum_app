@@ -33,7 +33,7 @@
     <div ng-click="vm.wakeUpCamera()" ng-disabled="vm.cameraError" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
       <span ng-show="vm.cameraError===true && vm.emotionSelected===false">
           <p >❌</p>
-        <p class="moodEmojiText">Whoops! No Camera!
+        <p class="moodEmojiText">{{vm.cameraErrorString}}
         </p>
       </span>
       <p ng-show="vm.cameraError!=true  && vm.detecting===false && vm.disableButton===true" style="
