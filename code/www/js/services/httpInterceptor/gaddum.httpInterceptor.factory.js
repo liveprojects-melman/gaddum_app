@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module( 'gaddum.httpInterceptor' )
+    .module( 'gaddum.httpInterceptor', [ ] )
     .factory('dataApiRecoverer',['$q', function($q){
       var dataApiRecoverer = {
         requestError: function(rejectReason){
