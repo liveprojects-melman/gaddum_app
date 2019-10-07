@@ -10,7 +10,7 @@
 
           return $q.reject(response);
         },
-        requestError: function(rejectReason){
+        requestError: function requestError(rejectReason){
           console.log("🚨gaddum.httpInterceptor: requestError, ", rejectReason);
 
           return $q.reject(rejectReason);
