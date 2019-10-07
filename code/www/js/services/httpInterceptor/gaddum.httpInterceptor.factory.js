@@ -1,3 +1,6 @@
+alert("AWOOOOO");
+console.log("gaddum.httpInterceptor alive");
+
 (function(){
   'use strict';
 
