@@ -1,6 +1,6 @@
-<ion-view ng-hide="vm.busy" class="hasHeader hasFooter profileDirective"  can-swipe-back="false" ng-cloak>
+<ion-view ng-hide="vm.busy" class="hasHeader hasFooter profileDirective"  can-swipe-back="false" >
   <h1 id="nameHeader">{{vm.name}}</h1>
-  <div id="genreScroll" ng-hide="vm.scrollGenre===false" ng-cloak>
+  <div id="genreScroll" ng-hide="vm.scrollGenre===false" >
     <p class="genres" id="genresText">
       <span>
         {{vm.displayGenres}}
@@ -23,12 +23,6 @@
     ng-init="vm.createProfileGraphic()" height=80 width=80
     ></canvas>
   <div class="qrdiv" ng-hide="vm.busy" id="qrCodeDiv">
-    <qrcode  data={{vm.encodedProfile}}  ng-click="vm.showQR()"></qrcode>
+    <qrcode  data={{vm.encodedProfile}}  ng-click="vm.showQR()" version="17"></qrcode>
   </div>
-<!-- <ion-footer-bar align-title="left" class="bar-assertive profileFooter">
-  <div class="buttons">
-    <button class="button" ng-click="vm.profileEdit()">Edit</button>
-  </div>
-  <h1 class="title">Profile</h1>
-</ion-footer-bar> -->
 </ion-view>

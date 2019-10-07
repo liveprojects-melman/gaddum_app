@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.0.7 on Fri Sep 6 18:09:39 2019
+-- File generated with SQLiteStudio v3.0.7 on Fri Sep 13 16:04:53 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -643,17 +643,17 @@ CREATE TABLE observations (
     id            TEXT    PRIMARY KEY
                           UNIQUE
                           NOT NULL,
-    timestamp_s   INTEGER NOT NULL,
-    mood_id       INTEGER REFERENCES base64_resources (id) ON DELETE NO ACTION
-                                                           ON UPDATE CASCADE
-                                                           MATCH SIMPLE,
+    timestamp_ms  INTEGER NOT NULL,
+    mood_id       TEXT    REFERENCES supported_moods (id) ON DELETE NO ACTION
+                                                          ON UPDATE CASCADE
+                                                          MATCH SIMPLE,
     timeslot      INTEGER REFERENCES supported_timeslots (id) ON DELETE CASCADE
                                                               ON UPDATE CASCADE
                                                               MATCH SIMPLE
                           NOT NULL,
     location_lat  DOUBLE,
     location_lon  DOUBLE,
-    location_code TIME,
+    location_code TEXT,
     track_percent INTEGER NOT NULL,
     num_repeats   INTEGER NOT NULL,
     mood_suitable BOOLEAN NOT NULL,
@@ -718,59 +718,14 @@ CREATE TABLE track_references (
 DROP TABLE IF EXISTS tracks;
 
 CREATE TABLE tracks (
-    id         TEXT    PRIMARY KEY
-                       NOT NULL
-                       UNIQUE,
-    name       TEXT,
-    album      TEXT,
-    artist     TIME,
-    duration_s INTEGER NOT NULL
+    id          TEXT    PRIMARY KEY
+                        NOT NULL
+                        UNIQUE,
+    name        TEXT,
+    album       TEXT,
+    artist      TEXT,
+    duration_ms INTEGER NOT NULL
 );
-
-INSERT INTO tracks (
-                       id,
-                       name,
-                       album,
-                       artist,
-                       duration_s
-                   )
-                   VALUES (
-                       '4773cabe-a649-4af3-9a9c-768b5fd990fd',
-                       'Killer Queen',
-                       'Sheer Heart Attack',
-                       'Queen',
-                       90
-                   );
-
-INSERT INTO tracks (
-                       id,
-                       name,
-                       album,
-                       artist,
-                       duration_s
-                   )
-                   VALUES (
-                       'c07d8279-3609-4143-8a0d-3f0b508839ef',
-                       'Lilly of the Valley',
-                       'Sheer Heart Attack',
-                       'Queen',
-                       90
-                   );
-
-INSERT INTO tracks (
-                       id,
-                       name,
-                       album,
-                       artist,
-                       duration_s
-                   )
-                   VALUES (
-                       '12e1c931-83fe-4948-95c2-4955c68d60d9',
-                       'Now I''m Here',
-                       'Sheer Heart Attack',
-                       'Queen',
-                       90
-                   );
 
 
 -- Table: music_providers
@@ -964,7 +919,7 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'trackselector_max_skips',
+                         'track_selector_max_skips',
                          '5',
                          'integer'
                      );
@@ -976,6 +931,28 @@ INSERT INTO settings (
                      )
                      VALUES (
                          'track_selector_max_track_duration_for_skip_s',
+                         '40',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_location_timeslot_suitability_limit',
+                         '4',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_unsuitable_limit',
                          '2',
                          'integer'
                      );
@@ -986,8 +963,63 @@ INSERT INTO settings (
                          value_type
                      )
                      VALUES (
-                         'observation_section_collection_limit',
-                         '20',
+                         'track_selector_mood_location_suitability_limit',
+                         '3',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_timeslot_suitability_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_timeslot_suitability_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_unobserved_tracks_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_provider_suggestion_limit',
+                         '2',
+                         'integer'
+                     );
+
+INSERT INTO settings (
+                         id,
+                         value,
+                         value_type
+                     )
+                     VALUES (
+                         'track_selector_mood_suitability_limit',
+                         '2',
                          'integer'
                      );
 

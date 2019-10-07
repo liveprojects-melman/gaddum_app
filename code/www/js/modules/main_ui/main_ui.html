@@ -2,14 +2,7 @@
   <ion-content animated scroll="false" ng-class="mlc.playeropen" id="slideboxwrapper">
     <ion-slide-box active-slide="Groups" on-slide-changed="$emit('slideChanged')" slide-tabs-scrollable="false"
       show-pager="false" ion-slide-tabs>
-      <ion-slide ion-slide-tab-label="Profile" data-state="profile">
-        <div class="box">
-          <gaddum.main_ui.header name="Profile"></gaddum.main_ui.header>
-          <div ui-view="profile">
-            <i>profile_main_ui</i>
-          </div>
-        </div>
-      </ion-slide>
+      
 
 <!--       <ion-slide ion-slide-tab-label="Friends" data-state="friends.friendsList">
         <div class="box">
@@ -74,6 +67,15 @@
         </div>
       </ion-slide>
 
+      
+      <ion-slide ion-slide-tab-label="Profile" data-state="profile">
+              <div class="box">
+                <gaddum.main_ui.header name="Profile"></gaddum.main_ui.header>
+                <div ui-view="profile">
+                  <i>profile_main_ui</i>
+                </div>
+              </div>
+            </ion-slide>
     </ion-slide-box>
   </ion-content>
 </ion-view>

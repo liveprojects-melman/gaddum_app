@@ -117,13 +117,10 @@
         }
 
 
-        function asyncInitialiseMood(){
-            return moodService.asyncInitialise();
-        }
 
 
         function asyncInitialise() {
-            return asyncInitialiseDb().then(asyncInitialiseMood);
+            return asyncInitialiseDb();
         }
 
 

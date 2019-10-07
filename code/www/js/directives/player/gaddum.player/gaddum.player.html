@@ -1,14 +1,27 @@
-<div id="gaddum-player" class="animated" ng-show="gpc.show">
-  <div id="scroller" class="animated" ng-show="gpc.state.ready=="" =true">
-    <div angular-marquee class="animated" scroll="gpc.state.hasTrack===true" duration="10000" id="songtitle">{{gpc.marquee.songtitle}}</div>
-    <div angular-marquee class="animated" scroll="gpc.state.hasTrack===true" duration="10000" id="artistname">{{gpc.marquee.artistname}}</div>
+<div id="gaddum-player" class="animated" ng-show="gpc.state.show">
+  <div id="scroller" class="animated" ng-show="gpc.state.ready===true">
+    <p class="songtitle">
+      <span>{{gpc.marquee.scroller}}</span>
+    </p>
+    <p class="songtitle songtitle2" id="scrollTitle2">
+      <span>{{gpc.marquee.scroller}}</span>
+    </p>
+    <div style="width:100%;" >
+        <img style="top: 3em; z-index: 2;" id="cloud" ng-show="gpc.cloud.show" ng-class="((gpc.cloud.throbbing)? 'playerThrobIn' : 'throbOut' )" class="playerCloud" src="css/cloudFluffy.svg"/>
+      </div>
+      <div style="background-color: white; width: 98%; opacity: 0.8; height: 2px; margin: 2px;">
+        <span ng-show = "gpc.marquee.track_skip_warning" ng-style="{'width': gpc.marquee.width}" style="background-color: red; opacity: 1.0; position: absolute;left: 4px; height: 2px;"></span>
+        <span ng-hide = "gpc.marquee.track_skip_warning" ng-style="{'width': gpc.marquee.width}" style="background-color: black; opacity: 0.5; position: absolute;left: 4px; height: 2px;"></span>
+      </div>
+    <!-- <div class="animated" scroll="true" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
+    <!-- <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="songtitle">{{gpc.marquee.songtitle}}</div>
+    <div class="animated" scroll="false" ng-show="gpc.state.playing===false" duration="5000" id="artistname">{{gpc.marquee.artistname}}</div> -->
   </div>
   <div id="gaddum-shuttle" class="button-bar">
-    <button name="prev" class="button icon ion-skip-backward" ng-click="gpc.handleBackPress()"></button>
-    <button name="pause" class="button icon ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
-    <button name="play" class="button icon ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
-    <button name="next" class="button icon ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
-    
+    <button ng-disabled="!gpc.state.hasTrack" name="prev" class="button button-assertive icon icon-light ion-skip-backward" ng-click="gpc.handleBackPress()"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="pause" class="button button-assertive icon icon-light ion-pause" ng-click="gpc.handlePausePress()" ng-show="gpc.state.playing===true"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="play" class="button button-assertive icon icon-light ion-play" ng-click="gpc.handlePlayPress()" ng-show="gpc.state.playing!=true"></button>
+    <button ng-disabled="!gpc.state.hasTrack" name="next" class="button button-assertive icon icon-light ion-skip-forward" ng-click="gpc.handleNextPress()"></button>
   </div>
   </div>
 </div>

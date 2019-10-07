@@ -144,10 +144,16 @@
                 function_name,
                 parameters,
                 function (sql) {
-                    //  console.log("----SQL--");
-                    //  console.log(sql);
-                    //  console.log("--- END SQL ---");
-                    service.private.executeSql(sql, success, fail);
+                    //    console.log("----SQL--");
+                    //    console.log(sql);
+                    //    console.log("--- END SQL ---");
+                    service.private.executeSql(sql, 
+                        function(response){
+                            success(response);
+                        }, 
+                        function(error){
+                            fail(error);
+                        });
                 },
                 function(error){
                     fail(error);

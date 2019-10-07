@@ -9,7 +9,14 @@
     <i style="color:black;" class="icon ion-search"></i>
   </button>
 </div>
+<div style="width:100%;" >
+    <img style="top: 3em; z-index: 2;" id="imExplosion" ng-show="vm.bang" ng-class="((vm.throbbing)? 'throbIn' : 'throbOut' )" class="moodExplosion" src="css/importExplosion.svg"/>
+  </div>
 
+  <div class="playlistNoPlaylist" ng-hide="vm.hasTracks">
+    <p>To add some playlists, click the menu button at the bottom of the screen.</p>
+    <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
+  </div>
 
 <div>
   <ion-content class="playlistPageListContent">
@@ -38,7 +45,7 @@
             <p style="left:-8px">Remove</p>
           </div>
         </ion-option-button>
-
+        
         <!-- <ion-delete-button class="ion-minus-circled" ng-click="s.splice(, 1)">
       </ion-delete-button> -->
         <!-- <ion-reorder-button class="ion-navicon" on-reorder="s.splice(, 1);s.splice(, 0, );">

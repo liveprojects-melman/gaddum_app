@@ -14,6 +14,7 @@ angular.module('gaddum', [
   'utilitiesjs',
   'dataapijs',
   'app.db',
+  'gaddum.publishandsubscribe',
   'gaddum.models',
   'gaddum.player',
   'gaddum.playermenu',
@@ -27,7 +28,6 @@ angular.module('gaddum', [
   'gaddum.gifts',
   'gaddum.browse',
   'gaddum.mood',
-  //  'gaddum.mood.switch'
   'gaddum.login',
   'gaddum.selector',
   'modalsProfile',
@@ -50,6 +50,7 @@ angular.module('gaddum', [
   'gaddum.intelligenttrackselector',
   'gaddum.userprofiler',
   'gaddum.time',
+  'gaddum.connection',
   'playlistCreateModule'
 
 ])
@@ -60,14 +61,19 @@ angular.module('gaddum', [
     '$ionicSlideBoxDelegate',
     '$window',
     '$q',
+    'pubsubService',
     'startupSrvc',
+    'moodService',
     'loginModal',
     'gaddumMusicProviderService',
+    'connectionService',
     'userProfilerService',
     'permissionsService',
     'permissionsListenerService',
     'playerService',
+    'observerService',
     'timeService',
+    'EventIdentifier',
     function (
       $ionicPlatform,
       $state,
@@ -75,14 +81,19 @@ angular.module('gaddum', [
       $ionicSlideBoxDelegate,
       $window,
       $q,
+      pubsubService,
       startupSrvc,
+      moodService,
       loginModal,
       gaddumMusicProviderService,
+      connectionService,
       userProfilerService,
       permissionsService,
       permissionsListenerService,
       playerService,
-      timeService
+      observerService,
+      timeService,
+      EventIdentifier
     ) {
 
       $rootScope.$on('slideChanged', function (a) {
@@ -136,34 +147,101 @@ angular.module('gaddum', [
         function asyncStart() {
           var deferred = $q.defer();
 
+
+          // --- all player events can be subscribed to
+          pubsubService.subscribe(
+            'playerEvent', playerService.promiseHandleEvent
+          );
+
+
+          //-- registering the observer to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', observerService.asyncUpdateFromSettings
+          );
+
+          //-- registering the userProfiler to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', userProfilerService.asyncUpdateFromSettings
+          );
+
+          //-- registering the moodService to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', moodService.asyncUpdateFromSettings
+          );
+
+          //-- registering the musicProviderService to update when there is a change to user settings.
+          pubsubService.subscribe(
+            // this event is published when the settings UI has completed. See the main menu. 
+            'userSettingChange', gaddumMusicProviderService.asyncUpdateFromSettings
+          );
+
+          // -- the connection service warns the player when there is a change in conneciton state.
+          // -- note: hasWifi is very useful: users may not want to use when on cellular.
+          connectionService.initialise(
+            function onConnectionChange() {
+              var eventType = EventIdentifier.INTERNET_DOWN;
+              var payload = null;
+              if (connectionService.hasConnection()) {
+                eventType = EventIdentifier.INTERNET_UP;
+                payload = {
+                  hasWifi: connectionService.isWifi()
+                };
+              }
+              var event = EventIdentifier.build(eventType, payload);
+              pubsubService.asyncPublish('playerEvent', event);
+            }
+          );
+
           startupSrvc.asyncInitialise()
             .then(
               function () {
-                timeService.asyncInitialise().then(
-
-                  function () {
-                    gaddumMusicProviderService.asyncInitialise(
-                      loginModal.promiseLogin,
-                      playerService.promiseHandleEvent
-                    )
-                      .then(
-                        function () {
-                          userProfilerService.asyncInitialise(
-                            playerService.promiseHandleEvent
-                          ).then(
-                            function () {
-                              permissionsListenerService.initialise(null);
-                              $state.go('gaddum.profile');
-                              deferred.resolve();
-                            },
-                            deferred.reject
-                          );
-                        },
-                        deferred.reject
-                      );
-                  },
-                  deferred.reject
-                );
+                timeService.asyncInitialise()
+                  .then(
+                    function () {
+                      gaddumMusicProviderService.asyncInitialise(
+                        loginModal.promiseLogin,
+                        function (event) {
+                          return pubsubService.asyncPublish('playerEvent', event);
+                        }
+                      )
+                        .then(
+                          function () {
+                            observerService.asyncInitialise()
+                              .then(
+                                function () {
+                                  userProfilerService.asyncInitialise(
+                                    function onChange() {
+                                      return pubsubService.asyncPublish(
+                                        'playerEvent',
+                                        EventIdentifier.build(EventIdentifier.PLAYLIST_NEW)
+                                      );
+                                    })
+                                    .then(
+                                      function () {
+                                        moodService.asyncInitialise()
+                                          .then(
+                                            function () {
+                                              permissionsListenerService.initialise(null);
+                                              $state.go('gaddum.playlists');
+                                              deferred.resolve();
+                                            },
+                                            deferred.reject
+                                          );
+                                      },
+                                      deferred.reject
+                                    );
+                                },
+                                deferred.reject
+                              );
+                          },
+                          deferred.reject
+                        );
+                    },
+                    deferred.reject
+                  );
               },
               deferred.reject
             )

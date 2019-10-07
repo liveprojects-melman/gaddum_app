@@ -14,7 +14,8 @@
     'howAreYouModal',
     'MoodedPlaylist',
     'userProfilerService',
-    'StatementCriteria'
+    'StatementCriteria',
+    '$ionicListDelegate'
   ];
 
   function playlistViewModalController(
@@ -27,7 +28,8 @@
     howAreYouModal,
     MoodedPlaylist,
     userProfilerService,
-    StatementCriteria
+    StatementCriteria,
+    $ionicListDelegate
   ) {
     var vm = angular.extend(this, {
       params:null,
@@ -82,6 +84,7 @@
   }
   
   function play(track){
+    $ionicListDelegate.closeOptionButtons();
     console.log("track",track);
     currentTrack = track;
     console.log("current",currentTrack);
@@ -123,6 +126,8 @@
     console.log("modal canceled");
   }
   function addToPlaylist(track){
+    $ionicListDelegate.closeOptionButtons();
+    console.log("track", track);
     var trackToAdd = [];
     trackToAdd.push(track);
     addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
@@ -141,6 +146,7 @@
     });
   }
   function asyncMakeTrackStatement(track){
+    $ionicListDelegate.closeOptionButtons();
     currentTrack = track;
     howAreYouTrack();
     playlistViewModal.closeCheckFalse();

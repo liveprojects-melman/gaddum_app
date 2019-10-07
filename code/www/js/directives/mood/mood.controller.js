@@ -43,7 +43,10 @@
       helpTips: null,  //this shows/hides the speech boxes 
       disableButton:false,
       emotionSelected:false,
-      lookAtTheCameraText:false
+      lookAtTheCameraText:false,
+      bang:false,
+      throbbing:false,
+      cameraErrorString: 'Whoops! No Camera!'
     });
 
     var _interval_ms = 100;
@@ -52,11 +55,19 @@
     var detecting = false;
     var moodIdDict = {};
 
+    try{
+      if(window.device.platform==="iOS"){
+        vm.cameraErrorString="We can't use the iPhone Camera (yet)";
+      }
+    } catch(e){
+      //
+    }
+
     function beginInitialiseCapture(fnCallback) {
 
       var elementId = "canvas";
       var canvas = document.getElementById(elementId);
-      var ctx = canvas.getContext("webgl");
+      var ctx = canvas.getContext("webgl1");
 
       emotionReaderService.setListener(fnCallback);
 
@@ -77,7 +88,7 @@
 
 
     function defaultDisplay() {
-      vm.moodDisplay.name = null;
+      vm.moodDisplay.name = 'No Mood!';
       vm.moodDisplay.id = 'No Mood!';
       vm.moodDisplay.emoji = '😶';
     }
@@ -165,7 +176,7 @@
 
     function update() {
       doUpdate().then(function () {
-        if (enabled) {
+        if (moodService.onOrOff()) {
 
           update();
         }
@@ -326,16 +337,28 @@
 
     function playMood(){
       var deferred = $q.defer();
+      vm.bang = true;
+      $timeout(function(){
+        vm.throbbing = true;
+      },500);
       spinnerService.spinnerOn();
+
       console.log("Getting Tracks for: " + lastMoodId);
 
     
       moodService.asyncNotifyNewMood(lastMoodId).then(
         function(){
           spinnerService.spinnerOff();
+          var explosion = document.getElementById("explosion");
+          vm.throbbing = false;
+          explosion.classList.add("moodExplosionLeave");
+          $timeout(function(){
+            vm.bang =false;
+            explosion.classList.remove("moodExplosionLeave");
+          },250);
         },
         function(errorIdentifier){
-          console.log("moodController: playMood: warning: " + errorIdentifier.getMessage());
+          console.log("moodController: playMood: warning: " + errorIdentifier.message);
           spinnerService.spinnerOff();
 
         }
@@ -346,6 +369,7 @@
       return deferred.promise;
 
     }
+    
 
 
     vm.onItemSelect = onItemSelect;

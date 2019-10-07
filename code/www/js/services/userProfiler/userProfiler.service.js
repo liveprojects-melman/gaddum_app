@@ -31,13 +31,12 @@
         allSettingsService,
         $timeout,
         observerService,
-        EventIdentifier,
         MoodedSearchCriteria
 
 
     ) {
 
-        var EVENT_HANDLER_PROMISE = null;
+
 
         var SETTINGS = {
             MAX_SKIP_COUNT: {
@@ -47,8 +46,14 @@
             MAX_TRACK_DURATION_FOR_SKIP_S: {
                 id: 'track_selector_max_track_duration_for_skip_s',
                 value: 0
+            },
+            UNOBSERVED_TRACKS_LIMIT: {
+                id: "track_selector_unobserved_tracks_limit",
+                value: 5
             }
         };
+
+
 
 
         var g_firstBegin = true;
@@ -58,61 +63,76 @@
         var g_arrayTrackHistory = [];
         var g_trackStartTime_ms = null;
         var g_numSkips = 0;
+        var g_fnOnChange = null;
 
-        function asyncBroadcastEvent(event) {
+
+        function notifyChange() {
+            if (g_fnOnChange) {
+                g_fnOnChange();
+            }
+        }
+
+
+
+
+
+
+
+
+
+        function asyncObserveCurrentTrack(moodSuitable) {
+
             var deferred = $q.defer();
 
             $timeout(
-
                 function () {
-                    if (EVENT_HANDLER_PROMISE) {
-                        EVENT_HANDLER_PROMISE(event).then(
-                            deferred.resolve,
-                            deferred.reject
-                        );
+                    if (g_currentPlaylist != null) {
+                        var genericTrack = g_currentPlaylist.getGenericTracks()[g_currentPlaylist.currentTrackIndex];
+
+                        if (genericTrack != null) {
+
+                            var currentTime = new Date().getTime();
+                            var trackTime_ms = currentTime - g_trackStartTime_ms;
+                            var mood = g_currentPlaylist.getMoodId();
+
+                            var trackDuration_ms = genericTrack.getDuration_ms();
+                            var numRepeats = genericTrack.numRepeats; //  we added this in prepareMoodedPlaylists
+
+                            var trackPercent = 100;
+                            if (trackTime_ms < trackDuration_ms) {
+                                trackPercent = (trackTime_ms * 100 / trackDuration_ms);
+                            }
+                            observerService.asyncCreateObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack).then(
+                                // function (rawObservation) {
+                                //     observerService.asyncGetObservations().then(
+                                //         function (observations) {
+                                //             Observation.dumpItems(observations);
+                                //             deferred.resolve();
+                                //         },
+                                //         deferred.reject
+                                //     );
+                                // }
+                                deferred.resolve
+                                ,
+                                deferred.reject
+                            );
+                        } else {
+                            deferred.resolve();
+                        }
+                    } else {
+                        deferred.resolve();
                     }
                 }
-
             );
 
-
             return deferred.promise;
-        }
-
-
-
-
-        function asyncObserveCurrentTrack(moodSuitable){
-            var currentTime = new Date().getTime();
-            var trackTime_ms = currentTime - g_trackStartTime_ms;
-            var mood = g_currentPlaylist.getMoodId();
-            var genericTrack = g_currentPlaylist.getGenericTracks()[g_currentPlaylist.currentTrackIndex];
-            var trackDuration_ms = genericTrack.getDuration_s() * 1000;
-            var numRepeats = genericTrack.numRepeats; //  we added this in prepareMoodedPlaylists
-            var trackPercent = 100;
-
-
-            if(trackTime_ms < trackDuration_ms ){
-                trackPercent = (trackTime_ms *  100 / trackDuration_ms);
-            }
-
-            return observerService.asyncCreateObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack);
 
         }
 
 
-        function asyncInitialise(returnsAnEventHandlingPromise) {
-
-            if (returnsAnEventHandlingPromise) {
-                EVENT_HANDLER_PROMISE = returnsAnEventHandlingPromise;
-            } else {
-                throw (ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "User Profiler Service needs a function returning a promise which will handle change events (new playlists). See EventIdentifier"))
-            }
-
-
+        function asyncUpdateFromSettings(){
             var deferred = $q.defer();
             var promises = [];
-
 
             $timeout(
 
@@ -120,16 +140,20 @@
 
                     promises.push(allSettingsService.asyncGet(SETTINGS.MAX_SKIP_COUNT.id));
                     promises.push(allSettingsService.asyncGet(SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.id));
+                    promises.push(allSettingsService.asyncGet(SETTINGS.UNOBSERVED_TRACKS_LIMIT.id));
+                    
+
+
 
                     $q.all(promises).then(
                         function (results) {
                             SETTINGS.MAX_SKIP_COUNT.value = results[0];
                             SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value = results[1];
+                            SETTINGS.UNOBSERVED_TRACKS_LIMIT.value = results[2];
+                            
                         },
                         deferred.reject
                     );
-
-
 
                     deferred.resolve();
 
@@ -138,7 +162,16 @@
             );
 
 
-            return deferred.promise;
+            return deferred.promise; 
+        }
+
+
+
+        function asyncInitialise(fnOnChange) {
+
+            g_fnOnChange = fnOnChange;
+
+            return asyncUpdateFromSettings();
 
         }
 
@@ -156,7 +189,7 @@
 
 
 
-        function markRepeat(){
+        function markRepeat() {
             var genericTrack = g_currentPlaylist[g_currentPlaylist.currentTrackIndex];
             genericTrack.numRepeats += 1; // we added this in prepareMoodedPlaylists
         }
@@ -190,7 +223,7 @@
                                 flipMoodedPlaylists();
                                 g_numSkips = 0;
                             }
-                            deferred.resolve(setNextTrack(0));
+                            deferred.resolve(setNextTrack());
                         },
                         deferred.reject
                     );
@@ -255,35 +288,48 @@
 
         // --- player
 
+        function isTrackSkipped() {
+            var result = false;
+            if (g_trackStartTime_ms == null) {
+                var message = "userProfilerService.asyncNext: use asyncBegin on a new playlist";
+                console.log(message);
+                throw (message);
+            } else {
+                var currentTime_ms = new Date().getTime();
+                var diff_ms = currentTime_ms - g_trackStartTime_ms;
+                var threshold_ms = SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S.value * 1000;
+                if (diff_ms < threshold_ms) {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+
+
+
+
         // use next to go to the next track, while playing, or when the current track has completed. You need to have used begin at least once first.
         function asyncNext() {
 
-            if (g_trackStartTime_ms == null) {
-                throw ("userProfilerService.asyncNext: use asyncBegin on a new playlist");
+            if (isTrackSkipped()) {
+                return asyncOnTrackSkippedNext();
             } else {
-                var currentTime_ms = new Date().getTime();
-                if ((currentTime_ms - g_trackStartTime_ms) < (SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S * 1000)) {
-                    return asyncOnTrackSkippedNext();
-                } else {
-                    return asyncOnNextTrack();
-                }
+                return asyncOnNextTrack();
             }
+
 
 
         }
 
         // use previous to go to the previous track, while playling, or when the current track has completed. You need to have used begin at least once first.
         function asyncPrev() {
-            if (g_trackStartTime_ms == null) {
-                throw ("userProfilerService.asyncPrev: use asyncBegin on a new playlist");
+            if (isTrackSkipped()) {
+                return asyncOnTrackSkippedPrev();
             } else {
-                var currentTime_ms = new Date().getTime();
-                if ((currentTime_ms - g_trackStartTime_ms) < (SETTINGS.MAX_TRACK_DURATION_FOR_SKIP_S * 1000)) {
-                    return asyncOnTrackSkippedPrev();
-                } else {
-                    return asyncOnPrevTrack();
-                }
+                return asyncOnPrevTrack();
             }
+
         }
 
 
@@ -294,9 +340,9 @@
             var deferred = $q.defer();
             $timeout(
                 function () {
-                    if (g_firstBegin){
+                    if (g_firstBegin) {
                         g_firstBegin = false;
-                    }else{
+                    } else {
                         markRepeat();
                     }
                     deferred.resolve(setNextTrack(0)); // increment as zero
@@ -330,7 +376,7 @@
             var result = [];
 
             rawObservations.forEach(
-
+                // extract and deduplicate track ids, while retaining their priority.
                 function (rawObservation) {
                     var trackId = rawObservation.getTrackId();
                     var priority = rawObservation.getPriority();
@@ -340,23 +386,42 @@
                         if (container[priority] == null) {
                             container[priority] = {};
                         }
-                        container[priority][trackid] = {};
+                        container[priority][trackId] = {};
                     }
                 }
             );
 
             // container is now a dictionary of tracks and associated priorities.
-            // push into results in order of priority
+            // push into intermediate array in order of priority. Lowest index: highest priority
+            var priorityOrder = [];
             Object.keys(container).forEach(
                 function (priority) {
                     //rely on order of priority, not insertion, since these keys are integers
-                    Object.getKeys(container[priority]).forEach(
+                    Object.keys(container[priority]).forEach(
                         function (trackId) {
-                            result.push(trackId);
+                            priorityOrder.push(trackId);
                         }
                     );
+
                 }
             );
+            // tracks are now ordered in the array according to priority.
+            // deduplicate, by adding each trackId to a dictionary, in order
+            var dedupe = {};
+            priorityOrder.forEach(
+                function (trackId) {
+                    dedupe[trackId] = trackId;
+                }
+            );
+
+            // now output the deduped track ids into the results
+            Object.keys(dedupe).forEach(
+                function (trackId) {
+                    // keys are now in order of insertion, which is priority order. Highest priority has lowest index.
+                    result.push(trackId);
+                }
+            );
+
 
             return result;
 
@@ -373,12 +438,14 @@
 
             trackIds.forEach(
                 function (trackId) {
-                    promises.push[dataApiService.asyncGetTrackFromId(trackId)];
+                    promises.push(dataApiService.asyncGetTrackFromId(trackId));
                 }
             );
 
             $q.all(promises).then(
-                deferred.resolve
+                function(results){
+                    deferred.resolve(results);
+                }
                 ,
                 deferred.reject
             );
@@ -388,7 +455,28 @@
         }
 
 
-        function asyncFindPlaylist(moodId, timeStamp, location) {
+
+
+
+        function asyncFindPlaylistFromUnobservedTracks(moodId) {
+            
+            var deferred = $q.defer();
+
+            dataApiService.asyncGetUnobservedTracks(SETTINGS.UNOBSERVED_TRACKS_LIMIT.value).then(
+                function (genericTracks) {
+                    var result = MoodedPlaylist.build(moodId, genericTracks);
+                    console.log("asyncFindPlaylistFromUnobservedTracks:")
+                    MoodedPlaylist.dumpItems([result]);
+                    deferred.resolve(result);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+        function asyncFindPlaylistByObservation(moodId, timeStamp, location) {
             var deferred = $q.defer();
             observerService.asyncSeekObservations(moodId, timeStamp, location).then(
                 function (rawObservations) {
@@ -396,6 +484,8 @@
                     asyncLookupTrackIds(trackIds).then(
                         function (genericTracks) {
                             var result = MoodedPlaylist.build(moodId, genericTracks);
+                            console.log("asyncFindPlaylistByObservation:")
+                            MoodedPlaylist.dumpItems([result]);
                             deferred.resolve(result);
                         },
                         deferred.reject
@@ -410,37 +500,67 @@
 
 
 
+        function asyncFindPlaylist(moodId, timeStamp, location){
+
+            var deferred = $q.defer();
+
+            var promises = [];
+
+            promises.push(
+                asyncFindPlaylistByObservation(moodId, timeStamp, location)
+            );
+            promises.push(
+                asyncFindPlaylistFromUnobservedTracks(moodId)
+            );
+
+            $q.all(promises).then(
+                function(results){
+                    var result = MoodedPlaylist.build(moodId, []);
+                    results.forEach(
+                        function(candidate){
+                            result.add(candidate);
+                        }
+                    );
+                    deferred.resolve(result);
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
 
         function asyncFindPlaylists(moodedSearchCriteria) {
             var deferred = $q.defer();
-            if (moodedSearchCriteria instanceof MoodedSearchCriteria) {
 
-                $timeout(
 
-                    function () {
+            $timeout(
 
-                        var promises = [];
-                        var moodIds = moodedSearchCriteria.getMoodIds();
-                        var timeStamp = moodedSearchCriteria.getTimestamp();
-                        var location = moodedSearchCriteria.getLocation();
+                function () {
 
-                        moodIds.forEach(
-                            function (moodId) {
-                                promises.push(
-                                    asyncFindPlaylist(moodId, timeStamp, location)
-                                );
-                            }
-                        );
-                        $q.all(promises).then(
-                            deferred.resolve
-                            ,
-                            deferred.reject
-                        );
-                    }
-                );
-            } else {
-                throw ("userProfiler.finder.asyncFindPlaylist: needs a MoodedSearchCriteria");
-            }
+                    var promises = [];
+                    var moodIds = moodedSearchCriteria.getMoodIds();
+                    var timeStamp = moodedSearchCriteria.getTimestamp();
+                    var location = moodedSearchCriteria.getLocation();
+
+                    moodIds.forEach(
+                        function (moodId) {
+                            promises.push(
+                                asyncFindPlaylist(moodId, timeStamp, location)
+                            );
+                        }
+                    );
+                    $q.all(promises).then(
+                        function(results){
+                            deferred.resolve(results);
+                        }
+                        ,
+                        deferred.reject
+                    );
+                }
+            );
+
             return deferred.promise;
         }
 
@@ -450,10 +570,10 @@
                     moodedPlaylist.currentTrackIndex = 0; // we're adding this attribute
 
                     var genericTracks = moodedPlaylist.getGenericTracks();
-                    if(genericTracks){
+                    if (genericTracks) {
 
                         genericTracks.forEach(
-                            function(genericTrack){
+                            function (genericTrack) {
                                 genericTrack.numRepeats = 0; // we're adding this attribute
                             }
                         );
@@ -516,10 +636,37 @@
         // --- Loader
 
         function asyncLoadMoodedPlaylists(arrayMoodedPlaylists) {
-            initialisePlaylists(arrayMoodedPlaylists);
-            initialiseCounters();
+            var deferred = $q.defer();
 
-            return asyncBroadcastEvent(EventIdentifier.build(EventIdentifier.PLAYLIST_NEW, null));
+            $timeout(
+                function () {
+
+                    var moodSuitable = false;
+
+                    try {
+                        moodSuitable = !isTrackSkipped();
+                    } catch (e) { } // ignore. Following observation will fail for the same reason
+
+
+
+                    asyncObserveCurrentTrack(moodSuitable).then(
+                        function () {
+
+                            initialisePlaylists(arrayMoodedPlaylists);
+                            initialiseCounters();
+                            notifyChange();
+                            
+                            deferred.resolve();
+                        },
+                        deferred.reject
+                    );
+
+                }
+
+            );
+
+
+            return deferred.promise;
         }
 
         // --- Statement
@@ -539,7 +686,8 @@
         }
 
         var service = {
-            asyncInitialise,
+            asyncInitialise: asyncInitialise,
+            asyncUpdateFromSettings: asyncUpdateFromSettings,
             player: {
                 asyncBegin: asyncBegin,
                 asyncNext: asyncNext,

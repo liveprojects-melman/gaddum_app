@@ -21,6 +21,7 @@
     'gaddumContextMenuItem',
     'playlistService',
     'spinnerService',
+    '$ionicListDelegate',
 
     'friendsService',
     '$ionicModal',
@@ -45,6 +46,7 @@
     gaddumContextMenuItem,
     playlistService,
     spinnerService,
+    $ionicListDelegate,
 
     browseService,
     $ionicModal,
@@ -123,7 +125,7 @@
             bm.searchBrowse.push(element);
           });
           gaddumShortcutBarService.enableContext();
-
+          console.log("mmmmmMMMMMMMmmmmm",bm.searchBrowse);
 
         }).catch(function (er) {
           bm.sList = false;
@@ -143,22 +145,16 @@
       gaddumShortcutBarService.setContextMenu(conMenu);
     }
     function howAreYouPlayAllTracks() {
+      currentTrack = bm.searchBrowse;
       howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
     }
     function fnCallbackHowAreYouOkPlay(emotion) {
 
-      var moodedArray = [];
-      
-      var trackInfos = bm.searchBrowse;
-
-      // import the tracks - we need them in the database, to be able to observe them.
-      gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
-        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)
-          var moodedPlaylist =  MoodedPlaylist.build(moodId, genericTracks);
-          moodedArray.push(moodedPlaylist);
-          playlistService.asyncPlay(moodedArray);
-        }
-      );
+      gaddumMusicProviderService.asyncImportTracks(currentTrack).then(
+        function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)  
+          var moodedPlaylist =  MoodedPlaylist.build(emotion, genericTracks);
+          playlistService.asyncPlay([moodedPlaylist]);
+        });
      
 
 
@@ -235,6 +231,7 @@
     }
     function play(track) {
       console.log("track", track);
+      $ionicListDelegate.closeOptionButtons();
       currentTrack = track;
       console.log("current", currentTrack);
       howAreYou();
@@ -258,9 +255,11 @@
       console.log("modal canceled");
     }
     function addToPlaylist(track) {
+      $ionicListDelegate.closeOptionButtons();
       var trackToAdd = [];
-      playlistService.asyncImportTrack(track).then(function (genTrack) {
+      gaddumMusicProviderService.asyncImportTracks([track]).then(function (genTrack) {
         trackToAdd.push(genTrack);
+        console.log("track", genTrack);
         addToPlaylistWizard.open(trackToAdd, fnCallbackAddToPlaylistOk, fnCallbackAddToPlaylistCancel);
       });
     }

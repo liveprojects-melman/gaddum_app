@@ -17,7 +17,8 @@
         'AvatarGraphic',
         '$ionicModal',
         '$scope',
-        'spinnerService'
+        'spinnerService',
+        '$ionicSlideBoxDelegate'
     ];
 
     function control(
@@ -32,7 +33,8 @@
         AvatarGraphic,
         $ionicModal,
         $scope,
-        spinnerService
+        spinnerService,
+        $ionicSlideBoxDelegate
 
     ) {
         var vm = angular.extend(this, {
@@ -40,50 +42,45 @@
             genresFontStyle: false,
             displayGenres: "",
             screenWidth: 0,
-            busy: true
+            busy: true,
+            name: ""
 
 
         });
         var scale = 8;
         vm.userProfile = {
-            /* "profile": { */
-                "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
-                "avatar_name": "Defaulthony Nameson",
-                "avatar_graphic": [
-                    0,
-                    102,
-                    102,
-                    24,
-                    24,
-                    102,
-                    102,
-                    0
-                ],
-                "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
-            /* } */
+            "profile_id": "99999999-5500-4cf5-8d42-228864f4807a",
+            "avatar_name": "Defaulthony Nameson",
+            "avatar_graphic": [
+                0,
+                102,
+                102,
+                24,
+                24,
+                102,
+                102,
+                0
+            ],
+            "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
         };
 
         vm.allGenres = [];
         vm.selecteGenres = [];
         vm.userGenres = "";
+        // var firstLoad = false;
 
         function init() {
-            //console.log("init");
             vm.screenWidth = screen.width;
             vm.name = vm.userProfile.avatar_name;
             vm.busy = true;
             spinnerService.spinnerOn();
-            /*     asyncPopulateGenres().then(function () {
-                
-                }); */
             asyncPopulateGenres().then(
                 asyncPopulateProfile()).then(function success(results) {
                     vm.genreScrollChecker();
-                    //console.log("!!!!!!!",vm.userProfile);
                     vm.checkGraphic(vm.userProfile.avatar_graphic.values);
-                    //if (vm.checkGraphic(vm.userProfile.avatar_graphic.values)) {
-                    if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
+                    if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "" || vm.userProfile.avatar_name == "Defaulthony Nameson") && profileService.getOpenModalFlag() == false) {
                         profileService.setModalOpenFlag(true);
+                        // firstLoad = true;
                         vm.profileEdit();
                     };
                     vm.busy = false;
@@ -106,7 +103,7 @@
             console.log("profile", vm.userProfile);
 
         };
-        
+
         vm.getName = function () {
             spinnerService.spinnerOn();
             asyncPopulateProfile().then(
@@ -114,36 +111,33 @@
                     vm.name = vm.userProfile.profile.avatar_name;
                     vm.nameTextResizer();
                     spinnerService.spinnerOff();
+                }, function (error) {
+                    spinnerService.spinnerOff();
+                    console.log(error);
                 }
             );
         };
         vm.setName = function (name) {
             spinnerService.spinnerOn();
-            profileService.asyncSetAvatarName(name).then(
+            vm.name = name;
+            document.getElementById("nameHeader").innerText=vm.name;
+            // var deferred = $q.defer();
+            return profileService.asyncSetAvatarName(name).then(
                 function () {
                     spinnerService.spinnerOff();
-                    //console.log("SET NAME done");;
-                    // profileService.asyncGetAvatarName().then(
-                    //     function success(result) {
-                    //         //console.log("new name",result)
-                    //         if (result == null) {
-                    //             vm.name = "";
-                    //         } else {
-                    //             vm.name = result;
-                    //         }
-                    //         spinnerService.spinnerOff();
-                    //     }
-                    // )
-                });
-            setTimeout(function () {
-                //vm.name = profileService.asyncGetAvatarName();//change
-                vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
-                /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
-                    document.getElementById("qrCodeDiv").style.visibility="hidden";
-                } else{
-                    document.getElementById("qrCodeDiv").style.visibility="visible";
-                } */
-            }, 0);
+                    setTimeout(function () {
+                        vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
+                        /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
+                            document.getElementById("qrCodeDiv").style.visibility="hidden";
+                        } else{
+                            document.getElementById("qrCodeDiv").style.visibility="visible";
+                        } */
+                    }, 0);
+                }, function (error) {
+                    spinnerService.spinnerOff();
+                    // deferred.reject(error);
+                }
+            );
         };
 
 
@@ -153,7 +147,8 @@
         }
         vm.setGenres = function (genres) {
             //console.log("genres test",profileService.asyncGetGenres());
-            profileService.asyncSetGenres(genres).then(function () {
+            spinnerService.spinnerOn();
+            return profileService.asyncSetGenres(genres).then(function () {
                 // setTimeout(function () {
                 vm.userGenres = genres;
                 vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
@@ -164,7 +159,11 @@
                 } */
                 vm.genreScrollChecker();
                 // }, 0);
-            });
+            }, function (error) {
+                spinnerService.spinnerOff();
+                console.log(error);
+            }
+            );
             //console.log("genres test2",profileService.asyncGetGenres());
 
         }
@@ -205,11 +204,21 @@
 
             profileService.asyncGetUserProfile().then(
                 function success(result) {
-                    vm.userProfile = result;
-                    if (result.avatar_name!=null) {
+                    angular.merge(vm.userProfile, result);
+                    if (result.avatar_name != null) {
+                        
                         vm.name = result.avatar_name;
+                        document.getElementById("nameHeader").innerText=vm.name;
+                        /* if(firstLoad){
+                            firstLoad = false;
+                            // profileEdit2();
+                        } */
+                        //$digest here
+                        //$scope.$digest();
+                        // }, 0);
                     } else {
-                        vm.name="";
+                        vm.name = "Defaulthony Nameson";
+                        document.getElementById("nameHeader").innerText=vm.name;
                     }
                     vm.nameTextResizer();
                     vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
@@ -218,7 +227,9 @@
                     } else{
                         document.getElementById("qrCodeDiv").style.visibility="visible";
                     } */
+                    
                     deferred.resolve(true);
+                   
                 },
                 function fail(error) {
                     deferred.reject(error);
@@ -249,12 +260,33 @@
 
             return deferred.promise;
         }
+        function asyncOpenClose() {
+            var deferred = $q.defer();
+            $timeout(
+                function () {
+                    if (vm.checkGraphic(vm.userProfile.avatar_graphic.values)) {
+                        vm.userProfile.avatar_graphic.values = [0, 102, 102, 24, 24, 102, 102, 0];
+                        vm.userProfile.avatar_graphic.colour = "#FF00FF";
+                    }
+                    var modalParams = [
+                        { "allGenres": vm.allGenres },
+                        { "userGenres": vm.selectedGenres },
+                        { "userProfile": vm.userProfile },
+                        {"close":true}
+                    ];
+                    profileEditModal.open(modalParams, callback, refresh);
+                    deferred.resolve();
+                },1000
+            );
+
+            return deferred.promise;
+        }
 
         vm.checkGraphic = function (gValues) {
             var result = true;
             gValues.forEach(function (row) {
                 if (row != 0) {
-                    result= false;
+                    result = false;
                 }
             });
             return result;
@@ -264,7 +296,10 @@
 
 
         function profileEdit() {
-            asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(function () { vm.genreScrollChecker() });
+            asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(function () { vm.genreScrollChecker(); }, function (error) { console.log(error); });
+        };
+        function profileEdit2() {
+            asyncPopulateGenres().then(asyncPopulateProfile).then(asyncOpenClose).then(function () { vm.genreScrollChecker(); }, function (error) { console.log(error); });
         };
 
         vm.saveGenreEdit = function (newGenres) {
@@ -282,7 +317,7 @@
 
                 if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
                     vm.scrollGenre = true;
-                    vm.displayGenres=vm.displayGenres+", "
+                    vm.displayGenres = vm.displayGenres + ", "
                 } else {
                     vm.scrollGenre = false;
                 }
@@ -295,26 +330,26 @@
             //if its bigger
             //make it smaller until it fits
 
-            if (document.getElementById("nameHeader")!=null&&document.getElementById("nameHeader")!=""&&vm.name!=null&&vm.name!=""){
-                var profileNameFont=document.getElementById("nameHeader").style.font;
-                var nameText=vm.name;
-               
-                var maxNoScrollWidth = document.body.clientWidth - (80);
+            if (document.getElementById("nameHeader") != null && document.getElementById("nameHeader") != "" && vm.name != null && vm.name != "") {
+                var profileNameFont = document.getElementById("nameHeader").style.font;
+                var nameText = vm.name;
+
+                var maxNoScrollWidth = document.body.clientWidth - (85);
                 //var nameFontSize=document.getElementById("nameHeader").style.fontSize;
                 for (var i = 0; i < 36; i++) {
                     //nameFontSize=document.getElementById("nameHeader").style.fontSize;
                     //console.log("testing name at "+i+"px");
-                    if (nameTextWidth(nameText,profileNameFont,i+"px")<maxNoScrollWidth) {
+                    if (nameTextWidth(nameText, profileNameFont, i + "px") < maxNoScrollWidth) {
                         //console.log(i+"px is smaller");
-                    }else{
-                        var j=i-2;
+                    } else {
+                        var j = i - 2;
                         //console.log(i+"px is too big, setting name at"+j+"px");
-                        document.getElementById("nameHeader").style.fontSize=j+"px";
+                        document.getElementById("nameHeader").style.fontSize = j + "px";
                         break;
                     }
-                    
-                    
-                    
+
+
+
                     /* if (nameTextWidth(nameText,profileNameFont,nameFontSize)<maxNoScrollWidth) {                //if its smaller
                         document.getElementById("nameHeader").style.fontSize=i+"px";
                         nameFontSize=document.getElementById("nameHeader").style.fontSize;                      //amek bigger
@@ -329,14 +364,14 @@
             }
         };
 
-        function nameTextWidth(text, fontProp,textFontSize) {
+        function nameTextWidth(text, fontProp, textFontSize) {
             var tag = document.createElement("div");
             tag.style.position = "absolute";
             tag.style.left = "-99in";
             tag.style.whiteSpace = "nowrap";
             tag.style.font = fontProp;
             tag.innerHTML = text;
-            tag.style.fontSize=textFontSize;
+            tag.style.fontSize = textFontSize;
 
             document.body.appendChild(tag);
 
@@ -407,7 +442,7 @@
                     //deferred.resolve();
                 },
                 function fail(error) {
-                    deferred.reject(error);
+                    // deferred.reject(error);
                 }
             );
         };
@@ -421,12 +456,37 @@
 
         function callback(profileDetails) {
             //update everything on screen
-            vm.setName(profileDetails.name);
-            vm.setAvatar_image(profileDetails.avatar_image, profileDetails.avatar_image_colour);
-            vm.setGenres(profileDetails.genres);
-            vm.genreScrollChecker();
-            profileService.setModalOpenFlag(false);
-            asyncPopulateProfile();
+            if (vm.name=="Defaulthony Nameson"||vm.name==null||vm.name=="") {
+                profileService.setFirstRunFlag(true);
+            }
+            vm.setName(profileDetails.name).then(
+                vm.setAvatar_image(profileDetails.avatar_image, profileDetails.avatar_image_colour).then(
+                    vm.setGenres(profileDetails.genres).then(
+                        function onSuccess() {
+                            vm.genreScrollChecker()
+                            profileService.setModalOpenFlag(false);
+                            asyncPopulateProfile();
+                            setTimeout(function(){
+                                init();
+                                console.log("flag",profileService.getFirstRunFlag())
+                                if (profileService.getFirstRunFlag()==true && profileDetails.name!="Defaulthony Nameson") {
+                                    profileService.setFirstRunFlag(false);
+                                    var slideCounter=0;
+                                    while ( $($("#main_wrapper").find("ion-slide")[slideCounter]).attr("ion-slide-tab-label") != "Mood") {
+                                        slideCounter++;
+                                    }
+                                    $ionicSlideBoxDelegate.slide(slideCounter)
+                                    //$ionicSlideBoxDelegate.slide(3);//switches to mood
+                                    //  $($("#main_wrapper").find("ion-slide")[i]).attr("ion-slide-tab-label") === $scope.name
+                                    //replace scope.name with "Mood"
+                                }
+                                
+                            }, 200);
+                            
+                        },
+                        function fail(error) {
+                            spinnerService.spinnerOff();
+                        })))
 
         };
         function refresh() {
@@ -441,23 +501,22 @@
 
         vm.setAvatar_image = function (avatar_image, image_colour) {
             //console.log("aimg", avatar_image);
-            avatar_image = AvatarGraphic.build(image_colour, avatar_image);
+            var avatar_graphic = AvatarGraphic.build(image_colour, avatar_image);
             spinnerService.spinnerOn();
             //profileService.asyncSetAvatarGraphic(avatar_image);
-            setTimeout(function () {
-                profileService.asyncSetAvatarGraphic(avatar_image).then(
-                    function success(result) {
-                        //console.log("presult",result);
-                        vm.userProfile.avatar_graphic = avatar_image;
-                        /* vm.createProfileGraphic(vm.userProfile.profile_id); */
-                        vm.createProfileGraphic(avatar_image);
-                        spinnerService.spinnerOff();
-                    },
-                    function fail(error) {
-                        deferred.reject(error);
-                        spinnerService.spinnerOff();
-                    })
-            }, 0);
+            /* setTimeout(function () { */
+            return profileService.asyncSetAvatarGraphic(avatar_graphic).then(
+                function success(result) {
+                    //console.log("presult",result);
+                    vm.userProfile.avatar_graphic = avatar_graphic;
+                    /* vm.createProfileGraphic(vm.userProfile.profile_id); */
+                    vm.createProfileGraphic(avatar_graphic);
+                    spinnerService.spinnerOff();
+                },
+                function fail(error) {
+                    spinnerService.spinnerOff();
+                })
+            /* }, 0); */
         }
 
 
@@ -478,6 +537,9 @@
                 $scope.modal = modal;
                 $scope.modal.show();
                 //flag = false;
+            }, function (error) {
+                //spinnerService.spinnerOff();
+                console.log(error);
             });
         };
 

@@ -78,7 +78,15 @@
 
     };
 
-
+    Observation.dumpItems = function(observations) {
+      observations.forEach(
+          function (observation) {
+               console.log("---- observation----");
+               console.log(JSON.stringify(observation, null, 2));
+               console.log("----     end    ----");
+          }
+      );
+  }
 
 
     /**

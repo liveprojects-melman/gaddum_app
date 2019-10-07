@@ -115,14 +115,14 @@
         }
     },
     {
-        "name": "get_track_infos(name, album, artist, duration_s, id, provider_id)",
+        "name": "get_track_infos(name, album, artist, duration_ms, id, provider_id)",
         "function": "get_track_infos",
         "path": "www/sql/get_track_infos.sql",
         "default_parameters": {
             "name" : "Killer Queen",
             "album": "Sheer Heart Attack",
             "artist" : "Queen",
-            "duration_s" : 240,
+            "duration_ms" : 240,
             "id": "1750eea3-5a77-4884-a01f-b7f34261cd8a",
             "provider_id" : "gaddumMusicProviderSpotifyService"
         }
@@ -167,7 +167,7 @@
         }
     }, 
     {
-        "name": "import_generic_track(id,name, album, artist, duration_s)",
+        "name": "import_generic_track(id,name, album, artist, duration_ms)",
         "function": "import_generic_track",
         "path": "www/sql/import_generic_track.sql",
         "default_parameters": {
@@ -175,7 +175,7 @@
             "name":"There Comes A Time", 
             "album":"Gladsome, Humour & Blue",
             "artist":"Martin Stephenson", 
-            "duration_s":248
+            "duration_ms":248
         }
     },    
     {
@@ -296,12 +296,12 @@
         }
     }, 
     {
-        "name": "add_observation(id, timestamp_s, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
+        "name": "add_observation(id, timestamp_ms, mood_id, timeslot, location_lat, location_lon, location_code, track_percent, num_repeats, mood_suitable, track)",
         "function": "add_observation",
         "path": "www/sql/add_observation.sql",
         "default_parameters": {
             "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
-            "timestamp_s": "1565165883",
+            "timestamp_ms": "1565165883",
             "mood_id" : "08b2c793-a801-4bce-aaae-2442c86e6d10",
             "timeslot": 3,
             "location_lat" : 53.5041, 
@@ -325,7 +325,30 @@
             "location_lon" : 0.0123,
             "limit" : 20
         }       
+    },
+    {
+        "name": "get_observations()",
+        "function": "get_observations",
+        "path": "www/sql/get_observations.sql",
+        "default_parameters": {}       
     }
-
+    ,
+    {
+        "name": "get_tracks_limited()",
+        "function": "get_tracks_limited",
+        "path": "www/sql/get_tracks_limited.sql",
+        "default_parameters": {
+            "limit": 5
+        }       
+    }
+    ,
+    {
+        "name": "get_unobserved_tracks()",
+        "function": "get_unobserved_tracks",
+        "path": "www/sql/get_unobserved_tracks.sql",
+        "default_parameters": {
+            "limit": 20
+        }       
+    }
  
 ]

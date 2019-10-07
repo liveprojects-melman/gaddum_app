@@ -20,17 +20,20 @@
         var encodedImage = [];
 
         var myModal = {
-            open: open,
-            close: close,
-            getParams: getParams,
-            callback: callback,
-            cancel: cancel,
-            imgUpdate: imgUpdate,
-            getEncodedImage: getEncodedImage
+          open: open,
+          close: close,
+          getParams: getParams,
+          callback: callback,
+          cancel: cancel,
+          imgUpdate: imgUpdate,
+          getEncodedImage: getEncodedImage,
+          isOpen:false
         };
+
         return myModal;
 
-        function open(params, fnCallbackOk, fnCallbackCancel) {
+      function open(params, fnCallbackOk, fnCallbackCancel) {
+        myModal.isOpen = true;
             var service = this;
 
             parmeter = params;
@@ -42,7 +45,8 @@
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
-                    closeAndRemove(modalInstance);
+                  closeAndRemove(modalInstance);
+                  myModal.isOpen = false;
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();

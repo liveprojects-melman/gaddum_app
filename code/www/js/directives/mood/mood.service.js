@@ -9,6 +9,8 @@
   moodService.$inject = [
     'dataApiService',
     '$q',
+    '$timeout',
+    'allSettingsService',
     'MoodIdentifier',
     'userProfilerService',
     'locationService',
@@ -21,6 +23,8 @@
   function moodService(
     dataApiService,
     $q,
+    $timeout,
+    allSettingsService,
     MoodIdentifier,
     userProfilerService,
     locationService,
@@ -31,7 +35,7 @@
   ) {
 
 
-    var MAX_SEEK_SIZE = 10;
+
 
 
     var g_dictMoodExpressionDetectionCriteria = {};
@@ -39,6 +43,47 @@
     var g_arraySupportedMoodIds = [];
 
     var g_dictSupportedMoodIds = {};
+
+
+
+    var SETTINGS = {
+      SUGGESTED_TRACKS_LIMIT: {
+        id: "track_selector_provider_suggestion_limit",
+        value: 5
+      }
+    };
+
+
+    function asyncUpdateFromSettings() {
+      var deferred = $q.defer();
+      var promises = [];
+
+      $timeout(
+
+        function () {
+
+          promises.push(allSettingsService.asyncGet(SETTINGS.SUGGESTED_TRACKS_LIMIT.id));
+
+
+
+
+          $q.all(promises).then(
+            function (results) {
+              SETTINGS.SUGGESTED_TRACKS_LIMIT.value = results[0];
+            },
+            deferred.reject
+          );
+
+          deferred.resolve();
+
+        }
+
+      );
+
+
+      return deferred.promise;
+    }
+
 
     function asyncGetSupportedMoodIds() {
       var deferred = $q.defer();
@@ -111,18 +156,24 @@
 
     function asyncInitialise() {
       var deferred = $q.defer();
-
-      asyncGetSupportedMoodIds()
+      asyncUpdateFromSettings()
         .then(
-
-          function (arrayMoodIds) {
-            var dictContainer = {};
-            return asyncGetAllMoodDetectionParameters(arrayMoodIds, dictContainer)
-              .then(function (dictContainer) {
-                g_dictMoodExpressionDetectionCriteria = dictContainer;
-                deferred.resolve();
-              });
-          });
+          function () {
+            asyncGetSupportedMoodIds()
+              .then(
+                function (arrayMoodIds) {
+                  var dictContainer = {};
+                  return asyncGetAllMoodDetectionParameters(arrayMoodIds, dictContainer)
+                    .then(function (dictContainer) {
+                      g_dictMoodExpressionDetectionCriteria = dictContainer;
+                      deferred.resolve();
+                    });
+                },
+                deferred.reject
+              );
+          },
+          deferred.reject
+        );
       return deferred.promise;
     }
 
@@ -258,7 +309,7 @@
 
     function asyncSuggestAPlaylist(genre, moodId) {
       var deferred = $q.defer();
-      gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, MAX_SEEK_SIZE).then(
+      gaddumMusicProviderService.asyncSuggestTracks(genre, moodId, SETTINGS.SUGGESTED_TRACKS_LIMIT.value).then(
         function (trackInfos) {
           // import the suggstions - we need them in the database, to be able to observe them.
           gaddumMusicProviderService.asyncImportTracks(trackInfos).then(
@@ -282,7 +333,7 @@
               deferred.resolve,
               deferred.reject
             );
-          }else{
+          } else {
             deferred.resolve(genres);
           }
         },
@@ -296,6 +347,16 @@
 
 
 
+
+    function dumpTracks(items) {
+      console.log("---- tracks ----");
+      items.forEach(
+        function (item) {
+          console.log(JSON.stringify(item, null, 2));
+        }
+      );
+      console.log("----     end    ----");
+    }
 
     function asyncSuggestPlaylists(moodedSearchCriteria) {
 
@@ -317,6 +378,8 @@
 
           $q.all(promises).then(
             function (playlists) {
+              console.log("asyncSuggestPlaylists:");
+              MoodedPlaylist.dumpItems(playlists);
               deferred.resolve(playlists);
             },
             deferred.reject
@@ -333,7 +396,11 @@
     function asyncNotifyNewMood(mood_id) {
       var deferred = $q.defer();
 
+      dataApiService.asyncGetUnfilteredTracks(50).then(
+        dumpTracks,
+        dumpTracks
 
+      );
       locationService.asyncGetImmediateLocation().then(
         function (location) {
 
@@ -364,11 +431,25 @@
       return deferred.promise;
 
     }
+    var onOff = true;
+    function turnOff() {
+      onOff = false;
+    }
+
+    function turnOn() {
+      onOff = true;
+    }
+    function onOrOff() {
+      return onOff;
+    }
 
 
     var service = {
-
+      turnOff: turnOff,
+      turnOn: turnOn,
+      onOrOff: onOrOff,
       asyncInitialise: asyncInitialise,
+      asyncUpdateFromSettings: asyncUpdateFromSettings,
       asyncGetSupportedMoodIds: asyncGetSupportedMoodIds,
       lookupMoodId: lookupMoodId,
       faceToMoodId: faceToMoodId,

@@ -20,10 +20,10 @@
               controller: 'main_uiController',
               controllerAs: 'mlc'
             },
-            'profile@gaddum': {
-              templateUrl: 'js/modules/profile/profile.html',
-              controller: "profileController",
-              controllerAs: "pc"
+            'playlists@gaddum': {
+              templateUrl: 'js/modules/playlists/playlists.list.html',
+              controller: "playlistsListController",
+              controllerAs: "pllc"
             }
           }
         });

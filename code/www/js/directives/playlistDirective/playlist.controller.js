@@ -21,7 +21,9 @@
     'howAreYouModal',
     'MoodedPlaylist',
     'playlistCreateModal',
-    'spinnerService'
+    'spinnerService',
+    '$ionicListDelegate',
+    '$timeout'
   ];
 
   function control(
@@ -38,7 +40,9 @@
     howAreYouModal,
     MoodedPlaylist,
     playlistCreateModal,
-    spinnerService
+    spinnerService,
+    $ionicListDelegate,
+    $timeout
 
   ) {
     var vm = angular.extend(this, {
@@ -47,7 +51,10 @@
       firstSearch: true,
       playlistsToShow: {},
       busy: false,
-      searchTerm: ""
+      searchTerm: "",
+      bang:false,
+      throbbing:false,
+      hasTracks:true
 
     });
     var scale = 8;
@@ -107,11 +114,22 @@
     }
     function importRefresh(playlistArray) {
       vm.busy = true;
+      vm.bang = true;
+      $timeout(function(){
+        vm.throbbing = true;
+      },500);
       spinnerService.spinnerOn();
       contextMenuDisable();
       playlistService.asyncImportPlaylist(playlistArray)
         .then(function (result) {
           vm.busy = false;
+          var explosion = document.getElementById("imExplosion");
+          vm.throbbing = false;
+          explosion.classList.add("moodExplosionLeave");
+          $timeout(function(){
+            vm.bang =false;
+            explosion.classList.remove("moodExplosionLeave");
+          },250);
           spinnerService.spinnerOff();
           contextMenuEnable();
           onNewSearch("");
@@ -119,6 +137,7 @@
     }
 
     vm.removePlaylist = function (index) {
+      $ionicListDelegate.closeOptionButtons();
       vm.busy = true;
       contextMenuDisable();
       var playlist = vm.playlistsToShow[index];
@@ -139,6 +158,7 @@
 
     vm.viewPlaylist = function (index) {
       var playlist = vm.playlistsToShow[index];
+      $ionicListDelegate.closeOptionButtons();
 
       //modal
       //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
@@ -157,6 +177,7 @@
 
     var playlistToPlay = null;
     vm.playPlaylist = function (index) {
+      $ionicListDelegate.closeOptionButtons();
       playlistToPlay = vm.playlistsToShow[index];
       howAreYouPlay();
       console.log("playPlaylist: Not yet implemented...");
@@ -259,6 +280,12 @@
       vm.busy = false;
       console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
+      if(vm.playlistsToShow[0]){
+        vm.hasTracks=true;
+      }
+      else{
+        vm.hasTracks=false;
+      }
     }
 
 

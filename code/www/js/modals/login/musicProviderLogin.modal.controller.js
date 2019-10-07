@@ -76,6 +76,7 @@
 
       ac.selectedNamedIdentifier = gaddumMusicProviderService.getMusicProvider();
       ac.loginEnabled = false;
+      
 
       if(!ac.selectedNamedIdentifier){
         ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
@@ -91,6 +92,10 @@
         function (result) {
           ac.serviceProviders = result;
           ac.busy = false;
+          if(ac.serviceProviders.length === 1){
+            ac.selectedNamedIdentifier = ac.serviceProviders[0];
+            ac.loginEnabled = true;
+          }
           deferred.resolve(result);
         },
         function (err) {

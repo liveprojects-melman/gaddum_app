@@ -10,7 +10,7 @@
           myModalInstanceOptions = {
             scope: null,
             focusFirstInput: true,
-            controller: 'profileEditModalController as vm'
+            /* controller: 'profileEditModalController as vm' */
           };
       $scope.$on("modal.hidden", function (modal) {
         close();

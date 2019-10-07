@@ -25,12 +25,14 @@
       allGenres:[],
       pictureColor:"#FF00FF",
       defaultName:false,
-      defaultImage:false
+      defaultImage:false,
+      isProfileGraphicEditOpen:false
     });
     var scale = 8;
     var fnames = [
       "Apple",
       "Apricot",
+      "Asparagus",
       "Avocado",
       "Banana",
       "Blackberry",
@@ -91,7 +93,7 @@
       "Jelly",
       "Marmalade",
       "Mincemeat",
-      "Picle",
+      "Pickle",
       "Preserve",
       "Relish"
     ];
@@ -103,7 +105,7 @@
 
     function init() {
       vm.params = profileEditModal.getParams();
-//      console.log("params!",vm.params);
+
       initialiseGenres();
       vm.fullName = vm.params[2].userProfile.avatar_name;
       newGenres = vm.params[1].userGenres;
@@ -112,18 +114,31 @@
       if (profile.avatar_graphic.colour != null) {
         vm.pictureColor = profile.avatar_graphic.colour;
       };
-//      console.log("disp img",vm.displayImage);
       if (vm.displayImage.every(emptyArrayCheck)||vm.displayImage===null||vm.displayImage.join()=="0,102,102,24,24,102,102,0") {
         vm.displayImage=[0, 102, 102, 24, 24, 102, 102, 0];
         vm.defaultImage=true;
       }
-      if (vm.fullName===null||vm.fullName==="") {
+      if (vm.fullName===null||vm.fullName===""||vm.fullName=="Defaulthony Nameson") {
         vm.fullName="Defaulthony Nameson";
         vm.defaultName=true;
       }
       vm.genresAsString=vm.params[1].userGenres.join(", ");
+      
 //      console.log(vm.params);
       genresCheck();
+
+      // if(vm.params[3]){
+      //   console.log("should close");
+      //   var newData = {
+      //     "name": vm.fullName,
+      //     "genres": newGenres,
+      //     "avatar_image":vm.displayImage,//edit image 3/?
+      //     "avatar_image_colour":vm.pictureColor
+      //   };
+      //  console.log(newData);
+      //   profileEditModal.callback(newData);
+      //   profileEditModal.close();
+      // }
     }
     function emptyArrayCheck(item){
         return item===0;
@@ -191,20 +206,22 @@
           vm.genresAsString="No Genres Chosen";
         }
       }
-      genresCheck()
+      genresCheck();
     };
     function genresCheck(){
       if (vm.genresAsString==null||vm.genresAsString==="") {
-//        console.log("!!");
         vm.genresAsString="No Genres Chosen";
+        vm.defaultGenres = true;
+      } else {
+        vm.defaultGenres = false;
       }
       testGenresButton();
-    };
+    }
     function testGenresButton() {
       var btnString = vm.genresAsString;
       var btnStringAsArray = btnString.split('');
       var empty = true;
-      if (vm.genresAsString == null || vm.genresAsString == "") {
+      if (vm.genresAsString === null || vm.genresAsString === "") {
         empty = true;
       } else {
         btnStringAsArray.forEach(function (letter) {
@@ -288,6 +305,7 @@
     }
 
     vm.profileImageEdit = function profileImageEdit() {
+      vm.isProfileGraphicEditOpen = true;
       var modalParams = [
         {"avatar_image":vm.displayImage},
         {"avatar_image_colour":vm.pictureColor}
@@ -305,7 +323,7 @@
         ];
       } */
       
-//      console.log("displat img",vm.displayImage);
+      //      console.log("displat img",vm.displayImage);
       editImageModal.open(modalParams, vm.updateImage, vm.imgUpdateCancel);
       //var,ok,c
       profileEditModal.closeCheckFalse();
@@ -317,7 +335,7 @@
       vm.pictureColor=newImage[1];
       vm.createProfileGraphic();
       vm.defaultImage=false;
-      
+      vm.isProfileGraphicEditOpen = false;
     };
 
     vm.imgUpdateCancel = function imgUpdateCancel(image){
@@ -326,6 +344,7 @@
       vm.displayImage=image[0];
       vm.pictureColor=image[1];
       vm.createProfileGraphic();
+      vm.isProfileGraphicEditOpen = false;
     };
 
     vm.showGenreCheckboxModal = function showGenreCheckboxModal() {
@@ -344,6 +363,7 @@
     vm.updateGenres = function updateGenres(genresData){
 //      console.log("newg",genresData);
       vm.updatedGenres=genresData.genres;
+      vm.defaultGenres = false;
     };
 
     vm.genresUpdateCancel=function genresUpdateCancel(genres){

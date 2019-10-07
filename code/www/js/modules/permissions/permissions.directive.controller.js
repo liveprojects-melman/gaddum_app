@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-  var postStartState = 'gaddum.profile';
+  var postStartState = 'gaddum.mood';
 
     angular
         .module('gaddum.permissions')
@@ -13,7 +13,8 @@
       'permissionsService',
       'permissionsListenerService',
       '$ionicPlatform',
-      '$window'
+      '$window',
+      'playlistService'
     ];
 
     function control(
@@ -22,7 +23,8 @@
       permissionsService,
       permissionsListenerService,
       $ionicPlatform,
-      $window
+      $window,
+      playlistService
     ) {
       var vm = angular.extend(this, {
 
@@ -30,7 +32,17 @@
       console.log("permissions controller checking in!");
 
       vm.goMain = function() {
-        $state.go( postStartState );
+        playlistService.asyncSeekPlaylists("").then(function(result){
+          if(result.length===0){
+            postStartState = 'gaddum.playlists';
+          }
+          else{
+            postStartState = 'gaddum.mood';
+          }
+          permissionsListenerService.initialise(null);
+          $state.go(postStartState);
+          deferred.resolve();
+        });
       };
 
       vm.permissions = false;

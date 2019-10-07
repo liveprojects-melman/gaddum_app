@@ -61,10 +61,31 @@
                     value: false
                 }
             },
+
             DATA: {
-                SECTION_COLLECTION_LIMIT: {
-                    id: "observation_section_collection_limit",
-                    value: 20
+                LIMIT_MLTS:{
+                    id: "track_selector_mood_location_timeslot_suitability_limit",
+                    value: 2
+                },
+                LIMIT_MTS:{
+                    id: "track_selector_mood_timeslot_suitability_limit",
+                    value: 2
+                },
+                LIMIT_MLS:{
+                    id: "track_selector_mood_location_suitability_limit",
+                    value: 2
+                },
+                LIMIT_MS:{
+                    id: "track_selector_mood_suitability_limit",
+                    value: 2
+                },
+                LIMIT_TS:{
+                    id: "track_selector_timeslot_suitability_limit",
+                    value: 2
+                },
+                LIMIT_MUS:{
+                    id: "track_selector_mood_unsuitable_limit",
+                    value: 2
                 }
             }
         };
@@ -77,14 +98,25 @@
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.id));
             promises.push(dataApiService.asyncGetSetting(SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.id));
-            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.SECTION_COLLECTION_LIMIT.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_MLTS.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_MTS.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_MLS.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_MS.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_TS.id));
+            promises.push(dataApiService.asyncGetSetting(SETTINGS.DATA.LIMIT_MUS.id));            
+
 
             $q.all(promises).then(
                 function (result) {
                     SETTINGS.PRIVACY.COLLECT_LOCATION_HISTORY.value = result[0];
                     SETTINGS.PRIVACY.COLLECT_MOOD_HISTORY.value = result[1];
                     SETTINGS.PRIVACY.COLLECT_PLAY_HISTORY.value = result[2];
-                    SETTINGS.DATA.SECTION_COLLECTION_LIMIT.values = result[3];
+                    SETTINGS.DATA.LIMIT_MLTS.value = result[3];
+                    SETTINGS.DATA.LIMIT_MTS.value = result[4];
+                    SETTINGS.DATA.LIMIT_MLS.value = result[5];
+                    SETTINGS.DATA.LIMIT_MS.value = result[6];
+                    SETTINGS.DATA.LIMIT_TS.value = result[7];
+                    SETTINGS.DATA.LIMIT_MUS.value = result[8];
 
                     deferred.resolve(result);
                 },
@@ -168,6 +200,10 @@
 
             $timeout(
                 function(){
+
+
+
+
                     var result = {
                         id: utilitiesService.createUuid(),
                         timeStamp: timeService.getTimeStamp(),
@@ -195,8 +231,9 @@
                     gateMood(result, mood);
                     gateGenericTrack(result, genericTrack);
                     asyncGatelocation(result).then(
-                        function onSuccess() {
-                            deferred.resolve(buildFromResult(result));
+                        function onSuccess(result) {
+                            var observation = buildFromResult(result);
+                            deferred.resolve(observation);
                         },
                         function onError(error) {
                             deferred.reject(error, buildFromResult(result));
@@ -205,14 +242,23 @@
         
                 }
             );
-            
-
-
+ 
             return deferred.promise;
         }
 
         function asyncAddObservation(observation) {
-            return dataApiService.asyncAddObservation(observation);
+            var deferred = $q.defer();
+            
+            Observation.dumpItems([observation]);
+
+            dataApiService.asyncAddObservation(observation).then(
+                deferred.resolve,
+                deferred.reject
+            );
+
+
+
+            return deferred.promise;
         }
 
 
@@ -230,7 +276,17 @@
 
                     postcodeService.asyncLocationToPostcode(location).then(
                         function (postCode) {
-                            dataApiService.asyncSeekObservations(mood, timeSlot, postCode, location, SETTINGS.DATA.SECTION_COLLECTION_LIMIT.value).then(
+                            dataApiService.asyncSeekObservations(
+                                mood, 
+                                timeSlot, 
+                                postCode, 
+                                location,
+                                SETTINGS.DATA.LIMIT_MLTS.value,
+                                SETTINGS.DATA.LIMIT_MTS.value,
+                                SETTINGS.DATA.LIMIT_MLS.value,
+                                SETTINGS.DATA.LIMIT_MS.value,
+                                SETTINGS.DATA.LIMIT_TS.value,
+                                SETTINGS.DATA.LIMIT_MUS.value).then(
                                 function (results) {
                                     var rawObservations = [];
                                     results.forEach(
@@ -258,11 +314,14 @@
             asyncCreateConditionalObservation(mood, moodSuitable, trackPercent, numRepeats, genericTrack).then(
 
                 function onCreateObservation(observation) {
+                    
                     asyncAddObservation(observation).then(
                         function onWriteObservation() {
                             deferred.resolve(observation);
                         },
                         function (err) {
+                            console.log("error on observation: ");
+                            console.log(JSON.stringify(observation, null, 2));
                             deferred.reject(err);
                         }
                     );
@@ -275,11 +334,18 @@
             return deferred.promise;
         }
 
+        function asyncGetObservations(){
+            return dataApiService.asyncGetObservations();
+        }
+
+
         var service = {
             // do intialise to update settings from DB
             asyncInitialise: asyncInitialise,
+            asyncUpdateFromSettings: asyncInitialiseSettings,
             asyncCreateObservation: asyncCreateObservation,
-            asyncSeekObservations: asyncSeekObservations
+            asyncSeekObservations: asyncSeekObservations,
+            asyncGetObservations: asyncGetObservations
         };
 
         return service;

@@ -278,7 +278,7 @@
         }
 
         function getSetting(id, fnSuccess, fnFail) {
-
+            console.log("dataApiService: getSetting: " + id);
             mappingService.query("get_setting", { id: id },
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
@@ -299,7 +299,7 @@
 
                         fnSuccess(value);
                     } else {
-                        fnFail("setting not found!");
+                        fnFail("setting not found: " + id);
                     }
                 }
                 , fnFail);
@@ -581,7 +581,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId()
                 },
                 function (response) {
@@ -612,7 +612,7 @@
                     name: genericTrack.getName(),
                     album: genericTrack.getAlbum(),
                     artist: genericTrack.getArtist(),
-                    duration_s: genericTrack.getDuration_s(),
+                    duration_ms: genericTrack.getDuration_ms(),
                     id: genericTrack.getId(),
                     provider_id: musicProvider.getId()
                 },
@@ -647,9 +647,7 @@
                     var items = mappingService.getResponses(response.rows);
                     var result = null;
                     if (items) {
-                        results = GenericTrack.buildFromObject(items[0]);
-
-
+                        result = GenericTrack.buildFromObject(items[0]);
                     }
                     deferred.resolve(result);
                 },
@@ -748,7 +746,7 @@
                 name: genericTrack.getName(),
                 album: genericTrack.getAlbum(),
                 artist: genericTrack.getArtist(),
-                duration_s: genericTrack.getDuration_s()
+                duration_ms: genericTrack.getDuration_ms()
             },
                 function () {
                     deferred.resolve(genericTrack);
@@ -765,7 +763,7 @@
 
         // pushes a generic track object into the DB
         // - ignores its Id
-        // - searches comprehensively for an exact match on name, artist, album, duration_s 
+        // - searches comprehensively for an exact match on name, artist, album, duration_ms 
         function asyncImportGenericTrack(genericTrack) {
             var deferred = $q.defer();
             // do we already have this track?
@@ -925,7 +923,7 @@
                     trackInfo.getName(),
                     trackInfo.getAlbum(),
                     trackInfo.getArtist(),
-                    trackInfo.getDuration_s()
+                    trackInfo.getDuration_ms()
                 );
             }
             return result;
@@ -961,7 +959,7 @@
                     genericTrack.getName(),
                     genericTrack.getAlbum(),
                     genericTrack.getArtist(),
-                    genericTrack.getDuration_s(),
+                    genericTrack.getDuration_ms(),
                     trackReference.getPlayerUri(),
                     trackReference.getThumbnailUri());
             } else {
@@ -1232,7 +1230,7 @@
 
 
         // "id": "82fb1b6e-cca0-4ff5-b85a-a8d708fb8d7c",
-        // "timestamp_s": "1565165883",
+        // "timestamp_ms": "1565165883",
         // "mood_id" : "physical",// MAY BE NULL
         // "timeslot": 3,
         // "location_lat" : 53.5041, // MAY BE NULL
@@ -1246,7 +1244,7 @@
 
         function addObservation(
             id,
-            timestamp_s,
+            timestamp_ms,
             mood_id,
             timeslot,
             location_lat,
@@ -1261,7 +1259,7 @@
         ) {
             mappingService.query("add_observation", {
                 id:id,
-                timestamp_s: timestamp_s,
+                timestamp_ms: timestamp_ms,
                 mood_id: mood_id,
                 timeslot: timeslot,
                 location_lat: location_lat,
@@ -1275,7 +1273,11 @@
                 function (result) {
                     fnSuccess(result);
                 }
-                , fnFail);
+                , 
+                function(error){
+                    fnFail(error);
+                }
+                );
         }
 
         function asyncAddObservation(observation) {
@@ -1285,7 +1287,7 @@
                 function () {
                     if (observation) {
                         var id = observation.getId();
-                        var timestamp_s = observation.getTimeStamp().getJavaEpocS();
+                        var timestamp_ms = observation.getTimeStamp().getJavaEpocMS();
                         var mood = observation.getMood();
                         var mood_id = mood ? mood.getId() : null;
                         var timeSlot = observation.getTimeSlot().getId();
@@ -1306,7 +1308,7 @@
 
                         addObservation(
                             id,
-                            timestamp_s,
+                            timestamp_ms,
                             mood_id,
                             timeSlot,
                             location_lat,
@@ -1336,7 +1338,18 @@
         }
 
 
-        function asyncSeekObservations(moodIdentifier, timeSlot, postCode, location, limit) {
+        function asyncSeekObservations(
+            moodIdentifier, 
+            timeSlot, 
+            postCode, 
+            location,
+            limit_m_l_t_s,
+            limit_m_t_s,
+            limit_m_l_s,
+            limit_m_s,
+            limit_t_s,
+            limit_m_u_s
+            ) {
 
             var deferred = $q.defer();
             console.log("----------");
@@ -1376,7 +1389,12 @@
                         location_code: postcode_id,
                         location_lat: lat,
                         location_lon: lon,
-                        limit: limit
+                        limit_m_l_t_s: limit_m_l_t_s,
+                        limit_m_t_s: limit_m_t_s,
+                        limit_m_l_s: limit_m_l_s,
+                        limit_m_s: limit_m_s,
+                        limit_t_s: limit_t_s,
+                        limit_m_u_s: limit_m_u_s
 
                     },
                         function (response) {
@@ -1406,7 +1424,89 @@
         }
 
 
+        function asyncGetUnfilteredTracks(limit) {
 
+            var deferred = $q.defer();
+
+            mappingService.query("get_tracks_limited", {
+                limit: limit
+            },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+
+
+
+        function asyncGetObservations() {
+
+            var deferred = $q.defer();
+
+            mappingService.query("get_observations", {},
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(RawObservation.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+        function asyncGetUnobservedTracks (limit){
+
+            var deferred = $q.defer();
+
+            mappingService.query("get_unobserved_tracks", {
+                limit: limit
+            },
+                function (response) {
+                    var items = mappingService.getResponses(response.rows);
+                    var results = [];
+                    if (items) {
+                        items.forEach(
+                            function (item) {
+                                results.push(GenericTrack.buildFromObject(item));
+                            }
+                        );
+                    }
+                    deferred.resolve(results);
+                    
+                },
+                deferred.reject
+            );
+
+            return deferred.promise;
+
+        }
+
+       
 
 
         var service = {
@@ -1439,10 +1539,13 @@
 
             asyncAddObservation: asyncAddObservation,
             asyncSeekObservations: asyncSeekObservations,
+            asyncGetObservations: asyncGetObservations,
+            asyncGetUnobservedTracks: asyncGetUnobservedTracks,
 
 
             asyncSeekTracks: asyncSeekTracks,
             asyncGetTracks: asyncGetTracks,
+            asyncGetUnfilteredTracks: asyncGetUnfilteredTracks,
             asyncGetTrackInfos: asyncGetTrackInfos,
             asyncGetTrackFromId: asyncGetTrackFromId,
 
