@@ -72,8 +72,8 @@
    }
 
     service.initialise = function initialise(w,h,videoSettings) {
-      console.log("initialising!", service.isReady);
-      console.log("using these parameters to start jeeliz:", videoSettings);
+      //console.log("initialising!", service.isReady);
+      //console.log("using these parameters to start jeeliz:", videoSettings);
 
       service.face.criteria = {};
       if( service.isReady === false ) {
@@ -88,7 +88,7 @@
           callbackReady: service._callbackReady,
         });
 
-        console.log("starting jft with these video params",videoSettings);
+        //console.log("starting jft with these video params",videoSettings);
 
         jft.init( videoSettings );
       }
@@ -103,19 +103,19 @@
     };
 
     service._onWebcamGet = function _onWebcamGet(e) {
-      console.log("!!! _onWebcamGet called", e);
+      //console.log("!!! _onWebcamGet called", e);
     };
 
     service._onWebcamAskCallback = function _onWebcamAskCallback(e) {
-      console.log("onWebcamAskCallback - ",e);
+      //console.log("onWebcamAskCallback - ",e);
  
     };
     service._onWebcamGetCallback = function _onWebcamGetCallback(e) {
-      console.log("onWebcamGetCallback - ",e);
+      //console.log("onWebcamGetCallback - ",e);
 
     };
     service._onContextLostCallback = function _onContentLostCallback(e) {
-      console.log("onContentLostCallback - ",e);
+      //console.log("onContentLostCallback - ",e);
 
     };
 
@@ -151,12 +151,12 @@
     };
 
     service._callbackReady = function _callbackReady(e) {
-      console.log("^^ jeeliz._callbackReady, error: ", e);
+      //console.log("^^ jeeliz._callbackReady, error: ", e);
       service.isReady = true;
       service.isRunning = true;
       service.face.criteria = {};
       if( ( e === false ) || ( e === undefined) ) {
-        console.log('JEEFACETRANSFERAPI READY');
+        //console.log('JEEFACETRANSFERAPI READY');
         service.isRunning = true;
         
         _morphFactorsArr=jft.get_morphTargetInfluencesStabilized();   
@@ -164,7 +164,7 @@
         jft.set_morphUpdateCallback(service._onMorphUpdate);
         jft.on_detect(service.onDetect);
       } else {
-        console.log("emotionReaderService._callbackReady - error starting, ",e);
+        //console.log("emotionReaderService._callbackReady - error starting, ",e);
         service.isRunning = service.isReady = false;
         service.cameraError = true;
       }
@@ -176,7 +176,7 @@
     };
 
     service.onDetect = function onDetect(detected) {
-      console.log("!!! onDetect", detected);
+      //console.log("!!! onDetect", detected);
       var olddetected = service.face.detected;
       service.face.detected = detected;
     };

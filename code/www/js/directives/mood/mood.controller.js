@@ -90,7 +90,7 @@
           }
         }
       };
-      console.log("££ Starting CanvasCamera with ",options);
+      //console.log("££ Starting CanvasCamera with ",options);
       CanvasCamera.start(options);
 
       emotionReaderService.setListener(fnCallback);
@@ -98,7 +98,7 @@
     }
 
     vm.initWeboji = function initWeboji(){
-      console.log("!! initWeboji called");
+      //console.log("!! initWeboji called");
       emotionReaderService.initialise(
         canvas.width, canvas.height,{
           canvasId:  "jeefacetransferCanvas" ,
@@ -124,7 +124,7 @@
 
     function updateDisplay(moodId) {
       if (moodId) {
-        console.log("mood", moodId, "moodDict", moodIdDict, "mooddis", vm.moodDisplay);
+        //console.log("mood", moodId, "moodDict", moodIdDict, "mooddis", vm.moodDisplay);
         vm.moodDisplay.name = moodIdDict[moodId].name;
         vm.moodDisplay.emoji = moodIdDict[moodId].emoji;
         vm.moodDisplay.id = moodId;
@@ -165,7 +165,7 @@
 
         function () {
           if (vm.detecting) {
-            console.log("*** doUpdate, emotionReaderService:", emotionReaderService);
+            //console.log("*** doUpdate, emotionReaderService:", emotionReaderService);
 
             vm.cameraError = emotionReaderService.cameraError;
             vm.isRunning = emotionReaderService.isRunning;
@@ -249,8 +249,8 @@
 
     function init() {
       vm.emotionSelected = false;
-      console.log("first: ", vm.firstTime);
-      console.log("moodidDict: ", moodIdDict);
+      //console.log("first: ", vm.firstTime);
+      //console.log("moodidDict: ", moodIdDict);
       vm.detecting = false;
       spinnerService.spinnerOn();
       vm.disableButton = true;
@@ -360,7 +360,7 @@
       onItemSelect(emotion);
     }
     function fnCallbackCancel() {
-      console.log("modal canceled");
+      //console.log("modal canceled");
     }
 
     function playMood(){
@@ -371,9 +371,8 @@
       },500);
       spinnerService.spinnerOn();
 
-      console.log("Getting Tracks for: " + lastMoodId);
+      //console.log("Getting Tracks for: " + lastMoodId);
 
-    
       moodService.asyncNotifyNewMood(lastMoodId).then(
         function(){
           spinnerService.spinnerOff();
@@ -386,7 +385,7 @@
           },250);
         },
         function(errorIdentifier){
-          console.log("moodController: playMood: warning: " + errorIdentifier.message);
+          //console.log("moodController: playMood: warning: " + errorIdentifier.message);
           spinnerService.spinnerOff();
 
         }
