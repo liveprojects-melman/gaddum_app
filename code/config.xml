@@ -110,4 +110,7 @@
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
     <plugin name="cordova-spotify" spec="^0.5.8" />
+    <plugin name="com.virtuoworks.cordova-plugin-canvascamera" spec="git+https://github.com/VirtuoWorks/CanvasCameraPlugin.git">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value="Display video preview" />
+    </plugin>
 </widget>

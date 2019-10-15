@@ -26,8 +26,9 @@
       <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected===true">👍</span>
     </div> -->
 
-    <div ng-hide=true style="text-align: center">
+    <div ng-hide='true' style="text-align: center">
       <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
+      <canvas id="jeefacetransferCanvas" style="width:320px;height:288px;" style="display:none !important;"></canvas>
     </div>
 
     <div ng-click="vm.wakeUpCamera()" ng-disabled="vm.cameraError" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">

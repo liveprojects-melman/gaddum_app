@@ -15,8 +15,6 @@
 
     var listener = null;
 
-
-
     service.face = {
       detected: false
     };
@@ -30,12 +28,7 @@
 
     service.setListener = function(fn){
       listener = fn;
-    }
-
-
-
-
-
+    };
 
     var jft = JEEFACETRANSFERAPI;
     var _morphFactorsArr;
@@ -57,7 +50,6 @@
 
   var _rotation = [0,0,0];
 
-
   function greaterOf(arg1,arg2){
     var result = arg2; 
     if(arg1 > arg2){
@@ -65,15 +57,15 @@
      }
      return result;
    }
-  
+
    // returns the difference between the two values
    // we know the values are both conformant to the range  0 - 1
    function normalised_difference(arg1, arg2){
     var result = Math.abs(arg1 - arg2);
     return result;
    }
-  
-  
+
+
    function average(arg1, arg2){
     var result = (arg1 + arg2)/2;
     return result;
@@ -81,6 +73,8 @@
 
     service.initialise = function initialise(w,h,videoSettings) {
       console.log("initialising!", service.isReady);
+      console.log("using these parameters to start jeeliz:", videoSettings);
+
       service.face.criteria = {};
       if( service.isReady === false ) {
         jft.set_size( w,h );
@@ -101,10 +95,15 @@
     };
 
     service.setSleep = function setSleep(newState) {
-      jft.switch_sleep(Boolean(newState));
+      if(jft.hasOwnProperty("switch_sleep")) {
+        jft.switch_sleep(Boolean(newState));
+      }
       service.isRunning = Boolean(!newState);
       service.face.criteria = {};
+    };
 
+    service._onWebcamGet = function _onWebcamGet(e) {
+      console.log("!!! _onWebcamGet called", e);
     };
 
     service._onWebcamAskCallback = function _onWebcamAskCallback(e) {
@@ -149,9 +148,10 @@
       criteria.cocked_eybrow = normalised_difference(criteria.eyeBrowLeftUp, criteria.eyeBrowRightUp);
       criteria.wink = normalised_difference(criteria.eyeLeftClose, criteria.eyeRightClose);
       service.face.criteria = criteria;
-  } 
+    };
 
     service._callbackReady = function _callbackReady(e) {
+      console.log("^^ jeeliz._callbackReady, error: ", e);
       service.isReady = true;
       service.isRunning = true;
       service.face.criteria = {};
@@ -176,6 +176,7 @@
     };
 
     service.onDetect = function onDetect(detected) {
+      console.log("!!! onDetect", detected);
       var olddetected = service.face.detected;
       service.face.detected = detected;
     };

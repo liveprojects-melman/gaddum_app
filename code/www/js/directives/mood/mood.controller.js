@@ -1,5 +1,3 @@
-
-
 (function () {
   'use strict';
 
@@ -46,7 +44,8 @@
       lookAtTheCameraText:false,
       bang:false,
       throbbing:false,
-      cameraErrorString: 'Whoops! No Camera!'
+      cameraErrorString: 'Whoops! No Camera!',
+      isFirstTime: true
     });
 
     var _interval_ms = 100;
@@ -55,13 +54,13 @@
     var detecting = false;
     var moodIdDict = {};
 
-    try{
+/*    try{
       if(window.device.platform==="iOS"){
         vm.cameraErrorString="We can't use the iPhone Camera (yet)";
       }
     } catch(e){
       //
-    }
+    }*/
 
     function beginInitialiseCapture(fnCallback) {
 
@@ -69,23 +68,52 @@
       var canvas = document.getElementById(elementId);
       var ctx = canvas.getContext("webgl1");
 
+      CanvasCamera.initialize(canvas);
+      var options = {
+        cameraFacing: 'front',
+        fps:30,
+        width: 288,
+        height: 352,
+        canvas: {
+          width: 288,
+          height: 352
+        },
+        capture: {
+          width: 288,
+          height: 352
+        },
+        onAfterDraw: function(frame) {
+          if (vm.isFirstTime) {
+            vm.isFirstTime = false;
+            // We init Weboji here otherwise the size of the video canvas is wrong.
+            vm.initWeboji();
+          }
+        }
+      };
+      console.log("££ Starting CanvasCamera with ",options);
+      CanvasCamera.start(options);
+
       emotionReaderService.setListener(fnCallback);
 
-      emotionReaderService.initialise(canvas.width, canvas.height,
-        {
-          canvasId: elementId,
+    }
+
+    vm.initWeboji = function initWeboji(){
+      console.log("!! initWeboji called");
+      emotionReaderService.initialise(
+        canvas.width, canvas.height,{
+          canvasId:  "jeefacetransferCanvas" ,
           videoSettings: {
             idealWidth: 320,
             idealHeight: 250,
             minWidth: 320,
             maxWidth: 320,
             minHeight: 250,
-            maxHeight: 250
+            maxHeight: 250,
+            videoElement: canvas 
           }
-        });
-
-    }
-
+        }
+      );
+    };
 
     function defaultDisplay() {
       vm.moodDisplay.name = 'No Mood!';
@@ -137,7 +165,7 @@
 
         function () {
           if (vm.detecting) {
-
+            console.log("*** doUpdate, emotionReaderService:", emotionReaderService);
 
             vm.cameraError = emotionReaderService.cameraError;
             vm.isRunning = emotionReaderService.isRunning;
@@ -301,7 +329,7 @@
           }
 
         }
-      }, 100)
+      }, 100);
 
 
     }

@@ -247,11 +247,10 @@
     }
 
     function asyncGetSupportedSearchModifier() {
-      return $q(function (resolve, reject) {
-        MUSIC_PROVIDER.asyncGetSupportedSearchModifier().then(function (result) {
-          return resolve(result);
+      return asyncCheckForLoginPromptIfNeeded().then(
+        function () {
+          return MUSIC_PROVIDER.asyncGetSupportedSearchModifier();
         });
-      });
     }
 
 
