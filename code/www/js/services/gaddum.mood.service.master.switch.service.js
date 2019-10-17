@@ -27,7 +27,8 @@
       turnOn: function turnOn() {
         console.log("on!");
         service.state.on = true;
-        moodService.turnOn();
+        //moodService.turnOn();
+        emotionReaderService.setSleep(false);
       },
       turnOff: function turnOff() {
         console.log("off!");
@@ -38,7 +39,8 @@
               emotionReaderService.setSleep(true);
               service.state.on = false;
               spinnerService.spinnerOff();
-              moodService.turnOff();
+              //moodService.turnOff();
+              emotionReaderService.setSleep(true);
             }
             else{
               if(emotionReaderService.isSleeping){

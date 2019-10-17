@@ -31,6 +31,7 @@
     spinnerService
   ) {
     var vm = angular.extend(this, {
+      debugging:false,
       allEmotions: null,
       selectedMoodId: null,
       cameraError: false,

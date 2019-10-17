@@ -7,26 +7,8 @@
     </div>
     <div style="text-align: center" class="moodArrow2">
         <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
-      </div>
-    <!-- <div ng-hide=false id="moodCameraState" ng-model="scope" style="text-align: center" class="moodCamera">
-      <span ng-show="vm.cameraError===true">❌</span>
-      <span ng-show="vm.cameraError!=true  && vm.isRunning===false">
-          <p style="font-family: fantasy;">{{vm.moodDisplay.emoji}}</p>
-          <p style="
-                  font-size: 12px;
-                  top: 70px;
-                  position: absolute;
-                  left: 28%;
-                  font-weight: 600;
-                  ">press
-            me!!
-          </p>
-      </span>
-      <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected!=true">📸</span>
-      <span ng-show="vm.cameraError!=true  && vm.isRunning===true && vm.faceDetected===true">👍</span>
-    </div> -->
-
-    <div ng-hide='true' style="text-align: center">
+    </div>
+    <div ng-hide='vm.debugging!=true' style="text-align: center">
       <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
       <canvas id="jeefacetransferCanvas" style="width:320px;height:288px;" style="display:none !important;"></canvas>
     </div>
