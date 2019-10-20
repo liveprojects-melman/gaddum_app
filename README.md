@@ -1,5 +1,5 @@
 # gaddum_app
-The consumer app for the gaddum project. Share music for your mood.
+The consumer app for the [gaddum project](https://cmdt.github.io/gaddum/). Share music for your mood.
 
 This repository contains the code for the Ionic + Cordova crossplatform mobile app.
 
@@ -9,7 +9,6 @@ The development branches are used for the development of features and contribute
 
 When releasing a new version, the python script setcordovaversion.py is used to correctly update the version information in the config.xml file.
 
-## Project
-This project is developed as Open Source. You can find more information [here](https://cmdt.github.io/gaddum/).
+Please take a look at our project contributors and supporters [here](./attribution/attribution.md).
 
 
