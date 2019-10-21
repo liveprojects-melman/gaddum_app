@@ -88,7 +88,7 @@
                     spinnerService.spinnerOff();
                 },
                     function fail(error) {
-                        console.log("FAIL!!!!!!!");
+//                        console.log("FAIL!!!!!!!");
                         vm.busy = false;
                         vm.nameTextResizer();
                         spinnerService.spinnerOff();
@@ -98,9 +98,9 @@
 
 
             createModalList();
-            console.log("context", vm.conMenu);
+//            console.log("context", vm.conMenu);
             gaddumShortcutBarService.setContextMenu(vm.conMenu);
-            console.log("profile", vm.userProfile);
+//            console.log("profile", vm.userProfile);
 
         };
 
@@ -140,11 +140,10 @@
             );
         };
 
-
-
         vm.getUserGenres = function () {
             return profileService.getUserGenres();
-        }
+        };
+
         vm.setGenres = function (genres) {
             //console.log("genres test",profileService.asyncGetGenres());
             spinnerService.spinnerOn();
@@ -166,10 +165,7 @@
             );
             //console.log("genres test2",profileService.asyncGetGenres());
 
-        }
-
-        //vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), push_device_id: vm.userProfile.push_device_id}) + "}");
-
+        };
 
         function asyncPopulateGenres() {
             var deferred = $q.defer();
@@ -206,9 +202,13 @@
                 function success(result) {
                     angular.merge(vm.userProfile, result);
                     if (result.avatar_name != null) {
-                        
-                        vm.name = result.avatar_name;
+
+                      vm.name = result.avatar_name;
+                      try{
                         document.getElementById("nameHeader").innerText=vm.name;
+                      } catch (error) {
+                        console.log("error in profile.controller.js! ",error);
+                      }
                         /* if(firstLoad){
                             firstLoad = false;
                             // profileEdit2();
@@ -227,16 +227,12 @@
                     } else{
                         document.getElementById("qrCodeDiv").style.visibility="visible";
                     } */
-                    
                     deferred.resolve(true);
-                   
                 },
                 function fail(error) {
                     deferred.reject(error);
                 }
             );
-
-
             return deferred.promise;
         }
 
@@ -290,13 +286,14 @@
                 }
             });
             return result;
-
         };
 
-
-
         function profileEdit() {
-            asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(function () { vm.genreScrollChecker(); }, function (error) { console.log(error); });
+          asyncPopulateGenres().then(asyncPopulateProfile).then(asyncLaunchModal).then(function (){
+            vm.genreScrollChecker();
+          }, function (error) {
+            console.log("profileEdit: ", error);
+          });
         };
         function profileEdit2() {
             asyncPopulateGenres().then(asyncPopulateProfile).then(asyncOpenClose).then(function () { vm.genreScrollChecker(); }, function (error) { console.log(error); });
@@ -305,7 +302,6 @@
         vm.saveGenreEdit = function (newGenres) {
             profileService.asyncSetGenres(newGenres);
         };
-
 
         vm.genreScrollChecker = function () {
             vm.displayGenres = vm.userGenres.join(", ");
@@ -317,7 +313,7 @@
 
                 if (textWidth(genreText, genreFont) > maxNoScrollWidth) {
                     vm.scrollGenre = true;
-                    vm.displayGenres = vm.displayGenres + ", "
+                  vm.displayGenres = vm.displayGenres + ", ";
                 } else {
                     vm.scrollGenre = false;
                 }
@@ -429,15 +425,11 @@
                             }
                         }
                     }
-
-
                     /* if(vm.userProfile.avatar_graphic.colour=="#000000"||vm.userProfile.avatar_graphic.colour==null){
                         document.getElementById("profileImage").style.visibility="hidden";
                     } else{
                         document.getElementById("profileImage").style.visibility="visible";
                     } */
-
-
 
                     //deferred.resolve();
                 },
@@ -447,7 +439,6 @@
             );
         };
         function rect(x, y, w, h, fs, ctx) {
-
             ctx.fillStyle = fs;
             ctx.fillRect(x * w, y * h, (w), h);
         };
@@ -480,15 +471,15 @@
                                     //  $($("#main_wrapper").find("ion-slide")[i]).attr("ion-slide-tab-label") === $scope.name
                                     //replace scope.name with "Mood"
                                 }
-                                
                             }, 200);
-                            
                         },
                         function fail(error) {
                             spinnerService.spinnerOff();
-                        })))
-
+                        })
+                )
+            );
         };
+
         function refresh() {
             profileService.setModalOpenFlag(false);
             //refresh all the things
@@ -515,10 +506,9 @@
                 },
                 function fail(error) {
                     spinnerService.spinnerOff();
-                })
+                });
             /* }, 0); */
-        }
-
+        };
 
         function createModalList() {
             var firstVariable = "Edit Profile";
@@ -546,7 +536,5 @@
         // TODO: Error Handling
         vm.profileEdit = profileEdit;
         init();
-
-
     }
 })();
