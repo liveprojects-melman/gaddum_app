@@ -31,7 +31,7 @@
         function setContextMenu(list){
             modalList= list;
             disable = false;
-            console.log(modalList);
+//            console.log(modalList);
             if(shortcutCallBack){
                 shortcutCallBack();
             }

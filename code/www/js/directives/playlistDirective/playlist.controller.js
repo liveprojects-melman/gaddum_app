@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  console.log("HERE (PlaylistController)");
-
   angular
     .module('gaddum.playlistDirective')
     .controller('playlistController', control);
@@ -150,11 +148,7 @@
         },
         onError
       );
-
-
-    }
-
-
+    };
 
     vm.viewPlaylist = function (index) {
       var playlist = vm.playlistsToShow[index];
@@ -166,13 +160,9 @@
       playlistService.asyncGetPlaylistTracks(playlist).then(function (tracks) {
         console.log("tracks", tracks);
         var modalParams =
-          { "playlist": playlist, "name": playlist.getName(), "tracks": tracks }
-          /*  {"userGenres":userGenres},
-           {"userProfile":profileService.getUserProfile()} */
-          ;
+          { "playlist": playlist, "name": playlist.getName(), "tracks": tracks };
         playlistViewModal.open(modalParams, vm.removePlaylist, refreshPlaylist);
       });
-      //var,ok,c
     };
 
     var playlistToPlay = null;
@@ -181,10 +171,12 @@
       playlistToPlay = vm.playlistsToShow[index];
       howAreYouPlay();
       console.log("playPlaylist: Not yet implemented...");
-    }
+    };
+
     function howAreYouPlay() {
       howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
     }
+
     function fnCallbackHowAreYouOkPlay(emotion) {
       playlistService.asyncGetPlaylistTracks(playlistToPlay).then(function (tracks) {
         var mooded = null;
@@ -195,6 +187,7 @@
         console.log(moodedArray);
       });
     }
+
     function fnCallbackHowAreYouCancel() {
       console.log("modal canceled");
     }
@@ -214,23 +207,15 @@
         onNewSearch("");
         contextMenuEnable();
       }
-
-
     };
-
-
-
-
 
     vm.preventSlideBox = function preventSlideBox() {
       $ionicSlideBoxDelegate.enableSlide(false);
     };
+
     vm.allowSlideBox = function allowSlideBox(e) {
       $ionicSlideBoxDelegate.enableSlide(true);
     };
-
-
-
 
     // function getPlaylist() {
 
@@ -275,10 +260,9 @@
     //   };
     // };
 
-
     function onNewPlaylists(playlists) {
       vm.busy = false;
-      console.log("playlist", playlists);
+//      console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
       if(vm.playlistsToShow[0]){
         vm.hasTracks=true;
@@ -287,7 +271,6 @@
         vm.hasTracks=false;
       }
     }
-
 
     function onError(error) {
       vm.busy = false;
@@ -313,6 +296,5 @@
     };
 
     init();
-
   }
 })();
