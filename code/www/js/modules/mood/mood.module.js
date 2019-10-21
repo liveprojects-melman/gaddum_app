@@ -23,11 +23,9 @@
             }
           },
           onEnter: function(gaddumMoodServiceMasterSwitchService){
-            console.log("TURN ON!");
             gaddumMoodServiceMasterSwitchService.turnOn();
           },
           onExit: function(gaddumMoodServiceMasterSwitchService){
-            console.log("TURN OFF!");
             gaddumMoodServiceMasterSwitchService.turnOff();
           }
 

@@ -21,7 +21,7 @@
         var service = {
             permissions : {
                 "hasAllRequiredPermissions": true,
-                "storage": {
+/*                "storage": {
                     "Android": {
                         "check": "isCameraAuthorized",
                         "get": "getCameraAuthorizationStatus",
@@ -30,7 +30,7 @@
                     "reason": "This app requires access to storage because android is a car crash and google run with scissors.",
                     "hasPermission" : false,
                     "deniedAlways": false
-                },
+                },*/
                 "camera": {
                     "Android": {
                         "check": "isCameraAuthorized",
@@ -98,7 +98,7 @@
                 "GRANTED": "authorized",
                 "DENIED_ALWAYS": "denied"
             }
-        }
+        };
 
         service.returnPermissions = function() {
             var waitForAllPermissions = $q.defer()
@@ -233,7 +233,7 @@
             if(permissionType != "camera") {
                 permissions[ service.permissions[ permissionType ][device.platform].request](
                     function(status){
-                        console.log(permissionType + " permission: "+ status);
+//                      console.log(permissionType + " permission: "+ status);
 
                         if(status == permissionCodes[device.platform].GRANTED){
                             service.permissions[permissionType].hasPermission = true;
@@ -251,7 +251,7 @@
                         requestPermissionWait.resolve();
                     },
                     function(){
-                        console.log("error");
+//                        console.log("error");
                         requestPermissionWait.reject();
                     }
                 );

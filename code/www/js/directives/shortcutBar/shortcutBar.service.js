@@ -1,11 +1,11 @@
 (function () {
     'use strict;'
-  
+
     angular
       .module('gaddum.shortcutBar')
       .factory('gaddumShortcutBarService', gaddumShortcutBarService)
       ;
-  
+
       gaddumShortcutBarService.$inject = [
       'gaddumContextMenuModal'
     ];
@@ -19,15 +19,14 @@
             shortcutCallBack = fnCallback;
         }
         function showShortcutMenuModal(){
-            console.log("show", modalList);
+//            console.log("show", modalList);
             gaddumContextMenuModal.open(modalList,fnCallbackOk,fnCallbackCancel);
-            
         }
         function fnCallbackOk(){
-            console.log("modal ok");
+//            console.log("modal ok");
           }
           function fnCallbackCancel(){
-            console.log("modal cancel");
+//            console.log("modal cancel");
           }
         function setContextMenu(list){
             modalList= list;
@@ -49,21 +48,21 @@
             modalList = null;
             disable= true;
             if(shortcutCallBack){
-                console.log("list");
+//                console.log("list");
                 shortcutCallBack();
             }
         }
         function disableContext(){
             disable = true;
             if(shortcutCallBack){
-                console.log("list");
+//                console.log("list");
                 shortcutCallBack();
             }
         }
         function enableContext(){
             disable = false;
             if(shortcutCallBack){
-                console.log("list");
+//                console.log("list");
                 shortcutCallBack();
             }
         }
@@ -77,7 +76,5 @@
             disableContext:disableContext
           };
           return service;
-      
     }
   })();
-  
