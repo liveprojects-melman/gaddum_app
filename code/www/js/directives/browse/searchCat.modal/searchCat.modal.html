@@ -1,14 +1,10 @@
-
-<div class="modal searchCatModal slide-in-down" ng-controller="searchCarModalController as mc">
-  
-    <ion-content class="selectListModal">
+<div class="modal searchCatModal slide-in-down" ng-controller="searchCatModalController as mc">
+  <ion-content class="selectListModal">
     <ion-list class="selectListModal" can-swipe="true">
-        <ion-item ng-click="mc.change(search)"ng-repeat="search in mc.params">
-            <h2 class="checkboxListItemText">{{search.mod.name}}</h2>
-            <input style="float: right"type="checkbox" ng-model="search.value" ng-change="mc.change(search)" class="checkbox"></input>
-        </ion-item>
+      <ion-item ng-click="mc.change(search)"ng-repeat="search in mc.params">
+        <h2 class="checkboxListItemText">{{search.mod.name}}</h2>
+        <input style="float: right"type="checkbox" ng-model="search.value" ng-change="mc.change(search)" class="checkbox"></input>
+      </ion-item>
     </ion-list>
   </ion-content>
-  </div>
-  </content>
 </div>

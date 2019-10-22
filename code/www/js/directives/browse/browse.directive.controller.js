@@ -122,9 +122,7 @@
             }
           });
         }
-        console.log("searching", bm.searchingType);
         gaddumMusicProviderService.asyncSeekTracks(bm.searchText, bm.searchingType, 10, bm.page).then(function (result) {
-          console.log(result);
           bm.lastSeek = bm.searchText;
           bm.lastType = bm.searchingType;
           bm.sList = true;
@@ -139,7 +137,6 @@
           bm.moreTrackCheck = true;
           bm.searching = false;
           spinnerService.spinnerOff();
-          console.log("seekTracks error:", er);
         });
       }
     }
@@ -186,7 +183,6 @@
         bm.searching = false;
         spinnerService.spinnerOff();
         bm.moreTrackCheck = true;
-        console.log("moreTracks error: ",err);
       });
     }
 
@@ -209,7 +205,6 @@
     function searchTypeText() {
       var result = "";
       var first = true;
-      console.log(bm.searchType);
       bm.searchType.forEach(function (element) {
         if (element.value) {
           if (first) {
@@ -229,7 +224,6 @@
     }
 
     function play(track) {
-      console.log("track", track);
       $ionicListDelegate.closeOptionButtons();
       currentTrack = track;
       howAreYou();
