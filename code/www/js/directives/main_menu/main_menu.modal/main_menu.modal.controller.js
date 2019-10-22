@@ -14,7 +14,7 @@
       'gaddumMusicProviderService',
       'pubsubService'
   ];
-  
+
   function mainMenuModalController(
     mainMenuModal,
     $scope,
@@ -25,18 +25,17 @@
     pubsubService
   ) {
     var mc = angular.extend(this, {
-      
+
     });
+
     $scope.mainMenuModal=mainMenuModal;
+
     mc.isLoggedIn = false;
     function init() {
       mc.params =mainMenuModal.getParams();
       gaddumMusicProviderService.asyncIsLoggedIn().then(function(result){
-        console.log("inside",result);
         mc.isLoggedIn = result;
-        console.log("check1",mc.isLoggedIn);
       });
-      console.log("check2",mc.isLoggedIn);
     }
     init();
     function goToAbout(){
@@ -46,17 +45,14 @@
     }
 
     function logout(){
-      console.log("logout");
       gaddumMusicProviderService.asyncLogout().then(
         function(){
-          console.log("logged out");
           loginModal.promiseLogin();
         }
       );
       mainMenuModal.close();
     }
     function login(){
-      console.log("logging in");
       mainMenuModal.close();
       loginModal.promiseLogin();
     }
