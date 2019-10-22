@@ -58,6 +58,14 @@
 
     });
 
+    bm.addToPlaylist = addToPlaylist;
+    bm.play = play;
+    bm.searchTypeText = searchTypeText;
+    bm.openSearchModal = openSearchModal;
+    bm.search = search;
+    bm.moreTracks = moreTracks;
+    bm.typeSearch = "Track";
+
     bm.preventSlideBox = function preventSlideBox() {
       $ionicSlideBoxDelegate.enableSlide(false);
     };
@@ -65,6 +73,7 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
+    var currentTrack = null;
 
     function init() {
       createModalList();
@@ -125,17 +134,16 @@
             bm.searchBrowse.push(element);
           });
           gaddumShortcutBarService.enableContext();
-          console.log("mmmmmMMMMMMMmmmmm",bm.searchBrowse);
-
         }).catch(function (er) {
           bm.sList = false;
           bm.moreTrackCheck = true;
           bm.searching = false;
           spinnerService.spinnerOff();
-          console.log(er);
+          console.log("seekTracks error:", er);
         });
       }
     }
+
     function createModalList() {
       var firstVariable = "Play All Tracks";
       var firstFunc = howAreYouPlayAllTracks;
@@ -144,23 +152,22 @@
       var conMenu = contextMenu;
       gaddumShortcutBarService.setContextMenu(conMenu);
     }
+
     function howAreYouPlayAllTracks() {
       currentTrack = bm.searchBrowse;
       howAreYouModal.open(null, fnCallbackHowAreYouOkPlay, fnCallbackHowAreYouCancel);
     }
-    function fnCallbackHowAreYouOkPlay(emotion) {
 
+    function fnCallbackHowAreYouOkPlay(emotion) {
       gaddumMusicProviderService.asyncImportTracks(currentTrack).then(
         function (genericTracks) { // actually, GenericImportTracks, but same thing really :-)  
           var moodedPlaylist =  MoodedPlaylist.build(emotion, genericTracks);
           playlistService.asyncPlay([moodedPlaylist]);
         });
-     
-
-
     }
+
     function fnCallbackHowAreYouCancel() {
-      console.log("modal canceled");
+      // thanks!
     }
 
     function moreTracks() {
@@ -174,22 +181,21 @@
         result.forEach(function (element) {
           bm.searchBrowse.push(element);
         });
-
-
-      }).catch(function (er) {
+      }).catch(function (err) {
         bm.sList = true;
         bm.searching = false;
         spinnerService.spinnerOff();
         bm.moreTrackCheck = true;
-        console.log(er);
+        console.log("moreTracks error: ",err);
       });
-
     }
+
     function openSearchModal() {
       searchCatModal.open(bm.searchType, fnCallbackSearchOk, fnCallbackSearchCancel);
     }
-    function fnCallbackSearchOk() {
 
+    function fnCallbackSearchOk() {
+      // thanks!
     }
 
     function fnCallbackSearchCancel(type) {
@@ -199,15 +205,7 @@
       bm.moreTrackCheck = true;
       searchTypeText();
     }
-    // function showList(){
-    //   if (bm.searchBrowse.length >=1){
-    //     return true;
-    //   }
-    //   else{
-    //     return false;
-    //   }
-    // }
-    bm.typeSearch = "Track";
+
     function searchTypeText() {
       var result = "";
       var first = true;
@@ -217,29 +215,30 @@
           if (first) {
             result = element.mod.name;
             first = false;
-          }
-          else {
+          } else {
             result = result + ", " + element.mod.name;
           }
         }
       });
+
       if (result === "") {
         result = "Track";
         bm.searchType[0].value = true;
       }
       bm.typeSearch = result;
     }
+
     function play(track) {
       console.log("track", track);
       $ionicListDelegate.closeOptionButtons();
       currentTrack = track;
-      console.log("current", currentTrack);
       howAreYou();
     }
-    var currentTrack = null;
+
     function howAreYou() {
       howAreYouModal.open(null, fnCallbackHowAreYouOk, fnCallbackHowAreYouCancel);
     }
+
     function fnCallbackHowAreYouOk(emotion) {
       // import the tracks - we need them in the database, to be able to observe them.
       gaddumMusicProviderService.asyncImportTracks([currentTrack]).then(
@@ -248,35 +247,27 @@
           playlistService.asyncPlay([moodedPlaylist]);
         }
       );
-
-
     }
+
     function fnCallbackHowAreYouCancel() {
-      console.log("modal canceled");
+      // thanks!
     }
+
     function addToPlaylist(track) {
       $ionicListDelegate.closeOptionButtons();
       var trackToAdd = [];
       gaddumMusicProviderService.asyncImportTracks([track]).then(function (genTrack) {
         trackToAdd.push(genTrack);
-        console.log("track", genTrack);
         addToPlaylistWizard.open(trackToAdd, fnCallbackAddToPlaylistOk, fnCallbackAddToPlaylistCancel);
       });
     }
-    function fnCallbackAddToPlaylistOk() {
 
+    function fnCallbackAddToPlaylistOk() {
+      //
     }
     function fnCallbackAddToPlaylistCancel() {
-      console.log("modal canceled");
+      // thanks!
     }
-
-    bm.addToPlaylist = addToPlaylist;
-    bm.play = play;
-    bm.searchTypeText = searchTypeText;
-    bm.openSearchModal = openSearchModal;
-    bm.search = search;
-    bm.moreTracks = moreTracks
-
 
   }
 })();
