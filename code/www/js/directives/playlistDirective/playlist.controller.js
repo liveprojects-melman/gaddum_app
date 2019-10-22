@@ -139,7 +139,6 @@
       vm.busy = true;
       contextMenuDisable();
       var playlist = vm.playlistsToShow[index];
-      console.log("removing: " + playlist.getName());
       playlistService.asyncRemovePlaylist(playlist).then(
         function () {
           onNewSearch(vm.searchTerm);
@@ -155,10 +154,7 @@
       $ionicListDelegate.closeOptionButtons();
 
       //modal
-      //var viewedPlaylist=playlistService.getPlaylist(PlaylistToGet);
-      console.log("Veiwing: ", playlist);
       playlistService.asyncGetPlaylistTracks(playlist).then(function (tracks) {
-        console.log("tracks", tracks);
         var modalParams =
           { "playlist": playlist, "name": playlist.getName(), "tracks": tracks };
         playlistViewModal.open(modalParams, vm.removePlaylist, refreshPlaylist);
@@ -170,7 +166,6 @@
       $ionicListDelegate.closeOptionButtons();
       playlistToPlay = vm.playlistsToShow[index];
       howAreYouPlay();
-      console.log("playPlaylist: Not yet implemented...");
     };
 
     function howAreYouPlay() {
@@ -184,17 +179,15 @@
         mooded = MoodedPlaylist.build(emotion, tracks);
         moodedArray.push(mooded);
         playlistService.asyncPlay(moodedArray);
-        console.log(moodedArray);
       });
     }
 
     function fnCallbackHowAreYouCancel() {
-      console.log("modal canceled");
+      // thanks!
     }
 
     function refreshPlaylist(tracks, playlist) {
       if (tracks && playlist) {
-        console.log("refresh tracks", tracks);
         vm.busy = true;
         contextMenuDisable();
         playlistService.asyncSetPlaylistTracks(playlist, tracks).then(function () {
@@ -217,52 +210,8 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
-    // function getPlaylist() {
-
-    //   gaddumMusicProviderService.importAllPlaylists().then(function (result) {
-    //     var id = result.data.items[0].id
-
-    //     gaddumMusicProviderService.getplaylistTracks(id).then(function (result2) {
-
-    //       console.log("track", result2);
-    //     }).catch(function (er) {
-
-    //       console.log(er);
-    //     });
-    //   }).catch(function (er) {
-
-    //     console.log(er);
-    //   });
-
-
-    // };
-
-    // vm.searchColour = function () {
-    //   document.getElementById('searchPlaylistsBox').style.color = "grey";
-    // };
-
-    // vm.searchClick = function () {
-    //   if (vm.firstSearch) {
-    //     document.getElementById('searchPlaylistsBox').value = "";
-    //     document.getElementById('searchPlaylistsBox').style.color = "black";
-    //     console.log("clicked");
-    //     vm.firstSearch = false;
-    //   };
-
-    //   vm.searchDeselect = function () {
-    //     if (document.getElementById('searchPlaylistsBox').value == "") {
-    //       document.getElementById('searchPlaylistsBox').value = "search";
-    //       document.getElementById('searchPlaylistsBox').style.color = "grey";
-    //       vm.firstSearch = true;
-    //       console.log("reactivated");
-    //     }
-
-    //   };
-    // };
-
     function onNewPlaylists(playlists) {
       vm.busy = false;
-//      console.log("playlist", playlists);
       vm.playlistsToShow = playlists;
       if(vm.playlistsToShow[0]){
         vm.hasTracks=true;
@@ -292,7 +241,6 @@
       var searchTerm = document.getElementById("searchPlaylistsBox").value;
       $('#searchPlaylistsBox').blur();
       onNewSearch(searchTerm);
-
     };
 
     init();

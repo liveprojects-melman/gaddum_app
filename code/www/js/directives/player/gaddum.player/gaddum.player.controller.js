@@ -1,9 +1,6 @@
 (function () {
   'use strict';
 
-  console.log("Gaddum Player Controller");
-
-
   angular
     .module('gaddum.player')
     .controller('gaddumPlayerController', gaddumPlayerController);
@@ -47,25 +44,17 @@
     gpc.cloud = {
       "show":false,
       "throbing":false
-    }
-
-
-
+    };
 
     function onControlOK() {
-      console.log("control OK.");
-      
       // use this opportunity to put a busy spinner up, while we wait for an event
     }
 
     function onControlError(error) {
-      console.log("control error. Track: " + error.message());
       gpc.state.playing = false;
     }
 
     function onTrackNew(trackInfo) {
-      console.log("new track: " + trackInfo.getName());
-      console.log(" - artist:" + trackInfo.getArtist());
       gpc.marquee.scroller = trackInfo.getName() +" • "+ trackInfo.getArtist() +" • "+ trackInfo.getAlbum() ;
       // gpc.marquee.artistname = trackInfo.getArtist();
       // gpc.marquee.albumName = trackInfo.getAlbum();
@@ -74,54 +63,43 @@
       gpc.marquee.track_skip_warning = false;
     }
 
-
-
     function onTrackPaused(trackInfo) {
-      console.log("track paused: " + trackInfo.getName());
       gpc.state.playing = false;
     }
 
     function onTrackEnd() {
-      console.log("track ended.");
       gpc.state.hasTrack = false;
       gpc.marquee.width = "0%";
       gpc.state.playing = false;
       gpc.marquee.scroller="Waiting For Track"
     }
 
-
     function onTrackProgressPercent(progress) {
-      //console.log("progress: "+ progress);
       gpc.marquee.width= progress.getProgressPercent()+"%";
-
       gpc.marquee.track_skip_warning = progress.isWarning();
-
     }
 
     function onTrackError(error) {
-      console.log("track error: " + error);
-
+      console.log("gaddum.player.controller - track error: " + error);
     }
 
     function onLoggedIn(){
-      console.log("logged in");
       $rootScope.$broadcast("player:ready", true);
       gpc.state.ready = true;
     }
 
     function onLoggedOut(){
-      console.log("logged out");
       $rootScope.$broadcast("player:ready", false);
       gpc.state.ready = false;
     }
 
     function onInternetDown(){
-      console.log("no internet");
       gpc.state.hasTrack = false;
-      playerService.asyncControlPause().then(function(){
-        onControlOK();
-        gpc.state.playing = false;
-      },
+      playerService.asyncControlPause().then(
+        function(){
+          onControlOK();
+          gpc.state.playing = false;
+        },
         onControlError
       );
       gpc.cloud.show = true;
@@ -144,35 +122,29 @@
     }
 
     function onInternetUp(){
-      console.log("internet available");
+      //
     }
 
     function onPlaylistNew(){
-      console.log("new playlist: controls disabled / spinner until we get track...");
-      gpc.marquee.scroller="Waiting For Track"
+      gpc.marquee.scroller="Waiting For Track";
       playerService.asyncControlPlay(); 
     }
 
     function onPlaylistEnd(){
-      console.log("end of playlist");
       gpc.state.hasTrack = false;
       gpc.state.playing = false;
       gpc.marquee.scroller = "";
     }
 
     function onPlaylistNone(){
-      console.log("no playlist");
+      //
     }
 
     function asyncHandleEvent(event) {
-
-
       var deferred = $q.defer();
 
       $timeout(
         function () {
-
-
           switch (event.getId()) {
             case EventIdentifier.TRACK_NEW: // a new track has been queued
               onTrackNew(event.getPayload());
@@ -191,7 +163,7 @@
               break;
             case EventIdentifier.LOGGED_IN: // we are now logged in
               onLoggedIn();
-              break;  
+              break;
             case EventIdentifier.LOGGED_OUT: // we are now logged out
               onLoggedOut();
               break;
@@ -203,69 +175,65 @@
               break;
             case EventIdentifier.PLAYLIST_NEW: // a new playlist is available
               onPlaylistNew();
-              break;  
+              break;
             case EventIdentifier.PLAYLIST_END: // no more tracks available in playlist.
               onPlaylistEnd();
-              break;    
+              break;
               case EventIdentifier.PLAYLIST_NONE: // no playlist has been loaded
               onPlaylistNone();
-              break;    
-    };
-
-        });
-
+              break;
+          };
+        }
+      );
       return deferred.promise;
-
     }
 
     gpc.handleBackPress = function handleBackPress() {
-      playerService.asyncControlSkipPrev().then(function(){
-        onControlOK();
-        gpc.state.playing = true;
-      },
+      playerService.asyncControlSkipPrev().then(
+        function(){
+          onControlOK();
+          gpc.state.playing = true;
+        },
         onControlError
       );
     };
     gpc.handlePausePress = function handlePausePress() {
-      playerService.asyncControlPause().then(function(){
-        onControlOK();
-        gpc.state.playing = false;
-      },
+      playerService.asyncControlPause().then(
+        function(){
+          onControlOK();
+          gpc.state.playing = false;
+        },
         onControlError
       );
     };
     gpc.handlePlayPress = function handlePlayPress() {
-      playerService.asyncControlPlay().then(function(){
-        onControlOK();
-        gpc.state.playing = true;
-      },
+      playerService.asyncControlPlay().then(
+        function(){
+          onControlOK();
+          gpc.state.playing = true;
+        },
         onControlError
       );
     };
     gpc.handleNextPress = function handleNextPress() {
-      playerService.asyncControlSkipNext().then(function(){
-        onControlOK();
-        gpc.state.playing = true;
-      },
+      playerService.asyncControlSkipNext().then(
+        function(){
+          onControlOK();
+          gpc.state.playing = true;
+        },
         onControlError
       );
     };
-
 
     function initialise() {
       playerService.initialise(asyncHandleEvent);
     }
 
     $scope.$on('player:ready',function(event,data) {
-      console.log("gaddum.player - ready = ",data);
       gpc.state.show = data?true:false;
     });
 
     initialise();
-
-    gpc.hack = setInterval(function(){
-      //console.log("gpc.state.playing="+String(gpc.state.playing)+" gpc.state.hasTrack="+String(gpc.state.hasTrack) );
-    },1000);
 
     return gpc;
   }
