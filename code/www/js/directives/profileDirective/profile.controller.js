@@ -73,7 +73,7 @@
       vm.busy = true;
       spinnerService.spinnerOn();
       asyncPopulateGenres().then(
-        asyncPopulateProfile()).then(
+        asyncPopulateProfile().then(
           function success(results) {
             vm.genreScrollChecker();
             vm.checkGraphic(vm.userProfile.avatar_graphic.values);
@@ -90,7 +90,8 @@
             vm.nameTextResizer();
             spinnerService.spinnerOff();
           }
-        );
+        )
+      );
       createModalList();
       gaddumShortcutBarService.setContextMenu(vm.conMenu);
     };
@@ -265,8 +266,8 @@
     };
 
     vm.genreScrollChecker = function () {
-      vm.displayGenres = vm.userGenres.join(", ");
       if (document.getElementById("genreStatic") && vm.userGenres != null && vm.userGenres != "" && vm.userGenres.length != 0) {
+        vm.displayGenres = vm.userGenres.join(", ");
         var genreFont = document.getElementById("genreStatic").style.font;
         var genreText = vm.userGenres.join(", ");
         var maxNoScrollWidth = document.body.clientWidth - (document.getElementsByClassName("profileImageCanvas")[0].offsetWidth);
@@ -276,6 +277,7 @@
           vm.displayGenres = vm.displayGenres + ", ";
         } else {
           vm.scrollGenre = false;
+          vm.displayGenres = "";
         }
       }
     };
