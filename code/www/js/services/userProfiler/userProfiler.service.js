@@ -675,7 +675,7 @@
             var mood = null;
             var genericTrack = null;
             try {
-                mood = statementCriteria.getMood();
+                mood = statementCriteria.getMoodId();
                 genericTrack = statementCriteria.getGenericTrack();
             } catch (e) {
                 throw ("asyncApplyStatement: unexpected parameters: needs a MoodIdentifier and a GenericTrack.");
