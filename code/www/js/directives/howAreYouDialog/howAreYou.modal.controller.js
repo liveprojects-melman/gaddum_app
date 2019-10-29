@@ -60,7 +60,6 @@
 
           var promise = moodService.asyncMoodIdToResources(id).then(
             function (resources) {
-              //console.log("asyncPopulateMoodResourceDict:", resources);
               candidate[id] = {
                 name: resources.name,
                 id: resources.id,
@@ -84,14 +83,12 @@
 
     function selectEmo() {
       var result = null;
-      console.log("end", mc.allEmotionsSave);
       mc.allEmotionsSave.forEach(function (element) {
         if (element.id === mc.emotionSelected.id) {
           result = element;
         }
 
       });
-      console.log("result",result);
       var antiMood = null;
       if(result.mood_hot === result.id){
         antiMood = result.mood_cold;

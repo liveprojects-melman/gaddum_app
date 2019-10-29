@@ -98,6 +98,7 @@ angular.module('gaddum', [
 
       $rootScope.$on('slideChanged', function (a) {
         var stateToGoTo = "gaddum." + $($("#main_wrapper").find("ion-slide")[parseInt($ionicSlideBoxDelegate.currentIndex())]).data("state");
+        $('input[type=text], textarea').blur(); // deselect all input items!
         $state.transitionTo(stateToGoTo, {}, { notify: true }); // notify seems to overwrite the views
       });
 

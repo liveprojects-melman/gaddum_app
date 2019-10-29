@@ -97,7 +97,7 @@
 
     function asyncAuthSuccess(response) {
 
-      console.log("asyncAuthSuccess");
+//      console.log("asyncAuthSuccess");
 
       var deferred = $q.defer();
       var promises = [];
@@ -129,7 +129,7 @@
 
 
     function asyncLogin() {
-      console.log("asyncAuthLogin");
+//      console.log("asyncAuthLogin");
 
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
@@ -147,7 +147,7 @@
 
 
     function asyncRefresh() {
-      console.log("asyncRefresh");
+//      console.log("asyncRefresh");
 
       return cordova.plugins.spotifyAuth.authorize(AUTH_CONFIG) // spotify auth actually caches the cred for you, but we're using the database
         .then(
@@ -346,7 +346,7 @@
 
       $q.all(promises).then(
         function (results) {
-          console.log("got AUTH_CONFIG");
+//          console.log("got AUTH_CONFIG");
           deferred.resolve(AUTH_CONFIG);
         },
         function (error) {
@@ -560,9 +560,9 @@
 
         var resultArray = [];
         asyncGetAccessCredentials().then(function (result) {
-          console.log(result);
+//          console.log(result);
           var config = { headers: { 'Authorization': `Bearer ${result.accessToken}` } };
-          console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
+//          console.log(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config);
           $http.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, config).then(function (results) {
             results.data.items.forEach(function (element) {
               resultArray.push(ImportPlaylist.build(null, element.name, element.id, element.images[0].url, element.owner.display_name));
@@ -609,11 +609,11 @@
         playlist,
         genericTrackArray).then(
           function (responses) {
-            console.log("imported associations: ------");
+//            console.log("imported associations: ------");
             responses.forEach(function (item) {
-              console.log("playlist: " + item.playlist_id + "  track: " + item.track_id);
+//              console.log("playlist: " + item.playlist_id + "  track: " + item.track_id);
             });
-            console.log("end imported associations: ------");
+//            console.log("end imported associations: ------");
             deferred.resolve(responses);
           }
           ,
@@ -656,8 +656,8 @@
         function playlistIdentifier(playlistIdentifier) {
           importPlaylist.id = playlistIdentifier.getId();
 
-          console.log("imported playlist: id: " + importPlaylist.getId() + " name: " + importPlaylist.getName());
-          console.log("-----------------");
+//          console.log("imported playlist: id: " + importPlaylist.getId() + " name: " + importPlaylist.getName());
+//          console.log("-----------------");
 
           deferred.resolve(importPlaylist);
         },
@@ -805,7 +805,7 @@
     function asyncGetSupportedSearchModifier() {
       return $q(function (resolve, reject) {
         asyncMakeSearchModifiers().then(function (result) {
-          console.log("spot", result);
+//          console.log("spot", result);
           return resolve(result);
         });
       });
@@ -950,7 +950,7 @@
                   }
                 });
               });
-              console.log("final search ", trackList);
+//              console.log("final search ", trackList);
               return resolve(trackList);
             }, 1000);
 
@@ -1006,7 +1006,7 @@
             result = "seed_genres=" + elements;
           }
         } catch (e) {
-          console.log("gaddumMusicProviderSpotifyService: createGenreSeed: warning: error occurred creating seed.");
+//          console.log("gaddumMusicProviderSpotifyService: createGenreSeed: warning: error occurred creating seed.");
         }
       }
       return result;
@@ -1030,7 +1030,7 @@
           }
 
         } catch (e) {
-          console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
+//          console.log("gaddumMusicProviderSpotifyService: createTunableAttributesSeed: warning: error occurred creating seed.");
         }
       }
 
@@ -1201,7 +1201,7 @@
 
     function asyncTeardownCurrentTrack() {
 
-      console.log("spotifyService:asyncTeardownCurrentTrack");
+//      console.log("spotifyService:asyncTeardownCurrentTrack");
 
       var deferred = $q.defer();
 
@@ -1239,7 +1239,7 @@
     // a missing track is not catastrophic
     function asyncSetTrack(genericTrack) {
 
-      console.log("spotifyService:asyncSetTrack");
+//      console.log("spotifyService:asyncSetTrack");
 
       var deferred = $q.defer();
 
@@ -1423,7 +1423,7 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncPlayCurrentTrack() {
-      console.log("spotifyService:playCurrentTrack");
+//      console.log("spotifyService:playCurrentTrack");
       var deferred = $q.defer();
 
       // Dummy for now.
@@ -1436,7 +1436,7 @@
             if (!isTrackPlaying()) {
               setTrackPlaying(true);
               asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
-                deferred.resolve
+                deferred.resolve()
                 ,
                 function (err) {
                   deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
@@ -1444,7 +1444,7 @@
               );
             } else {
               asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
-                deferred.resolve
+                deferred.resolve()
                 ,
                 function (err) {
                   deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));

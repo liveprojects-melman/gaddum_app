@@ -25,17 +25,17 @@
         count:0
       },
       turnOn: function turnOn() {
-        console.log("on!");
+//        console.log("on!");
         service.state.on = true;
         //moodService.turnOn();
         emotionReaderService.setSleep(false);
       },
       turnOff: function turnOff() {
-        console.log("off!");
+//        console.log("off!");
         $timeout(function(){
           if (emotionReaderService) {
             if (emotionReaderService.isRunning) {
-              console.log("offForReal");
+//              console.log("offForReal");
               emotionReaderService.setSleep(true);
               service.state.on = false;
               spinnerService.spinnerOff();
@@ -51,7 +51,7 @@
                 turnOff();
               }
               else{
-                console.log("error", emotionReaderService);
+//                console.log("error", emotionReaderService);
               }
             }
           }

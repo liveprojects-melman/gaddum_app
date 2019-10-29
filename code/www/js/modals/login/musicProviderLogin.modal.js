@@ -108,15 +108,15 @@
             var deferred = $q.defer();
 
             function doQuery() {
-                console.log("waiting..");
+//                console.log("waiting..");
                 asyncWaitAndCheck()
                     .then(
                         function closed() {
-                            console.log("login process completed.");
+//                            console.log("login process completed.");
                             deferred.resolve();
                         },
                         function stillOpen() {
-                            console.log("login ongoing...");
+//                            console.log("login ongoing...");
                             doQuery();
                         });
             }

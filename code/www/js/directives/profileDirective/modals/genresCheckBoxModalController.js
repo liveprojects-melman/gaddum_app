@@ -26,7 +26,7 @@
     $scope.genresCheckboxModal = genresCheckboxModal;
     function init() {
       vm.params = genresCheckboxModal.getParams();
-      console.log(vm.params[2]);
+//      console.log(vm.params[2]);
     }
     init();
 
@@ -48,11 +48,10 @@
 
     vm.matchCheckboxes = function matchCheckboxes() {
       var label;
-      console.log("genres",vm.params[0].allGenres);
+//      console.log("genres",vm.params[0].allGenres);
       var myTimeout = setTimeout(function() {
         /* vm.params[0].allGenres.forEach(function(genre) {
           label = document.getElementById("checkbox_" + genre.Name).querySelector("input"); */
-          
 /*           if (vm.params[1].userGenres.includes(genre.genre)) {
             label.checked = true;
             genre.value = true;
@@ -99,12 +98,12 @@
     };
 
     vm.modalGenreUpdate = function modalGenreUpdate(index){
-      console.log("index",index);
-      console.log("allGG",vm.params[0].allGenres);
-      console.log("agi",vm.params[0].allGenres[index]);
+//      console.log("index",index);
+//      console.log("allGG",vm.params[0].allGenres);
+//      console.log("agi",vm.params[0].allGenres[index]);
       vm.params[0].allGenres[index].Value=!vm.params[0].allGenres[index].Value;
       genresCheckboxModal.setGenre(vm.params[0].allGenres);
-      console.log("agi",vm.params[0].allGenres[index]);
+//      console.log("agi",vm.params[0].allGenres[index]);
     };
 
     vm.returnData = function returnData() {

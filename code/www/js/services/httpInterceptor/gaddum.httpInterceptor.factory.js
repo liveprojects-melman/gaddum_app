@@ -20,9 +20,9 @@ console.log("gaddum.httpInterceptor alive");
         }
       };
       return dataApiRecoverer;
-    }]);
+    }])
 
-  module.config(['$httpProvider', function($httpProvider) {
-    $httpProvider.interceptors.push('dataApiRecoverer');
-  }]);
+    .config(['$httpProvider', function($httpProvider) {
+      $httpProvider.interceptors.push('dataApiRecoverer');
+    }]);
 })();

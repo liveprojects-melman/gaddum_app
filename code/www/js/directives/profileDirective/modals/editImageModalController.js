@@ -175,7 +175,7 @@
 
     $scope.editImageModal = editImageModal;
     function init() {
-      console.log("editImageModalController: init!");
+      //console.log("editImageModalController: init!");
       vm.params = editImageModal.getParams();
       if (vm.params[1].avatar_image_colour=="#FF00FF") {
         colours[colours.length] = ["Sucopi", vm.params[1].avatar_image_colour];
@@ -187,9 +187,9 @@
           vm.nextColour();
         }
       }
-      
+
       vm.colourChoices = colours;
-      
+
       //      console.log(vm.params);
       //      console.log("paramarams",vm.params);
       vm.avimg = vm.params[0].avatar_image;
@@ -332,7 +332,7 @@
     };
 
     vm.handle_save = function handle_save() {
-      console.log("this is the save");
+      //console.log("this is the save");
       saveHash();
       //console.log("Returning img in callback",encodedImg);
       editImageModal.imgUpdate(encodedImg, colours[vm.colourChoice][1]);
@@ -370,7 +370,7 @@
     };
 
     vm.handle_clear = function handle_clear() {
-      console.log("clear!");
+      //console.log("clear!");
       do_clear();
       updateThumb();
     };
@@ -442,7 +442,7 @@
     };
 
     vm.handle_invert = function handle_invert() {
-      console.log("handle_invert called");
+      //console.log("handle_invert called");
       try {
         var x = evt.targetTouches[0].pageX;
         return;
@@ -467,7 +467,7 @@
       }
       var p = getScaledPosition(canvas_colour, event);
       var pixel = canvas_colour_ctx.getImageData(p.x, p.y, 1, 1).data;
-      console.log("r,g,b: ", pixel);
+      //console.log("r,g,b: ", pixel);
       //draw_colour = (pixel_colours.length-1) - findMatchingColour(getPixelColour(canvas,p.x, p.y));
       //clickMove(event);
     };

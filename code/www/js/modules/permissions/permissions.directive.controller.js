@@ -29,7 +29,7 @@
       var vm = angular.extend(this, {
 
       });
-      console.log("permissions controller checking in!");
+//      console.log("permissions controller checking in!");
 
       vm.goMain = function() {
         playlistService.asyncSeekPlaylists("").then(function(result){

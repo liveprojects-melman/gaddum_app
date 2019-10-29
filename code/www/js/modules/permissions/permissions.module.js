@@ -13,7 +13,6 @@
           url: '^/please',
           templateUrl: 'js/modules/permissions/please.html',
 	  		  controller: function($scope){
-            console.log("HERE IT IS, THE PERMISSIONS MODULE CONTROLLER FOR PLEASE");
             //
 		      }
         });

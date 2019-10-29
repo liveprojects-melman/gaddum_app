@@ -31,22 +31,25 @@
     StatementCriteria,
     $ionicListDelegate
   ) {
+
+    var currentTrack = null;
+    var saveParams = null;
+
     var vm = angular.extend(this, {
       params:null,
       playlist:[]
     });
     $scope.playlistViewModal = playlistViewModal;
+
+
     function init() {
       vm.params = playlistViewModal.getParams();
-      console.log("params!!",vm.params);
     };
-    init();
-    
 
     vm.returnData = function () {
-      console.log("?");
+      //console.log("?");
     };
-    var saveParams = null;
+
     vm.editPlaylist= function(){
       var modalParams = null;
       var saveTracks = [];
@@ -57,116 +60,118 @@
       modalParams=vm.params;
       playlistViewModal.closeCheckFalse();
       playlistEditModal.open(modalParams,refreshTrack,modalCancel);
-      //var,ok,c
-  };
+    };
 
-  function modalCancel(){
-    console.log("modalCancel");
-  };
+    function modalCancel(){
+      // thanks!
+    };
 
-  function refreshTrack(tracks,name){
-    if(tracks||name){
-      if (tracks){
+    function refreshTrack(tracks,name){
+      if(tracks||name){
+        if (tracks){
+          vm.params.tracks = tracks;
+        }
+        if(name){
+          vm.params.playlist.setName(name);
+          vm.params.name = name;
+        }
+        playlistViewModal.data(vm.params.tracks, vm.params.playlist);
+      }
+      else{
+        vm.params.playlist.setName(saveParams.playlist);
+        vm.params.tracks = saveParams.tracks;
+      }
+    }
+
+    function play(track){
+      $ionicListDelegate.closeOptionButtons();
+      currentTrack = track;
+      howAreYouPlay();
+    }
+
+    function howAreYouPlay(){
+      howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
+      playlistViewModal.closeCheckFalse();
+    }
+
+    function fnCallbackHowAreYouOkPlay(emotion){
+      var arrayTrack = [];
+      var mooded= null;
+      var moodedArray =[];
+      arrayTrack.push(currentTrack);
+      mooded = MoodedPlaylist.build(emotion,arrayTrack);
+      moodedArray.push(mooded);
+      playlistService.asyncPlay(moodedArray);
+      console.log(moodedArray);
+    }
+
+    function playPlaylist(){
+      howAreYouPlayPlaylist();
+    }
+
+    function howAreYouPlayPlaylist(){
+      howAreYouModal.open(null,fnCallbackhowAreYouPlayPlaylist,fnCallbackHowAreYouCancel);
+      playlistViewModal.closeCheckFalse();
+    }
+
+    function fnCallbackhowAreYouPlayPlaylist(emotion){
+      var mooded= null;
+      var moodedArray =[];
+      mooded = MoodedPlaylist.build(emotion,vm.params.tracks);
+      moodedArray.push(mooded);
+      playlistService.asyncPlay(moodedArray);
+      console.log(moodedArray);
+    }
+
+    function fnCallbackHowAreYouCancel(){
+      console.log("modal canceled");
+    }
+
+    function addToPlaylist(track){
+      $ionicListDelegate.closeOptionButtons();
+      console.log("track", track);
+      var trackToAdd = [];
+      trackToAdd.push(track);
+      addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+      playlistViewModal.closeCheckFalse();
+    }
+
+    function addPlaylistToPlaylist(){
+      addToPlaylistWizard.open(vm.params.tracks,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
+      playlistViewModal.closeCheckFalse();
+    }
+    function fnCallbackAddToPlaylistOk(){
+      //
+    }
+
+    function fnCallbackAddToPlaylistCancel(){
+      playlistService.asyncGetPlaylistTracks(vm.params.playlist).then(function (tracks) {
         vm.params.tracks = tracks;
-      }
-      if(name){
-        vm.params.playlist.setName(name);
-        vm.params.name = name;
-      }
-      playlistViewModal.data(vm.params.tracks, vm.params.playlist);
+      });
     }
-    else{
-      vm.params.playlist.setName(saveParams.playlist);
-      vm.params.tracks = saveParams.tracks;
+
+    function asyncMakeTrackStatement(track){
+      $ionicListDelegate.closeOptionButtons();
+      currentTrack = track;
+      howAreYouTrack();
+      playlistViewModal.closeCheckFalse();
     }
-    
-   
-  }
-  
-  function play(track){
-    $ionicListDelegate.closeOptionButtons();
-    console.log("track",track);
-    currentTrack = track;
-    console.log("current",currentTrack);
-    howAreYouPlay();
-  }
-  var currentTrack = null;
-  function howAreYouPlay(){
-    howAreYouModal.open(null,fnCallbackHowAreYouOkPlay,fnCallbackHowAreYouCancel);
-    playlistViewModal.closeCheckFalse();
-  }
-  function fnCallbackHowAreYouOkPlay(emotion){
-    var arrayTrack = [];
-    var mooded= null;
-    var moodedArray =[];
-    arrayTrack.push(currentTrack);
-    mooded = MoodedPlaylist.build(emotion,arrayTrack);
-    moodedArray.push(mooded);
-    playlistService.asyncPlay(moodedArray);
-    console.log(moodedArray);
-  }
-  function playPlaylist(){
 
-    howAreYouPlayPlaylist();
-  }
-  var currentTrack = null;
-  function howAreYouPlayPlaylist(){
-    howAreYouModal.open(null,fnCallbackhowAreYouPlayPlaylist,fnCallbackHowAreYouCancel);
-    playlistViewModal.closeCheckFalse();
-  }
-  function fnCallbackhowAreYouPlayPlaylist(emotion){
-    var mooded= null;
-    var moodedArray =[];
-    mooded = MoodedPlaylist.build(emotion,vm.params.tracks);
-    moodedArray.push(mooded);
-    playlistService.asyncPlay(moodedArray);
-    console.log(moodedArray);
-  }
-  function fnCallbackHowAreYouCancel(){
-    console.log("modal canceled");
-  }
-  function addToPlaylist(track){
-    $ionicListDelegate.closeOptionButtons();
-    console.log("track", track);
-    var trackToAdd = [];
-    trackToAdd.push(track);
-    addToPlaylistWizard.open(trackToAdd,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
-    playlistViewModal.closeCheckFalse();
-  }
-  function addPlaylistToPlaylist(){
-    addToPlaylistWizard.open(vm.params.tracks,fnCallbackAddToPlaylistOk,fnCallbackAddToPlaylistCancel);
-    playlistViewModal.closeCheckFalse();
-  }
-  function fnCallbackAddToPlaylistOk(){
-    
-  }
-  function fnCallbackAddToPlaylistCancel(){
-    playlistService.asyncGetPlaylistTracks(vm.params.playlist).then(function (tracks) {
-      vm.params.tracks = tracks;
-    });
-  }
-  function asyncMakeTrackStatement(track){
-    $ionicListDelegate.closeOptionButtons();
-    currentTrack = track;
-    howAreYouTrack();
-    playlistViewModal.closeCheckFalse();
-  }
-  function howAreYouTrack(){
-    howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
-  }
-  function fnCallbackHowAreYouOkTrack(emotion){
-    var StatCrit = StatementCriteria.build(emotion,currentTrack);
-    playlistService.asyncMakeTrackStatement(StatCrit);
-  }
+    function howAreYouTrack(){
+      howAreYouModal.open(null,fnCallbackHowAreYouOkTrack,fnCallbackHowAreYouCancel);
+    }
 
-  vm.playPlaylist = playPlaylist;
-  vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
-  vm.addToPlaylist=addToPlaylist;
-  vm.addPlaylistToPlaylist=addPlaylistToPlaylist;
-  vm.play=play;
+    function fnCallbackHowAreYouOkTrack(emotion){
+      var StatCrit = StatementCriteria.build(emotion,currentTrack);
+      playlistService.asyncMakeTrackStatement(StatCrit);
+    }
 
-    
+    vm.playPlaylist = playPlaylist;
+    vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
+    vm.addToPlaylist=addToPlaylist;
+    vm.addPlaylistToPlaylist=addPlaylistToPlaylist;
+    vm.play=play;
 
-    
+    init();
   }
 })();

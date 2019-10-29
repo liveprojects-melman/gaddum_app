@@ -3,41 +3,34 @@
 
   angular
     .module('gaddum.searchCat')
-    .controller('searchCarModalController', searchCarModalController);
+    .controller('searchCatModalController', searchCatModalController);
 
-    searchCarModalController.$inject = [
+    searchCatModalController.$inject = [
       'searchCatModal',
       '$scope'
-      
   ];
-  
-  function searchCarModalController(
+
+  function searchCatModalController(
     searchCatModal,
     $scope
-
   ) {
     var mc = angular.extend(this, {
-      
+      //
     });
+
     $scope.searchCatModal=searchCatModal;
+
     function init() {
       mc.params =searchCatModal.getParams();
-      console.log("params",mc.params);
-      
     }
-    init();
-    
-    
-    
+
     function change(search){
       search.value = !search.value;
       searchCatModal.chosen(mc.params);
     }
-    
-    mc.change =change;
 
+    mc.change = change;
 
-
-
+    init();
   }
 })();

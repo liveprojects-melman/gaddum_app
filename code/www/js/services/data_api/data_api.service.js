@@ -204,7 +204,7 @@
                         });
 
                     } else {
-                        console.log("WARN: no parameters for the mood. It won't be detected. id: " + mood_id);
+//                        console.log("WARN: no parameters for the mood. It won't be detected. id: " + mood_id);
                     }
                     fnSuccess(result);
                 }
@@ -278,7 +278,7 @@
         }
 
         function getSetting(id, fnSuccess, fnFail) {
-            console.log("dataApiService: getSetting: " + id);
+//            console.log("dataApiService: getSetting: " + id);
             mappingService.query("get_setting", { id: id },
                 function (result) {
                     var rows = mappingService.getResponses(result.rows);
@@ -384,7 +384,7 @@
                                 attributes.push(candidate);
 
                             } catch (e) {
-                                console.log("dataApiService: asyncGetProviderMoodAttributes: warning: unparsable attribute: " + candidate.attribute);
+//                                console.log("dataApiService: asyncGetProviderMoodAttributes: warning: unparsable attribute: " + candidate.attribute);
                             }
                         }
                     );
@@ -523,7 +523,7 @@
                     }
                 }
                 , function (error) {
-                    console.log("warning: getNumUnsetUserSettings threw error: " + JSON.stringify(error));
+//                    console.log("warning: getNumUnsetUserSettings threw error: " + JSON.stringify(error));
                     fnSuccess(0);
                 });
         }
@@ -662,8 +662,8 @@
         function asyncSeekPlaylists(name, id) {
             var deferred = $q.defer();
 
-            console.log("----------");
-            console.log("looking for playlist: " + " name: " + name + " id: " + id);
+//            console.log("----------");
+//            console.log("looking for playlist: " + " name: " + name + " id: " + id);
 
             mappingService.query(
                 "seek_playlists",
@@ -1036,8 +1036,8 @@
 
         function asyncGetGenericTracksInPlaylist(playlistIdentifier) {
             var deferred = $q.defer();
-            console.log("----------");
-            console.log("looking for playlist: " + playlistIdentifier.getId());
+//            console.log("----------");
+//            console.log("looking for playlist: " + playlistIdentifier.getId());
             mappingService.query(
                 "get_tracks_in_playlist",
                 {
@@ -1065,15 +1065,15 @@
         function asyncAssociatePlaylistAndTrack(namedIdentifierPlaylist, namedIdentifierTrack, order) {
             var deferred = $q.defer();
 
-            console.log("----------");
-            console.log("associating: " + namedIdentifierPlaylist.getId() + " with: " + namedIdentifierTrack.getId() + " at order: " + order);
+//            console.log("----------");
+//            console.log("associating: " + namedIdentifierPlaylist.getId() + " with: " + namedIdentifierTrack.getId() + " at order: " + order);
 
             var args = {
                 id: utilitiesService.createUuid(),
                 playlist_id: namedIdentifierPlaylist.getId(),
                 track_id: namedIdentifierTrack.getId(),
                 order: order
-            }
+            };
 
             mappingService.query("associate_playlist_track", args,
                 function () {
@@ -1118,8 +1118,8 @@
 
 
         function asyncRemovePlaylist(playlistIdentifier) {
-            console.log("----------");
-            console.log("removing playlist: " + playlistIdentifier.getId());
+//            console.log("----------");
+//            console.log("removing playlist: " + playlistIdentifier.getId());
             var deferred = $q.defer();
 
             $timeout(
@@ -1148,8 +1148,8 @@
 
         function asyncUpdatePlaylist(playlistIdentifier) {
             var deferred = $q.defer();
-            console.log("----------");
-            console.log("updating playlist: " + playlistIdentifier.getId() + " name: " + playlistIdentifier.getName());
+//            console.log("----------");
+//            console.log("updating playlist: " + playlistIdentifier.getId() + " name: " + playlistIdentifier.getName());
             $timeout(
 
                 function () {
@@ -1352,8 +1352,8 @@
             ) {
 
             var deferred = $q.defer();
-            console.log("----------");
-            console.log("seeking observations");
+//            console.log("----------");
+//            console.log("seeking observations");
             $timeout(
 
                 function () {
