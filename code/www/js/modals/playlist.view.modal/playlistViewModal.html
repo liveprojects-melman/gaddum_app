@@ -5,7 +5,7 @@
     <ion-content class="viewPlaylistEditList playlistTracksList">
 
       <ion-list>
-        <ion-item ng-class-odd="'listodd'" ng-class-even="'listeven'" ng-repeat="song in vm.params.tracks">
+        <ion-item ng-class-odd="'listodd'" ng-class-even="'listeven'" ng-repeat="song in vm.params.tracks" ng-click="vm.play(song)">
           <!-- <img ng-src="{{.img}}"> -->
           <h2>{{song.name}}</h2>
           <!-- <p>{{.description}}</p> -->
