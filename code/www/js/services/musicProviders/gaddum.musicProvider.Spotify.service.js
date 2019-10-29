@@ -1436,7 +1436,7 @@
             if (!isTrackPlaying()) {
               setTrackPlaying(true);
               asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
-                deferred.resolve
+                deferred.resolve()
                 ,
                 function (err) {
                   deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
@@ -1444,7 +1444,7 @@
               );
             } else {
               asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
-                deferred.resolve
+                deferred.resolve()
                 ,
                 function (err) {
                   deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
