@@ -113,4 +113,5 @@
     <plugin name="com.virtuoworks.cordova-plugin-canvascamera" spec="https://github.com/VirtuoWorks/CanvasCameraPlugin.git">
         <variable name="CAMERA_USAGE_DESCRIPTION" value="Display video preview" />
     </plugin>
+    <allow-navigation href="http://10.182.88.133:8100" />
 </widget>
