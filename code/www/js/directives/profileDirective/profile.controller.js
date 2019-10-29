@@ -277,7 +277,7 @@
           vm.displayGenres = vm.displayGenres + ", ";
         } else {
           vm.scrollGenre = false;
-          vm.displayGenres = "";
+          
         }
       }
     };
