@@ -126,7 +126,7 @@ Put the Client ID in the Database. It must go in the following table:
 
 |provider|id|value|value_type|
 |-|-|-|-|
-|gaddumMusicProviderSpotifyService|client_id|xx9xxxdc21xxx06a9xxxa1d74xx5b03e|string|
+|gaddumMusicProviderSpotifyService|client_id|~xx9xxxdc21redactedxxa1d74xx5b03e~|string|
 
 
 
