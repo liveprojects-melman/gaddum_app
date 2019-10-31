@@ -125,7 +125,7 @@ Put the Client ID in the Database. It must go in the following table:
 **music_provider_settings** 
 
 |provider|id|value|value_type|
-|-|-|-|
+|-|-|-|-|
 |gaddumMusicProviderSpotifyService|client_id|xx9xxxdc21xxx06a9xxxa1d74xx5b03e|string|
 
 
