@@ -1918,11 +1918,12 @@ div#scroller.ng-hide {
 
 .viewPlaylistEditList{
     position: absolute;
-    top: 10%;
-    height: 77%;
+    top: 4%;
+    height: 83%;
 }
 .playlistTitle{
     text-align: center;
+    font-size: 14px;
 }
 #addToPlaylistIcon{
     filter: invert(1);
