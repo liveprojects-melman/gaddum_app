@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  console.log("HERE: gaddumMusicProviderService");
+  // console.log("HERE: gaddumMusicProviderService");
 
   angular
     .module('gaddum.streaming')

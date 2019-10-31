@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    console.log("HERE: Gaddum Player");
+    // console.log("HERE: Gaddum Player");
 
     angular
         .module('gaddum.player')
@@ -277,7 +277,7 @@
         }
 
         function asyncControlSkipPrev() {
-            console.log("control Skip Next.");
+            console.log("control Skip Prev.");
 
             var deferred = $q.defer();
 

@@ -115,8 +115,8 @@
             return friendsDummy;
           } else {
             for (var i = 0; i < friendsDummy.length; i++) {
-              console.log(friendsDummy[i].profile.avatar_name)
-              console.log(input + " included in " + friendsDummy[i].profile.avatar_name + " = " + friendsDummy[i].profile.avatar_name.includes(input))
+              // console.log(friendsDummy[i].profile.avatar_name)
+              // console.log(input + " included in " + friendsDummy[i].profile.avatar_name + " = " + friendsDummy[i].profile.avatar_name.includes(input))
               if (friendsDummy[i].profile.avatar_name.toLowerCase().includes(input.toLowerCase())) {
                 tempFriends[j] = friendsDummy[i];
                 j++;
@@ -166,7 +166,7 @@
             
             
             
-            console.log(sharedProfile);
+            // console.log(sharedProfile);
             if ((sharedProfile.profile.profile_id.length)>3) {
                 //req sent
                 //return req sent
@@ -244,10 +244,10 @@
             //delete friend
             var boolreturn=false;
             if (ProfileUUID>0) {
-                console.log("Friend "+ProfileUUID+" deleted");
+                // console.log("Friend "+ProfileUUID+" deleted");
                 boolreturn=true;
             } else {
-                console.log("Friend not deleted(invalid UUID");
+                // console.log("Friend not deleted(invalid UUID");
                 boolreturn= false;
             }
             return boolreturn;

@@ -465,7 +465,7 @@
             dataApiService.asyncGetUnobservedTracks(SETTINGS.UNOBSERVED_TRACKS_LIMIT.value).then(
                 function (genericTracks) {
                     var result = MoodedPlaylist.build(moodId, genericTracks);
-                    console.log("asyncFindPlaylistFromUnobservedTracks:")
+                    // console.log("asyncFindPlaylistFromUnobservedTracks:")
                     MoodedPlaylist.dumpItems([result]);
                     deferred.resolve(result);
                 },
@@ -484,7 +484,7 @@
                     asyncLookupTrackIds(trackIds).then(
                         function (genericTracks) {
                             var result = MoodedPlaylist.build(moodId, genericTracks);
-                            console.log("asyncFindPlaylistByObservation:")
+                            // console.log("asyncFindPlaylistByObservation:")
                             MoodedPlaylist.dumpItems([result]);
                             deferred.resolve(result);
                         },

@@ -1919,7 +1919,7 @@ div#scroller.ng-hide {
 .viewPlaylistEditList{
     position: absolute;
     top: 10%;
-    height: 75%;
+    height: 77%;
 }
 .playlistTitle{
     text-align: center;
@@ -1930,7 +1930,7 @@ div#scroller.ng-hide {
     left: 0%;
     /* top: 40%; */
     width: 42%;
-    margin-top: 4px;
+    margin-top: -2px;
 }
 .playlistViewButton{
     width: 33%;

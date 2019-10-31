@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    console.log("HERE: observerService");
+    // console.log("HERE: observerService");
 
     angular
         .module('gaddum.observer')
