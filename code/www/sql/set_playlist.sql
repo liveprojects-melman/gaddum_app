@@ -1,14 +1,14 @@
 UPDATE playlists
 SET 
-    [name]="replacement_parameter_name"
+    [name]=?1
 WHERE
-    id="replacement_parameter_id";
+    id=?2;
 INSERT INTO 
     playlists (
     id,
     [name]
     )
 SELECT   
-    "replacement_parameter_id",
-    "replacement_parameter_name"
+    ?2,
+    ?1
 WHERE (Select Changes() = 0);

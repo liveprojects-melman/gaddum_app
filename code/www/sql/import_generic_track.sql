@@ -3,15 +3,15 @@
 -- note: a track of a different duration is a different track :-)
 UPDATE tracks
 SET 
-    [name]="replacement_parameter_name",
-    [album]="replacement_parameter_album",
-    [artist]="replacement_parameter_artist",
-    [duration_ms]="replacement_parameter_duration_ms"
+    [name]=?1,
+    [album]=?2,
+    [artist]=?3,
+    [duration_ms]=?4
 WHERE
-    [name]="replacement_parameter_name" AND
-    [album]="replacement_parameter_album" AND
-    [artist]="replacement_parameter_artist" AND
-    [duration_ms]="replacement_parameter_duration_ms";
+    [name]=?1 AND
+    [album]=?2 AND
+    [artist]=?3 AND
+    [duration_ms]=?4;
 INSERT INTO 
     tracks (
     [id],
@@ -21,9 +21,9 @@ INSERT INTO
     [duration_ms]
     )
 SELECT  
-    "replacement_parameter_id",     
-    "replacement_parameter_name",
-    "replacement_parameter_album",
-    "replacement_parameter_artist",
-    "replacement_parameter_duration_ms"
+    ?5,     
+    ?1,
+    ?2,
+    ?3,
+    ?4
 WHERE (Select Changes() = 0);

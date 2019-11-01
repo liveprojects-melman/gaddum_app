@@ -2,12 +2,12 @@
 -- data for a provider's track.
 UPDATE track_references
 SET 
-    [web_uri]="replacement_parameter_web_uri",
-    [player_uri]="replacement_parameter_player_uri",
-    [thumbnail_uri]="replacement_parameter_thumbnail_uri"
+    [web_uri]=?1,
+    [player_uri]=?2,
+    [thumbnail_uri]=?3
 WHERE
-    [track_id] = "replacement_parameter_track_id" AND
-    [provider_id] = "replacement_parameter_provider_id";
+    [track_id] = ?4 AND
+    [provider_id] = ?5;
 INSERT INTO 
     track_references (
     [id],
@@ -18,10 +18,10 @@ INSERT INTO
     [provider_id]
     )
 SELECT  
-    "replacement_parameter_id",     
-    "replacement_parameter_web_uri",
-    "replacement_parameter_player_uri",
-    "replacement_parameter_thumbnail_uri",
-    "replacement_parameter_track_id",
-    "replacement_parameter_provider_id"
+    ?6,     
+    ?1,
+    ?2,
+    ?3,
+    ?4,
+    ?5
 WHERE (Select Changes() = 0);
