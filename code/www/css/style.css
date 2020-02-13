@@ -2245,3 +2245,23 @@ div#scroller.ng-hide {
   #aboutTextDiv{
       width: 90%;
   }
+
+
+
+  #canvasgrn{
+      padding: 10%;
+      padding-top: 3%;
+      padding-bottom: 3%;
+      border-radius: 50%;
+      filter: sepia(100%) contrast(50%) saturate(500%) hue-rotate(423deg) blur(5pt);
+  }
+
+  #canvas{
+      padding: 10%;
+      padding-top: 3%;
+      padding-bottom: 3%;
+      border-radius: 50%;
+      filter: blur(5pt);
+  }
+
+  

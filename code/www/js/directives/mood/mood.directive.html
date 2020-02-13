@@ -5,12 +5,14 @@
     <div style="text-align: center" class="moodArrow">
       <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
     </div>
+
     <div style="text-align: center" class="moodArrow2">
         <span><img src="css/Down_arrow.svg" style=" height: 4rem;transform: scaleX(2);"/></span>
     </div>
-    <div ng-hide='vm.debugging!=true' style="text-align: center">
-      <canvas id="canvas" style="border: 3px solid #d3d3d3;width:320px; height:250px"></canvas>
-      <canvas id="jeefacetransferCanvas" style="width:320px;height:288px;" style="display:none !important;"></canvas>
+    <!--CAMERA-->
+    <div ng-hide='vm.debugging!=false' style="text-align: center">
+      <canvas id="canvas"></canvas>
+      <canvas id="jeefacetransferCanvas" style="display: none;" style="display:none !important;"></canvas>
     </div>
 
     <div ng-click="vm.wakeUpCamera()" ng-disabled="vm.cameraError" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
@@ -61,6 +63,8 @@
       <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected===true">
         <p class="moodEmojiText">Guessing Your Mood
         </p>
+        <canvas id="canvasgrn"></canvas>
+        <canvas id="jeefacetransferCanvas" style="display: none;" style="display:none !important;"></canvas>
       </span>
     </div>
     <!-- <div ng-hide=!vm.detecting class="moodSpinnerDiv">
