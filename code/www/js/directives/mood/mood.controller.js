@@ -55,6 +55,14 @@
     var detecting = false;
     var moodIdDict = {};
 
+    var modes = {
+      searching: 0,
+      recognising: 1,
+      found: 2,
+      stable: 3
+    }
+
+
 /*    try{
       if(window.device.platform==="iOS"){
         vm.cameraErrorString="We can't use the iPhone Camera (yet)";
@@ -163,6 +171,7 @@
       var deferred = $q.defer();
       vm.cameraError = emotionReaderService.cameraError;
       $timeout(
+        //do stuff here
 
         function () {
           if (vm.detecting) {
