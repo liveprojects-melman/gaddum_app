@@ -2253,7 +2253,7 @@ div#scroller.ng-hide {
       padding-top: 3%;
       padding-bottom: 3%;
       border-radius: 50%;
-      filter: sepia(100%) contrast(50%) saturate(500%) hue-rotate(423deg) blur(5pt);
+      filter: sepia(100%) contrast(50%) saturate(500%) hue-rotate(423deg) blur(4pt);
   }
 
   #canvas{
@@ -2261,7 +2261,7 @@ div#scroller.ng-hide {
       padding-top: 3%;
       padding-bottom: 3%;
       border-radius: 50%;
-      filter: blur(5pt);
+      filter: blur(4pt);
   }
 
   
