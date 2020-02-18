@@ -192,7 +192,7 @@
 
             var moodId = null;
             if (vm.faceDetected) {
-              svg.style = (stroke= "green");
+
               moodId = moodService.faceToMoodId(vm.faceDictionary);
             }
 
