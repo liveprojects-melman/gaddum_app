@@ -55,7 +55,7 @@
     var detecting = false;
     var moodIdDict = {};
 
-    //modes for face detection
+    //modes for face detection 
     var modes = {
       searching: 0,
       recognising: 1,
