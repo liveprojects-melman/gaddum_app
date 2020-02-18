@@ -186,6 +186,8 @@
               vm.isRunning = true;
             }
 
+            
+
             var moodId = null;
             if (vm.faceDetected) {
               moodId = moodService.faceToMoodId(vm.faceDictionary);

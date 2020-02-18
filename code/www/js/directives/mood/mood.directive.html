@@ -16,6 +16,7 @@
     </div>
  <!--insert svg within the div here-->>
     <div ng-click="vm.wakeUpCamera()" ng-disabled="vm.cameraError" ng-class="((vm.emotionSelected)? 'goButton':'')" class="moodEmoji textShadow">
+    
       <span ng-show="vm.cameraError===true && vm.emotionSelected===false">
           <p >❌</p>
         <p class="moodEmojiText">{{vm.cameraErrorString}}
@@ -62,6 +63,9 @@
       </span>
       <span ng-show="vm.cameraError!=true  && vm.detecting===true && vm.faceDetected===true">
         <p class="moodEmojiText">Guessing Your Mood
+          <svg id= "highlight" svg height="100" width="100">
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" />
+          </svg>
         </p>
         <canvas id="canvasgrn"></canvas>
         <canvas id="jeefacetransferCanvas" style="display: none;" style="display:none !important;"></canvas>

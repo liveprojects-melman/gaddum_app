@@ -10,7 +10,7 @@
     "android-versions": "^1.4.0",
     "clean": "4.0.2",
     "com.virtuoworks.cordova-plugin-canvascamera": "git+https://github.com/VirtuoWorks/CanvasCameraPlugin.git",
-    "cordova-android": "6.3.0",
+    "cordova-android": "^6.3.0",
     "cordova-browser": "5.0.4",
     "cordova-custom-config": "^5.1.0",
     "cordova-ios": "4.5.5",
