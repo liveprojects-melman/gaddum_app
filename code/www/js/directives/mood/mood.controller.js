@@ -82,15 +82,15 @@
       var options = {
         cameraFacing: 'front',
         fps:30,
-        width: 288,
-        height: 352,
+        width: 288,//288,
+        height: 288,//352,
         canvas: {
           width: 288,
-          height: 352
+          height: 288
         },
         capture: {
           width: 288,
-          height: 352
+          height: 288
         },
         onAfterDraw: function(frame) {
           if (vm.isFirstTime) {

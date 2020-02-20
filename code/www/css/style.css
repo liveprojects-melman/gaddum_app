@@ -2257,11 +2257,9 @@ div#scroller.ng-hide {
   }
 
   #canvas{
-      padding: 10%;
-      padding-top: 3%;
-      padding-bottom: 3%;
-      border-radius: 50%;
-      filter: blur(4pt);
+    padding:3% ;
+    border-radius: 50%;
+    filter: blur(4pt);
   }
 
   
