@@ -168,12 +168,14 @@
 
     }
 
+    var svg = document.getElementById('highlight');
+
     function doUpdate() {
       var deferred = $q.defer();
       vm.cameraError = emotionReaderService.cameraError;
       $timeout(
         //do stuff here
-
+        
         function () {
           if (vm.detecting) {
             //console.log("*** doUpdate, emotionReaderService:", emotionReaderService);
@@ -190,6 +192,7 @@
 
             var moodId = null;
             if (vm.faceDetected) {
+
               moodId = moodService.faceToMoodId(vm.faceDictionary);
             }
 
