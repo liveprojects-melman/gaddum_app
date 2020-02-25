@@ -170,6 +170,10 @@
 
     }
 
+
+    //////////////////////////////////
+    //////////STATE HANDLERS//////////
+    //////////////////////////////////
     function handleSearch() {
       //if a face is detected then change the mode to 'detected'
       if (vm.faceDetected) {
@@ -178,7 +182,6 @@
     }
 
     function handleDetected() {
-
       //do face SVG stuff
       setHighlighting(false);
       updateStickFace(vm.faceDictionary);
@@ -233,6 +236,9 @@
       }
     }
 
+    //////////////////////////////////////////
+    ////////// END OF STATE HANDLERS//////////
+    //////////////////////////////////////////
 
 
 
@@ -241,6 +247,7 @@
     function doUpdate() {
       var deferred = $q.defer();
       vm.cameraError = emotionReaderService.cameraError;
+      //timeout takes a function and then runs it evey x number of milliseconds
       $timeout(
         function () {
           if (vm.detecting) {
@@ -255,6 +262,7 @@
             }
 
             //go to various handlers depending on the current state
+            //(this runs every 100ms at the time of writing so 10fps for the animated face - bit shit (maybe decrease the number of ms for $timeout??))
             switch (mode) {
               case modes.searching:
                 handleSearch();
@@ -302,9 +310,6 @@
       });
 
     }
-
-
-
 
     function asyncPopulateMoodResourceDict(moodIds, candidate) {
       var deferred = $q.defer();
@@ -383,7 +388,6 @@
       vm.helpTips = true;
     }
 
-
     function onItemSelected() {
       sleep();
       setMoodId(vm.selectedMoodId.id);
@@ -422,8 +426,6 @@
 
         }
       }, 100);
-
-
     }
     function wakeUpCamera() {
       vm.lookAtTheCameraText = true;
