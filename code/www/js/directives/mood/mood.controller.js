@@ -30,8 +30,10 @@
     gaddumShortcutBarService,
     spinnerService
   ) {
+
+
     var vm = angular.extend(this, {
-      debugging:false,
+      debugging: false,
       allEmotions: null,
       selectedMoodId: null,
       cameraError: false,
@@ -40,11 +42,11 @@
       moodDisplay: {},
       detecting: true,
       helpTips: null,  //this shows/hides the speech boxes 
-      disableButton:false,
-      emotionSelected:false,
-      lookAtTheCameraText:false,
-      bang:false,
-      throbbing:false,
+      disableButton: false,
+      emotionSelected: false,
+      lookAtTheCameraText: false,
+      bang: false,
+      throbbing: false,
       cameraErrorString: 'Whoops! No Camera!',
       isFirstTime: true
     });
@@ -55,6 +57,7 @@
     var detecting = false;
     var moodIdDict = {};
 
+    var STABILITY_LIMIT = 30;
     //modes for face detection 
     var modes = {
       searching: 0,
@@ -63,14 +66,13 @@
       stable: 3
     }
 
-
-/*    try{
-      if(window.device.platform==="iOS"){
-        vm.cameraErrorString="We can't use the iPhone Camera (yet)";
-      }
-    } catch(e){
-      //
-    }*/
+    /*    try{
+          if(window.device.platform==="iOS"){
+            vm.cameraErrorString="We can't use the iPhone Camera (yet)";
+          }
+        } catch(e){
+          //
+        }*/
 
     function beginInitialiseCapture(fnCallback) {
 
@@ -81,7 +83,7 @@
       CanvasCamera.initialize(canvas);
       var options = {
         cameraFacing: 'front',
-        fps:30,
+        fps: 30,
         width: 288,//288,
         height: 288,//352,
         canvas: {
@@ -92,7 +94,7 @@
           width: 288,
           height: 288
         },
-        onAfterDraw: function(frame) {
+        onAfterDraw: function (frame) {
           if (vm.isFirstTime) {
             vm.isFirstTime = false;
             // We init Weboji here otherwise the size of the video canvas is wrong.
@@ -107,21 +109,21 @@
 
     }
 
-    vm.initWeboji = function initWeboji(){
+    vm.initWeboji = function initWeboji() {
       //console.log("!! initWeboji called");
       emotionReaderService.initialise(
-        canvas.width, canvas.height,{
-          canvasId:  "jeefacetransferCanvas" ,
-          videoSettings: {
-            idealWidth: 320,
-            idealHeight: 250,
-            minWidth: 320,
-            maxWidth: 320,
-            minHeight: 250,
-            maxHeight: 250,
-            videoElement: canvas 
-          }
+        canvas.width, canvas.height, {
+        canvasId: "jeefacetransferCanvas",
+        videoSettings: {
+          idealWidth: 320,
+          idealHeight: 250,
+          minWidth: 320,
+          maxWidth: 320,
+          minHeight: 250,
+          maxHeight: 250,
+          videoElement: canvas
         }
+      }
       );
     };
 
@@ -168,14 +170,78 @@
 
     }
 
-    var svg = document.getElementById('highlight');
+    function handleSearch() {
+      //if a face is detected then change the mode to 'detected'
+      if (vm.faceDetected) {
+        vm.mode = modes.detected;
+      }
+    }
 
+    function handleDetected() {
+
+      //do face SVG stuff
+      setHighlighting(false);
+      updateStickFace(vm.faceDictionary);
+
+      //if a face is no longer detected go back to searching
+      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+        vm.mode = modes.searching;
+      }
+
+      //if moodID is not null change state to recognising
+      moodId = moodService.faceToMoodId(vm.faceDictionary);
+      if (!!moodId) {
+        vm.mode = modes.recognising;
+      }
+      counter = 0;
+      vm.faceDictionary;
+    }
+
+    function handleRecognising() {
+      //go back to searching if no face is detected
+      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+        vm.mode = modes.searching;
+      } else {
+        //otherwise highlight the face and do SVG stuff
+        setHighlighting(true);
+        updateStickFace(vm.faceDictionary);
+
+        //if the latest mood is not null and is the same as the last one increase the stability counter
+        //when the stability counter reaches the limit set the mood to stable.
+        //if the latest mood is null go back to detecting
+        newMoodId = moodService.faceToMoodId(vm.faceDictionary);
+        if (!!newMoodId) {
+          vm.mode = modes.recognising;
+          if (newMoodId.id === moodId.id) {
+            counter++;
+            if (counter > STABILITY_LIMIT) {
+              vm.mode = modes.stable;
+            }
+          }
+        } else {
+          vm.mode = modes.detecting;
+        }
+      }
+    }
+
+    function handleStable() {
+      //when it reaches stable and there's still a face then update display.
+      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+        vm.mode = modes.searching;
+      } else {
+        updateDisplay(moodId);
+      }
+    }
+
+
+
+
+    var svg = document.getElementById('highlight');
+    var count = 0;
     function doUpdate() {
       var deferred = $q.defer();
       vm.cameraError = emotionReaderService.cameraError;
       $timeout(
-        //do stuff here
-        
         function () {
           if (vm.detecting) {
             //console.log("*** doUpdate, emotionReaderService:", emotionReaderService);
@@ -188,14 +254,23 @@
               vm.isRunning = true;
             }
 
-            
-
-            var moodId = null;
-            if (vm.faceDetected) {
-
-              moodId = moodService.faceToMoodId(vm.faceDictionary);
+            //go to various handlers depending on the current state
+            switch (mode) {
+              case modes.searching:
+                handleSearch();
+                break;
+              case modes.detected:
+                handleDetected();
+                break;
+              case modes.recognising:
+                handleRecognising();
+                break;
+              case modes.stable:
+                handleStable();
+                break;
             }
 
+            var moodId = null;
             updateMoodId(moodId);
 
             if (vm.isRunning == true) {
@@ -216,7 +291,7 @@
       );
 
       return deferred.promise;
-    }
+    } //end of do update
 
     function update() {
       doUpdate().then(function () {
@@ -264,6 +339,7 @@
 
 
     function init() {
+      vm.mode = modes.searching;
       vm.emotionSelected = false;
       //console.log("first: ", vm.firstTime);
       //console.log("moodidDict: ", moodIdDict);
@@ -349,14 +425,14 @@
 
 
     }
-    function wakeUpCamera(){
+    function wakeUpCamera() {
       vm.lookAtTheCameraText = true;
       wake();
-      vm.emotionSelected=false;
+      vm.emotionSelected = false;
       // defaultDisplay();
-      $timeout(function(){
+      $timeout(function () {
         vm.lookAtTheCameraText = false;
-      },2500);
+      }, 2500);
     }
     function wake() {
       if (!emotionReaderService.isRunning) {
@@ -379,28 +455,28 @@
       //console.log("modal canceled");
     }
 
-    function playMood(){
+    function playMood() {
       var deferred = $q.defer();
       vm.bang = true;
-      $timeout(function(){
+      $timeout(function () {
         vm.throbbing = true;
-      },500);
+      }, 500);
       spinnerService.spinnerOn();
 
       //console.log("Getting Tracks for: " + lastMoodId);
 
       moodService.asyncNotifyNewMood(lastMoodId).then(
-        function(){
+        function () {
           spinnerService.spinnerOff();
           var explosion = document.getElementById("explosion");
           vm.throbbing = false;
           explosion.classList.add("moodExplosionLeave");
-          $timeout(function(){
-            vm.bang =false;
+          $timeout(function () {
+            vm.bang = false;
             explosion.classList.remove("moodExplosionLeave");
-          },250);
+          }, 250);
         },
-        function(errorIdentifier){
+        function (errorIdentifier) {
           //console.log("moodController: playMood: warning: " + errorIdentifier.message);
           spinnerService.spinnerOff();
 
@@ -412,7 +488,7 @@
       return deferred.promise;
 
     }
-    
+
 
 
     vm.onItemSelect = onItemSelect;
