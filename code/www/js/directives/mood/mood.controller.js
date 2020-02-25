@@ -61,7 +61,7 @@
     //modes for face detection 
     var modes = {
       searching: 0,
-      recognising: 1,
+      detecting: 1,
       found: 2,
       stable: 3
     }
