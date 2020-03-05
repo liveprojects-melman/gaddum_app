@@ -62,7 +62,7 @@
     var modes = {
       searching: 0,
       detecting: 1,
-      found: 2,
+      recognising: 2,
       stable: 3
     }
 
@@ -177,7 +177,7 @@
     function handleSearch() {
       //if a face is detected then change the mode to 'detected'
       if (vm.faceDetected) {
-        vm.mode = modes.detected;
+        vm.mode = modes.detecting;
       }
     }
 
@@ -261,23 +261,6 @@
               vm.isRunning = true;
             }
 
-            //go to various handlers depending on the current state
-            //(this runs every 100ms at the time of writing so 10fps for the animated face - bit shit (maybe decrease the number of ms for $timeout??))
-            switch (mode) {
-              case modes.searching:
-                handleSearch();
-                break;
-              case modes.detected:
-                handleDetected();
-                break;
-              case modes.recognising:
-                handleRecognising();
-                break;
-              case modes.stable:
-                handleStable();
-                break;
-            }
-
             var moodId = null;
             updateMoodId(moodId);
 
@@ -291,6 +274,23 @@
                 vm.enable = "";
               }
             }
+          }
+
+          //go to various handlers depending on the current state
+          //(this runs every 100ms at the time of writing so 10fps for the animated face - bit shit (maybe decrease the number of ms for $timeout??))
+          switch (vm.mode) {
+            case modes.searching:
+              handleSearch();
+              break;
+            case modes.detected:
+              handleDetected();
+              break;
+            case modes.recognising:
+              handleRecognising();
+              break;
+            case modes.stable:
+              handleStable();
+              break;
           }
 
           deferred.resolve();
