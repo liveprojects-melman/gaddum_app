@@ -58,6 +58,7 @@
     var moodIdDict = {};
 
     var STABILITY_LIMIT = 30;
+    var counter = 0;
     //modes for face detection 
     var modes = {
       searching: 0,
@@ -175,6 +176,7 @@
     //////////STATE HANDLERS//////////
     //////////////////////////////////
     function handleSearch() {
+      console.log("SEARCHING");
       //if a face is detected then change the mode to 'detected'
       if (vm.faceDetected) {
         vm.mode = modes.detecting;
@@ -182,25 +184,29 @@
     }
 
     function handleDetected() {
+      console.log("DETECTING");
       //do face SVG stuff
-      setHighlighting(false);
-      updateStickFace(vm.faceDictionary);
+      //setHighlighting(false);
+      //updateStickFace(vm.faceDictionary);
 
       //if a face is no longer detected go back to searching
       if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       }
-
+      var moodId = null;
       //if moodID is not null change state to recognising
       moodId = moodService.faceToMoodId(vm.faceDictionary);
       if (!!moodId) {
         vm.mode = modes.recognising;
       }
+      updateMoodId(moodId);
+      
       counter = 0;
       vm.faceDictionary;
     }
 
     function handleRecognising() {
+      console.log("RECOGNISING");
       //go back to searching if no face is detected
       if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
@@ -228,6 +234,7 @@
     }
 
     function handleStable() {
+      console.log("STABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       //when it reaches stable and there's still a face then update display.
       if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
@@ -261,8 +268,7 @@
               vm.isRunning = true;
             }
 
-            var moodId = null;
-            updateMoodId(moodId);
+            
 
             if (vm.isRunning == true) {
               if (vm.enable === false) {
@@ -282,7 +288,7 @@
             case modes.searching:
               handleSearch();
               break;
-            case modes.detected:
+            case modes.detecting:
               handleDetected();
               break;
             case modes.recognising:
