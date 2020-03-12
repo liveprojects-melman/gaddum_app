@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run android on device|emulator",
+            "type": "cordova",
+            "request": "launch",
+            "platform": "android",
+            "target": "device|emulator",
+            "sourceMaps": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "Attach to android on ZY322FH9HJ",
             "type": "cordova",
             "request": "attach",

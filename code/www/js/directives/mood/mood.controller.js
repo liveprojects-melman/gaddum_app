@@ -57,14 +57,20 @@
     var detecting = false;
     var moodIdDict = {};
 
-    var STABILITY_LIMIT = 30;
-    var counter = 0;
     //modes for face detection 
     var modes = {
       searching: 0,
       detecting: 1,
       recognising: 2,
       stable: 3
+    }
+
+    //variables used for modes.recognising handler
+    var recogniserVars ={
+      lastMoodId: null,
+      counter: 0,
+      stability_limit: 30,
+      moodId: null
     }
 
     /*    try{
@@ -136,6 +142,7 @@
 
 
     function updateDisplay(moodId) {
+      console.log(moodId);
       if (moodId) {
         //console.log("mood", moodId, "moodDict", moodIdDict, "mooddis", vm.moodDisplay);
         vm.moodDisplay.name = moodIdDict[moodId].name;
@@ -190,40 +197,42 @@
       //updateStickFace(vm.faceDictionary);
 
       //if a face is no longer detected go back to searching
-      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+      if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       }
-      var moodId = null;
+
       //if moodID is not null change state to recognising
-      moodId = moodService.faceToMoodId(vm.faceDictionary);
-      if (!!moodId) {
+      recogniserVars.moodId = moodService.faceToMoodId(vm.faceDictionary);
+      if (!!recogniserVars.moodId) {
         vm.mode = modes.recognising;
       }
-      updateMoodId(moodId);
+      updateMoodId(recogniserVars.moodId);
       
-      counter = 0;
-      vm.faceDictionary;
+      recogniserVars.counter = 0;
+     
     }
 
     function handleRecognising() {
       console.log("RECOGNISING");
       //go back to searching if no face is detected
-      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+      if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       } else {
         //otherwise highlight the face and do SVG stuff
-        setHighlighting(true);
-        updateStickFace(vm.faceDictionary);
+        //setHighlighting(true);
+        //updateStickFace(vm.faceDictionary);
 
         //if the latest mood is not null and is the same as the last one increase the stability counter
         //when the stability counter reaches the limit set the mood to stable.
         //if the latest mood is null go back to detecting
-        newMoodId = moodService.faceToMoodId(vm.faceDictionary);
-        if (!!newMoodId) {
-          vm.mode = modes.recognising;
-          if (newMoodId.id === moodId.id) {
-            counter++;
-            if (counter > STABILITY_LIMIT) {
+        recogniserVars.newMoodId = moodService.faceToMoodId(vm.faceDictionary);
+        console.log(recogniserVars.newMoodId);
+        if (recogniserVars.newMoodId !== null) {
+          
+          //vm.mode = modes.recognising;
+          if (recogniserVars.newMoodId.id === recogniserVars.moodId.id) {
+            recogniserVars.counter++;
+            if (recogniserVars.counter > recogniserVars.stability_limit) {
               vm.mode = modes.stable;
             }
           }
@@ -236,10 +245,10 @@
     function handleStable() {
       console.log("STABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       //when it reaches stable and there's still a face then update display.
-      if (vm.cameraError || !vm.IsRunning || !vm.faceDetected) {
+      if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       } else {
-        updateDisplay(moodId);
+        updateDisplay(recogniserVars.moodId);
       }
     }
 
