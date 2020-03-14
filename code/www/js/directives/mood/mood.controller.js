@@ -211,13 +211,63 @@
       recogniserVars.counter = 0;
      
     }
-
+    var emojivar = document.getElementById("emojiwheel")
+    
     function handleRecognising() {
       console.log("RECOGNISING");
       //go back to searching if no face is detected
       if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       } else {
+        
+        recogniserVars.newMoodId = moodService.faceToMoodId(vm.faceDictionary);
+
+       //switch that mdofiies the emoji variable by matching mood ids 
+       switch(recogniserVars.moodId.id){
+          case "peaceful":
+            emojivar.innerHTML = "😇";
+            break;
+          case  "angry":
+            emojivar.innerHTML = "😡";
+            break;
+          case  "restful":
+            emojivar.innerHTML = "😌";
+            break;
+          case  "happy":
+            emojivar.innerHTML = "😀"; 
+            break;
+          case  "sad":
+            emojivar.innerHTML = "😟";
+            break;
+          case "crazy":
+            emojivar.innerHTML = "😜";
+            break;
+          case "tired":
+            emojivar.innerHTML = "😴";
+            break;
+          case "physical":
+            emojivar.innerHTML = "💪";
+            break;
+          case "bored":
+            emojivar.innerHTML = "🙄";
+            break;
+          case "focussed":
+            emojivar.innerHTML = "🤔";
+            break;
+          case "null":
+            emojivar.innerHTML = "❓";
+            break;
+        }
+        
+          //emojivar.innerHTML = "😔";
+        
+      /*  $timeout(function()
+        {
+          console.log("here");
+          circle.style.stroke = "green";
+        });
+       */
+
         //otherwise highlight the face and do SVG stuff
         //setHighlighting(true);
         //updateStickFace(vm.faceDictionary);
@@ -225,7 +275,7 @@
         //if the latest mood is not null and is the same as the last one increase the stability counter
         //when the stability counter reaches the limit set the mood to stable.
         //if the latest mood is null go back to detecting
-        recogniserVars.newMoodId = moodService.faceToMoodId(vm.faceDictionary);
+        
         console.log(recogniserVars.newMoodId);
         if (recogniserVars.newMoodId !== null) {
           
@@ -237,6 +287,8 @@
             }
           }
         } else {
+
+          
           vm.mode = modes.detecting;
         }
       }
@@ -258,7 +310,7 @@
 
 
 
-    var svg = document.getElementById('highlight');
+    
     var count = 0;
     function doUpdate() {
       var deferred = $q.defer();
