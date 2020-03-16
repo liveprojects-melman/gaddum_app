@@ -268,10 +268,6 @@
         });
        */
 
-        //otherwise highlight the face and do SVG stuff
-        //setHighlighting(true);
-        //updateStickFace(vm.faceDictionary);
-
         //if the latest mood is not null and is the same as the last one increase the stability counter
         //when the stability counter reaches the limit set the mood to stable.
         //if the latest mood is null go back to detecting
