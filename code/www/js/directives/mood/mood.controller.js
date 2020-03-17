@@ -243,15 +243,6 @@
             emojivar.innerHTML = "❓";
             break;
         }
-        
-          //emojivar.innerHTML = "😔";
-        
-      /*  $timeout(function()
-        {
-          console.log("here");
-          circle.style.stroke = "green";
-        });
-       */
 
         //if the latest mood is not null and is the same as the last one increase the stability counter
         //when the stability counter reaches the limit set the mood to stable.
@@ -267,15 +258,13 @@
             }
           }
         } else {
-
-          
           vm.mode = modes.detecting;
         }
       }
     }
 
     function handleStable() {
-      console.log("STABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      console.log("STABLE");
       //when it reaches stable and there's still a face then update display.
       if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
