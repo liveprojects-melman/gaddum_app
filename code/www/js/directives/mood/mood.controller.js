@@ -69,7 +69,7 @@
     var recogniserVars ={
       lastMoodId: null,
       counter: 0,
-      stability_limit: 30,
+      stability_limit: 7,
       moodId: null
     }
 
@@ -164,21 +164,6 @@
     }
 
 
-    function updateMoodId(moodId) {
-      if (moodId) {
-        moodId = moodId.id;
-
-        if (moodId == lastMoodId) {
-          sleep();
-          updateDisplay(moodId);
-        } else {
-          lastMoodId = moodId;
-        }
-      }
-
-    }
-
-
     //////////////////////////////////
     //////////STATE HANDLERS//////////
     //////////////////////////////////
@@ -206,7 +191,7 @@
       if (!!recogniserVars.moodId) {
         vm.mode = modes.recognising;
       }
-      updateMoodId(recogniserVars.moodId);
+      //updateMoodId(recogniserVars.moodId);
       
       recogniserVars.counter = 0;
      
@@ -272,7 +257,6 @@
         //when the stability counter reaches the limit set the mood to stable.
         //if the latest mood is null go back to detecting
         
-        console.log(recogniserVars.newMoodId);
         if (recogniserVars.newMoodId !== null) {
           
           //vm.mode = modes.recognising;
@@ -296,7 +280,8 @@
       if (vm.cameraError || !vm.isRunning || !vm.faceDetected) {
         vm.mode = modes.searching;
       } else {
-        updateDisplay(recogniserVars.moodId);
+        sleep();
+        updateDisplay(recogniserVars.moodId.id); 
       }
     }
 
